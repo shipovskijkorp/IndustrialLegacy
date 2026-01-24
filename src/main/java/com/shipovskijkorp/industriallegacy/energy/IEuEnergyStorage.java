@@ -1,9 +1,8 @@
 package com.shipovskijkorp.industriallegacy.energy;
 
 /**
- * Legacy compatibility wrapper.
- *
- * <p>New code should use {@link com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage}.</p>
+ * Legacy compatibility interface. Prefer {@link com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage}.
  */
+@Deprecated
 public interface IEuEnergyStorage extends com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage {
 }

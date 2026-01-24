@@ -1,7 +1,6 @@
 package com.shipovskijkorp.industriallegacy.energy.path;
 
 import com.shipovskijkorp.industriallegacy.block.CableBlock;
-import com.shipovskijkorp.industriallegacy.block.entity.CableBlockEntity;
 import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
 import com.shipovskijkorp.industriallegacy.item.CableKind;
 import com.shipovskijkorp.industriallegacy.registry.ModBlocks;
@@ -11,46 +10,46 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.PriorityQueue;
+import java.util.*;
 
 /**
- * Builds (loss-minimizing) paths from the first cable node to all reachable sinks.
+ * Dijkstra path-finder over cable blocks, collecting best-loss paths to reachable sinks.
  *
- * <p>Intermediate implementation: Dijkstra by total conduction loss.</p>
+ * <p>This is a stepping stone towards IC2's EnergyNetLocal grid caching.</p>
  */
 public final class PathFinder {
     private PathFinder() {}
 
     private static final int MAX_NODES = 4096;
-    private static final double INF = 1.0e30;
+    private static final double INF = 1e100;
 
     private record Node(BlockPos pos, double loss) {}
 
-    public static List<EnergyPath> buildPaths(World world, BlockPos sourcePos, BlockPos startCablePos) {
-        PriorityQueue<Node> pq = new PriorityQueue<>(Comparator.comparingDouble(Node::loss));
-        Map<Long, Double> dist = new HashMap<>();
-        Map<Long, Long> prev = new HashMap<>();
+    public static List<EnergyPath> findPaths(World world, BlockPos sourcePos, BlockPos startCablePos) {
+        if (world == null) return List.of();
 
         BlockState startState = world.getBlockState(startCablePos);
         if (!(startState.getBlock() instanceof CableBlock startCable)) return List.of();
         if (isSplitterDisabled(world, startCablePos, startCable)) return List.of();
 
+        PriorityQueue<Node> pq = new PriorityQueue<>(Comparator.comparingDouble(Node::loss));
+        Map<Long, Double> dist = new HashMap<>();
+        Map<Long, Long> prev = new HashMap<>();
+
         double startLoss = startCable.getKind().loss;
         dist.put(startCablePos.asLong(), startLoss);
         pq.add(new Node(startCablePos, startLoss));
 
-        Map<Long, EnergyPath> bestBySink = new HashMap<>();
+        // best path per sink-pos + into-side
+        Map<Long, EnergyPath> bestPerSink = new HashMap<>();
 
         int visited = 0;
+
         while (!pq.isEmpty() && visited++ < MAX_NODES) {
             Node cur = pq.poll();
             double curLoss = cur.loss;
             long curKey = cur.pos.asLong();
+
             double known = dist.getOrDefault(curKey, INF);
             if (curLoss > known) continue;
 
@@ -63,16 +62,15 @@ public final class PathFinder {
                 if (np.equals(sourcePos)) continue;
 
                 BlockEntity nbe = world.getBlockEntity(np);
-                if (nbe instanceof IEuEnergyStorage sink) {
+                if (nbe instanceof IEuEnergyStorage) {
                     Direction intoSink = dir.getOpposite();
-                    if (!sink.canInsert(intoSink)) continue;
+                    List<BlockPos> cables = reconstructPath(startCablePos, cur.pos, prev);
+                    long minCap = minCapacityAlong(world, cables);
 
-                    long sinkKey = np.asLong() ^ ((long) intoSink.getId() << 60);
-                    EnergyPath existing = bestBySink.get(sinkKey);
+                    long sinkKey = mixSinkKey(np.asLong(), intoSink.getId());
+                    EnergyPath existing = bestPerSink.get(sinkKey);
                     if (existing == null || curLoss < existing.loss()) {
-                        List<BlockPos> cables = reconstructPath(prev, startCablePos, cur.pos);
-                        long minCap = minCapacityAlongPath(world, cables);
-                        bestBySink.put(sinkKey, new EnergyPath(np, intoSink, curLoss, minCap, cables));
+                        bestPerSink.put(sinkKey, new EnergyPath(np, intoSink, curLoss, minCap, cables));
                     }
                     continue;
                 }
@@ -83,53 +81,53 @@ public final class PathFinder {
                 if (isSplitterDisabled(world, np, nextCable)) continue;
 
                 double nextLoss = curLoss + nextCable.getKind().loss;
-                long nk = np.asLong();
-                double best = dist.getOrDefault(nk, INF);
-                if (nextLoss < best) {
-                    dist.put(nk, nextLoss);
-                    prev.put(nk, curKey);
+                long nkey = np.asLong();
+                if (nextLoss < dist.getOrDefault(nkey, INF)) {
+                    dist.put(nkey, nextLoss);
+                    prev.put(nkey, curKey);
                     pq.add(new Node(np, nextLoss));
                 }
             }
         }
 
-        ArrayList<EnergyPath> out = new ArrayList<>(bestBySink.values());
+        ArrayList<EnergyPath> out = new ArrayList<>(bestPerSink.values());
         out.sort(Comparator.comparingDouble(EnergyPath::loss));
         return out;
     }
 
-    private static List<BlockPos> reconstructPath(Map<Long, Long> prev, BlockPos start, BlockPos end) {
-        ArrayList<BlockPos> rev = new ArrayList<>();
+    private static boolean isSplitterDisabled(World world, BlockPos pos, CableBlock cable) {
+        return cable.getKind() == CableKind.SPLITTER && world.isReceivingRedstonePower(pos);
+    }
+
+    private static List<BlockPos> reconstructPath(BlockPos start, BlockPos end, Map<Long, Long> prev) {
+        ArrayList<BlockPos> out = new ArrayList<>();
         long cur = end.asLong();
         long startKey = start.asLong();
+
         while (true) {
-            rev.add(BlockPos.fromLong(cur));
+            out.add(BlockPos.fromLong(cur));
             if (cur == startKey) break;
             Long p = prev.get(cur);
             if (p == null) break;
             cur = p;
         }
-        ArrayList<BlockPos> path = new ArrayList<>(rev.size());
-        for (int i = rev.size() - 1; i >= 0; i--) path.add(rev.get(i));
-        return path;
+
+        Collections.reverse(out);
+        return out;
     }
 
-    private static long minCapacityAlongPath(World world, List<BlockPos> cables) {
+    private static long minCapacityAlong(World world, List<BlockPos> cables) {
         long min = Long.MAX_VALUE;
         for (BlockPos p : cables) {
-            BlockState st = world.getBlockState(p);
-            if (st.getBlock() instanceof CableBlock cb) {
+            BlockState s = world.getBlockState(p);
+            if (s.getBlock() instanceof CableBlock cb) {
                 min = Math.min(min, cb.getKind().capacity);
             }
         }
-        return min;
+        return min == Long.MAX_VALUE ? 0L : min;
     }
 
-    private static boolean isSplitterDisabled(World world, BlockPos pos, CableBlock cable) {
-        if (cable.getKind() != CableKind.SPLITTER) return false;
-        BlockEntity be = world.getBlockEntity(pos);
-        if (!(be instanceof CableBlockEntity cbe)) return false;
-        // Splitter disconnects from the net when powered by redstone (IC2 behavior).
-        return !cbe.isActive();
+    private static long mixSinkKey(long posLong, int sideId) {
+        return (posLong * 31L) ^ (long) sideId;
     }
 }

@@ -190,8 +190,8 @@ public class GeneratorBlockEntity extends BlockEntity implements SidedInventory,
         long remaining = packet;
         for (Direction dir : Direction.values()) {
             if (remaining <= 0) break;
-            long moved = EuNetwork.route(world, pos, this, dir, remaining);
-            remaining -= moved;
+            long spent = EuNetwork.route(world, pos, this, dir, remaining);
+            remaining -= spent;
         }
     }
 

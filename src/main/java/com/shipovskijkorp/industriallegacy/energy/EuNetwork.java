@@ -5,10 +5,11 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 /**
- * Legacy compatibility wrapper.
+ * Legacy compatibility wrapper. Prefer {@link com.shipovskijkorp.industriallegacy.energy.net.EuNetwork}.
  *
- * <p>New code should use {@link com.shipovskijkorp.industriallegacy.energy.net.EuNetwork}.</p>
+ * @return amount spent (extracted) from the source (EU)
  */
+@Deprecated
 public final class EuNetwork {
     private EuNetwork() {}
 
@@ -16,7 +17,11 @@ public final class EuNetwork {
         return com.shipovskijkorp.industriallegacy.energy.net.EuNetwork.route(world, sourcePos, source, outSide, maxAmount);
     }
 
-    public static void invalidate(World world, BlockPos anyCablePos) {
-        com.shipovskijkorp.industriallegacy.energy.net.EuNetwork.invalidate(world, anyCablePos);
+    public static void invalidate(World world) {
+        com.shipovskijkorp.industriallegacy.energy.net.EuNetwork.invalidate(world);
+    }
+
+    public static void invalidate(World world, BlockPos pos) {
+        com.shipovskijkorp.industriallegacy.energy.net.EuNetwork.invalidate(world, pos);
     }
 }

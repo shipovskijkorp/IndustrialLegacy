@@ -1,18 +1,21 @@
 package com.shipovskijkorp.industriallegacy.registry;
 
 import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
-import com.shipovskijkorp.industriallegacy.block.BatBoxBlock;
-import com.shipovskijkorp.industriallegacy.block.CableBlock;
-import com.shipovskijkorp.industriallegacy.block.GeneratorBlock;
+import com.shipovskijkorp.industriallegacy.block.*;
 import com.shipovskijkorp.industriallegacy.item.CableKind;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.LeavesBlock;
+import net.minecraft.block.SaplingBlock;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
+
+import javax.xml.xpath.XPath;
 
 /** Block + BlockItem registrations. */
 public final class ModBlocks {
@@ -34,6 +37,16 @@ public final class ModBlocks {
                     .sounds(BlockSoundGroup.METAL)
                     .requiresTool())
     );
+
+    public static final Block SILVER_ORE =
+            register("silver_ore", new Block(FabricBlockSettings.copyOf(Blocks.IRON_ORE).requiresTool()));
+    public static final Block NICKEL_ORE =
+            register("nickel_ore", new Block(FabricBlockSettings.copyOf(Blocks.IRON_ORE).requiresTool()));
+    public static final Block BAUXITE_ORE =
+            register("bauxite_ore", new Block(FabricBlockSettings.copyOf(Blocks.IRON_ORE).requiresTool()));
+    public static final Block SULFUR_ORE =
+            register("sulfur_ore", new Block(FabricBlockSettings.copyOf(Blocks.IRON_ORE).requiresTool()));
+
 
     // --- Cable blocks (base 14 variants; colored versions intentionally deferred) ---
     // Phase3: cables are rendered by a BlockEntityRenderer using ORIGINAL IC2 textures.
@@ -115,11 +128,22 @@ public final class ModBlocks {
             new CableBlock(FabricBlockSettings.create().strength(0.2f).sounds(BlockSoundGroup.METAL),
                     CableKind.SPLITTER, 0, "block/wiring/cable/splitter_cable")
     );
+    public static final Block RUBBER_LOG = register("rubber_log",
+            new RubberLogBlock(FabricBlockSettings.copyOf(Blocks.OAK_LOG)));
+    public static final Block RUBBER_LEAVES = register("rubber_leaves",
+            new LeavesBlock(FabricBlockSettings.copyOf(Blocks.OAK_LEAVES)));
+    public static final Block RUBBER_SAPLING = register("rubber_sapling",
+            new SaplingBlock(new RubberSaplingGenerator(),
+                    FabricBlockSettings.copyOf(Blocks.OAK_SAPLING)));
 
     private static Block register(String name, Block block) {
         Identifier id = new Identifier(IndustrialLegacy.MOD_ID, name);
         Block registered = Registry.register(Registries.BLOCK, id, block);
-
+        Registry.register(Registries.ITEM,
+                new Identifier(IndustrialLegacy.MOD_ID, path),
+                new BlockItem(block, new Item.Settings()));
+        return Registry.register(Registries.BLOCK,
+                new Identifier(IndustrialLegacy.MOD_ID, path), block);
         // Matching block item
         Registry.register(Registries.ITEM, id, new BlockItem(registered, new Item.Settings()));
 

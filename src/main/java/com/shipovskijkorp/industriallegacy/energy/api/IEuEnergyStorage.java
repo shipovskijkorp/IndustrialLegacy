@@ -1,7 +1,7 @@
 package com.shipovskijkorp.industriallegacy.energy.api;
 
-import com.shipovskijkorp.industriallegacy.energy.util.EuUtil;
 import net.minecraft.util.math.Direction;
+import com.shipovskijkorp.industriallegacy.energy.util.EuUtil;
 
 /**
  * Minimal EU storage interface used by Industrial Legacy.

@@ -8,17 +8,18 @@ import net.minecraft.world.World;
 import java.util.List;
 
 /**
- * Records the last transferred EU value for cable visualizers (detector cable, debug tools).
+ * Records last transferred EU on cable block entities.
  */
 public final class EuTransferRecorder {
     private EuTransferRecorder() {}
 
-    public static void record(World world, List<BlockPos> pathCables, long inserted) {
+    public static void record(World world, List<BlockPos> pathCables, long transferred) {
+        if (world == null) return;
         if (pathCables == null || pathCables.isEmpty()) return;
         for (BlockPos p : pathCables) {
             BlockEntity be = world.getBlockEntity(p);
-            if (be instanceof CableBlockEntity cbe) {
-                cbe.setLastTransferredEu(inserted);
+            if (be instanceof CableBlockEntity cableBe) {
+                cableBe.setLastTransferredEu(transferred);
             }
         }
     }
