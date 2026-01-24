@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 public class IndustrialLegacy implements ModInitializer {
     public static final String MOD_ID = "industrial_legacy";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-
+    //lol
     @Override
     public void onInitialize() {
         ModItems.register();
