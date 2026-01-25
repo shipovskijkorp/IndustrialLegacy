@@ -42,6 +42,21 @@ public final class ModItems {
     public static final Item TREETAP = register("treetap",
             new TreetapItem(new FabricItemSettings().maxDamage(64)));
 
+    /**
+     * IC2 early-game tools.
+     *
+     * Note: crafting-reagent behavior (remaining item + durability loss per craft)
+     * will be implemented later. For now we expose the tools and give them the
+     * correct durability limits from IC2:
+     *  - Forge Hammer: 80
+     *  - Cutter: 60
+     */
+    public static final Item FORGE_HAMMER = register("forge_hammer",
+            new Item(new FabricItemSettings().maxCount(1).maxDamage(80)));
+
+    public static final Item CUTTER = register("cutter",
+            new Item(new FabricItemSettings().maxCount(1).maxDamage(60)));
+
 
     private static Item register(String path, Item item) {
         return Registry.register(Registries.ITEM, new Identifier(IndustrialLegacy.MOD_ID, path), item);

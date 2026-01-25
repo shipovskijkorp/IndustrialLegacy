@@ -5,17 +5,12 @@ import com.shipovskijkorp.industriallegacy.item.CableItem;
 import com.shipovskijkorp.industriallegacy.item.CableKind;
 import com.shipovskijkorp.industriallegacy.item.CableVariants;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 
 public final class ModItemGroups {
     private ModItemGroups() {}
@@ -28,26 +23,37 @@ public final class ModItemGroups {
                     .icon(() -> CableItem.createStack(ModItems.CABLE, CableKind.COPPER, 0))
                     .displayName(Text.translatable("itemGroup.industrial_legacy.main"))
                     .entries((ctx, entries) -> {
-                        // Put cable variants first (IC2-style: one item, many NBT variants).
+                        // Blocks
+                        entries.add(ModBlocks.GENERATOR);
+                        entries.add(ModBlocks.BATBOX);
+
+                        entries.add(ModBlocks.LEAD_ORE);
+                        entries.add(ModBlocks.TIN_ORE);
+                        entries.add(ModBlocks.URANIUM_ORE);
+
+                        entries.add(ModBlocks.RUBBER_LOG);
+                        entries.add(ModBlocks.RUBBER_LEAVES);
+                        entries.add(ModBlocks.RUBBER_SAPLING);
+
+                        // Add all cable variants (14) with correct NBT (kind/insulation + derived variant)
                         for (ItemStack stack : CableVariants.createAll(ModItems.CABLE)) {
                             entries.add(stack);
                         }
 
-                        // Then add every other item from our namespace (blocks included via their BlockItem).
-                        // This keeps the creative tab "complete" without having to maintain a manual list.
-                        List<Identifier> ids = new ArrayList<>();
-                        for (Identifier id : Registries.ITEM.getIds()) {
-                            if (IndustrialLegacy.MOD_ID.equals(id.getNamespace())) {
-                                ids.add(id);
-                            }
-                        }
-                        ids.sort(Comparator.comparing(Identifier::getPath));
+                        // Items
+                        entries.add(ModItems.FORGE_HAMMER);
+                        entries.add(ModItems.CUTTER);
+                        entries.add(ModItems.TREETAP);
 
-                        for (Identifier id : ids) {
-                            Item item = Registries.ITEM.get(id);
-                            if (item == ModItems.CABLE) continue; // variants already added above
-                            entries.add(item);
-                        }
+                        entries.add(ModItems.RUBBER);
+                        entries.add(ModItems.STICKY_RESIN);
+                        entries.add(ModItems.SULFUR);
+
+                        entries.add(ModItems.SILVER_INGOT);
+                        entries.add(ModItems.TIN_INGOT);
+                        entries.add(ModItems.LEAD_INGOT);
+
+                        entries.add(ModItems.DEBUG_WRENCH);
                     })
                     .build()
     );
