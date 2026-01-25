@@ -16,6 +16,8 @@
   "item.industrial_legacy.cable.tin_cable_0": "Tin Cable",
   "item.industrial_legacy.cable.tin_cable_1": "Insulated Tin Cable",
   "item.industrial_legacy.debug_wrench": "Debug Wrench",
+  "item.industrial_legacy.lead_ingot": "Lead Ingot",
+  "item.industrial_legacy.tin_ingot": "Tin Ingot",
   "itemGroup.industrial_legacy.main": "Industrial Legacy",
   "tooltip.industrial_legacy.cable.capacity": "%s EU/t",
   "tooltip.industrial_legacy.cable.insulation": "Insulation: %s",

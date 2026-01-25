@@ -16,6 +16,8 @@
   "item.industrial_legacy.cable.tin_cable_0": "Оловянный кабель",
   "item.industrial_legacy.cable.tin_cable_1": "Изолированный оловянный кабель",
   "item.industrial_legacy.debug_wrench": "Отладочный ключ",
+  "item.industrial_legacy.lead_ingot": "Свинцовый слиток",
+  "item.industrial_legacy.tin_ingot": "Оловянный слиток",
   "itemGroup.industrial_legacy.main": "Industrial Legacy",
   "tooltip.industrial_legacy.cable.capacity": "%s EU/т",
   "tooltip.industrial_legacy.cable.insulation": "Изоляция: %s",

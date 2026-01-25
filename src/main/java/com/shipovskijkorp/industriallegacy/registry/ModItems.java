@@ -24,11 +24,11 @@ public final class ModItems {
     public static final Item SILVER_INGOT =
             register("silver_ingot", new Item(new Item.Settings()));
 
-    public static final Item NICKEL_INGOT =
-            register("nickel_ingot", new Item(new Item.Settings()));
+    public static final Item TIN_INGOT =
+            register("tin_ingot", new Item(new Item.Settings()));
 
-    public static final Item ALUMINIUM_INGOT =
-            register("aluminium_ingot", new Item(new Item.Settings()));
+    public static final Item LEAD_INGOT =
+            register("lead_ingot", new Item(new Item.Settings()));
 
     public static final Item SULFUR =
             register("sulfur", new Item(new Item.Settings()));

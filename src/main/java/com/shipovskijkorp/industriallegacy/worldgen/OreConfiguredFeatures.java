@@ -22,9 +22,6 @@ import java.util.List;
  */
 public final class OreConfiguredFeatures {
     private OreConfiguredFeatures() {}
-
-    public static final RegistryKey<ConfiguredFeature<?, ?>> NICKEL_ORE = key("nickel_ore");
-    public static final RegistryKey<ConfiguredFeature<?, ?>> BAUXITE_ORE = key("bauxite_ore");
     public static final RegistryKey<ConfiguredFeature<?, ?>> LEAD_ORE = key("lead_ore");
 
 
