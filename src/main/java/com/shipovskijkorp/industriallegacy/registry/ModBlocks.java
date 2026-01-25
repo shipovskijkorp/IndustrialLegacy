@@ -15,8 +15,6 @@ import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 
-import javax.xml.xpath.XPath;
-
 /** Block + BlockItem registrations. */
 public final class ModBlocks {
     private ModBlocks() {}

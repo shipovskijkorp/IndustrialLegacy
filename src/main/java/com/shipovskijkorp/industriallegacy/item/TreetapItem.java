@@ -12,9 +12,15 @@ import net.minecraft.item.ItemUsageContext;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+/*
+  IC2-style treetap: extracts sticky resin from rubber log "resin" spots.
+
+  <p>Important: in 1.20+ {@link ItemUsageContext#getHitResult()} is protected, so we use
+  {@link ItemUsageContext#getBlockPos()} and {@link ItemUsageContext#getSide()} instead.</p>
+ */
 public class TreetapItem extends Item {
     public TreetapItem(Settings settings) {
         super(settings);
@@ -23,40 +29,43 @@ public class TreetapItem extends Item {
     @Override
     public ActionResult useOnBlock(ItemUsageContext ctx) {
         World world = ctx.getWorld();
+        BlockPos pos = ctx.getBlockPos();
+
+        // Let the client play hand animation immediately.
         if (world.isClient) return ActionResult.SUCCESS;
 
-        BlockHitResult hit = (BlockHitResult) ctx.getHitResult();
-        BlockState state = world.getBlockState(hit.getBlockPos());
+        BlockState state = world.getBlockState(pos);
 
-        if (state.isOf(ModBlocks.RUBBER_LOG)
-                && state.contains(RubberLogBlock.RESIN)
-                && state.get(RubberLogBlock.RESIN)) {
-
-            PlayerEntity player = ctx.getPlayer();
-
-            ItemStack drop = new ItemStack(ModItems.STICKY_RESIN, world.random.nextInt(3) + 1);
-
-            if (player != null) {
-                if (!player.getInventory().insertStack(drop.copy())) {
-                    player.dropItem(drop, false);
-                }
-            } else {
-                Block.dropStack(world, hit.getBlockPos(), drop);
-            }
-
-            world.setBlockState(hit.getBlockPos(), state.with(RubberLogBlock.RESIN, false), 3);
-
-            world.playSound(null, hit.getBlockPos(),
-                    SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.BLOCKS, 0.7f, 1.0f);
-
-            ItemStack stack = ctx.getStack();
-            if (player != null) {
-                stack.damage(1, player, p -> p.sendToolBreakStatus(ctx.getHand()));
-            }
-
-            return ActionResult.CONSUME;
+        // Our rubber log with resin available.
+        if (!state.isOf(ModBlocks.RUBBER_LOG)
+                || !state.contains(RubberLogBlock.RESIN)
+                || !state.get(RubberLogBlock.RESIN)) {
+            return ActionResult.PASS;
         }
 
-        return ActionResult.PASS;
+        PlayerEntity player = ctx.getPlayer();
+
+        // Drop 1–3 sticky resin (IC2-like).
+        ItemStack drop = new ItemStack(ModItems.STICKY_RESIN, world.random.nextInt(3) + 1);
+
+        if (player != null) {
+            if (!player.getInventory().insertStack(drop.copy())) {
+                player.dropItem(drop, false);
+            }
+        } else {
+            Block.dropStack(world, pos, drop);
+        }
+
+        // Mark resin as harvested.
+        world.setBlockState(pos, state.with(RubberLogBlock.RESIN, false), Block.NOTIFY_ALL);
+
+        // Sound + tool damage.
+        world.playSound(null, pos, SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.BLOCKS, 0.7f, 1.0f);
+
+        if (player != null) {
+            ctx.getStack().damage(1, player, p -> p.sendToolBreakStatus(ctx.getHand()));
+        }
+
+        return ActionResult.CONSUME;
     }
 }
