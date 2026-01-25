@@ -1,23 +1,24 @@
 package com.shipovskijkorp.industriallegacy.worldgen;
 
-import net.minecraft.world.gen.feature.OreConfiguredFeatures;
 import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
 import com.shipovskijkorp.industriallegacy.registry.ModBlocks;
 import net.minecraft.registry.Registerable;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.structure.rule.RuleTest;
+import net.minecraft.structure.rule.TagMatchRuleTest;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
-import net.minecraft.world.gen.feature.OreConfiguredFeatures;
 
 import java.util.List;
 
 /**
  * ConfiguredFeatures for IL ores.
  *
- * Note: biome injection and placed features are registered elsewhere (PlacedFeatures / ModWorldGen).
+ * Note: biome injection and placed features are registered elsewhere.
  */
 public final class OreConfiguredFeatures {
     private OreConfiguredFeatures() {}
@@ -26,6 +27,9 @@ public final class OreConfiguredFeatures {
     public static final RegistryKey<ConfiguredFeature<?, ?>> NICKEL_ORE = key("nickel_ore");
     public static final RegistryKey<ConfiguredFeature<?, ?>> BAUXITE_ORE = key("bauxite_ore");
     public static final RegistryKey<ConfiguredFeature<?, ?>> SULFUR_ORE = key("sulfur_ore");
+
+    // Ванильный "STONE_ORE_REPLACEABLES" не используем, чтобы не упираться в конфликт имён.
+    private static final RuleTest STONE_REPLACEABLES = new TagMatchRuleTest(BlockTags.STONE_ORE_REPLACEABLES);
 
     private static RegistryKey<ConfiguredFeature<?, ?>> key(String name) {
         return RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE, new Identifier(IndustrialLegacy.MOD_ID, name));
@@ -36,7 +40,7 @@ public final class OreConfiguredFeatures {
                 new ConfiguredFeature<>(Feature.ORE,
                         new OreFeatureConfig(
                                 List.of(OreFeatureConfig.createTarget(
-                                        net.minecraft.world.gen.feature.OreConfiguredFeatures.STONE_ORE_REPLACEABLES,
+                                        STONE_REPLACEABLES,
                                         ModBlocks.SILVER_ORE.getDefaultState())),
                                 8)));
 
@@ -44,7 +48,7 @@ public final class OreConfiguredFeatures {
                 new ConfiguredFeature<>(Feature.ORE,
                         new OreFeatureConfig(
                                 List.of(OreFeatureConfig.createTarget(
-                                        net.minecraft.world.gen.feature.OreConfiguredFeatures.STONE_ORE_REPLACEABLES,
+                                        STONE_REPLACEABLES,
                                         ModBlocks.NICKEL_ORE.getDefaultState())),
                                 8)));
 
@@ -52,7 +56,7 @@ public final class OreConfiguredFeatures {
                 new ConfiguredFeature<>(Feature.ORE,
                         new OreFeatureConfig(
                                 List.of(OreFeatureConfig.createTarget(
-                                        net.minecraft.world.gen.feature.OreConfiguredFeatures.STONE_ORE_REPLACEABLES,
+                                        STONE_REPLACEABLES,
                                         ModBlocks.BAUXITE_ORE.getDefaultState())),
                                 16)));
 
@@ -60,7 +64,7 @@ public final class OreConfiguredFeatures {
                 new ConfiguredFeature<>(Feature.ORE,
                         new OreFeatureConfig(
                                 List.of(OreFeatureConfig.createTarget(
-                                        net.minecraft.world.gen.feature.OreConfiguredFeatures.STONE_ORE_REPLACEABLES,
+                                        STONE_REPLACEABLES,
                                         ModBlocks.SULFUR_ORE.getDefaultState())),
                                 7)));
     }
