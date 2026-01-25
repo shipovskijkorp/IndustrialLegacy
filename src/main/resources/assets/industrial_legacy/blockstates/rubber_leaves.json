@@ -1,0 +1,5 @@
+{
+  "multipart": [
+    { "apply": { "model": "industrial_legacy:block/rubber_leaves" } }
+  ]
+}

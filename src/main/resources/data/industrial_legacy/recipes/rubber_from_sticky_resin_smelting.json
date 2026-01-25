@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "industrial_legacy:sticky_resin"
+  },
+  "result": "industrial_legacy:rubber",
+  "experience": 0.3,
+  "cookingtime": 200
+}
