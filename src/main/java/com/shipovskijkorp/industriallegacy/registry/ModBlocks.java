@@ -36,16 +36,10 @@ public final class ModBlocks {
                     .requiresTool())
     );
 
-    public static final Block NICKEL_ORE =
-            register("nickel_ore", new Block(FabricBlockSettings.copyOf(Blocks.IRON_ORE).requiresTool()));
-    public static final Block BAUXITE_ORE =
-            register("bauxite_ore", new Block(FabricBlockSettings.copyOf(Blocks.IRON_ORE).requiresTool()));
-    public static final Block SULFUR_ORE =
-            register("sulfur_ore", new Block(FabricBlockSettings.copyOf(Blocks.IRON_ORE).requiresTool()));
 
-    // --- Cable blocks (base 14 variants; colored versions intentionally deferred) ---
-    // Phase3: cables are rendered by a BlockEntityRenderer using ORIGINAL IC2 textures.
-    // No new JSON multipart models are added.
+    public static final Block LEAD_ORE =
+            register("lead_ore", new Block(FabricBlockSettings.copyOf(Blocks.IRON_ORE).requiresTool()));
+
 
     public static final Block COPPER_CABLE_0 = registerNoItem(
             "copper_cable_0",

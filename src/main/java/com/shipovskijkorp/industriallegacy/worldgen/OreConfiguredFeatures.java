@@ -25,7 +25,8 @@ public final class OreConfiguredFeatures {
 
     public static final RegistryKey<ConfiguredFeature<?, ?>> NICKEL_ORE = key("nickel_ore");
     public static final RegistryKey<ConfiguredFeature<?, ?>> BAUXITE_ORE = key("bauxite_ore");
-    public static final RegistryKey<ConfiguredFeature<?, ?>> SULFUR_ORE = key("sulfur_ore");
+    public static final RegistryKey<ConfiguredFeature<?, ?>> LEAD_ORE = key("lead_ore");
+
 
     // Ванильный "STONE_ORE_REPLACEABLES" не используем, чтобы не упираться в конфликт имён.
     private static final RuleTest STONE_REPLACEABLES = new TagMatchRuleTest(BlockTags.STONE_ORE_REPLACEABLES);
@@ -36,28 +37,14 @@ public final class OreConfiguredFeatures {
 
     public static void bootstrap(Registerable<ConfiguredFeature<?, ?>> ctx) {
 
-        ctx.register(NICKEL_ORE,
+        ctx.register(LEAD_ORE,
                 new ConfiguredFeature<>(Feature.ORE,
                         new OreFeatureConfig(
                                 List.of(OreFeatureConfig.createTarget(
                                         STONE_REPLACEABLES,
-                                        ModBlocks.NICKEL_ORE.getDefaultState())),
-                                8)));
+                                        ModBlocks.LEAD_ORE.getDefaultState())),
+                                8
+                        )));
 
-        ctx.register(BAUXITE_ORE,
-                new ConfiguredFeature<>(Feature.ORE,
-                        new OreFeatureConfig(
-                                List.of(OreFeatureConfig.createTarget(
-                                        STONE_REPLACEABLES,
-                                        ModBlocks.BAUXITE_ORE.getDefaultState())),
-                                16)));
-
-        ctx.register(SULFUR_ORE,
-                new ConfiguredFeature<>(Feature.ORE,
-                        new OreFeatureConfig(
-                                List.of(OreFeatureConfig.createTarget(
-                                        STONE_REPLACEABLES,
-                                        ModBlocks.SULFUR_ORE.getDefaultState())),
-                                7)));
     }
 }
