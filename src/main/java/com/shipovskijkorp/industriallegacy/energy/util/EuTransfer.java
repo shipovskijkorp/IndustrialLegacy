@@ -11,6 +11,38 @@ public final class EuTransfer {
     private EuTransfer() {}
 
     /**
+     * Legacy helper used by older call sites.
+     *
+     * <p>Attempts to extract up to {@code maxAmount} EU from the storage at {@code pos}.
+     * The {@code side} parameter is interpreted as the side of the <em>target</em> storage.
+     */
+    public static long tryExtract(World world, BlockPos pos, Direction side, long maxAmount, boolean simulate) {
+        if (maxAmount <= 0L) return 0L;
+
+        IEuEnergyStorage storage = getStorage(world, pos);
+        if (storage == null) return 0L;
+        if (!storage.canExtract(side)) return 0L;
+
+        return storage.extractEu(maxAmount, side, simulate);
+    }
+
+    /**
+     * Legacy helper used by older call sites.
+     *
+     * <p>Attempts to insert {@code amount} EU into the storage at {@code pos}.
+     * The {@code side} parameter is interpreted as the side of the <em>target</em> storage.
+     */
+    public static long tryInsert(World world, BlockPos pos, Direction side, long amount, boolean simulate) {
+        if (amount <= 0L) return 0L;
+
+        IEuEnergyStorage storage = getStorage(world, pos);
+        if (storage == null) return 0L;
+        if (!storage.canInsert(side)) return 0L;
+
+        return storage.insertEu(amount, side, simulate);
+    }
+
+    /**
      * Get an {@link IEuEnergyStorage} at the position, if any.
      */
     public static IEuEnergyStorage getStorage(World world, BlockPos pos) {
