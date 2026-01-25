@@ -1,15 +1,12 @@
 package com.shipovskijkorp.industriallegacy.energy.util;
 
+import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
-/**
- * Small helpers for moving EU between adjacent tiles.
- *
- * <p>Higher level routing is handled by {@link EuNetwork}.</p>
- */
+
 public final class EuTransfer {
     private EuTransfer() {}
 
