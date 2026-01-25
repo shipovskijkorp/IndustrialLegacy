@@ -4,6 +4,7 @@ import com.shipovskijkorp.industriallegacy.registry.ModItemGroups;
 import com.shipovskijkorp.industriallegacy.registry.ModItems;
 import com.shipovskijkorp.industriallegacy.registry.ModScreenHandlers;
 import com.shipovskijkorp.industriallegacy.net.ModPackets;
+import com.shipovskijkorp.industriallegacy.worldgen.ModWorldGen;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,7 @@ public class IndustrialLegacy implements ModInitializer {
     public void onInitialize() {
         ModItems.register();
         ModItemGroups.register();
+        ModWorldGen.register();
 
         // GUI (Generator/BatBox) — Step 1: register ScreenHandler types (scaffold; wired fully in later steps).
         ModScreenHandlers.register();
