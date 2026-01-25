@@ -36,8 +36,6 @@ public final class ModBlocks {
                     .requiresTool())
     );
 
-    public static final Block SILVER_ORE =
-            register("silver_ore", new Block(FabricBlockSettings.copyOf(Blocks.IRON_ORE).requiresTool()));
     public static final Block NICKEL_ORE =
             register("nickel_ore", new Block(FabricBlockSettings.copyOf(Blocks.IRON_ORE).requiresTool()));
     public static final Block BAUXITE_ORE =

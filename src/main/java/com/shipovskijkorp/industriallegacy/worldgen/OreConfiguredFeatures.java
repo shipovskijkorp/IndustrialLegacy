@@ -23,7 +23,6 @@ import java.util.List;
 public final class OreConfiguredFeatures {
     private OreConfiguredFeatures() {}
 
-    public static final RegistryKey<ConfiguredFeature<?, ?>> SILVER_ORE = key("silver_ore");
     public static final RegistryKey<ConfiguredFeature<?, ?>> NICKEL_ORE = key("nickel_ore");
     public static final RegistryKey<ConfiguredFeature<?, ?>> BAUXITE_ORE = key("bauxite_ore");
     public static final RegistryKey<ConfiguredFeature<?, ?>> SULFUR_ORE = key("sulfur_ore");
@@ -36,13 +35,6 @@ public final class OreConfiguredFeatures {
     }
 
     public static void bootstrap(Registerable<ConfiguredFeature<?, ?>> ctx) {
-        ctx.register(SILVER_ORE,
-                new ConfiguredFeature<>(Feature.ORE,
-                        new OreFeatureConfig(
-                                List.of(OreFeatureConfig.createTarget(
-                                        STONE_REPLACEABLES,
-                                        ModBlocks.SILVER_ORE.getDefaultState())),
-                                8)));
 
         ctx.register(NICKEL_ORE,
                 new ConfiguredFeature<>(Feature.ORE,
