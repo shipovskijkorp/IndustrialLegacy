@@ -1,15 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "PIP",
-    "PI "
+    "I I",
+    " P ",
+    "P P"
   ],
   "key": {
-    "P": {
-      "item": "minecraft:iron_ingot"
-    },
     "I": {
       "item": "minecraft:iron_ingot"
+    },
+    "P": {
+      "item": "minecraft:stick"
     }
   },
   "result": {
