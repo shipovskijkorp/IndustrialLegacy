@@ -39,6 +39,10 @@ public final class ModBlocks {
 
     public static final Block LEAD_ORE =
             register("lead_ore", new Block(FabricBlockSettings.copyOf(Blocks.IRON_ORE).requiresTool()));
+    public static final Block TIN_ORE =
+            register("tin_ore", new Block(FabricBlockSettings.copyOf(Blocks.IRON_ORE).requiresTool()));
+    public static final Block URANIUM_ORE =
+            register("uranium_ore", new Block(FabricBlockSettings.copyOf(Blocks.IRON_ORE).requiresTool()));
 
 
     public static final Block COPPER_CABLE_0 = registerNoItem(
