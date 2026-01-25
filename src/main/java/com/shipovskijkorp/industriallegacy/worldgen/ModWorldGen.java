@@ -14,10 +14,11 @@ public final class ModWorldGen {
     private ModWorldGen() {}
 
     public static void register() {
+        ModFeatures.register();
         injectBiomes();
         // Note: configured/placed features are supplied via datapack JSON in 1.20.1.
         // This class only wires them into biomes.
-        IndustrialLegacy.LOGGER.info("Worldgen hooks registered (ores: tin/lead/uranium)");
+        IndustrialLegacy.LOGGER.info("Worldgen hooks registered (ores + rubber trees)");
     }
 
     private static void injectBiomes() {
@@ -36,6 +37,13 @@ public final class ModWorldGen {
                 BiomeSelectors.foundInOverworld(),
                 GenerationStep.Feature.UNDERGROUND_ORES,
                 OrePlacedFeatures.URANIUM_ORE_PLACED
+        );
+
+        // Rubber trees (IC2-style) — injected into overworld once per chunk at VEGETAL_DECORATION.
+        BiomeModifications.addFeature(
+                BiomeSelectors.foundInOverworld(),
+                GenerationStep.Feature.VEGETAL_DECORATION,
+                RubberPlacedFeatures.RUBBER_TREE_PATCH
         );
     }
 }
