@@ -1,7 +1,7 @@
 package com.shipovskijkorp.industriallegacy.worldgen;
 
 import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
-import net.minecraft.registry.Registries;
+import net.minecraft.registry.BuiltinRegistries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
@@ -74,18 +74,18 @@ public final class OrePlacedFeatures {
             List<PlacementModifier> modifiers
     ) {
         Identifier id = placedKey.getValue();
-        if (Registries.PLACED_FEATURE.containsId(id)) {
+        if (BuiltinRegistries.PLACED_FEATURE.containsId(id)) {
             return; // уже зарегистрировано
         }
 
         RegistryEntry<ConfiguredFeature<?, ?>> configuredEntry =
-                Registries.CONFIGURED_FEATURE.getEntry(configuredKey)
+                BuiltinRegistries.CONFIGURED_FEATURE.getEntry(configuredKey)
                         .orElseThrow(() -> new IllegalStateException(
                                 "Missing configured feature: " + configuredKey.getValue()
                         ));
 
         PlacedFeature placed = new PlacedFeature(configuredEntry, List.copyOf(modifiers));
-        Registry.register(Registries.PLACED_FEATURE, id, placed);
+        Registry.register(BuiltinRegistries.PLACED_FEATURE, id, placed);
     }
 
     private static List<PlacementModifier> oreModifiersWithCount(int veinsPerChunk, int minY, int maxY) {

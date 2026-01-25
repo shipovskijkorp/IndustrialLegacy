@@ -4,10 +4,9 @@ import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.minecraft.block.Block;
+import net.minecraft.registry.BuiltinRegistries;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.structure.rule.RuleTest;
 import net.minecraft.structure.rule.TagMatchRuleTest;
@@ -46,7 +45,7 @@ public final class ModWorldGen {
 
     private static void registerOreConfiguredIfAbsent(String oreId, int veinSize) {
         Identifier id = new Identifier(IndustrialLegacy.MOD_ID, oreId);
-        if (Registries.CONFIGURED_FEATURE.containsId(id)) {
+        if (BuiltinRegistries.CONFIGURED_FEATURE.containsId(id)) {
             return; // уже есть
         }
 
@@ -59,7 +58,7 @@ public final class ModWorldGen {
                 )
         );
 
-        Registry.register(Registries.CONFIGURED_FEATURE, id, configured);
+        Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, id, configured);
     }
 
     private static Block blockOrThrow(Identifier id) {
