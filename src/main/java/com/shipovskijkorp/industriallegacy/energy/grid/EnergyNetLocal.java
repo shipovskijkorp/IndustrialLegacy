@@ -1,226 +1,169 @@
 package com.shipovskijkorp.industriallegacy.energy.grid;
 
-import com.shipovskijkorp.industriallegacy.energy.path.EnergyPath;
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
-import it.unimi.dsi.fastutil.longs.Long2IntOpenHashMap;
-import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.longs.LongIterator;
-import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-import java.util.Map;
-import java.util.WeakHashMap;
+import java.util.*;
 
 /**
- * IC2-inspired per-world EnergyNet cache.
+ * IC2-style per-world EnergyNetLocal.
  *
- * <p>Key goals:
+ * <p>This implementation focuses on the core behavior needed for 1:1 gameplay:
  * <ul>
- *   <li>Keep a cached cable graph (connected components = grids).</li>
- *   <li>Invalidate incrementally on block changes, rebuilding only affected grids.</li>
- *   <li>Cache Dijkstra results per start cable for fast repeated emissions.</li>
- * </ul>
- *
- * <p>This is intentionally server-side only; callers should avoid using it on the client.</p>
+ *   <li>Cache cable connected components (grids) and best-loss routes to sinks.</li>
+ *   <li>Incremental invalidation: clear only the affected grid when a cable changes.</li>
+ *   <li>Per-node statistics (NodeStats) for detector cables.</li>
+ *   <li>Over-voltage side effects applied at end of tick (meltdown/insulation/shock/explosion).</li>
+ * </ul></p>
  */
 public final class EnergyNetLocal {
 
     private static final Map<World, EnergyNetLocal> INSTANCES = new WeakHashMap<>();
 
     public static EnergyNetLocal get(World world) {
-        return INSTANCES.computeIfAbsent(world, EnergyNetLocal::new);
+        if (world == null) throw new IllegalArgumentException("world");
+        synchronized (INSTANCES) {
+            return INSTANCES.computeIfAbsent(world, w -> new EnergyNetLocal());
+        }
     }
 
-    /** Clear all caches for this world (topology unknown). */
-    public static void invalidate(@Nullable World world) {
-        if (world == null) return;
-        EnergyNetLocal net = INSTANCES.get(world);
-        if (net != null) net.invalidateAll();
+    private final Map<Long, EnergyGrid> gridsById = new HashMap<>();
+    private final Map<Long, Long> cableToGridId = new HashMap<>();
+
+    private final NodeStatsTracker statsTracker = new NodeStatsTracker();
+
+    // End-of-tick effects.
+    private final Set<RoutePath> touchedPaths = Collections.newSetFromMap(new IdentityHashMap<>());
+    private final Map<Long, Double> pendingSinkExplosions = new HashMap<>(); // sinkPosLong -> maxPacket
+
+    private EnergyNetLocal() {}
+
+    /**
+     * Get routes to sinks for a given start cable. Cached per grid.
+     */
+    public List<RoutePath> getOrComputeRoutes(World world, BlockPos sourcePos, BlockPos startCablePos) {
+        if (world == null) return List.of();
+        if (startCablePos == null) return List.of();
+
+        EnergyGrid grid = getOrBuildGrid(world, startCablePos);
+        if (grid == null) return List.of();
+
+        long key = mixStartSource(startCablePos.asLong(), sourcePos == null ? 0L : sourcePos.asLong());
+        List<RoutePath> cached = grid.routesByStartCableWithSource.get(key);
+        if (cached != null) return cached;
+
+        List<RoutePath> routes = EnergyGridPathFinder.findRoutes(world, sourcePos, startCablePos);
+        grid.routesByStartCableWithSource.put(key, routes);
+        return routes;
     }
 
-    /** Targeted invalidation around a position (cable placed/removed, splitter toggled, etc.). */
-    public static void invalidate(@Nullable World world, @Nullable BlockPos pos) {
-        if (world == null || pos == null) return;
-        EnergyNetLocal net = INSTANCES.get(world);
-        if (net != null) net.invalidateAround(pos);
+    /** Record conduction through the path's cable nodes for node-stats and later over-voltage effects. */
+    public void recordPathTransfer(World world, RoutePath path, double supplied, double packetConducted) {
+        if (world == null || path == null) return;
+        long tick = world.getTime();
+        path.record(tick, supplied, packetConducted);
+        touchedPaths.add(path);
+
+        // Per-cable stats.
+        for (BlockPos p : path.cables()) {
+            statsTracker.recordConduction(p.asLong(), supplied, packetConducted);
+        }
     }
 
-    // ---- per-world instance ----
+    /** Schedule a sink explosion (over-voltage). Applied at end of tick. */
+    public void scheduleSinkExplosion(BlockPos sinkPos, double packet) {
+        if (sinkPos == null) return;
+        long key = sinkPos.asLong();
+        Double prev = pendingSinkExplosions.get(key);
+        if (prev == null || packet > prev) {
+            pendingSinkExplosions.put(key, packet);
+        }
+    }
 
-    private final World world;
+    /** Previous-tick node stats for a cable position. */
+    public NodeStats getNodeStats(BlockPos cablePos) {
+        if (cablePos == null) return NodeStats.ZERO;
+        return statsTracker.getPrevious(cablePos.asLong());
+    }
 
-    /** cablePos -> gridId. 0 = unknown. */
-    private final Long2IntOpenHashMap cableToGrid = new Long2IntOpenHashMap();
-
-    /** gridId -> grid. */
-    private final Int2ObjectOpenHashMap<EnergyGrid> grids = new Int2ObjectOpenHashMap<>();
-
-    /** grid ids that must be rebuilt. */
-    private final IntOpenHashSet dirtyGrids = new IntOpenHashSet();
-
-    /** If true, all grids are invalid and caches must be cleared. */
-    private boolean dirtyAll = true;
-
-    /** startCablePos -> cached paths. */
-    private final Long2ObjectOpenHashMap<List<EnergyPath>> pathCache = new Long2ObjectOpenHashMap<>();
-
-    /** startCablePos -> gridId used when caching; for targeted cache eviction. */
-    private final Long2IntOpenHashMap cachedStartToGrid = new Long2IntOpenHashMap();
-
-    /** Seeds (positions) that might require discovering a new grid (new cables). */
-    private final LongOpenHashSet dirtySeeds = new LongOpenHashSet();
-
-    private int nextGridId = 1;
-
-    private EnergyNetLocal(World world) {
-        this.world = world;
-        this.cableToGrid.defaultReturnValue(0);
-        this.cachedStartToGrid.defaultReturnValue(0);
+    /** Clear all caches for this world. */
+    public void invalidateAll() {
+        gridsById.clear();
+        cableToGridId.clear();
     }
 
     /**
-     * Get cached best-loss paths from a start cable to all reachable sinks.
-     *
-     * <p>The {@code sourcePos} is used only to prevent immediately routing back into the source.</p>
+     * Targeted invalidation: clears only the grid that contains the given position if known.
      */
-    public List<EnergyPath> getOrComputePaths(BlockPos sourcePos, BlockPos startCablePos) {
-        if (world.isClient) return List.of();
-
-        long startKey = startCablePos.asLong();
-
-        if (dirtyAll) {
-            clearAll();
+    public void invalidateAt(BlockPos pos) {
+        if (pos == null) return;
+        Long gid = cableToGridId.get(pos.asLong());
+        if (gid == null) {
+            // Fallback to full clear for correctness.
+            invalidateAll();
+            return;
+        }
+        EnergyGrid grid = gridsById.remove(gid);
+        if (grid != null) {
+            for (long p : grid.cables) {
+                cableToGridId.remove(p);
+            }
         } else {
-            processDirtyGrids();
-        }
-
-        List<EnergyPath> cached = pathCache.get(startKey);
-        if (cached != null) return cached;
-
-        EnergyGrid grid = ensureGridFor(startCablePos);
-        if (grid == null) return List.of();
-
-        List<EnergyPath> paths = EnergyGridPathFinder.findPaths(world, grid, sourcePos, startCablePos);
-        pathCache.put(startKey, paths);
-        cachedStartToGrid.put(startKey, grid.id());
-        return paths;
-    }
-
-    public void invalidateAll() {
-        dirtyAll = true;
-    }
-
-    public void invalidateAround(BlockPos pos) {
-        // Cable topology affects its own position and immediate neighbors.
-        markDirtySeed(pos);
-        for (var dir : net.minecraft.util.math.Direction.values()) {
-            markDirtySeed(pos.offset(dir));
-        }
-
-        // If this position (or its neighbors) belonged to an existing grid, mark that grid dirty.
-        markDirtyGridIfKnown(pos);
-        for (var dir : net.minecraft.util.math.Direction.values()) {
-            markDirtyGridIfKnown(pos.offset(dir));
+            invalidateAll();
         }
     }
 
-    private void markDirtySeed(BlockPos pos) {
-        dirtySeeds.add(pos.asLong());
-    }
+    /** Called at END_WORLD_TICK. Applies over-voltage effects and advances NodeStats snapshot. */
+    public void onWorldTickEnd(World world) {
+        if (world == null) return;
+        long tick = world.getTime();
 
-    private void markDirtyGridIfKnown(BlockPos pos) {
-        int gid = cableToGrid.get(pos.asLong());
-        if (gid != 0) dirtyGrids.add(gid);
-    }
-
-    private void clearAll() {
-        dirtyAll = false;
-        dirtyGrids.clear();
-        dirtySeeds.clear();
-        grids.clear();
-        cableToGrid.clear();
-        pathCache.clear();
-        cachedStartToGrid.clear();
-        nextGridId = 1;
-    }
-
-    private void processDirtyGrids() {
-        if (dirtyGrids.isEmpty() && dirtySeeds.isEmpty()) return;
-
-        // Drop cached paths for any dirty grids.
-        if (!dirtyGrids.isEmpty()) {
-            evictCachedPathsForDirtyGrids();
-
-            // Remove old grids and cable mappings; they will be rebuilt lazily.
-            for (int gid : dirtyGrids) {
-                EnergyGrid grid = grids.remove(gid);
-                if (grid == null) continue;
-                for (long cable : grid.cables()) {
-                    cableToGrid.remove(cable);
+        // Cable effects (meltdown/insulation/shock) for paths that actually conducted something.
+        if (!touchedPaths.isEmpty()) {
+            for (RoutePath p : touchedPaths) {
+                double packet = p.maxPacketConducted(tick);
+                if (packet <= 0.0) continue;
+                if (packet >= p.minEffectEnergy) {
+                    OverVoltageProcessor.applyCableEffects(world, p.cables(), packet);
                 }
             }
-            dirtyGrids.clear();
+            touchedPaths.clear();
         }
 
-        // Dirty seeds are kept; they help discovering new grids (newly placed cables).
-        // We don't eagerly build grids here to keep costs on-demand.
-    }
-
-    private void evictCachedPathsForDirtyGrids() {
-        // Scan the cached start->grid map; size is typically small.
-        LongIterator it = cachedStartToGrid.keySet().iterator();
-        LongOpenHashSet toRemove = new LongOpenHashSet();
-        while (it.hasNext()) {
-            long start = it.nextLong();
-            int gid = cachedStartToGrid.get(start);
-            if (gid != 0 && dirtyGrids.contains(gid)) {
-                toRemove.add(start);
+        // Sink explosions (over-voltage to machines).
+        if (!pendingSinkExplosions.isEmpty()) {
+            for (Map.Entry<Long, Double> e : pendingSinkExplosions.entrySet()) {
+                BlockPos sinkPos = BlockPos.fromLong(e.getKey());
+                OverVoltageProcessor.explodeSink(world, sinkPos, e.getValue());
             }
+            pendingSinkExplosions.clear();
         }
-        LongIterator rit = toRemove.iterator();
-        while (rit.hasNext()) {
-            long start = rit.nextLong();
-            pathCache.remove(start);
-            cachedStartToGrid.remove(start);
-        }
+
+        // Snapshot stats.
+        statsTracker.endTick();
     }
 
-    private @Nullable EnergyGrid ensureGridFor(BlockPos anyCablePos) {
-        long key = anyCablePos.asLong();
-        int gid = cableToGrid.get(key);
-        if (gid != 0) {
-            EnergyGrid existing = grids.get(gid);
+    private EnergyGrid getOrBuildGrid(World world, BlockPos startCablePos) {
+        Long gid = cableToGridId.get(startCablePos.asLong());
+        if (gid != null) {
+            EnergyGrid existing = gridsById.get(gid);
             if (existing != null) return existing;
-            // Mapping exists but grid got dropped; treat as unknown.
-            cableToGrid.remove(key);
+            // stale mapping
+            cableToGridId.remove(startCablePos.asLong());
         }
 
-        // Build a new grid starting from this position.
-        EnergyGrid grid = EnergyGridBuilder.build(world, anyCablePos, nextGridId);
-        if (grid == null) return null;
+        // Build component and register all cable positions.
+        EnergyGrid grid = EnergyGridBuilder.build(world, startCablePos, p -> cableToGridId.put(p, 0L));
 
-        grids.put(grid.id(), grid);
-        for (long cable : grid.cables()) {
-            cableToGrid.put(cable, grid.id());
+        // Now that we know the id, fix all positions mapping.
+        for (long p : grid.cables) {
+            cableToGridId.put(p, grid.id);
         }
-        nextGridId = Math.max(nextGridId, grid.id() + 1);
-
-        // We have now "resolved" any dirty seeds inside this grid.
-        // (Keep it simple: just remove those we know about.)
-        if (!dirtySeeds.isEmpty()) {
-            LongIterator it = dirtySeeds.iterator();
-            while (it.hasNext()) {
-                long seed = it.nextLong();
-                if (grid.containsCable(seed)) {
-                    it.remove();
-                }
-            }
-        }
-
+        gridsById.put(grid.id, grid);
         return grid;
+    }
+
+    private static long mixStartSource(long startCableLong, long sourceLong) {
+        return (startCableLong * 31L) ^ sourceLong;
     }
 }

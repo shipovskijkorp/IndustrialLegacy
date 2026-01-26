@@ -19,10 +19,12 @@ public final class EuNetwork {
     }
 
     public static void invalidate(World world) {
-        EnergyNetLocal.invalidate(world);
+        if (world == null) return;
+        EnergyNetLocal.get(world).invalidateAll();
     }
 
     public static void invalidate(World world, BlockPos pos) {
-        EnergyNetLocal.invalidate(world, pos);
+        if (world == null) return;
+        EnergyNetLocal.get(world).invalidateAt(pos);
     }
 }

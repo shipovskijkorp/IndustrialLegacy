@@ -31,7 +31,7 @@ public final class ModItemGroups {
                         entries.add(ModBlocks.TIN_ORE);
                         entries.add(ModBlocks.URANIUM_ORE);
 
-                        entries.add(ModBlocks.RUBBER_WOOD);
+                        entries.add(ModBlocks.RUBBER_LOG);
                         entries.add(ModBlocks.RUBBER_LEAVES);
                         entries.add(ModBlocks.RUBBER_SAPLING);
 

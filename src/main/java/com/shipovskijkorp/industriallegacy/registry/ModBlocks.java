@@ -122,13 +122,13 @@ public final class ModBlocks {
                     CableKind.SPLITTER, 0, "block/wiring/cable/splitter_cable")
     );
 
-    public static final Block RUBBER_WOOD = register("rubber_wood",
-            new RubberWoodBlock(FabricBlockSettings.copyOf(Blocks.OAK_LOG).ticksRandomly()));
+    public static final Block RUBBER_LOG = register("rubber_log",
+            new RubberLogBlock(FabricBlockSettings.copyOf(Blocks.OAK_LOG)));
     public static final Block RUBBER_LEAVES = register("rubber_leaves",
-            new LeavesBlock(FabricBlockSettings.copyOf(Blocks.BIRCH_LEAVES)));
+            new LeavesBlock(FabricBlockSettings.copyOf(Blocks.OAK_LEAVES)));
     public static final Block RUBBER_SAPLING = register("rubber_sapling",
             new SaplingBlock(new RubberSaplingGenerator(),
-                    FabricBlockSettings.copyOf(Blocks.BIRCH_SAPLING)));
+                    FabricBlockSettings.copyOf(Blocks.OAK_SAPLING)));
 
     private static Block register(String name, Block block) {
         Identifier id = new Identifier(IndustrialLegacy.MOD_ID, name);

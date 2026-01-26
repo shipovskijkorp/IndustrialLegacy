@@ -1,146 +1,134 @@
 package com.shipovskijkorp.industriallegacy.energy.grid;
 
+import com.shipovskijkorp.industriallegacy.block.CableBlock;
 import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
-import com.shipovskijkorp.industriallegacy.energy.path.EnergyPath;
-import it.unimi.dsi.fastutil.longs.Long2DoubleOpenHashMap;
-import it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap;
-import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.longs.LongArrayList;
+import com.shipovskijkorp.industriallegacy.registry.ModBlocks;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 
 /**
- * Dijkstra over a pre-built {@link EnergyGrid}, producing best-loss paths to reachable sinks.
- *
- * <p>Weight model matches the previous stepping-stone implementation:
- * distance(start) = loss(startCable), and traversing into a neighbor cable adds loss(neighborCable).</p>
+ * Dijkstra over cables, producing best-loss paths to reachable sinks.
  */
 final class EnergyGridPathFinder {
-
     private EnergyGridPathFinder() {}
 
     private static final int MAX_NODES = 4096;
     private static final double INF = 1e100;
 
-    private record QNode(long pos, double loss) {}
+    private record Node(BlockPos pos, double loss) {}
 
-    public static List<EnergyPath> findPaths(World world, EnergyGrid grid, BlockPos sourcePos, BlockPos startCablePos) {
+    static boolean isCableDisabledByRedstone(World world, BlockPos pos, CableBlock cable) {
+        // Matches current behavior: splitter disabled when powered.
+        return cable.getKind() == com.shipovskijkorp.industriallegacy.item.CableKind.SPLITTER && world.isReceivingRedstonePower(pos);
+    }
+
+    static List<RoutePath> findRoutes(World world, BlockPos sourcePos, BlockPos startCablePos) {
         if (world == null) return List.of();
-        if (grid == null) return List.of();
 
-        long start = startCablePos.asLong();
-        if (!grid.containsCable(start)) return List.of();
+        BlockState startState = world.getBlockState(startCablePos);
+        if (!(startState.getBlock() instanceof CableBlock startCable)) return List.of();
+        if (isCableDisabledByRedstone(world, startCablePos, startCable)) return List.of();
 
-        long sourceKey = sourcePos == null ? 0L : sourcePos.asLong();
+        PriorityQueue<Node> pq = new PriorityQueue<>(Comparator.comparingDouble(Node::loss));
+        Map<Long, Double> dist = new HashMap<>();
+        Map<Long, Long> prev = new HashMap<>();
 
-        PriorityQueue<QNode> pq = new PriorityQueue<>(Comparator.comparingDouble(QNode::loss));
-        Long2DoubleOpenHashMap dist = new Long2DoubleOpenHashMap();
-        dist.defaultReturnValue(INF);
-        Long2LongOpenHashMap prev = new Long2LongOpenHashMap();
-        prev.defaultReturnValue(Long.MIN_VALUE);
+        double startLoss = startCable.getKind().loss;
+        dist.put(startCablePos.asLong(), startLoss);
+        pq.add(new Node(startCablePos, startLoss));
 
-        double startLoss = grid.loss(start);
-        dist.put(start, startLoss);
-        pq.add(new QNode(start, startLoss));
-
-        Long2ObjectOpenHashMap<EnergyPath> bestPerSink = new Long2ObjectOpenHashMap<>();
+        // best path per sink-pos + into-side
+        Map<Long, RoutePath> bestPerSink = new HashMap<>();
 
         int visited = 0;
-        BlockPos.Mutable curPos = new BlockPos.Mutable();
-        BlockPos.Mutable nbPos = new BlockPos.Mutable();
-
         while (!pq.isEmpty() && visited++ < MAX_NODES) {
-            QNode cur = pq.poll();
-            long curKey = cur.pos;
+            Node cur = pq.poll();
             double curLoss = cur.loss;
-            if (curLoss > dist.get(curKey)) continue;
+            long curKey = cur.pos.asLong();
 
-            curPos.set(BlockPos.unpackLongX(curKey), BlockPos.unpackLongY(curKey), BlockPos.unpackLongZ(curKey));
+            double known = dist.getOrDefault(curKey, INF);
+            if (curLoss > known) continue;
 
-            // Collect sinks adjacent to this cable.
+            BlockState curState = world.getBlockState(cur.pos);
+            if (!(curState.getBlock() instanceof CableBlock curCable)) continue;
+            if (isCableDisabledByRedstone(world, cur.pos, curCable)) continue;
+
             for (Direction dir : Direction.values()) {
-                nbPos.set(curPos).move(dir);
-                long nbKey = nbPos.asLong();
-                if (nbKey == sourceKey) continue;
+                BlockPos np = cur.pos.offset(dir);
+                if (np.equals(sourcePos)) continue;
 
-                BlockEntity be = world.getBlockEntity(nbPos);
-                if (!(be instanceof IEuEnergyStorage)) continue;
-
-                Direction intoSink = dir.getOpposite();
-
-                LongArrayList cableKeys = reconstruct(start, curKey, prev);
-                long minCap = minCapacityAlong(grid, cableKeys);
-                List<BlockPos> cables = toBlockPosList(cableKeys);
-
-                long sinkKey = mixSinkKey(nbKey, intoSink.getId());
-                EnergyPath existing = bestPerSink.get(sinkKey);
-                if (existing == null || curLoss < existing.loss()) {
-                    bestPerSink.put(sinkKey, new EnergyPath(BlockPos.fromLong(nbKey), intoSink, curLoss, minCap, cables));
+                BlockEntity nbe = world.getBlockEntity(np);
+                if (nbe instanceof IEuEnergyStorage) {
+                    Direction intoSink = dir.getOpposite();
+                    List<BlockPos> cables = reconstruct(startCablePos, cur.pos, prev);
+                    RoutePath path = buildPath(world, np, intoSink, curLoss, cables);
+                    long sinkKey = mixSinkKey(np.asLong(), intoSink.getId());
+                    RoutePath existing = bestPerSink.get(sinkKey);
+                    if (existing == null || curLoss < existing.loss()) {
+                        bestPerSink.put(sinkKey, path);
+                    }
+                    continue;
                 }
-            }
 
-            // Relax neighbor cables.
-            for (long nkey : grid.neighbors(curKey)) {
-                double nextLoss = curLoss + grid.loss(nkey);
-                if (nextLoss < dist.get(nkey)) {
+                BlockState ns = world.getBlockState(np);
+                if (!ModBlocks.isCable(ns.getBlock())) continue;
+                if (!(ns.getBlock() instanceof CableBlock nextCable)) continue;
+                if (isCableDisabledByRedstone(world, np, nextCable)) continue;
+
+                double nextLoss = curLoss + nextCable.getKind().loss;
+                long nkey = np.asLong();
+                if (nextLoss < dist.getOrDefault(nkey, INF)) {
                     dist.put(nkey, nextLoss);
                     prev.put(nkey, curKey);
-                    pq.add(new QNode(nkey, nextLoss));
+                    pq.add(new Node(np, nextLoss));
                 }
             }
         }
 
-        ArrayList<EnergyPath> out = new ArrayList<>(bestPerSink.values());
-        out.sort(Comparator.comparingDouble(EnergyPath::loss));
+        ArrayList<RoutePath> out = new ArrayList<>(bestPerSink.values());
+        out.sort(Comparator.comparingDouble(RoutePath::loss));
         return out;
     }
 
-    private static LongArrayList reconstruct(long start, long end, Long2LongOpenHashMap prev) {
-        LongArrayList out = new LongArrayList();
-        long cur = end;
+    private static RoutePath buildPath(World world, BlockPos sinkPos, Direction intoSink, double loss, List<BlockPos> cables) {
+        double minConductor = Double.POSITIVE_INFINITY;
+        double minInsulationBreak = Double.POSITIVE_INFINITY;
+        double minAbsorb = Double.POSITIVE_INFINITY;
+
+        for (BlockPos p : cables) {
+            BlockState s = world.getBlockState(p);
+            if (s.getBlock() instanceof CableBlock cb) {
+                minConductor = Math.min(minConductor, cb.getKind().getConductorBreakdownEnergy());
+                minInsulationBreak = Math.min(minInsulationBreak, cb.getKind().getInsulationBreakdownEnergy());
+                minAbsorb = Math.min(minAbsorb, cb.getKind().getInsulationEnergyAbsorption(cb.getInsulation()));
+            }
+        }
+        if (!Double.isFinite(minConductor)) minConductor = Double.POSITIVE_INFINITY;
+        if (!Double.isFinite(minInsulationBreak)) minInsulationBreak = Double.POSITIVE_INFINITY;
+        if (!Double.isFinite(minAbsorb)) minAbsorb = Double.POSITIVE_INFINITY;
+
+        return new RoutePath(sinkPos, intoSink, loss, cables, minConductor, minInsulationBreak, minAbsorb);
+    }
+
+    private static List<BlockPos> reconstruct(BlockPos start, BlockPos end, Map<Long, Long> prev) {
+        ArrayList<BlockPos> out = new ArrayList<>();
+        long cur = end.asLong();
+        long startKey = start.asLong();
 
         while (true) {
-            out.add(cur);
-            if (cur == start) break;
-            long p = prev.get(cur);
-            if (p == Long.MIN_VALUE) break;
+            out.add(BlockPos.fromLong(cur));
+            if (cur == startKey) break;
+            Long p = prev.get(cur);
+            if (p == null) break;
             cur = p;
         }
 
-        // manual reverse (fastutil-safe)
-        for (int i = 0, j = out.size() - 1; i < j; i++, j--) {
-            long tmp = out.getLong(i);
-            out.set(i, out.getLong(j));
-            out.set(j, tmp);
-        }
-
-        return out;
-    }
-
-
-    private static long minCapacityAlong(EnergyGrid grid, LongArrayList cableKeys) {
-        long min = Long.MAX_VALUE;
-        for (int i = 0; i < cableKeys.size(); i++) {
-            long key = cableKeys.getLong(i);
-            long cap = grid.capacity(key);
-            if (cap > 0) min = Math.min(min, cap);
-        }
-        return min == Long.MAX_VALUE ? 0L : min;
-    }
-
-    private static List<BlockPos> toBlockPosList(LongArrayList cableKeys) {
-        if (cableKeys.isEmpty()) return List.of();
-        ArrayList<BlockPos> out = new ArrayList<>(cableKeys.size());
-        for (int i = 0; i < cableKeys.size(); i++) {
-            out.add(BlockPos.fromLong(cableKeys.getLong(i)));
-        }
+        Collections.reverse(out);
         return out;
     }
 

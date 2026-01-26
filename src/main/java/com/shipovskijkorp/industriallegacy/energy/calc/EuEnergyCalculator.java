@@ -1,11 +1,10 @@
 package com.shipovskijkorp.industriallegacy.energy.calc;
 
-import com.shipovskijkorp.industriallegacy.block.CableBlock;
 import com.shipovskijkorp.industriallegacy.config.ILConfig;
 import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
 import com.shipovskijkorp.industriallegacy.energy.event.EuTransferRecorder;
 import com.shipovskijkorp.industriallegacy.energy.grid.EnergyNetLocal;
-import com.shipovskijkorp.industriallegacy.energy.path.EnergyPath;
+import com.shipovskijkorp.industriallegacy.energy.grid.RoutePath;
 import com.shipovskijkorp.industriallegacy.energy.util.EuUtil;
 import com.shipovskijkorp.industriallegacy.registry.ModBlocks;
 import net.minecraft.block.BlockState;
@@ -33,71 +32,97 @@ public final class EuEnergyCalculator {
 
         BlockPos firstPos = sourcePos.offset(outSide);
 
+        final int sourceTier = source.getSourceTier(outSide);
+        final long maxPacket = EuUtil.powerFromTier(sourceTier);
+
         // Direct sink neighbor (no cables, no loss).
         BlockEntity directBe = world.getBlockEntity(firstPos);
         if (directBe instanceof IEuEnergyStorage directSink) {
             Direction intoSink = outSide.getOpposite();
-            if (directSink.canInsert(intoSink)) {
-                return moveEnergy(world, source, outSide, directSink, intoSink, List.of(), maxAmount, 0.0);
+            if (!directSink.canInsert(intoSink)) return 0;
+
+            // IC2: direct neighbor can still over-volt.
+            long sinkMaxPacket = EuUtil.powerFromTier(directSink.getSinkTier(intoSink));
+            if (maxPacket > sinkMaxPacket) {
+                // IC2: even direct neighbors can be over-volted; spend (at most) one packet.
+                long want = source.isFullEnergyOutput() ? maxPacket : Math.min(maxAmount, maxPacket);
+                if (source.isFullEnergyOutput() && want < maxPacket) return 0;
+
+                long canSim = source.extractEu(want, outSide, true);
+                if (source.isFullEnergyOutput() && canSim < maxPacket) return 0;
+                if (canSim <= 0) return 0;
+
+                EnergyNetLocal.get(world).scheduleSinkExplosion(firstPos, (double) maxPacket);
+                long extracted = source.extractEu(want, outSide, false);
+                return Math.max(0L, extracted);
             }
-            return 0;
+
+            return moveEnergyDirect(world, source, outSide, directSink, intoSink, maxAmount, 0.0);
         }
 
         // Cable graph start.
         BlockState firstState = world.getBlockState(firstPos);
         if (!ModBlocks.isCable(firstState.getBlock())) return 0;
 
-        // Determine how much we can (and should) send this tick.
-        long maxPacket = EuUtil.powerFromTier(source.getSourceTier());
-        long canExtract = source.extractEu(Math.min(maxAmount, maxPacket), outSide, true);
-        if (canExtract <= 0) return 0;
+        // Total budget we are willing to try to extract this call.
+        long canExtractTotal = source.extractEu(maxAmount, outSide, true);
+        if (canExtractTotal <= 0) return 0;
 
-        // IC2 "fullEnergy": only offer energy if we can start with a full packet.
-        if (source.isFullEnergyOutput() && canExtract < maxPacket) {
+        if (source.isFullEnergyOutput() && canExtractTotal < maxPacket) {
             return 0;
         }
 
-        long offered = source.isFullEnergyOutput() ? maxPacket : Math.min(canExtract, maxPacket);
-        if (offered <= 0) return 0;
-
-        List<EnergyPath> paths = EnergyNetLocal.get(world).getOrComputePaths(sourcePos, firstPos);
+        EnergyNetLocal net = EnergyNetLocal.get(world);
+        List<RoutePath> paths = net.getOrComputeRoutes(world, sourcePos, firstPos);
         if (paths.isEmpty()) return 0;
 
-        // IC2-like fairness: 3/4 ticks random path offset, else 0.
-        int size = paths.size();
-        int startIndex;
-        boolean shuffle = (world.getTime() & 3L) != 0L;
-        if (shuffle && size > 1) startIndex = world.random.nextInt(size);
-        else startIndex = 0;
+        int pathCount = paths.size();
+        int startIndex = ((world.getTime() & 3L) != 0L && pathCount > 1) ? world.random.nextInt(pathCount) : 0;
 
-        long remainingBudget = offered;
         long spentTotal = 0L;
 
-        for (int i = 0; i < size && remainingBudget > 0; i++) {
-            EnergyPath path = paths.get((startIndex + i) % size);
-            BlockEntity sinkBe = world.getBlockEntity(path.sinkPos());
-            if (!(sinkBe instanceof IEuEnergyStorage sink)) continue;
+        int maxPackets = source.sendMultipleEnergyPackets() ? Math.max(1, source.getMaxEnergyPacketCount()) : 1;
+        for (int packetIndex = 0; packetIndex < maxPackets; packetIndex++) {
+            long remainingTotal = canExtractTotal - spentTotal;
+            if (remainingTotal <= 0) break;
 
-            Direction intoSink = path.intoSink();
-            if (!sink.canInsert(intoSink)) continue;
+            // Packet budget is limited by tier.
+            long packetBudget = Math.min(remainingTotal, maxPacket);
+            if (source.isFullEnergyOutput() && packetBudget < maxPacket) break;
+            if (source.isFullEnergyOutput()) packetBudget = maxPacket;
 
-            // Tier sanity: refuse over-voltage for now (later: IC2 explode/melt rules).
-            int outTier = source.getSourceTier();
-            int inTier = sink.getSinkTier(intoSink);
-            if (outTier > inTier) continue;
+            long remainingPacketBudget = packetBudget;
 
-            // Overload check: if offered packet exceeds any cable capacity on this path, melt and abort.
-            if (path.minCapacity() > 0 && offered > path.minCapacity()) {
-                meltFirstOverloadedCable(world, path.cables(), offered);
-                return 0;
+            for (int i = 0; i < pathCount && remainingPacketBudget > 0; i++) {
+                RoutePath path = paths.get((startIndex + i) % pathCount);
+                BlockEntity sinkBe = world.getBlockEntity(path.sinkPos());
+                if (!(sinkBe instanceof IEuEnergyStorage sink)) continue;
+
+                Direction intoSink = path.intoSink();
+                if (!sink.canInsert(intoSink)) continue;
+
+                // IC2: over-voltage is not ignored; it causes explosions/meltdown.
+                int sinkTier = sink.getSinkTier(intoSink);
+                long sinkMaxPacket = EuUtil.powerFromTier(sinkTier);
+                if (packetBudget > sinkMaxPacket) {
+                    // Spend the packet (source emission) and schedule sink explosion.
+                    long extracted = source.extractEu(packetBudget, outSide, false);
+                    spentTotal += extracted;
+                    net.recordPathTransfer(world, path, 0.0, (double) packetBudget);
+                    net.scheduleSinkExplosion(path.sinkPos(), (double) packetBudget);
+                    remainingPacketBudget = 0;
+                    break;
+                }
+
+                double loss = applyLossRounding(path.loss());
+                long spent = moveEnergy(world, net, path, source, outSide, sink, intoSink, remainingPacketBudget, loss, packetBudget);
+                if (spent <= 0) continue;
+
+                spentTotal += spent;
+                remainingPacketBudget -= spent;
+
+                if (spentTotal >= canExtractTotal) break;
             }
-
-            double loss = applyLossRounding(path.loss());
-            long spent = moveEnergy(world, source, outSide, sink, intoSink, path.cables(), remainingBudget, loss);
-            if (spent <= 0) continue;
-
-            spentTotal += spent;
-            remainingBudget -= spent;
         }
 
         return spentTotal;
@@ -105,13 +130,15 @@ public final class EuEnergyCalculator {
 
     private static long moveEnergy(
             World world,
+            EnergyNetLocal net,
+            RoutePath path,
             IEuEnergyStorage source,
             Direction outSide,
             IEuEnergyStorage sink,
             Direction intoSink,
-            List<BlockPos> pathCables,
             long budget,
-            double loss
+            double loss,
+            long packetConducted
     ) {
         if (budget <= 0) return 0;
         if (!source.canExtract(outSide)) return 0;
@@ -141,12 +168,59 @@ public final class EuEnergyCalculator {
         long deliveredActual = (long) Math.floor(Math.max(0.0, (double) extracted - loss));
         deliveredActual = Math.min(deliveredActual, acceptedSim);
         if (deliveredActual <= 0) {
-            EuTransferRecorder.record(world, pathCables, 0L);
+            EuTransferRecorder.record(world, path.cables(), 0L);
+            if (net != null) {
+                net.recordPathTransfer(world, path, 0.0, (double) packetConducted);
+            }
             return extracted;
         }
 
         long inserted = sink.insertEu(deliveredActual, intoSink, false);
-        EuTransferRecorder.record(world, pathCables, inserted);
+        EuTransferRecorder.record(world, path.cables(), inserted);
+        if (net != null) {
+            net.recordPathTransfer(world, path, (double) inserted, (double) packetConducted);
+        }
+        return extracted;
+    }
+
+    private static long moveEnergyDirect(
+            World world,
+            IEuEnergyStorage source,
+            Direction outSide,
+            IEuEnergyStorage sink,
+            Direction intoSink,
+            long budget,
+            double loss
+    ) {
+        if (budget <= 0) return 0;
+        if (!source.canExtract(outSide)) return 0;
+        if (!sink.canInsert(intoSink)) return 0;
+
+        double deliveredMaxD = (double) budget - loss;
+        if (deliveredMaxD <= 0.0) return 0;
+        long deliveredMax = (long) Math.floor(deliveredMaxD);
+        if (deliveredMax <= 0) return 0;
+
+        double demandedD = sink.getDemandedEnergy(intoSink);
+        long demanded = demandedD <= 0.0 ? 0L : (long) Math.floor(demandedD);
+        if (demanded <= 0) return 0;
+
+        long offer = Math.min(deliveredMax, demanded);
+        long acceptedSim = sink.insertEu(offer, intoSink, true);
+        if (acceptedSim <= 0) return 0;
+
+        long wantSpent = (long) Math.ceil((double) acceptedSim + loss);
+        if (wantSpent <= 0) return 0;
+        if (wantSpent > budget) wantSpent = budget;
+
+        long extracted = source.extractEu(wantSpent, outSide, false);
+        if (extracted <= 0) return 0;
+
+        long deliveredActual = (long) Math.floor(Math.max(0.0, (double) extracted - loss));
+        deliveredActual = Math.min(deliveredActual, acceptedSim);
+        if (deliveredActual <= 0) return extracted;
+
+        sink.insertEu(deliveredActual, intoSink, false);
         return extracted;
     }
 
@@ -157,15 +231,5 @@ public final class EuEnergyCalculator {
         return Math.floor(loss);
     }
 
-    private static void meltFirstOverloadedCable(World world, List<BlockPos> pathCables, long packet) {
-        for (BlockPos p : pathCables) {
-            BlockState s = world.getBlockState(p);
-            if (s.getBlock() instanceof CableBlock cb) {
-                if (packet > cb.getKind().capacity) {
-                    world.breakBlock(p, false);
-                    return;
-                }
-            }
-        }
-    }
+    // Cable overload is handled by EnergyNetLocal end-of-tick effects (IC2-style).
 }

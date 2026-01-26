@@ -40,7 +40,7 @@ public final class ModItems {
             new Item(new FabricItemSettings()));
 
     public static final Item TREETAP = register("treetap",
-            new TreetapItem(new FabricItemSettings().maxCount(1).maxDamage(16)));
+            new TreetapItem(new FabricItemSettings().maxDamage(64)));
 
     /**
      * IC2 early-game tools.

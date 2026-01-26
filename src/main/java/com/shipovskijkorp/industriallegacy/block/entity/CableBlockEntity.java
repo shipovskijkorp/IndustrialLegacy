@@ -53,9 +53,6 @@ public class CableBlockEntity extends BlockEntity {
      */
     public void setLastTransferredEu(long lastTransferredEu) {
         this.lastTransferredEu = lastTransferredEu;
-        if (lastTransferredEu > 0) {
-            this.energyInWindow += (double) lastTransferredEu;
-        }
         markDirty();
     }
 
@@ -109,6 +106,11 @@ public class CableBlockEntity extends BlockEntity {
         if (kind != CableKind.DETECTOR) {
             return;
         }
+
+        // Accumulate energy-in from the previous tick's NodeStats snapshot.
+        // (END_WORLD_TICK snapshot avoids ordering issues.)
+        var stats = com.shipovskijkorp.industriallegacy.energy.grid.EnergyNetLocal.get(world).getNodeStats(pos);
+        if (stats.energyIn() > 0.0) be.energyInWindow += stats.energyIn();
 
         if (++be.ticker % 32 != 0) {
             return;
