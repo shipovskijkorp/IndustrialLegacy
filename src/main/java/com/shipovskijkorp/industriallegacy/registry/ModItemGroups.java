@@ -54,6 +54,23 @@ public final class ModItemGroups {
                         entries.add(ModItems.LEAD_INGOT);
 
 
+                        // Materials
+                        entries.add(ModItems.IRIDIUM);
+                        entries.add(ModItems.MIXED_METAL_INGOT);
+                        entries.add(ModItems.ADVANCED_ALLOY);
+
+                        // Plates
+                        entries.add(ModItems.BRONZE_PLATE);
+                        entries.add(ModItems.COPPER_PLATE);
+                        entries.add(ModItems.GOLD_PLATE);
+                        entries.add(ModItems.IRON_PLATE);
+                        entries.add(ModItems.LAPIS_PLATE);
+                        entries.add(ModItems.LEAD_PLATE);
+                        entries.add(ModItems.OBSIDIAN_PLATE);
+                        entries.add(ModItems.STEEL_PLATE);
+                        entries.add(ModItems.TIN_PLATE);
+                        entries.add(ModItems.IRIDIUM_PLATE);
+
                         // Dense plates
                         entries.add(ModItems.DENSE_BRONZE_PLATE);
                         entries.add(ModItems.DENSE_COPPER_PLATE);
@@ -65,8 +82,18 @@ public final class ModItemGroups {
                         entries.add(ModItems.DENSE_STEEL_PLATE);
                         entries.add(ModItems.DENSE_TIN_PLATE);
 
+                        // Casings
+                        entries.add(ModItems.BRONZE_CASING);
+                        entries.add(ModItems.COPPER_CASING);
+                        entries.add(ModItems.GOLD_CASING);
+                        entries.add(ModItems.IRON_CASING);
+                        entries.add(ModItems.LEAD_CASING);
+                        entries.add(ModItems.STEEL_CASING);
+                        entries.add(ModItems.TIN_CASING);
+
+
                         entries.add(ModItems.DEBUG_WRENCH);
-})
+                    })
                     .build()
     );
 

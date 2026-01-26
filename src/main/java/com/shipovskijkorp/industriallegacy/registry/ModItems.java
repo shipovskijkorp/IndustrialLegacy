@@ -14,9 +14,7 @@ import com.shipovskijkorp.industriallegacy.item.TreetapItem;
 public final class ModItems {
     private ModItems() {}
 
-    /**
-     * IC2-style cable item (NBT variants).
-     */
+
     public static final Item CABLE = register("cable", new CableItem(new FabricItemSettings()));
 
     public static final Item DEBUG_WRENCH = register("debug_wrench", new DebugWrenchItem(new FabricItemSettings().maxCount(1)));
@@ -42,20 +40,36 @@ public final class ModItems {
     public static final Item TREETAP = register("treetap",
             new TreetapItem(new FabricItemSettings().maxDamage(64)));
 
-    /**
-     * IC2 early-game tools.
-     *
-     * Note: crafting-reagent behavior (remaining item + durability loss per craft)
-     * will be implemented later. For now we expose the tools and give them the
-     * correct durability limits from IC2:
-     *  - Forge Hammer: 80
-     *  - Cutter: 60
-     */
+
     public static final Item FORGE_HAMMER = register("forge_hammer",
             new Item(new FabricItemSettings().maxCount(1).maxDamage(80)));
 
     public static final Item CUTTER = register("cutter",
             new Item(new FabricItemSettings().maxCount(1).maxDamage(60)));
+
+
+    // --- Materials (IC2 resources; split into separate IDs in IL) ---
+
+    public static final Item IRIDIUM =
+            register("iridium", new Item(new Item.Settings()));
+
+    public static final Item MIXED_METAL_INGOT =
+            register("mixed_metal_ingot", new Item(new Item.Settings()));
+
+    public static final Item ADVANCED_ALLOY =
+            register("advanced_alloy", new Item(new Item.Settings()));
+
+    // Plates (normal)
+    public static final Item BRONZE_PLATE = register("bronze_plate", new Item(new Item.Settings()));
+    public static final Item COPPER_PLATE = register("copper_plate", new Item(new Item.Settings()));
+    public static final Item GOLD_PLATE = register("gold_plate", new Item(new Item.Settings()));
+    public static final Item IRON_PLATE = register("iron_plate", new Item(new Item.Settings()));
+    public static final Item LAPIS_PLATE = register("lapis_plate", new Item(new Item.Settings()));
+    public static final Item LEAD_PLATE = register("lead_plate", new Item(new Item.Settings()));
+    public static final Item OBSIDIAN_PLATE = register("obsidian_plate", new Item(new Item.Settings()));
+    public static final Item STEEL_PLATE = register("steel_plate", new Item(new Item.Settings()));
+    public static final Item TIN_PLATE = register("tin_plate", new Item(new Item.Settings()));
+    public static final Item IRIDIUM_PLATE = register("iridium_plate", new Item(new Item.Settings()));
 
     // Dense plates (IC2: plate#dense_*)
     public static final Item DENSE_BRONZE_PLATE = register("dense_bronze_plate", new Item(new Item.Settings()));
@@ -68,7 +82,14 @@ public final class ModItems {
     public static final Item DENSE_STEEL_PLATE = register("dense_steel_plate", new Item(new Item.Settings()));
     public static final Item DENSE_TIN_PLATE = register("dense_tin_plate", new Item(new Item.Settings()));
 
-
+    // Casings (IC2: casing#*)
+    public static final Item BRONZE_CASING = register("bronze_casing", new Item(new Item.Settings()));
+    public static final Item COPPER_CASING = register("copper_casing", new Item(new Item.Settings()));
+    public static final Item GOLD_CASING = register("gold_casing", new Item(new Item.Settings()));
+    public static final Item IRON_CASING = register("iron_casing", new Item(new Item.Settings()));
+    public static final Item LEAD_CASING = register("lead_casing", new Item(new Item.Settings()));
+    public static final Item STEEL_CASING = register("steel_casing", new Item(new Item.Settings()));
+    public static final Item TIN_CASING = register("tin_casing", new Item(new Item.Settings()));
 
 
     private static Item register(String path, Item item) {
