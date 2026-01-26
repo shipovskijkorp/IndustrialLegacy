@@ -2,7 +2,7 @@ package com.shipovskijkorp.industriallegacy.energy.net;
 
 import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
 import com.shipovskijkorp.industriallegacy.energy.calc.EuEnergyCalculator;
-import com.shipovskijkorp.industriallegacy.energy.path.PathCache;
+import com.shipovskijkorp.industriallegacy.energy.grid.EnergyNetLocal;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -19,10 +19,10 @@ public final class EuNetwork {
     }
 
     public static void invalidate(World world) {
-        PathCache.invalidate(world);
+        EnergyNetLocal.invalidate(world);
     }
 
     public static void invalidate(World world, BlockPos pos) {
-        PathCache.invalidate(world, pos);
+        EnergyNetLocal.invalidate(world, pos);
     }
 }

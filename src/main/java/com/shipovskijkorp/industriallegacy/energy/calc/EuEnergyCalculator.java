@@ -4,8 +4,8 @@ import com.shipovskijkorp.industriallegacy.block.CableBlock;
 import com.shipovskijkorp.industriallegacy.config.ILConfig;
 import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
 import com.shipovskijkorp.industriallegacy.energy.event.EuTransferRecorder;
+import com.shipovskijkorp.industriallegacy.energy.grid.EnergyNetLocal;
 import com.shipovskijkorp.industriallegacy.energy.path.EnergyPath;
-import com.shipovskijkorp.industriallegacy.energy.path.PathCache;
 import com.shipovskijkorp.industriallegacy.energy.util.EuUtil;
 import com.shipovskijkorp.industriallegacy.registry.ModBlocks;
 import net.minecraft.block.BlockState;
@@ -60,7 +60,7 @@ public final class EuEnergyCalculator {
         long offered = source.isFullEnergyOutput() ? maxPacket : Math.min(canExtract, maxPacket);
         if (offered <= 0) return 0;
 
-        List<EnergyPath> paths = PathCache.getOrCompute(world, sourcePos, firstPos);
+        List<EnergyPath> paths = EnergyNetLocal.get(world).getOrComputePaths(sourcePos, firstPos);
         if (paths.isEmpty()) return 0;
 
         // IC2-like fairness: 3/4 ticks random path offset, else 0.
