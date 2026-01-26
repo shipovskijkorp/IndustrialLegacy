@@ -1,6 +1,7 @@
 package com.shipovskijkorp.industriallegacy;
 
 import com.shipovskijkorp.industriallegacy.registry.ModItemGroups;
+import com.shipovskijkorp.industriallegacy.registry.ModBlocks;
 import com.shipovskijkorp.industriallegacy.registry.ModItems;
 import com.shipovskijkorp.industriallegacy.registry.ModScreenHandlers;
 import com.shipovskijkorp.industriallegacy.net.ModPackets;
@@ -18,6 +19,10 @@ public class IndustrialLegacy implements ModInitializer {
     //lol
     @Override
     public void onInitialize() {
+        // Force-load and register all blocks early.
+        // This prevents accidental registry lookups returning minecraft:air during other bootstrap stages.
+        ModBlocks.register();
+
         ModItems.register();
         ModItemGroups.register();
         ModWorldGen.register();
