@@ -105,6 +105,7 @@ final class EnergyGridPathFinder {
     private static LongArrayList reconstruct(long start, long end, Long2LongOpenHashMap prev) {
         LongArrayList out = new LongArrayList();
         long cur = end;
+
         while (true) {
             out.add(cur);
             if (cur == start) break;
@@ -112,9 +113,17 @@ final class EnergyGridPathFinder {
             if (p == Long.MIN_VALUE) break;
             cur = p;
         }
-        out.reverse();
+
+        // manual reverse (fastutil-safe)
+        for (int i = 0, j = out.size() - 1; i < j; i++, j--) {
+            long tmp = out.getLong(i);
+            out.set(i, out.getLong(j));
+            out.set(j, tmp);
+        }
+
         return out;
     }
+
 
     private static long minCapacityAlong(EnergyGrid grid, LongArrayList cableKeys) {
         long min = Long.MAX_VALUE;
