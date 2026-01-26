@@ -1,13 +1,12 @@
 package com.shipovskijkorp.industriallegacy.block;
 
 import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
+import net.minecraft.block.sapling.SaplingGenerator;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.SaplingGenerator;
-
-import java.util.Optional;
 
 /**
  * Rubber sapling growth -> IC2-style rubber tree.
@@ -17,7 +16,7 @@ public class RubberSaplingGenerator extends SaplingGenerator {
             RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE, new Identifier(IndustrialLegacy.MOD_ID, "rubber_tree"));
 
     @Override
-    protected Optional<RegistryKey<ConfiguredFeature<?, ?>>> getTreeFeature(net.minecraft.util.math.random.Random random, boolean bees) {
-        return Optional.of(RUBBER_TREE);
+    protected RegistryKey<ConfiguredFeature<?, ?>> getTreeFeature(Random random, boolean bees) {
+        return RUBBER_TREE;
     }
 }

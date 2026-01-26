@@ -3,9 +3,6 @@ package com.shipovskijkorp.industriallegacy.block;
 import com.shipovskijkorp.industriallegacy.registry.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.piston.PistonBehavior;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.server.world.ServerWorld;
@@ -15,9 +12,6 @@ import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.world.World;
-
-import java.util.Random;
 
 /**
  * Rubber wood log with IC2 resin hole states + regeneration.
@@ -75,16 +69,6 @@ public class RubberWoodBlock extends Block {
             if (!s.canRegenerate()) return;
             world.setBlockState(pos, state.with(STATE, s.getWet()), Block.NOTIFY_ALL);
         }
-    }
-
-    @Override
-    public PistonBehavior getPistonBehavior(BlockState state) {
-        RubberWoodState s = state.get(STATE);
-        // IC2: plain_* movable, resin states immovable
-        if (s == RubberWoodState.plain_x || s == RubberWoodState.plain_y || s == RubberWoodState.plain_z) {
-            return PistonBehavior.NORMAL;
-        }
-        return PistonBehavior.BLOCK;
     }
 
     @Override
