@@ -57,29 +57,18 @@ public final class ModItems {
     public static final Item CUTTER = register("cutter",
             new Item(new FabricItemSettings().maxCount(1).maxDamage(60)));
 
+    // Dense plates (IC2: plate#dense_*)
+    public static final Item DENSE_BRONZE_PLATE = register("dense_bronze_plate", new Item(new Item.Settings()));
+    public static final Item DENSE_COPPER_PLATE = register("dense_copper_plate", new Item(new Item.Settings()));
+    public static final Item DENSE_GOLD_PLATE = register("dense_gold_plate", new Item(new Item.Settings()));
+    public static final Item DENSE_IRON_PLATE = register("dense_iron_plate", new Item(new Item.Settings()));
+    public static final Item DENSE_LAPIS_PLATE = register("dense_lapis_plate", new Item(new Item.Settings()));
+    public static final Item DENSE_LEAD_PLATE = register("dense_lead_plate", new Item(new Item.Settings()));
+    public static final Item DENSE_OBSIDIAN_PLATE = register("dense_obsidian_plate", new Item(new Item.Settings()));
+    public static final Item DENSE_STEEL_PLATE = register("dense_steel_plate", new Item(new Item.Settings()));
+    public static final Item DENSE_TIN_PLATE = register("dense_tin_plate", new Item(new Item.Settings()));
 
-    // --- Materials (IC2 resources; split into separate IDs in IL) ---
 
-    public static final Item IRIDIUM =
-            register("iridium", new Item(new Item.Settings()));
-
-    public static final Item MIXED_METAL_INGOT =
-            register("mixed_metal_ingot", new Item(new Item.Settings()));
-
-    public static final Item ADVANCED_ALLOY =
-            register("advanced_alloy", new Item(new Item.Settings()));
-
-    // Plates (normal)
-    public static final Item BRONZE_PLATE = register("bronze_plate", new Item(new Item.Settings()));
-    public static final Item COPPER_PLATE = register("copper_plate", new Item(new Item.Settings()));
-    public static final Item GOLD_PLATE = register("gold_plate", new Item(new Item.Settings()));
-    public static final Item IRON_PLATE = register("iron_plate", new Item(new Item.Settings()));
-    public static final Item LAPIS_PLATE = register("lapis_plate", new Item(new Item.Settings()));
-    public static final Item LEAD_PLATE = register("lead_plate", new Item(new Item.Settings()));
-    public static final Item OBSIDIAN_PLATE = register("obsidian_plate", new Item(new Item.Settings()));
-    public static final Item STEEL_PLATE = register("steel_plate", new Item(new Item.Settings()));
-    public static final Item TIN_PLATE = register("tin_plate", new Item(new Item.Settings()));
-    public static final Item IRIDIUM_PLATE = register("iridium_plate", new Item(new Item.Settings()));
 
 
     private static Item register(String path, Item item) {
