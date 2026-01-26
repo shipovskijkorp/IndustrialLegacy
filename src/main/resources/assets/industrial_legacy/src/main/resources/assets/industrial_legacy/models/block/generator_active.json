@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "industrial_legacy:block/generator/electric/generator_leftrightback",
+    "down": "industrial_legacy:block/generator/electric/generator_bottom",
+    "up": "industrial_legacy:block/generator/electric/generator_top",
+    "north": "industrial_legacy:block/generator/electric/generator_front_active",
+    "east": "industrial_legacy:block/generator/electric/generator_leftrightback",
+    "south": "industrial_legacy:block/generator/electric/generator_leftrightback",
+    "west": "industrial_legacy:block/generator/electric/generator_leftrightback"
+  }
+}

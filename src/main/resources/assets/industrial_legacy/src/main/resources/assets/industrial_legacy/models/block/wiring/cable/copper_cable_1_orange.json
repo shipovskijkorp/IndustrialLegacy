@@ -1,0 +1,6 @@
+{
+	"parent": "block/cube_all",
+	"textures": {
+		"all": "industrial_legacy:block/wiring/cable/copper_cable_1_orange"
+	}
+}

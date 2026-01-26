@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "industrial_legacy",
+  "version": "${version}",
+  "name": "Industrial Legacy",
+  "description": "Unofficial classic-style EU tech mod (Fabric 1.20.1).",
+  "authors": [
+    "ShipovskijKorp"
+  ],
+  "contact": {
+    "sources": ""
+  },
+  "license": "MIT",
+  "icon": "assets/industrial_legacy/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.shipovskijkorp.industriallegacy.IndustrialLegacy"
+    ],
+    "client": [
+      "com.shipovskijkorp.industriallegacy.client.IndustrialLegacyClient",
+      "com.shipovskijkorp.industriallegacy.client.IndustrialLegacyGuiClient"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.18.4",
+    "minecraft": "~1.20.1",
+    "java": ">=17",
+    "fabric-api": "*"
+  }
+}

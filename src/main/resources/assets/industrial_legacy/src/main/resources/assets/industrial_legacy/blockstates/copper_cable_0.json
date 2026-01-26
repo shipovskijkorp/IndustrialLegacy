@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "industrial_legacy:block/wiring/cable/copper_cable_0"
+    }
+  }
+}

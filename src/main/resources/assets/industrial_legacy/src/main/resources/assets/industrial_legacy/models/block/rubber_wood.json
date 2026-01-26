@@ -1,0 +1,7 @@
+{
+	"parent": "block/cube_column",
+	"textures": {
+		"side": "industrial_legacy:block/rubber_wood_sides",
+		"end": "industrial_legacy:block/rubber_wood_bottomtop"
+	}
+}
