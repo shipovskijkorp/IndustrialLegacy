@@ -11,6 +11,8 @@ import java.util.Random;
 
 /**
  * Single rubber tree generation feature (used by sapling growth).
+ *
+ * Config is empty (DefaultFeatureConfig) by design: IC2 has fixed rules.
  */
 public class RubberTreeFeature extends Feature<DefaultFeatureConfig> {
     public RubberTreeFeature(Codec<DefaultFeatureConfig> configCodec) {
@@ -22,7 +24,7 @@ public class RubberTreeFeature extends Feature<DefaultFeatureConfig> {
         StructureWorldAccess world = context.getWorld();
         BlockPos origin = context.getOrigin();
 
-        // Use deterministic random derived from context random.
+        // Use deterministic java.util.Random derived from MC random.
         Random rnd = new Random(context.getRandom().nextLong());
         return RubberTreeGenerator.grow(world, origin, rnd);
     }

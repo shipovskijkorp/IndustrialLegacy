@@ -10,7 +10,13 @@ import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 
 /**
- * Custom feature type registrations.
+ * Custom worldgen Feature<?> registrations.
+ *
+ * These IDs are referenced by datapack JSON:
+ * - data/industrial_legacy/worldgen/configured_feature/rubber_tree.json
+ * - data/industrial_legacy/worldgen/configured_feature/rubber_tree_patch.json
+ *
+ * If they're not registered at runtime, Minecraft will crash during registry loading.
  */
 public final class ModFeatures {
     private ModFeatures() {}
@@ -24,6 +30,6 @@ public final class ModFeatures {
                     new RubberTreePatchFeature(DefaultFeatureConfig.CODEC));
 
     public static void register() {
-        // classload triggers static init
+        // Trigger static init
     }
 }

@@ -58,6 +58,30 @@ public final class ModItems {
             new Item(new FabricItemSettings().maxCount(1).maxDamage(60)));
 
 
+    // --- Materials (IC2 resources; split into separate IDs in IL) ---
+
+    public static final Item IRIDIUM =
+            register("iridium", new Item(new Item.Settings()));
+
+    public static final Item MIXED_METAL_INGOT =
+            register("mixed_metal_ingot", new Item(new Item.Settings()));
+
+    public static final Item ADVANCED_ALLOY =
+            register("advanced_alloy", new Item(new Item.Settings()));
+
+    // Plates (normal)
+    public static final Item BRONZE_PLATE = register("bronze_plate", new Item(new Item.Settings()));
+    public static final Item COPPER_PLATE = register("copper_plate", new Item(new Item.Settings()));
+    public static final Item GOLD_PLATE = register("gold_plate", new Item(new Item.Settings()));
+    public static final Item IRON_PLATE = register("iron_plate", new Item(new Item.Settings()));
+    public static final Item LAPIS_PLATE = register("lapis_plate", new Item(new Item.Settings()));
+    public static final Item LEAD_PLATE = register("lead_plate", new Item(new Item.Settings()));
+    public static final Item OBSIDIAN_PLATE = register("obsidian_plate", new Item(new Item.Settings()));
+    public static final Item STEEL_PLATE = register("steel_plate", new Item(new Item.Settings()));
+    public static final Item TIN_PLATE = register("tin_plate", new Item(new Item.Settings()));
+    public static final Item IRIDIUM_PLATE = register("iridium_plate", new Item(new Item.Settings()));
+
+
     private static Item register(String path, Item item) {
         return Registry.register(Registries.ITEM, new Identifier(IndustrialLegacy.MOD_ID, path), item);
     }

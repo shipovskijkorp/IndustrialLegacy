@@ -1,1 +1,3 @@
-{ "parent": "industrial_legacy:block/rubber_leaves" }
+{
+  "parent": "industrial_legacy:block/rubber_leaves"
+}

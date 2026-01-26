@@ -1,6 +1,6 @@
 {
-  "parent": "block/cube_all",
+  "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "minecraft:block/birch_leaves"
+    "all": "industrial_legacy:block/resource/rubber_leaves"
   }
 }

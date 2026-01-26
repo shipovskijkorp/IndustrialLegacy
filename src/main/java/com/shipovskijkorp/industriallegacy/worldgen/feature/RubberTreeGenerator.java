@@ -1,7 +1,6 @@
 package com.shipovskijkorp.industriallegacy.worldgen.feature;
 
-import com.shipovskijkorp.industriallegacy.block.RubberWoodBlock;
-import com.shipovskijkorp.industriallegacy.block.RubberWoodState;
+import com.shipovskijkorp.industriallegacy.block.RubberLogBlock;
 import com.shipovskijkorp.industriallegacy.registry.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -11,17 +10,19 @@ import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.world.Heightmap;
-import net.minecraft.world.gen.feature.util.FeatureContext;
-import net.minecraft.world.World;
 import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.biome.Biome;
 
 import java.util.Random;
 
 /**
- * IC2 rubber tree generation (WorldGenRubTree + Ic2WorldDecorator.genRubberTree).
+ * IC2-style rubber tree worldgen (WorldGenRubTree + Ic2WorldDecorator.genRubberTree).
+ *
+ * Notes:
+ * - Config is intentionally empty (rules are fixed like IC2).
+ * - Resin mechanics here only mark a boolean on the log (RubberLogBlock.RESIN).
+ *   The full IC2 "wet side" directional holes are handled at the block/state level.
  */
 public final class RubberTreeGenerator {
     private RubberTreeGenerator() {}
@@ -52,7 +53,8 @@ public final class RubberTreeGenerator {
         height -= random.nextInt(height / 2 + 1);
 
         BlockState leaves = ModBlocks.RUBBER_LEAVES.getDefaultState();
-        BlockState woodPlain = ModBlocks.RUBBER_WOOD.getDefaultState().with(RubberWoodBlock.STATE, RubberWoodState.plain_y);
+        BlockState logPlain = ModBlocks.RUBBER_LOG.getDefaultState().with(RubberLogBlock.RESIN, false);
+        BlockState logResin = ModBlocks.RUBBER_LOG.getDefaultState().with(RubberLogBlock.RESIN, true);
 
         int treeHoleChance = 25;
 
@@ -61,16 +63,12 @@ public final class RubberTreeGenerator {
         for (int cHeight = 0; cHeight < height; cHeight++) {
             BlockPos cPos = pos.up(cHeight);
 
-            // Trunk block (with possible wet resin hole)
+            // Trunk block (with possible resin)
             if (random.nextInt(100) <= treeHoleChance) {
                 treeHoleChance -= 10;
-                Direction[] horiz = new Direction[]{Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST};
-                Direction facing = horiz[random.nextInt(horiz.length)];
-                BlockState woodWet = ModBlocks.RUBBER_WOOD.getDefaultState()
-                        .with(RubberWoodBlock.STATE, RubberWoodState.getWet(facing));
-                world.setBlockState(cPos, woodWet, Block.NOTIFY_ALL);
+                world.setBlockState(cPos, logResin, Block.NOTIFY_ALL);
             } else {
-                world.setBlockState(cPos, woodPlain, Block.NOTIFY_ALL);
+                world.setBlockState(cPos, logPlain, Block.NOTIFY_ALL);
             }
 
             // Leaves layers
@@ -111,7 +109,7 @@ public final class RubberTreeGenerator {
         BlockPos below = pos.down();
         BlockState base = world.getBlockState(below);
 
-        // Keep it close to "can sustain sapling": dirt-like blocks.
+        // Close to vanilla "can sustain sapling": dirt-like blocks.
         if (!base.isIn(net.minecraft.registry.tag.BlockTags.DIRT)) {
             return 0;
         }
@@ -137,11 +135,12 @@ public final class RubberTreeGenerator {
      *
      * @param baseScale default 1.0
      */
+    @SuppressWarnings("unchecked")
     public static void genRubberTreeChunk(StructureWorldAccess world, ChunkPos chunk, long rubberTreeSeed, float baseScale) {
         Random rnd = new Random();
         rnd.setSeed(rubberTreeSeed);
 
-        // sample 4 biomes in chunk (8/23 offset)
+        // Sample 4 biomes in chunk (8/23 offset)
         RegistryEntry<Biome>[] biomes = new RegistryEntry[4];
         for (int i = 0; i < 4; i++) {
             int x = chunk.getStartX() + 8 + (i & 0x1) * 15;

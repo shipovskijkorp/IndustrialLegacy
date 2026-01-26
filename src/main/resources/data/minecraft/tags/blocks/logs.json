@@ -1,6 +1,10 @@
 {
   "replace": false,
   "values": [
-    "industrial_legacy:rubber_wood"
+    "industrial_legacy:rubber_log",
+    {
+      "id": "industrial_legacy:rubber_wood",
+      "required": false
+    }
   ]
 }

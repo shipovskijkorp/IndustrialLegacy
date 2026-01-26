@@ -13,7 +13,7 @@ import java.util.Random;
 /**
  * Chunk-based rubber tree decorator (IC2 Ic2WorldDecorator.genRubberTree).
  *
- * This feature is intended to be injected into all overworld biomes once per chunk.
+ * This feature is injected into overworld biomes via placed_feature rubber_tree_patch.
  */
 public class RubberTreePatchFeature extends Feature<DefaultFeatureConfig> {
     public RubberTreePatchFeature(Codec<DefaultFeatureConfig> configCodec) {
@@ -35,9 +35,10 @@ public class RubberTreePatchFeature extends Feature<DefaultFeatureConfig> {
 
         long chunkSeed = (xSeed * (long) chunk.x + zSeed * (long) chunk.z) ^ worldSeed;
         Random rnd = new Random(chunkSeed);
-        long rubberTreeSeed = rnd.nextLong();
 
+        long rubberTreeSeed = rnd.nextLong();
         RubberTreeGenerator.genRubberTreeChunk(world, chunk, rubberTreeSeed, 1.0f);
+
         return true;
     }
 }

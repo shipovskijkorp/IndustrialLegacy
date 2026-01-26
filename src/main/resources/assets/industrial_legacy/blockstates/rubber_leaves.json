@@ -1,5 +1,5 @@
 {
-  "multipart": [
-    { "apply": { "model": "industrial_legacy:block/rubber_leaves" } }
-  ]
+  "variants": {
+    "": { "model": "industrial_legacy:block/rubber_leaves" }
+  }
 }

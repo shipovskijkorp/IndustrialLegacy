@@ -1,6 +1,9 @@
 {
-  "variants": {
-    "stage=0": { "model": "industrial_legacy:block/rubber_sapling" },
-    "stage=1": { "model": "industrial_legacy:block/rubber_sapling" }
-  }
+  "multipart": [
+    {
+      "apply": {
+        "model": "industrial_legacy:block/rubber_sapling"
+      }
+    }
+  ]
 }

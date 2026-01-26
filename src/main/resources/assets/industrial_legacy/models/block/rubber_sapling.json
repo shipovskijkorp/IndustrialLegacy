@@ -1,11 +1,15 @@
 {
-	"parent": "block/cross",
-	"textures": {
-		"cross": "industrial_legacy:block/rubber_sapling"
-	},
-	"display": {
-		"gui": {
-			"scale": [1, 1.5, 1]
-		}
-	}
+  "parent": "block/cross",
+  "textures": {
+    "cross": "industrial_legacy:block/rubber_sapling"
+  },
+  "display": {
+    "gui": {
+      "scale": [
+        0.5,
+        0.75,
+        0.5
+      ]
+    }
+  }
 }
