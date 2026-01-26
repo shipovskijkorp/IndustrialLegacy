@@ -124,6 +124,15 @@ public final class ModBlocks {
 
     public static final Block RUBBER_LOG = register("rubber_log",
             new RubberLogBlock(FabricBlockSettings.copyOf(Blocks.OAK_LOG)));
+
+    /**
+     * Compatibility alias for code paths that already use the IC2-style name.
+     *
+     * <p>Until the project fully migrates the registry id from {@code rubber_log}
+     * to {@code rubber_wood}, keep this alias to avoid breaking compilation.
+     * It refers to the same registered block instance.</p>
+     */
+    public static final Block RUBBER_WOOD = RUBBER_LOG;
     public static final Block RUBBER_LEAVES = register("rubber_leaves",
             new LeavesBlock(FabricBlockSettings.copyOf(Blocks.OAK_LEAVES)));
     public static final Block RUBBER_SAPLING = register("rubber_sapling",
