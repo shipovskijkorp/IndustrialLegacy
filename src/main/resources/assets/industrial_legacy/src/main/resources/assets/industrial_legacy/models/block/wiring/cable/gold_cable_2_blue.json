@@ -1,6 +1,0 @@
-{
-	"parent": "block/cube_all",
-	"textures": {
-		"all": "industrial_legacy:block/wiring/cable/gold_cable_2_blue"
-	}
-}

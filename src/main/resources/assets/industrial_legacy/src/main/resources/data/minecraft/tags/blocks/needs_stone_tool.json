@@ -1,8 +1,0 @@
-{
-  "replace": false,
-  "values": [
-    "industrial_legacy:lead_ore",
-    "industrial_legacy:tin_ore",
-    "industrial_legacy:uranium_ore"
-  ]
-}

@@ -1,6 +1,0 @@
-{
-  "parent": "item/handheld",
-  "textures": {
-    "layer0": "industrial_legacy:item/tool/cutter"
-  }
-}
