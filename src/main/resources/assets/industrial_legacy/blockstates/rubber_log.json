@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "axis=y,resin=false": {
+      "model": "industrial_legacy:block/rubber_wood"
+    },
+    "axis=x,resin=false": {
+      "model": "industrial_legacy:block/rubber_wood",
+      "x": 90,
+      "y": 90
+    },
+    "axis=z,resin=false": {
+      "model": "industrial_legacy:block/rubber_wood",
+      "x": 90
+    },
+    "axis=y,resin=true": {
+      "model": "industrial_legacy:block/rubber_wood_wet"
+    },
+    "axis=x,resin=true": {
+      "model": "industrial_legacy:block/rubber_wood_wet",
+      "x": 90,
+      "y": 90
+    },
+    "axis=z,resin=true": {
+      "model": "industrial_legacy:block/rubber_wood_wet",
+      "x": 90
+    }
+  }
+}
