@@ -30,6 +30,8 @@ public final class ModItems {
 
     public static final Item SULFUR =
             register("sulfur", new Item(new Item.Settings()));
+    public static final Item BRONZE_INGOT =
+            register("bronze_ingot", new Item(new Item.Settings()));
 
     public static final Item STICKY_RESIN = register("sticky_resin",
             new Item(new FabricItemSettings()));
@@ -42,7 +44,7 @@ public final class ModItems {
 
 
     public static final Item FORGE_HAMMER = register("forge_hammer",
-            new Item(new FabricItemSettings().maxCount(1).maxDamage(80)));
+            new Item(new FabricItemSettings().maxCount(1).maxDamage(79)));
 
     public static final Item CUTTER = register("cutter",
             new Item(new FabricItemSettings().maxCount(1).maxDamage(60)));

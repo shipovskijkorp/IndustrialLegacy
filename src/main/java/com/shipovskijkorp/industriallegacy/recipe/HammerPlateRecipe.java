@@ -86,13 +86,12 @@ public final class HammerPlateRecipe extends SpecialCraftingRecipe {
                 ItemStack copy = stack.copy();
                 if (copy.isDamageable()) {
                     copy.setDamage(copy.getDamage() + 1);
+                    // maxDamage=79 => valid damage range is 0..79 (80 uses). Break on 80th use.
                     if (copy.getDamage() > copy.getMaxDamage()) {
-                        // Tool broke.
                         copy = ItemStack.EMPTY;
                     }
                 }
                 remainder.set(i, copy);
-                // Only one tool stack is allowed.
                 break;
             }
         }
@@ -115,8 +114,13 @@ public final class HammerPlateRecipe extends SpecialCraftingRecipe {
         return ModRecipes.HAMMER_PLATE_SERIALIZER;
     }
 
+    /**
+     * IMPORTANT:
+     * Crafting tables only search RecipeType.CRAFTING.
+     * If we return a custom RecipeType, the recipe will never match in a crafting grid.
+     */
     @Override
     public RecipeType<?> getType() {
-        return ModRecipes.HAMMER_PLATE_TYPE;
+        return RecipeType.CRAFTING;
     }
 }

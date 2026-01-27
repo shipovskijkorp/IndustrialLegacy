@@ -52,6 +52,7 @@ public final class ModItemGroups {
                         entries.add(ModItems.SILVER_INGOT);
                         entries.add(ModItems.TIN_INGOT);
                         entries.add(ModItems.LEAD_INGOT);
+                        entries.add(ModItems.BRONZE_INGOT);
 
 
                         // Materials
