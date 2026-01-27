@@ -2,6 +2,7 @@ package com.shipovskijkorp.industriallegacy;
 
 import com.shipovskijkorp.industriallegacy.registry.ModItemGroups;
 import com.shipovskijkorp.industriallegacy.registry.ModItems;
+import com.shipovskijkorp.industriallegacy.registry.ModRecipes;
 import com.shipovskijkorp.industriallegacy.registry.ModScreenHandlers;
 import com.shipovskijkorp.industriallegacy.net.ModPackets;
 import com.shipovskijkorp.industriallegacy.worldgen.ModWorldGen;
@@ -23,6 +24,7 @@ public class IndustrialLegacy implements ModInitializer {
         ModItems.register();
         ModItemGroups.register();
         ModWorldGen.register();
+        ModRecipes.register();
 
         // GUI (Generator/BatBox) — Step 1: register ScreenHandler types (scaffold; wired fully in later steps).
         ModScreenHandlers.register();
