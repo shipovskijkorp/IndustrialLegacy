@@ -86,7 +86,7 @@ public final class HammerPlateRecipe extends SpecialCraftingRecipe {
                 ItemStack copy = stack.copy();
                 if (copy.isDamageable()) {
                     copy.setDamage(copy.getDamage() + 1);
-                    if (copy.getDamage() >= copy.getMaxDamage()) {
+                    if (copy.getDamage() > copy.getMaxDamage()) {
                         // Tool broke.
                         copy = ItemStack.EMPTY;
                     }
