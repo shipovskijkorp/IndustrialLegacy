@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "industrial_legacy:cable",
+          "functions": [
+            {
+              "function": "minecraft:set_nbt",
+              "tag": "{kind:\"gold\",insulation:2,variant:6,CustomModelData:6}"
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ]
+    }
+  ]
+}
