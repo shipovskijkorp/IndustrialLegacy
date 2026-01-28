@@ -24,6 +24,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import com.shipovskijkorp.industriallegacy.energy.net.EuNetwork;
+import com.shipovskijkorp.industriallegacy.registry.ModBlocks;
+import com.shipovskijkorp.industriallegacy.energy.net.EuNetwork;
+import com.shipovskijkorp.industriallegacy.registry.ModBlocks;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
+
 
 /**
  * Basic EU Generator (coal/wood etc.).
@@ -40,6 +47,34 @@ public class GeneratorBlock extends BlockWithEntity {
                 .with(FACING, Direction.NORTH)
                 .with(LIT, false));
     }
+    private static void invalidateAdjacentCables(World world, BlockPos pos) {
+        if (world == null || world.isClient) return;
+
+        for (Direction d : Direction.values()) {
+            BlockPos p = pos.offset(d);
+            if (ModBlocks.isCable(world.getBlockState(p).getBlock())) {
+                // targeted: сбрасывает только grid рядом с машиной
+                EuNetwork.invalidate(world, p);
+            }
+        }
+    }
+
+    @Override
+    public void onPlaced(World world, BlockPos pos, BlockState state,
+                         @Nullable LivingEntity placer, ItemStack itemStack) {
+        super.onPlaced(world, pos, state, placer, itemStack);
+        invalidateAdjacentCables(world, pos);
+    }
+
+    @Override
+    public void onStateReplaced(BlockState state, World world, BlockPos pos,
+                                BlockState newState, boolean moved) {
+        super.onStateReplaced(state, world, pos, newState, moved);
+        if (!world.isClient && state.getBlock() != newState.getBlock()) {
+            invalidateAdjacentCables(world, pos);
+        }
+    }
+
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {

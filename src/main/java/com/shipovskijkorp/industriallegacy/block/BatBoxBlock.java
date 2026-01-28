@@ -10,7 +10,9 @@ import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
@@ -25,6 +27,9 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.entity.player.PlayerEntity;
+import com.shipovskijkorp.industriallegacy.energy.net.EuNetwork;
+import com.shipovskijkorp.industriallegacy.registry.ModBlocks;
+
 
 /**
  * Simple BatBox storage block.
@@ -40,6 +45,18 @@ public class BatBoxBlock extends BlockWithEntity implements BlockEntityProvider 
         super(settings);
         setDefaultState(getStateManager().getDefaultState().with(FACING, Direction.NORTH));
     }
+    private static void invalidateAdjacentCables(World world, BlockPos pos) {
+        if (world == null || world.isClient) return;
+
+        for (Direction d : Direction.values()) {
+            BlockPos p = pos.offset(d);
+            if (ModBlocks.isCable(world.getBlockState(p).getBlock())) {
+                // targeted: сбрасывает только grid рядом с машиной
+                EuNetwork.invalidate(world, p);
+            }
+        }
+    }
+
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
@@ -51,6 +68,22 @@ public class BatBoxBlock extends BlockWithEntity implements BlockEntityProvider 
         // IC2: when placed, the front/output face points towards the player.
         return getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
     }
+    @Override
+    public void onPlaced(World world, BlockPos pos, BlockState state,
+                         @Nullable LivingEntity placer, ItemStack itemStack) {
+        super.onPlaced(world, pos, state, placer, itemStack);
+        invalidateAdjacentCables(world, pos);
+    }
+
+    @Override
+    public void onStateReplaced(BlockState state, World world, BlockPos pos,
+                                BlockState newState, boolean moved) {
+        super.onStateReplaced(state, world, pos, newState, moved);
+        if (!world.isClient && state.getBlock() != newState.getBlock()) {
+            invalidateAdjacentCables(world, pos);
+        }
+    }
+
 
     @Override
     public BlockState rotate(BlockState state, BlockRotation rotation) {
