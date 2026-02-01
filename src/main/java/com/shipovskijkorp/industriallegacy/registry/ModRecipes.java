@@ -27,21 +27,6 @@ public final class ModRecipes {
             }
     );
 
-    public static final RecipeType<MaceratorRecipe> MACERATOR_TYPE = Registry.register(
-            Registries.RECIPE_TYPE,
-            new Identifier(IndustrialLegacy.MOD_ID, "macerator"),
-            new RecipeType<>() {
-                @Override public String toString() { return IndustrialLegacy.MOD_ID + ":macerator"; }
-            }
-    );
-
-    public static final RecipeSerializer<MaceratorRecipe> MACERATOR_SERIALIZER = Registry.register(
-            Registries.RECIPE_SERIALIZER,
-            new Identifier(IndustrialLegacy.MOD_ID, "macerator"),
-            new MaceratorRecipeSerializer()
-    );
-
-
     public static final RecipeSerializer<CutterCableRecipe> CUTTER_CABLE_SERIALIZER = Registry.register(
             Registries.RECIPE_SERIALIZER,
             new Identifier(IndustrialLegacy.MOD_ID, "cutter_cable"),
@@ -92,6 +77,23 @@ public final class ModRecipes {
             Registries.RECIPE_SERIALIZER,
             new Identifier(IndustrialLegacy.MOD_ID, "batbox"),
             new BatBoxRecipeSerializer()
+    );
+
+    public static final RecipeType<MaceratorRecipe> MACERATOR_TYPE = Registry.register(
+            Registries.RECIPE_TYPE,
+            new Identifier(IndustrialLegacy.MOD_ID, "macerator"),
+            new RecipeType<>() {
+                @Override
+                public String toString() {
+                    return IndustrialLegacy.MOD_ID + ":macerator";
+                }
+            }
+    );
+
+    public static final RecipeSerializer<MaceratorRecipe> MACERATOR_SERIALIZER = Registry.register(
+            Registries.RECIPE_SERIALIZER,
+            new Identifier(IndustrialLegacy.MOD_ID, "macerator"),
+            new MaceratorRecipeSerializer()
     );
 
     public static void register() {

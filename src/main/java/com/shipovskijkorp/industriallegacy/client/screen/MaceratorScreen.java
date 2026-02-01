@@ -19,9 +19,6 @@ public class MaceratorScreen extends HandledScreen<MaceratorScreenHandler> {
     private static final int SLOT_OUT_LARGE_X = 111;
     private static final int SLOT_OUT_LARGE_Y = 30;
 
-    private static final int SLOT_OUT_X = 115;
-    private static final int SLOT_OUT_Y = 34;
-
     private static final int UPGRADE_X = 151;
     private static final int UPGRADE_Y = 7;
 
@@ -30,6 +27,10 @@ public class MaceratorScreen extends HandledScreen<MaceratorScreenHandler> {
 
     private static final int PROGRESS_X = 80;
     private static final int PROGRESS_Y = 38;
+
+    // как ты попросил
+    private static final int PLAYER_INV_X = 6;
+    private static final int PLAYER_INV_Y = 82;
 
     public MaceratorScreen(MaceratorScreenHandler handler, PlayerInventory inv, Text title) {
         super(handler, inv, title);
@@ -40,47 +41,53 @@ public class MaceratorScreen extends HandledScreen<MaceratorScreenHandler> {
     @Override
     protected void init() {
         super.init();
-        // center title like IC2
         this.titleX = (this.backgroundWidth - this.textRenderer.getWidth(this.title)) / 2;
         this.playerInventoryTitleX = 8;
         this.playerInventoryTitleY = 72;
     }
 
+    /**
+     * ВАЖНО: если render() переопределён неправильно — пропадают стандартные tooltips предметов.
+     * Этот render() гарантированно возвращает их.
+     */
     @Override
     public void render(DrawContext ctx, int mouseX, int mouseY, float delta) {
+        this.renderBackground(ctx);
         super.render(ctx, mouseX, mouseY, delta);
-        this.drawMouseoverTooltip(ctx, mouseX, mouseY);
-
-        // energy tooltip on bolt icon
-        if (this.isPointWithinBounds(ENERGY_BOLT_X, ENERGY_BOLT_Y, 7, 13, mouseX, mouseY)) {
-            int e = handler.getEnergy();
-            int cap = handler.getEnergyCap();
-            ctx.drawTooltip(this.textRenderer, Text.literal(e + " / " + cap + " EU"), mouseX, mouseY);
-        }
+        this.drawMouseoverTooltip(ctx, mouseX, mouseY); // <- это и рисует подсказки предметов
     }
 
     @Override
     protected void drawBackground(DrawContext ctx, float delta, int mouseX, int mouseY) {
+        final int x = this.x;
+        final int y = this.y;
+
         IlGuiDraw.drawDefaultBackground(ctx, x, y, backgroundWidth, backgroundHeight);
+        IlGuiDraw.drawInfoButton(ctx, x + 4, y + 4);
 
-        // cosmetic info button (top-left)
-        IlGuiDraw.drawInfoButton(ctx, x + 5, y + 5);
+        // slot frames
+        IlGuiDraw.drawSlot(ctx, x + SLOT_IN_X, y + SLOT_IN_Y);
+        IlGuiDraw.drawSlot(ctx, x + SLOT_BAT_X, y + SLOT_BAT_Y);
 
-        // slots (frames)
-        IlGuiDraw.drawSlot(ctx, x + SLOT_IN_X, y + SLOT_IN_Y);     // input
-        IlGuiDraw.drawSlot(ctx, x + SLOT_BAT_X, y + SLOT_BAT_Y);   // battery/discharge
-
+        // output: ONLY large frame (small inner frame NOT drawn)
         IlGuiDraw.drawSlotLarge(ctx, x + SLOT_OUT_LARGE_X, y + SLOT_OUT_LARGE_Y);
-        IlGuiDraw.drawSlot(ctx, x + SLOT_OUT_X, y + SLOT_OUT_Y);   // output (actual slot frame)
 
-        // 4 upgrade slots on the right
+        // upgrades
         for (int i = 0; i < 4; i++) {
             IlGuiDraw.drawSlot(ctx, x + UPGRADE_X, y + UPGRADE_Y + i * 18);
         }
 
-        // player slots
-        int invX = x + 7;
-        int invY = y + 83;
+        // gauges
+        float eRatio = handler.getEnergyCap() <= 0 ? 0f : (handler.getEnergy() / (float) handler.getEnergyCap());
+        IlGuiDraw.drawEnergyBoltFramed(ctx, x + ENERGY_BOLT_X, y + ENERGY_BOLT_Y, eRatio);
+
+        float pRatio = handler.getMaxProgress() <= 0 ? 0f : (handler.getProgress() / (float) handler.getMaxProgress());
+        IlGuiDraw.drawProgressCrush(ctx, x + PROGRESS_X, y + PROGRESS_Y, pRatio);
+
+        // player slot frames
+        int invX = x + PLAYER_INV_X;
+        int invY = y + PLAYER_INV_Y;
+
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 9; col++) {
                 IlGuiDraw.drawSlot(ctx, invX + col * 18, invY + row * 18);
@@ -90,14 +97,22 @@ public class MaceratorScreen extends HandledScreen<MaceratorScreenHandler> {
         for (int col = 0; col < 9; col++) {
             IlGuiDraw.drawSlot(ctx, invX + col * 18, hotbarY);
         }
+    }
 
-        // energy bolt (no vertical bar in IC2 classic machines)
-        IlGuiDraw.drawEnergyBolt(ctx, x + ENERGY_BOLT_X, y + ENERGY_BOLT_Y, handler.getEnergy() > 0);
+    @Override
+    protected void drawMouseoverTooltip(DrawContext ctx, int mouseX, int mouseY) {
+        super.drawMouseoverTooltip(ctx, mouseX, mouseY); // <- это тултипы предметов!
 
-        // progress (crushing arrow + dust)
-        int p = handler.getProgress();
-        int pm = Math.max(1, handler.getMaxProgress());
-        float ratio = p / (float) pm;
-        IlGuiDraw.drawProgressCrush(ctx, x + PROGRESS_X, y + PROGRESS_Y, ratio);
+        // tooltip на молнии (устойчивый hitbox)
+        boolean hover =
+                this.isPointWithinBounds(ENERGY_BOLT_X, ENERGY_BOLT_Y, 16, 16, mouseX, mouseY) ||
+                        this.isPointWithinBounds(ENERGY_BOLT_X - 4, ENERGY_BOLT_Y - 1, 16, 16, mouseX, mouseY) ||
+                        this.isPointWithinBounds(ENERGY_BOLT_X, ENERGY_BOLT_Y, 7, 13, mouseX, mouseY);
+
+        if (hover) {
+            int e = handler.getEnergy();
+            int cap = handler.getEnergyCap();
+            ctx.drawTooltip(this.textRenderer, Text.literal(e + " / " + cap + " EU"), mouseX, mouseY);
+        }
     }
 }

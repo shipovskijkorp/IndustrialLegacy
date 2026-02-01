@@ -3,7 +3,7 @@ package com.shipovskijkorp.industriallegacy.client.render;
 import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
 import com.shipovskijkorp.industriallegacy.block.CableBlock;
 import com.shipovskijkorp.industriallegacy.block.entity.CableBlockEntity;
-import com.shipovskijkorp.industriallegacy.energy.IEuEnergyStorage;
+import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
 import com.shipovskijkorp.industriallegacy.item.CableKind;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

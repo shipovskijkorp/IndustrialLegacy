@@ -2,7 +2,7 @@ package com.shipovskijkorp.industriallegacy.block;
 
 import com.shipovskijkorp.industriallegacy.block.entity.CableBlockEntity;
 import com.shipovskijkorp.industriallegacy.energy.EuNetwork;
-import com.shipovskijkorp.industriallegacy.energy.IEuEnergyStorage;
+import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
 import com.shipovskijkorp.industriallegacy.item.CableKind;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
 import net.minecraft.block.Block;

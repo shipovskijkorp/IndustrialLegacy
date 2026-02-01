@@ -29,6 +29,20 @@ public final class ModItems {
     public static final Item LEAD_INGOT =
             register("lead_ingot", new Item(new Item.Settings()));
 
+    // --- Crushed ores (macerator output) ---
+    public static final Item CRUSHED_IRON_ORE =
+            register("crushed_iron_ore", new Item(new Item.Settings()));
+    public static final Item CRUSHED_GOLD_ORE =
+            register("crushed_gold_ore", new Item(new Item.Settings()));
+    public static final Item CRUSHED_COPPER_ORE =
+            register("crushed_copper_ore", new Item(new Item.Settings()));
+    public static final Item CRUSHED_TIN_ORE =
+            register("crushed_tin_ore", new Item(new Item.Settings()));
+    public static final Item CRUSHED_LEAD_ORE =
+            register("crushed_lead_ore", new Item(new Item.Settings()));
+    public static final Item CRUSHED_URANIUM_ORE =
+            register("crushed_uranium_ore", new Item(new Item.Settings()));
+
     public static final Item SULFUR =
             register("sulfur", new Item(new Item.Settings()));
     public static final Item BRONZE_INGOT =

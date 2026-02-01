@@ -3,19 +3,25 @@ package com.shipovskijkorp.industriallegacy.client;
 import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.MathHelper;
 
+/**
+ * Shared IC2-ish GUI drawing helpers backed by {@code textures/gui/common.png}.
+ *
+ * IMPORTANT: Keep this class API stable because multiple screens call it.
+ */
 public final class IlGuiDraw {
     public static final Identifier COMMON = new Identifier(IndustrialLegacy.MOD_ID, "textures/gui/common.png");
+    public static final Identifier INFO_BUTTON = new Identifier(IndustrialLegacy.MOD_ID, "textures/gui/infobutton.png");
+
+    // common.png atlas size
     private static final int TEX_W = 256;
     private static final int TEX_H = 256;
+
     private IlGuiDraw() {}
 
     /**
-     * IL default GUI background.
-     *
-     * Matches {@code il.core.gui.GuiDefaultBackground#drawBackgroundAndTitle} from IL 1.12.2:
-     * draws a framed panel from {@code common.png} that extends 16px outside the GUI area.
+     * Default framed GUI background (IC2/IL style).
+     * Draws a panel frame extending 16px outside the GUI rect.
      */
     public static void drawDefaultBackground(DrawContext ctx, int x, int y, int w, int h) {
         // corners (32x32)
@@ -55,41 +61,7 @@ public final class IlGuiDraw {
     }
 
     private static void drawCommon(DrawContext ctx, int x, int y, int w, int h, int u, int v) {
-        ctx.drawTexture(COMMON, x, y, u, v, w, h, 256, 256);
-    }
-
-    // slot frame at (103,7) 18x18 in common.png
-    public static void drawSlot(DrawContext ctx, int x, int y) {
-        ctx.drawTexture(COMMON, x, y, 103, 7, 18, 18, 256, 256);
-    }
-
-    
-// energy bar frame background from IL EnergyGaugeStyle.Bar:
-// withBackground(-4, -11, 32, 32, 128, 0) in common.png
-public static void drawEnergyBarFrame(DrawContext ctx, int x, int y) {
-    ctx.drawTexture(COMMON, x - 4, y - 11, 128, 0, 32, 32, 256, 256);
-}
-
-public static void drawEnergyBarFramed(DrawContext ctx, int x, int y, float ratio) {
-    drawEnergyBarFrame(ctx, x, y);
-    drawEnergyBar(ctx, x, y, ratio);
-}
-
-// energy bar at (132,43) 24x9, fills left->right
-    public static void drawEnergyBar(DrawContext ctx, int x, int y, float ratio) {
-        ratio = clamp01(ratio);
-        int w = Math.round(24 * ratio);
-        if (w <= 0) return;
-        ctx.drawTexture(COMMON, x, y, 132, 43, w, 9, 256, 256);
-    }
-
-    // fuel gauge at (112,80) 13x13, fills bottom->top
-    public static void drawFuelGauge(DrawContext ctx, int x, int y, float ratio) {
-        ratio = clamp01(ratio);
-        int h = Math.round(13 * ratio);
-        if (h <= 0) return;
-        int srcY = 80 + (13 - h);
-        ctx.drawTexture(COMMON, x, y + (13 - h), 112, srcY, 13, h, 256, 256);
+        ctx.drawTexture(COMMON, x, y, u, v, w, h, TEX_W, TEX_H);
     }
 
     private static float clamp01(float v) {
@@ -98,39 +70,114 @@ public static void drawEnergyBarFramed(DrawContext ctx, int x, int y, float rati
         return v;
     }
 
-    // --- IC2-like widgets used by classic machines ---
+    // --- Slot frames ---
 
-    /** Large output slot frame (used by macerator/etc). */
+    /** Standard slot frame (18x18). */
+    public static void drawSlot(DrawContext ctx, int x, int y) {
+        // common.png: slot frame at (103,7) size 18x18
+        ctx.drawTexture(COMMON, x, y, 103, 7, 18, 18, TEX_W, TEX_H);
+    }
+
+    /** Large slot frame (26x26) used for output slots in IC2-style GUIs. */
     public static void drawSlotLarge(DrawContext ctx, int x, int y) {
-        // 64x64 frame in common.png
-        drawCommon(ctx, x, y, 16, 16, 64, 64);
+        // common.png: large slot frame at (99,35) size 26x26
+        ctx.drawTexture(COMMON, x, y, 99, 35, 26, 26, TEX_W, TEX_H);
     }
 
-    /** Small energy bolt icon (dark/light variants). */
-    public static void drawEnergyBolt(DrawContext ctx, int x, int y, boolean lit) {
-        drawCommon(ctx, x, y, lit ? 116 : 100, 65, 7, 13);
-    }
-
-    /** Info button icon (purely cosmetic for now). */
+    /** Small info button (10x10). */
     public static void drawInfoButton(DrawContext ctx, int x, int y) {
-        drawCommon(ctx, x, y, 111, 113, 12, 13);
+        // Use dedicated texture if present; if missing, it'll just show missing texture (small).
+        ctx.drawTexture(INFO_BUTTON, x, y, 0, 0, 10, 10, 10, 10);
+    }
+
+    // --- Energy gauges ---
+
+    /**
+     * Energy bar frame background (32x32 at offset -4,-11), matches IL EnergyGaugeStyle.Bar background.
+     */
+    public static void drawEnergyBarFrame(DrawContext ctx, int x, int y) {
+        ctx.drawTexture(COMMON, x - 4, y - 11, 128, 0, 32, 32, TEX_W, TEX_H);
     }
 
     /**
-     * Macerator-style crushing progress (arrow + dust), filled left-to-right.
-     * The sprites are in common.png at (165,96) and (165,112).
+     * Energy bar fill (24x9) inside the frame. Fills left->right.
      */
-    public static void drawProgressCrush(DrawContext ctx, int x, int y, float ratio) {
-        ratio = MathHelper.clamp(ratio, 0.0f, 1.0f);
-
-        // background
-        drawCommon(ctx, x, y, 165, 96, 22, 15);
-
-        // fill (crop width)
-        int w = MathHelper.floor(22.0f * ratio);
-        if (w > 0) {
-            ctx.drawTexture(COMMON, x, y, 165, 112, w, 15, TEX_W, TEX_H);
-        }
+    public static void drawEnergyBar(DrawContext ctx, int x, int y, float ratio) {
+        ratio = clamp01(ratio);
+        int w = Math.round(24 * ratio);
+        if (w <= 0) return;
+        ctx.drawTexture(COMMON, x, y, 132, 43, w, 9, TEX_W, TEX_H);
     }
 
+    /**
+     * Convenience used by existing screens: draw frame + fill.
+     */
+    public static void drawEnergyBarFramed(DrawContext ctx, int x, int y, float ratio) {
+        drawEnergyBarFrame(ctx, x, y);
+        drawEnergyBar(ctx, x, y, ratio);
+    }
+
+    /**
+     * Fuel gauge used by GeneratorScreen. Fills bottom->top inside a 13x13 window.
+     * common.png base at (112,80) size 13x13.
+     */
+    public static void drawFuelGauge(DrawContext ctx, int x, int y, float ratio) {
+        ratio = clamp01(ratio);
+        // background
+        ctx.drawTexture(COMMON, x, y, 112, 80, 13, 13, TEX_W, TEX_H);
+
+        int h = Math.round(13 * ratio);
+        if (h <= 0) return;
+        // fill: use the same area; crop from bottom
+        int srcY = 80 + (13 - h);
+        int dstY = y + (13 - h);
+        ctx.drawTexture(COMMON, x, dstY, 112, srcY, 13, h, TEX_W, TEX_H);
+    }
+
+    // --- Macerator-specific primitives (IC2 classic layout) ---
+
+    /**
+     * Energy bolt gauge for Macerator (16x16 background + 7x13 fill).
+     * Draw at the top-left position from guidef (x=59,y=37).
+     */
+    public static void drawEnergyBolt(DrawContext ctx, int x, int y, float ratio) {
+        ratio = clamp01(ratio);
+
+        // background: common.png (96,64) 16x16, with offset (-4,-1) in IC2 xml
+        ctx.drawTexture(COMMON, x - 4, y - 1, 96, 64, 16, 16, TEX_W, TEX_H);
+
+        // fill: common.png (116,65) 7x13, fills bottom->top
+        int fillH = Math.round(13 * ratio);
+        if (fillH <= 0) return;
+
+        int srcY = 65 + (13 - fillH);
+        int dstY = y + (13 - fillH);
+        ctx.drawTexture(COMMON, x, dstY, 116, srcY, 7, fillH, TEX_W, TEX_H);
+    }
+    /**
+     * Compatibility alias: some screens call drawEnergyBoltFramed().
+     * The "bolt" gauge already draws its own frame (background) like IC2.
+     */
+    public static void drawEnergyBoltFramed(DrawContext ctx, int x, int y, float ratio) {
+        drawEnergyBolt(ctx, x, y, ratio);
+    }
+
+
+    /**
+     * Macerator progress (arrow+dust). Uses:
+     * background common.png (160,32) 32x16 offset(-5,-3),
+     * fill common.png (165,52) 21x11.
+     */
+    public static void drawProgressCrush(DrawContext ctx, int x, int y, float ratio) {
+        ratio = clamp01(ratio);
+
+        // background
+        ctx.drawTexture(COMMON, x - 5, y - 3, 160, 32, 32, 16, TEX_W, TEX_H);
+
+        // fill, left->right
+        int w = Math.round(21 * ratio);
+        if (w <= 0) return;
+
+        ctx.drawTexture(COMMON, x, y, 165, 52, w, 11, TEX_W, TEX_H);
+    }
 }
