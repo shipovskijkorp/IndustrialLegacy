@@ -1,0 +1,11 @@
+{
+  "type": "industrial_legacy:insulate_cable",
+  "category": "misc",
+  "material": { "item": "industrial_legacy:rubber" },
+  "example": {
+    "item": "industrial_legacy:cable",
+    "count": 1,
+    "kind": "copper",
+    "insulation": 1
+  }
+}

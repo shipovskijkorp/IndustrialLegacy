@@ -1,0 +1,16 @@
+{
+  "type": "industrial_legacy:cutter_cable",
+  "category": "misc",
+  "tool": {
+    "item": "industrial_legacy:cutter"
+  },
+  "material": {
+    "item": "industrial_legacy:tin_plate"
+  },
+  "result": {
+    "item": "industrial_legacy:cable",
+    "count": 3,
+    "kind": "tin",
+    "insulation": 0
+  }
+}

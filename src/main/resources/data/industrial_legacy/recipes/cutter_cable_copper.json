@@ -1,0 +1,16 @@
+{
+  "type": "industrial_legacy:cutter_cable",
+  "category": "misc",
+  "tool": {
+    "item": "industrial_legacy:cutter"
+  },
+  "material": {
+    "item": "industrial_legacy:copper_plate"
+  },
+  "result": {
+    "item": "industrial_legacy:cable",
+    "count": 2,
+    "kind": "copper",
+    "insulation": 0
+  }
+}

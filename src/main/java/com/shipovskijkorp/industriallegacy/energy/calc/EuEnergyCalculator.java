@@ -17,9 +17,14 @@ import java.util.List;
 
 /**
  * IC2-inspired energy routing: one emission call can feed multiple sinks on the same cable network,
- * accounting for per-cable loss (spent = accepted + loss).
+ * accounting for per-path loss.
  *
- * <p>This is still a stepping stone until full EnergyNetLocal caching is implemented.</p>
+ * Key IC2 behaviors matched here:
+ * - Delivered amount is limited by (budget - pathLoss) and sink demand.
+ * - Over-voltage for sinks is evaluated on the amount AFTER loss (the attempted injected amount),
+ *   not on the source packet size.
+ * - Cable overload/effects are evaluated on "effective packet" ~= accepted + loss.
+ * - Loss rounding uses misc/roundEnetLoss (IC2 default true -> floor).
  */
 public final class EuEnergyCalculator {
     private EuEnergyCalculator() {}
@@ -41,23 +46,8 @@ public final class EuEnergyCalculator {
             Direction intoSink = outSide.getOpposite();
             if (!directSink.canInsert(intoSink)) return 0;
 
-            // IC2: direct neighbor can still over-volt.
-            long sinkMaxPacket = EuUtil.powerFromTier(directSink.getSinkTier(intoSink));
-            if (maxPacket > sinkMaxPacket) {
-                // IC2: even direct neighbors can be over-volted; spend (at most) one packet.
-                long want = source.isFullEnergyOutput() ? maxPacket : Math.min(maxAmount, maxPacket);
-                if (source.isFullEnergyOutput() && want < maxPacket) return 0;
-
-                long canSim = source.extractEu(want, outSide, true);
-                if (source.isFullEnergyOutput() && canSim < maxPacket) return 0;
-                if (canSim <= 0) return 0;
-
-                EnergyNetLocal.get(world).scheduleSinkExplosion(firstPos, (double) maxPacket);
-                long extracted = source.extractEu(want, outSide, false);
-                return Math.max(0L, extracted);
-            }
-
-            return moveEnergyDirect(world, source, outSide, directSink, intoSink, maxAmount, 0.0);
+            EnergyNetLocal net = EnergyNetLocal.get(world);
+            return moveEnergyDirect(world, net, firstPos, source, outSide, directSink, intoSink, maxAmount, 0.0);
         }
 
         // Cable graph start.
@@ -101,21 +91,8 @@ public final class EuEnergyCalculator {
                 Direction intoSink = path.intoSink();
                 if (!sink.canInsert(intoSink)) continue;
 
-                // IC2: over-voltage is not ignored; it causes explosions/meltdown.
-                int sinkTier = sink.getSinkTier(intoSink);
-                long sinkMaxPacket = EuUtil.powerFromTier(sinkTier);
-                if (packetBudget > sinkMaxPacket) {
-                    // Spend the packet (source emission) and schedule sink explosion.
-                    long extracted = source.extractEu(packetBudget, outSide, false);
-                    spentTotal += extracted;
-                    net.recordPathTransfer(world, path, 0.0, (double) packetBudget);
-                    net.scheduleSinkExplosion(path.sinkPos(), (double) packetBudget);
-                    remainingPacketBudget = 0;
-                    break;
-                }
-
                 double loss = applyLossRounding(path.loss());
-                long spent = moveEnergy(world, net, path, source, outSide, sink, intoSink, remainingPacketBudget, loss, packetBudget);
+                long spent = moveEnergy(world, net, path, source, outSide, sink, intoSink, remainingPacketBudget, loss);
                 if (spent <= 0) continue;
 
                 spentTotal += spent;
@@ -128,6 +105,11 @@ public final class EuEnergyCalculator {
         return spentTotal;
     }
 
+    /**
+     * Route energy through a cable path.
+     *
+     * @return amount extracted from source (spent)
+     */
     private static long moveEnergy(
             World world,
             EnergyNetLocal net,
@@ -137,27 +119,36 @@ public final class EuEnergyCalculator {
             IEuEnergyStorage sink,
             Direction intoSink,
             long budget,
-            double loss,
-            long packetConducted
+            double loss
     ) {
         if (budget <= 0) return 0;
         if (!source.canExtract(outSide)) return 0;
         if (!sink.canInsert(intoSink)) return 0;
 
+        // Max that can arrive after paying loss.
         double deliveredMaxD = (double) budget - loss;
         if (deliveredMaxD <= 0.0) return 0;
         long deliveredMax = (long) Math.floor(deliveredMaxD);
         if (deliveredMax <= 0) return 0;
 
+        // Sink demand (after loss).
         double demandedD = sink.getDemandedEnergy(intoSink);
         long demanded = demandedD <= 0.0 ? 0L : (long) Math.floor(demandedD);
         if (demanded <= 0) return 0;
 
+        // This is the attempted injected amount after loss (IC2-style).
         long offer = Math.min(deliveredMax, demanded);
+        if (offer <= 0) return 0;
 
+        // IC2: over-voltage is evaluated on amount AFTER loss (offer).
+        long sinkMaxPacket = EuUtil.powerFromTier(sink.getSinkTier(intoSink));
+        boolean overvolt = offer > sinkMaxPacket;
+
+        // Simulate acceptance (lets sinks clamp by remaining capacity, filters, etc.).
         long acceptedSim = sink.insertEu(offer, intoSink, true);
         if (acceptedSim <= 0) return 0;
 
+        // Want to spend enough that (spent - loss) >= accepted.
         long wantSpent = (long) Math.ceil((double) acceptedSim + loss);
         if (wantSpent <= 0) return 0;
         if (wantSpent > budget) wantSpent = budget;
@@ -170,21 +161,36 @@ public final class EuEnergyCalculator {
         if (deliveredActual <= 0) {
             EuTransferRecorder.record(world, path.cables(), 0L);
             if (net != null) {
-                net.recordPathTransfer(world, path, 0.0, (double) packetConducted);
+                // effective packet ~= accepted + loss (here accepted=0)
+                double effectivePacket = Math.min((double) extracted, Math.max(0.0, loss));
+                net.recordPathTransfer(world, path, 0.0, effectivePacket);
+                if (overvolt) net.scheduleSinkExplosion(path.sinkPos(), (double) offer);
             }
             return extracted;
         }
 
         long inserted = sink.insertEu(deliveredActual, intoSink, false);
         EuTransferRecorder.record(world, path.cables(), inserted);
+
         if (net != null) {
-            net.recordPathTransfer(world, path, (double) inserted, (double) packetConducted);
+            // IC2 cable effects are based on "effective packet" ~= accepted + loss.
+            double effectivePacket = Math.min((double) extracted, Math.max(0.0, (double) inserted + loss));
+            net.recordPathTransfer(world, path, (double) inserted, effectivePacket);
+            if (overvolt) net.scheduleSinkExplosion(path.sinkPos(), (double) offer);
         }
+
         return extracted;
     }
 
+    /**
+     * Direct neighbor transfer (no cables). Still can over-volt in IC2, based on the injected amount.
+     *
+     * @return amount extracted from source (spent)
+     */
     private static long moveEnergyDirect(
             World world,
+            EnergyNetLocal net,
+            BlockPos sinkPos,
             IEuEnergyStorage source,
             Direction outSide,
             IEuEnergyStorage sink,
@@ -206,6 +212,11 @@ public final class EuEnergyCalculator {
         if (demanded <= 0) return 0;
 
         long offer = Math.min(deliveredMax, demanded);
+        if (offer <= 0) return 0;
+
+        long sinkMaxPacket = EuUtil.powerFromTier(sink.getSinkTier(intoSink));
+        boolean overvolt = offer > sinkMaxPacket;
+
         long acceptedSim = sink.insertEu(offer, intoSink, true);
         if (acceptedSim <= 0) return 0;
 
@@ -221,6 +232,11 @@ public final class EuEnergyCalculator {
         if (deliveredActual <= 0) return extracted;
 
         sink.insertEu(deliveredActual, intoSink, false);
+
+        if (net != null && overvolt) {
+            net.scheduleSinkExplosion(sinkPos, (double) offer);
+        }
+
         return extracted;
     }
 
