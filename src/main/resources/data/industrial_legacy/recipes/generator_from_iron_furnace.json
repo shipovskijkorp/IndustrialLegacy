@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "industrial_legacy:generator",
+  "pattern": [
+    " B ",
+    "PPP",
+    " T "
+  ],
+  "key": {
+    "B": { "item": "industrial_legacy:re_battery" },
+    "P": { "item": "industrial_legacy:iron_plate" },
+    "T": { "item": "industrial_legacy:iron_furnace" }
+  },
+  "result": { "item": "industrial_legacy:generator" }
+}
