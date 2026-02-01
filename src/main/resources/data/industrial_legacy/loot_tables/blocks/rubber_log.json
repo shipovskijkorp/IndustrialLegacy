@@ -4,10 +4,15 @@
     {
       "rolls": 1,
       "entries": [
-        { "type": "minecraft:item", "name": "industrial_legacy:rubber_log" }
+        {
+          "type": "minecraft:item",
+          "name": "industrial_legacy:rubber_log"
+        }
       ],
       "conditions": [
-        { "condition": "minecraft:survives_explosion" }
+        {
+          "condition": "minecraft:survives_explosion"
+        }
       ]
     }
   ]
