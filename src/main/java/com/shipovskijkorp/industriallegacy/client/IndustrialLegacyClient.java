@@ -4,9 +4,9 @@ import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
 import com.shipovskijkorp.industriallegacy.client.render.CableBlockEntityRenderer;
 import com.shipovskijkorp.industriallegacy.item.CableItem;
 import com.shipovskijkorp.industriallegacy.item.CableVariants;
-import com.shipovskijkorp.industriallegacy.energy.item.ElectricItemManager;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
 import com.shipovskijkorp.industriallegacy.registry.ModItems;
+import com.shipovskijkorp.industriallegacy.energy.item.ElectricItemManager;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
@@ -35,6 +35,15 @@ public class IndustrialLegacyClient implements ClientModInitializer {
                 (ItemStack stack, ClientWorld world, LivingEntity entity, int seed) ->
                         (float) CableVariants.variantId(CableItem.getKind(stack), CableItem.getInsulation(stack))
         );
+
+        // Charge indicator for RE-Battery (0..1) used by item model overrides.
+        ModelPredicateProviderRegistry.register(
+                ModItems.RE_BATTERY,
+                new Identifier(IndustrialLegacy.MOD_ID, "charge"),
+                (ItemStack stack, ClientWorld world, LivingEntity entity, int seed) ->
+                        ElectricItemManager.getChargeRatio(stack)
+        );
+
 
         // Phase3: thin-cable BlockEntity renderer.
         BlockEntityRendererFactories.register(ModBlockEntities.CABLE, CableBlockEntityRenderer::new);

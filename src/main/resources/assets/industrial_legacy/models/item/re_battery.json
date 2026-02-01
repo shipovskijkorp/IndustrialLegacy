@@ -1,9 +1,9 @@
 {
   "parent": "industrial_legacy:item/battery/re_battery_0",
   "overrides": [
-    { "predicate": { "industrial_legacy:charge": 0.2 }, "model": "industrial_legacy:item/battery/re_battery_1" },
-    { "predicate": { "industrial_legacy:charge": 0.4 }, "model": "industrial_legacy:item/battery/re_battery_2" },
-    { "predicate": { "industrial_legacy:charge": 0.6 }, "model": "industrial_legacy:item/battery/re_battery_3" },
-    { "predicate": { "industrial_legacy:charge": 0.8 }, "model": "industrial_legacy:item/battery/re_battery_4" }
+    { "predicate": { "industrial_legacy:charge": 0.25 }, "model": "industrial_legacy:item/battery/re_battery_1" },
+    { "predicate": { "industrial_legacy:charge": 0.50 }, "model": "industrial_legacy:item/battery/re_battery_2" },
+    { "predicate": { "industrial_legacy:charge": 0.75 }, "model": "industrial_legacy:item/battery/re_battery_3" },
+    { "predicate": { "industrial_legacy:charge": 0.99 }, "model": "industrial_legacy:item/battery/re_battery_4" }
   ]
 }
