@@ -6,7 +6,7 @@ import com.shipovskijkorp.industriallegacy.energy.util.EuUtil;
 /**
  * Minimal EU storage interface used by Industrial Legacy.
  *
- * <p>This is intentionally close to the concepts IC2 uses (offered energy, demanded energy,
+ * <p>This is intentionally close to the concepts IL uses (offered energy, demanded energy,
  * packet tiers) while keeping a small surface area for the early porting phases.</p>
  */
 public interface IEuEnergyStorage {
@@ -16,10 +16,10 @@ public interface IEuEnergyStorage {
 
     long getEuCapacity();
 
-    /** IC2-style tier (0..). Determines the maximum accepted packet size. */
+    /** IL-style tier (0..). Determines the maximum accepted packet size. */
     int getSinkTier();
 
-    /** IC2-style tier (0..). Determines the maximum emitted packet size. */
+    /** IL-style tier (0..). Determines the maximum emitted packet size. */
     int getSourceTier();
 
     /** Side-aware sink tier. Default: same as {@link #getSinkTier()}. */
@@ -43,11 +43,11 @@ public interface IEuEnergyStorage {
 
     boolean canExtract(Direction to);
 
-    // --- IC2-like helper API (defaults keep old implementors working) ---
+    // --- IL-like helper API (defaults keep old implementors working) ---
 
     /**
      * If {@code true}, the source should only emit full packets (>= tier packet size).
-     * IC2 uses this for storage blocks (batbox/mfe/mfsu).
+     * IL uses this for storage blocks (batbox/mfe/mfsu).
      */
     default boolean isFullEnergyOutput() {
         return false;
@@ -107,13 +107,13 @@ public interface IEuEnergyStorage {
     }
 
     /**
-     * Inject energy like IC2: returns rejected amount.
+     * Inject energy like IL: returns rejected amount.
      */
     default double injectEnergy(Direction from, double amount, int voltageTier, boolean simulate) {
         if (amount <= 0.0) return 0.0;
         if (!canInsert(from)) return amount;
 
-        // For now we accept integer EU into storage, like most IC2 machine storages.
+        // For now we accept integer EU into storage, like most IL machine storages.
         long want = (long) Math.floor(amount);
         if (want <= 0) return amount;
 
@@ -123,7 +123,7 @@ public interface IEuEnergyStorage {
     }
 
     /**
-     * Draw energy from a source like IC2: returns actually drawn amount.
+     * Draw energy from a source like IL: returns actually drawn amount.
      */
     default double drawEnergy(double amount, boolean simulate) {
         if (amount <= 0.0) return 0.0;

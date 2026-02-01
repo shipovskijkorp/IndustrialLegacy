@@ -14,9 +14,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
 /**
- * Rubber wood log with IC2 resin hole states + regeneration.
+ * Rubber wood log with IL resin hole states + regeneration.
  *
- * Mechanics source of truth: IC2 1.12.2 BlockRubWood.
+ * Mechanics source of truth: IL 1.12.2 BlockRubWood.
  */
 public class RubberWoodBlock extends Block {
     public static final EnumProperty<RubberWoodState> STATE = EnumProperty.of("state", RubberWoodState.class);
@@ -63,7 +63,7 @@ public class RubberWoodBlock extends Block {
 
     @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, net.minecraft.util.math.random.Random random) {
-        // IC2: 1/7 chance to regenerate dry -> wet
+        // IL: 1/7 chance to regenerate dry -> wet
         if (random.nextInt(7) == 0) {
             RubberWoodState s = state.get(STATE);
             if (!s.canRegenerate()) return;
@@ -75,7 +75,7 @@ public class RubberWoodBlock extends Block {
     public void onStacksDropped(BlockState state, ServerWorld world, BlockPos pos, ItemStack tool, boolean dropExperience) {
         super.onStacksDropped(state, world, pos, tool, dropExperience);
 
-        // IC2: when breaking a non-plain rubber wood, extra resin drops with 1/6 chance.
+        // IL: when breaking a non-plain rubber wood, extra resin drops with 1/6 chance.
         RubberWoodState s = state.get(STATE);
         if (!s.isPlain() && world.random.nextInt(6) == 0) {
             Block.dropStack(world, pos, new ItemStack(ModItems.STICKY_RESIN));

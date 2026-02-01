@@ -15,7 +15,7 @@ import java.util.*;
 /**
  * Dijkstra path-finder over cable blocks, collecting best-loss paths to reachable sinks.
  *
- * <p>This is a stepping stone towards IC2's EnergyNetLocal grid caching.</p>
+ * <p>This is a stepping stone towards IL's EnergyNetLocal grid caching.</p>
  */
 public final class PathFinder {
     private PathFinder() {}

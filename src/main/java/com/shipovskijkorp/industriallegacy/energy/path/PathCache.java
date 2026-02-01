@@ -6,7 +6,7 @@ import net.minecraft.world.World;
 import java.util.*;
 
 /**
- * Temporary cache for energy paths until a full IC2-like EnergyNetLocal is implemented.
+ * Temporary cache for energy paths until a full IL-like EnergyNetLocal is implemented.
  *
  * <p>Cache key is the first cable position adjacent to a source out-side.</p>
  */

@@ -9,7 +9,7 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 
 /**
- * Rubber sapling growth -> custom configured_feature rubber_tree (IC2-style).
+ * Rubber sapling growth -> custom configured_feature rubber_tree (IL-style).
  */
 public class RubberSaplingGenerator extends SaplingGenerator {
     private static final RegistryKey<ConfiguredFeature<?, ?>> RUBBER_TREE =

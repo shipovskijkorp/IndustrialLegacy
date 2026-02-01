@@ -17,12 +17,12 @@ import net.minecraft.world.biome.Biome;
 import java.util.Random;
 
 /**
- * IC2-style rubber tree worldgen (WorldGenRubTree + Ic2WorldDecorator.genRubberTree).
+ * IL-style rubber tree worldgen (WorldGenRubTree + IlWorldDecorator.genRubberTree).
  *
  * Notes:
- * - Config is intentionally empty (rules are fixed like IC2).
+ * - Config is intentionally empty (rules are fixed like IL).
  * - Resin mechanics here only mark a boolean on the log (RubberLogBlock.RESIN).
- *   The full IC2 "wet side" directional holes are handled at the block/state level.
+ *   The full IL "wet side" directional holes are handled at the block/state level.
  */
 public final class RubberTreeGenerator {
     private RubberTreeGenerator() {}
@@ -33,10 +33,10 @@ public final class RubberTreeGenerator {
     private static final TagKey<Biome> IS_JUNGLE = TagKey.of(RegistryKeys.BIOME, new Identifier("minecraft", "is_jungle"));
 
     /**
-     * IC2: gen.generate(world, rnd, new BlockPos(randomX, seaLevel, randomZ)) where
+     * IL: gen.generate(world, rnd, new BlockPos(randomX, seaLevel, randomZ)) where
      * WorldGenRubTree.generate internally offsets +8,+8.
      */
-    public static boolean generateLikeIc2(StructureWorldAccess world, Random random, BlockPos pos) {
+    public static boolean generateLikeIl(StructureWorldAccess world, Random random, BlockPos pos) {
         int x = pos.getX() + 8;
         int z = pos.getZ() + 8;
 
@@ -45,7 +45,7 @@ public final class RubberTreeGenerator {
         return grow(world, base, random);
     }
 
-    /** IC2 WorldGenRubTree.grow(...) */
+    /** IL WorldGenRubTree.grow(...) */
     public static boolean grow(StructureWorldAccess world, BlockPos pos, Random random) {
         int height = getGrowHeight(world, pos);
         if (height < 2) return false;
@@ -104,7 +104,7 @@ public final class RubberTreeGenerator {
         return true;
     }
 
-    /** IC2 WorldGenRubTree.getGrowHeight(...) */
+    /** IL WorldGenRubTree.getGrowHeight(...) */
     private static int getGrowHeight(StructureWorldAccess world, BlockPos pos) {
         BlockPos below = pos.down();
         BlockState base = world.getBlockState(below);
@@ -131,7 +131,7 @@ public final class RubberTreeGenerator {
     }
 
     /**
-     * IC2 Ic2WorldDecorator.genRubberTree(...) - chunk-based algorithm.
+     * IL IlWorldDecorator.genRubberTree(...) - chunk-based algorithm.
      *
      * @param baseScale default 1.0
      */
@@ -169,7 +169,7 @@ public final class RubberTreeGenerator {
                 int x = chunk.getStartX() + rnd.nextInt(16);
                 int z = chunk.getStartZ() + rnd.nextInt(16);
 
-                if (!generateLikeIc2(world, rnd, new BlockPos(x, world.getSeaLevel(), z))) {
+                if (!generateLikeIl(world, rnd, new BlockPos(x, world.getSeaLevel(), z))) {
                     rubberTrees -= 3;
                 }
             }

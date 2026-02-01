@@ -17,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Cable block entity.
  *
- * <p>In IC2, cables are TE-driven for both rendering (thin geometry + connections) and
+ * <p>In IL, cables are TE-driven for both rendering (thin geometry + connections) and
  * participation in the EnergyNet (detectors/splitters, per-node stats).</p>
  *
  * <p>This implementation keeps the same split of responsibilities:
@@ -93,7 +93,7 @@ public class CableBlockEntity extends BlockEntity {
 
         CableKind kind = cb.getKind();
 
-        // Splitter: active state is purely redstone-controlled (matches IC2 load/unload toggle).
+        // Splitter: active state is purely redstone-controlled (matches IL load/unload toggle).
         if (kind == CableKind.SPLITTER) {
             boolean newActive = !world.isReceivingRedstonePower(pos);
             if (be.setActiveInternal(newActive)) {
@@ -122,7 +122,7 @@ public class CableBlockEntity extends BlockEntity {
         boolean newActive = energy > 0.0;
         int newRs = newActive ? 15 : 0;
 
-        // IC2: comparator level ~= map(energyIn / (breakdownEnergy - 1), 1 -> 15)
+        // IL: comparator level ~= map(energyIn / (breakdownEnergy - 1), 1 -> 15)
         // where breakdownEnergy = capacity + 1, thus (breakdownEnergy - 1) = capacity.
         double denom = Math.max(1.0, cb.getKind().getConductorBreakdownEnergy() - 1.0);
         double ratio = energy / denom;

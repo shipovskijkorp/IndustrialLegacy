@@ -23,7 +23,7 @@ public abstract class AbstractFurnaceBlockEntityMixin {
     private static void industriallegacy$adjustCookTime(World world, AbstractFurnaceBlockEntity furnace, CallbackInfoReturnable<Integer> cir) {
         if (furnace instanceof IronFurnaceBlockEntity) {
             int base = cir.getReturnValue();
-            // 8s / 10s = 0.8x; IC2-style: floor (so 200 -> 160 exactly)
+            // 8s / 10s = 0.8x; IL-style: floor (so 200 -> 160 exactly)
             int adjusted = (int) Math.floor(base * 0.8);
             if (adjusted < 1) adjusted = 1;
             cir.setReturnValue(adjusted);

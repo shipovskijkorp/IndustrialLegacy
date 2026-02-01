@@ -30,7 +30,7 @@ import java.util.EnumSet;
 import java.util.Set;
 
 /**
- * Thin IC2-style cable renderer (tube/rectangular prism).
+ * Thin IL-style cable renderer (tube/rectangular prism).
  *
  * Fixes: correct face winding so outside faces are visible (no accidental backface culling),
  * and avoids internal Z-fighting by not rendering inner faces between center and arms.
@@ -72,7 +72,7 @@ public class CableBlockEntityRenderer implements BlockEntityRenderer<CableBlockE
 
         BlockPos pos = entity.getPos();
 
-        // Determine visual connections (IC2-like: connect to cables and to EU storages that can insert/extract on that face).
+        // Determine visual connections (IL-like: connect to cables and to EU storages that can insert/extract on that face).
         Set<Direction> conns = EnumSet.noneOf(Direction.class);
         for (Direction dir : Direction.values()) {
             if (connectsTo(world, pos, dir)) conns.add(dir);

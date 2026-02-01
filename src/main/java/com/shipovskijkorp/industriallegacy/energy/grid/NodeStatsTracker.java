@@ -18,7 +18,7 @@ final class NodeStatsTracker {
         double maxPacket;
 
         void add(double amount, double packetSize) {
-            // In IC2, cables are both conductors and nodes; treat conduction as both in and out.
+            // In IL, cables are both conductors and nodes; treat conduction as both in and out.
             this.in += amount;
             this.out += amount;
             if (packetSize > this.maxPacket) this.maxPacket = packetSize;

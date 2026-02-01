@@ -25,10 +25,10 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * IC2-like thin cable block.
+ * IL-like thin cable block.
  *
  * <p>The block has no baked JSON model: {@link BlockRenderType#INVISIBLE} is used and the cable is drawn
- * by {@code CableBlockEntityRenderer} with the original IC2 textures.</p>
+ * by {@code CableBlockEntityRenderer} with the original IL textures.</p>
  */
 public class CableBlock extends BlockWithEntity {
 
@@ -57,7 +57,7 @@ public class CableBlock extends BlockWithEntity {
     }
 
     /**
-     * IC2-ish visual thickness: base thickness + insulation * (2/16).
+     * IL-ish visual thickness: base thickness + insulation * (2/16).
      */
     public float getVisualWidth() {
         float w = kind.thickness;
@@ -116,7 +116,7 @@ public class CableBlock extends BlockWithEntity {
             EuNetwork.invalidate(world);
         }
 
-        // Splitter cable toggles active state based on redstone input (matches IC2 load/unload).
+        // Splitter cable toggles active state based on redstone input (matches IL load/unload).
         if (kind == CableKind.SPLITTER) {
             BlockEntity be = world.getBlockEntity(pos);
             if (be instanceof CableBlockEntity cableBe) {

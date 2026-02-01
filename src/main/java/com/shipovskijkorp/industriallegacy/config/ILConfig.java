@@ -12,9 +12,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Minimal IC2-style .ini config reader.
+ * Minimal IL-style .ini config reader.
  * <p>
- * We keep the same key format IC2 uses in code, e.g.
+ * We keep the same key format IL uses in code, e.g.
  * {@code balance/energy/generator/generator}.
  */
 public final class ILConfig {
@@ -52,12 +52,12 @@ public final class ILConfig {
     }
 
     private static void writeDefault(Path file) throws IOException {
-        // Minimal starter file. Users can replace it with a full IC2 general.ini.
+        // Minimal starter file. Users can replace it with a full IL general.ini.
         String content = """
-                # Industrial Legacy config (IC2-compatible paths)
+                # Industrial Legacy config (IL-compatible paths)
                 #
-                # You can paste your full IC2 1.12.2 general.ini here.
-                # The mod reads keys in the same format as IC2, e.g.:
+                # You can paste your full IL 1.12.2 general.ini here.
+                # The mod reads keys in the same format as IL, e.g.:
                 #   balance/energy/generator/generator
                 
                 [balance/energy/generator]

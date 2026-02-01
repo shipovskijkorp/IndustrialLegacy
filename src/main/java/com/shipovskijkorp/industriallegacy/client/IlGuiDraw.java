@@ -4,15 +4,15 @@ import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.Identifier;
 
-public final class Ic2GuiDraw {
+public final class IlGuiDraw {
     public static final Identifier COMMON = new Identifier(IndustrialLegacy.MOD_ID, "textures/gui/common.png");
 
-    private Ic2GuiDraw() {}
+    private IlGuiDraw() {}
 
     /**
-     * IC2 default GUI background.
+     * IL default GUI background.
      *
-     * Matches {@code ic2.core.gui.GuiDefaultBackground#drawBackgroundAndTitle} from IC2 1.12.2:
+     * Matches {@code il.core.gui.GuiDefaultBackground#drawBackgroundAndTitle} from IL 1.12.2:
      * draws a framed panel from {@code common.png} that extends 16px outside the GUI area.
      */
     public static void drawDefaultBackground(DrawContext ctx, int x, int y, int w, int h) {
@@ -62,7 +62,7 @@ public final class Ic2GuiDraw {
     }
 
     
-// energy bar frame background from IC2 EnergyGaugeStyle.Bar:
+// energy bar frame background from IL EnergyGaugeStyle.Bar:
 // withBackground(-4, -11, 32, 32, 128, 0) in common.png
 public static void drawEnergyBarFrame(DrawContext ctx, int x, int y) {
     ctx.drawTexture(COMMON, x - 4, y - 11, 128, 0, 32, 32, 256, 256);

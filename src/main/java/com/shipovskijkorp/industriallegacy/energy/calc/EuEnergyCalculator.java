@@ -16,15 +16,15 @@ import net.minecraft.world.World;
 import java.util.List;
 
 /**
- * IC2-inspired energy routing: one emission call can feed multiple sinks on the same cable network,
+ * IL-inspired energy routing: one emission call can feed multiple sinks on the same cable network,
  * accounting for per-path loss.
  *
- * Key IC2 behaviors matched here:
+ * Key IL behaviors matched here:
  * - Delivered amount is limited by (budget - pathLoss) and sink demand.
  * - Over-voltage for sinks is evaluated on the amount AFTER loss (the attempted injected amount),
  *   not on the source packet size.
  * - Cable overload/effects are evaluated on "effective packet" ~= accepted + loss.
- * - Loss rounding uses misc/roundEnetLoss (IC2 default true -> floor).
+ * - Loss rounding uses misc/roundEnetLoss (IL default true -> floor).
  */
 public final class EuEnergyCalculator {
     private EuEnergyCalculator() {}
@@ -136,11 +136,11 @@ public final class EuEnergyCalculator {
         long demanded = demandedD <= 0.0 ? 0L : (long) Math.floor(demandedD);
         if (demanded <= 0) return 0;
 
-        // This is the attempted injected amount after loss (IC2-style).
+        // This is the attempted injected amount after loss (IL-style).
         long offer = Math.min(deliveredMax, demanded);
         if (offer <= 0) return 0;
 
-        // IC2: over-voltage is evaluated on amount AFTER loss (offer).
+        // IL: over-voltage is evaluated on amount AFTER loss (offer).
         long sinkMaxPacket = EuUtil.powerFromTier(sink.getSinkTier(intoSink));
         boolean overvolt = offer > sinkMaxPacket;
 
@@ -173,7 +173,7 @@ public final class EuEnergyCalculator {
         EuTransferRecorder.record(world, path.cables(), inserted);
 
         if (net != null) {
-            // IC2 cable effects are based on "effective packet" ~= accepted + loss.
+            // IL cable effects are based on "effective packet" ~= accepted + loss.
             double effectivePacket = Math.min((double) extracted, Math.max(0.0, (double) inserted + loss));
             net.recordPathTransfer(world, path, (double) inserted, effectivePacket);
             if (overvolt) net.scheduleSinkExplosion(path.sinkPos(), (double) offer);
@@ -183,7 +183,7 @@ public final class EuEnergyCalculator {
     }
 
     /**
-     * Direct neighbor transfer (no cables). Still can over-volt in IC2, based on the injected amount.
+     * Direct neighbor transfer (no cables). Still can over-volt in IL, based on the injected amount.
      *
      * @return amount extracted from source (spent)
      */
@@ -241,11 +241,11 @@ public final class EuEnergyCalculator {
     }
 
     private static double applyLossRounding(double loss) {
-        // IC2 default: roundEnetLoss=true and loss is floored.
+        // IL default: roundEnetLoss=true and loss is floored.
         boolean round = ILConfig.getBool("misc/roundEnetLoss", true);
         if (!round) return loss;
         return Math.floor(loss);
     }
 
-    // Cable overload is handled by EnergyNetLocal end-of-tick effects (IC2-style).
+    // Cable overload is handled by EnergyNetLocal end-of-tick effects (IL-style).
 }

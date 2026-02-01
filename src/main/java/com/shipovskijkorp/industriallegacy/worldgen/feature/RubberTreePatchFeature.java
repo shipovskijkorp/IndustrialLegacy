@@ -11,7 +11,7 @@ import net.minecraft.world.gen.feature.util.FeatureContext;
 import java.util.Random;
 
 /**
- * Chunk-based rubber tree decorator (IC2 Ic2WorldDecorator.genRubberTree).
+ * Chunk-based rubber tree decorator (IL IlWorldDecorator.genRubberTree).
  *
  * This feature is injected into overworld biomes via placed_feature rubber_tree_patch.
  */
@@ -28,7 +28,7 @@ public class RubberTreePatchFeature extends Feature<DefaultFeatureConfig> {
 
         long worldSeed = world.toServerWorld().getSeed();
 
-        // IC2: xSeed/zSeed derived from Random(worldSeed), shifted >> 3
+        // IL: xSeed/zSeed derived from Random(worldSeed), shifted >> 3
         Random base = new Random(worldSeed);
         long xSeed = base.nextLong() >> 3;
         long zSeed = base.nextLong() >> 3;

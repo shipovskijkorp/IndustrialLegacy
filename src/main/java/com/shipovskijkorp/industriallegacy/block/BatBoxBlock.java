@@ -37,7 +37,7 @@ import com.shipovskijkorp.industriallegacy.registry.ModBlocks;
  * Output side = {@link #FACING}.
  */
 public class BatBoxBlock extends BlockWithEntity implements BlockEntityProvider {
-    // IC2 electric storage blocks are horizontal-facing machines.
+    // IL electric storage blocks are horizontal-facing machines.
     // The "output dot" is on the front face.
     public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
 
@@ -65,7 +65,7 @@ public class BatBoxBlock extends BlockWithEntity implements BlockEntityProvider 
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        // IC2: when placed, the front/output face points towards the player.
+        // IL: when placed, the front/output face points towards the player.
         return getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
     }
     @Override
@@ -97,11 +97,11 @@ public class BatBoxBlock extends BlockWithEntity implements BlockEntityProvider 
 
     @Override
     public BlockRenderType getRenderType(BlockState state) {
-        // BlockWithEntity defaults to INVISIBLE in modern MC; IC2 machines must render their block model.
+        // BlockWithEntity defaults to INVISIBLE in modern MC; IL machines must render their block model.
         return BlockRenderType.MODEL;
     }
 
-    // IC2 storage blocks can emit a redstone signal depending on the selected redstone mode.
+    // IL storage blocks can emit a redstone signal depending on the selected redstone mode.
     @Override
     public boolean emitsRedstonePower(BlockState state) {
         return true;

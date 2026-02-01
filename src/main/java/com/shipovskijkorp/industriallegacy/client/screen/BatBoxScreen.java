@@ -1,7 +1,7 @@
 package com.shipovskijkorp.industriallegacy.client.screen;
 
 import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
-import com.shipovskijkorp.industriallegacy.client.Ic2GuiDraw;
+import com.shipovskijkorp.industriallegacy.client.IlGuiDraw;
 import com.shipovskijkorp.industriallegacy.net.ModPackets;
 import com.shipovskijkorp.industriallegacy.screen.BatBoxScreenHandler;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -24,7 +24,7 @@ public class BatBoxScreen extends HandledScreen<BatBoxScreenHandler> {
 
     private static final ItemStack REDSTONE_ICON = new ItemStack(Items.REDSTONE);
 
-    // IC2 VanillaButton: (152,4) size 20x20, texture lives inside guielectricblock.png at (176,0)
+    // IL VanillaButton: (152,4) size 20x20, texture lives inside guielectricblock.png at (176,0)
     private static final int REDSTONE_BTN_X = 152;
     private static final int REDSTONE_BTN_Y = 4;
     private static final int REDSTONE_BTN_W = 20;
@@ -32,32 +32,32 @@ public class BatBoxScreen extends HandledScreen<BatBoxScreenHandler> {
     private static final int REDSTONE_BTN_U = 176;
     private static final int REDSTONE_BTN_V = 0;
 
-    // IC2 EnergyGaugeStyle.Bar inner rect (top-left inside the frame)
+    // IL EnergyGaugeStyle.Bar inner rect (top-left inside the frame)
     private static final int ENERGY_X = 79;
     private static final int ENERGY_Y = 38;
     private static final int ENERGY_W = 24;
     private static final int ENERGY_H = 9;
 
-    // Hover area should include the full gauge background (IC2 uses 32x32 at offset -4,-11)
+    // Hover area should include the full gauge background (IL uses 32x32 at offset -4,-11)
     private static final int ENERGY_HOVER_X = ENERGY_X - 4;
     private static final int ENERGY_HOVER_Y = ENERGY_Y - 11;
     private static final int ENERGY_HOVER_W = 32;
     private static final int ENERGY_HOVER_H = 32;
 
-    // IC2 text color
+    // IL text color
     private static final int TEXT_COLOR = 4210752;
 
     public BatBoxScreen(BatBoxScreenHandler handler, net.minecraft.entity.player.PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
         this.backgroundWidth = 176;
-        this.backgroundHeight = 196; // IC2
+        this.backgroundHeight = 196; // IL
     }
 
     @Override
     protected void init() {
         super.init();
 
-        // IC2 centers the title and doesn't show "Inventory" label.
+        // IL centers the title and doesn't show "Inventory" label.
         this.titleX = (this.backgroundWidth - this.textRenderer.getWidth(this.title)) / 2;
         this.titleY = 6;
 
@@ -70,11 +70,11 @@ public class BatBoxScreen extends HandledScreen<BatBoxScreenHandler> {
         // Titles (HandledScreen draws them in super)
         super.drawForeground(ctx, mouseX, mouseY);
 
-        // Mirrors IC2 GuiElectricBlock#drawForegroundLayer
-        ctx.drawText(this.textRenderer, Text.translatable("ic2.EUStorage.gui.info.armor"),
+        // Mirrors IL GuiElectricBlock#drawForegroundLayer
+        ctx.drawText(this.textRenderer, Text.translatable("il.EUStorage.gui.info.armor"),
                 8, this.backgroundHeight - 126 + 3, TEXT_COLOR, false);
 
-        ctx.drawText(this.textRenderer, Text.translatable("ic2.EUStorage.gui.info.level"),
+        ctx.drawText(this.textRenderer, Text.translatable("il.EUStorage.gui.info.level"),
                 79, 25, TEXT_COLOR, false);
 
         int cap = handler.getEuCap();
@@ -88,7 +88,7 @@ public class BatBoxScreen extends HandledScreen<BatBoxScreenHandler> {
                 110, 45, TEXT_COLOR, false);
 
         String outStr = String.format(Locale.ROOT, "%.1f", (double) handler.getOutputEUt());
-        ctx.drawText(this.textRenderer, Text.translatable("ic2.EUStorage.gui.info.output", outStr),
+        ctx.drawText(this.textRenderer, Text.translatable("il.EUStorage.gui.info.output", outStr),
                 85, 60, TEXT_COLOR, false);
     }
 
@@ -97,7 +97,7 @@ public class BatBoxScreen extends HandledScreen<BatBoxScreenHandler> {
         super.render(ctx, mouseX, mouseY, delta);
 
         // Vanilla 1.20+ slot highlight uses a 24x24 animated sprite that protrudes outside
-        // IC2's tight slot frames. We can't override HandledScreen's private drawSlot() here,
+        // IL's tight slot frames. We can't override HandledScreen's private drawSlot() here,
         // so instead we *clip* the protruding pixels by redrawing the underlying GUI texture
         // on the outer strips around the hovered slot.
         if (this.focusedSlot != null) {
@@ -107,7 +107,7 @@ public class BatBoxScreen extends HandledScreen<BatBoxScreenHandler> {
         // Redstone mode tooltip
         if (isMouseOverRedstoneButton(mouseX, mouseY)) {
             ctx.drawTooltip(this.textRenderer,
-                    Text.translatable("ic2.EUStorage.gui.mod.redstone" + handler.getRedstoneMode()),
+                    Text.translatable("il.EUStorage.gui.mod.redstone" + handler.getRedstoneMode()),
                     mouseX, mouseY);
         } else if (isMouseOver(ENERGY_HOVER_X, ENERGY_HOVER_Y, ENERGY_HOVER_W, ENERGY_HOVER_H, mouseX, mouseY)) {
             int stored = handler.getEuStored();
@@ -140,16 +140,16 @@ public class BatBoxScreen extends HandledScreen<BatBoxScreenHandler> {
     protected void drawBackground(DrawContext ctx, float delta, int mouseX, int mouseY) {
         ctx.drawTexture(BG, x, y, 0, 0, backgroundWidth, backgroundHeight, 256, 256);
 
-        // redstone mode button (IC2 VanillaButton)
+        // redstone mode button (IL VanillaButton)
         ctx.drawTexture(BG, x + REDSTONE_BTN_X, y + REDSTONE_BTN_Y,
                 REDSTONE_BTN_U, REDSTONE_BTN_V,
                 REDSTONE_BTN_W, REDSTONE_BTN_H,
                 256, 256);
         ctx.drawItem(REDSTONE_ICON, x + REDSTONE_BTN_X + 2, y + REDSTONE_BTN_Y + 2);
 
-        // energy gauge: draw frame + fill (matches IC2 EnergyGaugeStyle.Bar)
+        // energy gauge: draw frame + fill (matches IL EnergyGaugeStyle.Bar)
         float eRatio = handler.getEuCap() <= 0 ? 0f : (handler.getEuStored() / (float) handler.getEuCap());
-        Ic2GuiDraw.drawEnergyBarFramed(ctx, x + ENERGY_X, y + ENERGY_Y, eRatio);
+        IlGuiDraw.drawEnergyBarFramed(ctx, x + ENERGY_X, y + ENERGY_Y, eRatio);
     }
 
     private boolean isMouseOverRedstoneButton(double mouseX, double mouseY) {
@@ -167,14 +167,14 @@ public class BatBoxScreen extends HandledScreen<BatBoxScreenHandler> {
 
     /**
      * Redraws the underlying GUI texture on the parts of the vanilla 24x24 slot highlight
-     * that stick out beyond an 18x18 IC2-style slot frame.
+     * that stick out beyond an 18x18 IL-style slot frame.
      */
     private void maskVanillaSlotHighlight(DrawContext ctx, Slot slot) {
         // Slot coords are relative to the GUI top-left and point at the 16x16 item area.
         final int itemX = this.x + slot.x;
         final int itemY = this.y + slot.y;
 
-        // Vanilla highlight is 24x24 at (itemX-4, itemY-4). IC2 frame is 18x18 at (itemX-1, itemY-1).
+        // Vanilla highlight is 24x24 at (itemX-4, itemY-4). IL frame is 18x18 at (itemX-1, itemY-1).
         final int hlX = itemX - 4;
         final int hlY = itemY - 4;
 

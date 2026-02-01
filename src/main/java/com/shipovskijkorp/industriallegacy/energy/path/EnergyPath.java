@@ -6,7 +6,7 @@ import net.minecraft.util.math.Direction;
 import java.util.List;
 
 /**
- * IC2-like energy path description.
+ * IL-like energy path description.
  *
  * @param sinkPos   sink block position
  * @param intoSink  direction pointing from cable into sink

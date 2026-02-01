@@ -5,9 +5,9 @@ import com.shipovskijkorp.industriallegacy.energy.EuUtil;
 import java.util.Locale;
 
 /**
- * Cable kinds with IC2 1.12.2-style parameters (non-classic).
+ * Cable kinds with IL 1.12.2-style parameters (non-classic).
  *
- * <p>Values are mirrored from IC2 {@code CableType} defaults and related
+ * <p>Values are mirrored from IL {@code CableType} defaults and related
  * breakdown/absorption rules in {@code TileEntityCable}.</p>
  */
 public enum CableKind {
@@ -32,7 +32,7 @@ public enum CableKind {
     /** EU packet capacity (conductor breakdown is {@code capacity + 1}). */
     public final int capacity;
 
-    /** IC2-ish tier (approx.). */
+    /** IL-ish tier (approx.). */
     public final int tier;
 
     CableKind(int maxInsulation, float thickness, double loss, int capacity, int tier) {
@@ -59,18 +59,18 @@ public enum CableKind {
         return Math.max(0, Math.min(maxInsulation, insulation));
     }
 
-    /** IC2: {@code capacity + 1}. */
+    /** IL: {@code capacity + 1}. */
     public double getConductorBreakdownEnergy() {
         return (double) capacity + 1.0;
     }
 
-    /** IC2 constant. */
+    /** IL constant. */
     public double getInsulationBreakdownEnergy() {
         return 9001.0;
     }
 
     /**
-     * IC2 rules (non-classic):
+     * IL rules (non-classic):
      * <ul>
      *   <li>If the cable has no insulation, absorption is effectively infinite.</li>
      *   <li>For tin cables: {@code powerFromTier(insulation)}.</li>

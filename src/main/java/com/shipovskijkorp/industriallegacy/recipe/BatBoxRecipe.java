@@ -22,7 +22,7 @@ import net.minecraft.world.World;
  *  WWW
  *
  * W = any planks (minecraft:planks)
- * C = tin cable (insulation=1)  [IC2 uses insulated tin cable]
+ * C = tin cable (insulation=1)  [IL uses insulated tin cable]
  * B = RE-Battery (any charge; NBT ignored)
  */
 public final class BatBoxRecipe extends SpecialCraftingRecipe {

@@ -50,7 +50,7 @@ public final class ModBlocks {
     );
 
     /**
-     * Basic Machine Casing (IC2-like "machine casing").
+     * Basic Machine Casing (IL-like "machine casing").
      *
      * Building material + crafting component.
      * Strength is identical to vanilla iron block.
@@ -148,7 +148,7 @@ public final class ModBlocks {
             new RubberLogBlock(FabricBlockSettings.copyOf(Blocks.OAK_LOG)));
 
     /**
-     * Compatibility alias for code paths that already use the IC2-style name.
+     * Compatibility alias for code paths that already use the IL-style name.
      *
      * <p>Until the project fully migrates the registry id from {@code rubber_log}
      * to {@code rubber_wood}, keep this alias to avoid breaking compilation.

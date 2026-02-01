@@ -45,7 +45,7 @@ public class GeneratorScreenHandler extends ScreenHandler {
         this.inv = inv;
         this.props = props;
 
-        // IC2 coords (generator.xml)
+        // IL coords (generator.xml)
         this.addSlot(new Slot(inv, GeneratorBlockEntity.SLOT_CHARGE, 57, 17)); // charge
         this.addSlot(new Slot(inv, GeneratorBlockEntity.SLOT_FUEL, 57, 53) {
             @Override

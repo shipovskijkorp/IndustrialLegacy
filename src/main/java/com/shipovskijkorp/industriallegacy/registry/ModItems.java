@@ -54,7 +54,7 @@ public final class ModItems {
             new Item(new FabricItemSettings().maxCount(1).maxDamage(60)));
 
 
-    // --- Materials (IC2 resources; split into separate IDs in IL) ---
+    // --- Materials (IL resources; split into separate IDs in IL) ---
 
     public static final Item IRIDIUM =
             register("iridium", new Item(new Item.Settings()));
@@ -77,7 +77,7 @@ public final class ModItems {
     public static final Item TIN_PLATE = register("tin_plate", new Item(new Item.Settings()));
     public static final Item IRIDIUM_PLATE = register("iridium_plate", new Item(new Item.Settings()));
 
-    // Dense plates (IC2: plate#dense_*)
+    // Dense plates (IL: plate#dense_*)
     public static final Item DENSE_BRONZE_PLATE = register("dense_bronze_plate", new Item(new Item.Settings()));
     public static final Item DENSE_COPPER_PLATE = register("dense_copper_plate", new Item(new Item.Settings()));
     public static final Item DENSE_GOLD_PLATE = register("dense_gold_plate", new Item(new Item.Settings()));
@@ -88,7 +88,7 @@ public final class ModItems {
     public static final Item DENSE_STEEL_PLATE = register("dense_steel_plate", new Item(new Item.Settings()));
     public static final Item DENSE_TIN_PLATE = register("dense_tin_plate", new Item(new Item.Settings()));
 
-    // Casings (IC2: casing#*)
+    // Casings (IL: casing#*)
     public static final Item BRONZE_CASING = register("bronze_casing", new Item(new Item.Settings()));
     public static final Item COPPER_CASING = register("copper_casing", new Item(new Item.Settings()));
     public static final Item GOLD_CASING = register("gold_casing", new Item(new Item.Settings()));

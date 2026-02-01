@@ -49,11 +49,11 @@ public class BatBoxScreenHandler extends ScreenHandler {
         this.inv = inv;
         this.props = props;
 
-        // IC2 coords
+        // IL coords
         this.addSlot(new Slot(inv, 0, 56, 17)); // charge
         this.addSlot(new Slot(inv, 1, 56, 53)); // discharge
 
-        // IC2: 4 armor slots row at y=84
+        // IL: 4 armor slots row at y=84
         // PlayerInventory indices: 36..39 = boots..helmet
         this.addSlot(new EquipmentArmorSlot(playerInv, 36, 8,  84, EquipmentSlot.FEET));
         this.addSlot(new EquipmentArmorSlot(playerInv, 37, 26, 84, EquipmentSlot.LEGS));

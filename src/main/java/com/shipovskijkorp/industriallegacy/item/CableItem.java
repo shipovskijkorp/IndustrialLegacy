@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * IC2-style multi-variant cable item.
+ * IL-style multi-variant cable item.
  *
  * <p>Variants are encoded in NBT ({@code kind}+{@code insulation}) and additionally mirrored
  * into vanilla {@code CustomModelData} for resource-pack driven item models.</p>
@@ -89,7 +89,7 @@ public class CableItem extends Item {
     public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
         CableKind kind = getKind(stack);
 
-        // IC2-style cable tooltip:
+        // IL-style cable tooltip:
         //  - transfer limit (EU/t)
         //  - conduction loss (EU/Block)
         tooltip.add(Text.translatable("tooltip." + IndustrialLegacy.MOD_ID + ".cable.capacity", kind.capacity)
@@ -101,7 +101,7 @@ public class CableItem extends Item {
     /**
      * Place the cable block variant.
      *
-     * <p>The block itself is TE-rendered (thin geometry + connection arms), matching IC2 behavior.</p>
+     * <p>The block itself is TE-rendered (thin geometry + connection arms), matching IL behavior.</p>
      */
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {

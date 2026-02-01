@@ -6,7 +6,7 @@ import net.minecraft.world.World;
 import java.util.*;
 
 /**
- * IC2-style per-world EnergyNetLocal.
+ * IL-style per-world EnergyNetLocal.
  *
  * <p>This implementation focuses on the core behavior needed for 1:1 gameplay:
  * <ul>

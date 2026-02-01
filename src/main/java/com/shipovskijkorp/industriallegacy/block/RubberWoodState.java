@@ -4,7 +4,7 @@ import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.math.Direction;
 
 /**
- * IC2 rubber wood state machine (1.12.2):
+ * IL rubber wood state machine (1.12.2):
  *  - plain_{axis}: normal log blocks (piston movable)
  *  - dry_{side}: harvested resin hole, can regenerate to wet
  *  - wet_{side}: resin available

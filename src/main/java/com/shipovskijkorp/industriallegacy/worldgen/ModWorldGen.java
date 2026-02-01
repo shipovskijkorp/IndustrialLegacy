@@ -43,7 +43,7 @@ public final class ModWorldGen {
                 OrePlacedFeatures.URANIUM_ORE_PLACED
         );
 
-        // Rubber trees (IC2-style) — injected into overworld once per chunk at VEGETAL_DECORATION.
+        // Rubber trees (IL-style) — injected into overworld once per chunk at VEGETAL_DECORATION.
         BiomeModifications.addFeature(
                 BiomeSelectors.foundInOverworld(),
                 GenerationStep.Feature.VEGETAL_DECORATION,

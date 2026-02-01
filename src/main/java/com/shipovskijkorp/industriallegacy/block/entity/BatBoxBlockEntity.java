@@ -28,16 +28,16 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.entity.player.PlayerEntity;
 
 /**
- * IC2-style BatBox (tier 1, 32 EU/t output, 40000 EU capacity).
+ * IL-style BatBox (tier 1, 32 EU/t output, 40000 EU capacity).
  *
  * This is a minimal implementation for now:
  * - internal buffer
  * - output on the facing side
  * - input on all other sides
- * - 1 packet per tick (full packets only, like IC2's "fullEnergy" behavior)
+ * - 1 packet per tick (full packets only, like IL's "fullEnergy" behavior)
  */
 public class BatBoxBlockEntity extends BlockEntity implements SidedInventory, IEuEnergyStorage, ExtendedScreenHandlerFactory {
-    // Inventory layout (IC2-ish):
+    // Inventory layout (IL-ish):
     // 0 = charge (top)
     // 1 = discharge (bottom)
     private static final int SLOT_CHARGE = 0;
@@ -55,7 +55,7 @@ public class BatBoxBlockEntity extends BlockEntity implements SidedInventory, IE
 
     private long energy = 0L;
 
-    // IC2: 0..6, total 7 modes.
+    // IL: 0..6, total 7 modes.
     public byte redstoneMode = 0;
     public static final byte REDSTONE_MODES = 7;
 
@@ -100,7 +100,7 @@ public class BatBoxBlockEntity extends BlockEntity implements SidedInventory, IE
         // Charge/discharge items (slots).
         be.chargeDischargeItems();
 
-        // IC2-style: output may be disabled by redstone mode.
+        // IL-style: output may be disabled by redstone mode.
         be.emit();
 
         // Redstone output (modes 1..4) depends on energy level; update neighbors only when it changes.
@@ -115,14 +115,14 @@ public class BatBoxBlockEntity extends BlockEntity implements SidedInventory, IE
         Direction out = getCachedState().get(BatBoxBlock.FACING);
         if (out == null) return;
 
-        // IC2 "fullEnergy" behavior: only offer energy if we can send a full packet.
+        // IL "fullEnergy" behavior: only offer energy if we can send a full packet.
         if (energy < packet) return;
 
         // Try direct neighbor first, otherwise route through cable blocks.
         EuNetwork.route(world, pos, this, out, packet);
     }
 
-    /** Mirrors IC2 TileEntityElectricBlock.shouldEmitEnergy(). */
+    /** Mirrors IL TileEntityElectricBlock.shouldEmitEnergy(). */
     private boolean shouldEmitEnergy() {
         if (world == null) return true;
         boolean hasRedstone = world.isReceivingRedstonePower(pos);
@@ -136,7 +136,7 @@ public class BatBoxBlockEntity extends BlockEntity implements SidedInventory, IE
         return true;
     }
 
-    /** Mirrors IC2 TileEntityElectricBlock.shouldEmitRedstone(). */
+    /** Mirrors IL TileEntityElectricBlock.shouldEmitRedstone(). */
     public boolean shouldEmitRedstone() {
         return switch (redstoneMode) {
             case 1 -> energy >= capacity - (double) outputEuT * 20.0;
@@ -229,7 +229,7 @@ public class BatBoxBlockEntity extends BlockEntity implements SidedInventory, IE
 
     @Override
     public int getMaxCountPerStack() {
-        // IC2 BatBox slots effectively hold one electric item at a time.
+        // IL BatBox slots effectively hold one electric item at a time.
         return 1;
     }
 
@@ -288,7 +288,7 @@ public class BatBoxBlockEntity extends BlockEntity implements SidedInventory, IE
         }
     }
 
-    // --- Sided inventory rules (IC2-like) ---
+    // --- Sided inventory rules (IL-like) ---
     @Override
     public int[] getAvailableSlots(Direction side) {
         if (side == Direction.UP) return TOP_SLOTS;
@@ -299,7 +299,7 @@ public class BatBoxBlockEntity extends BlockEntity implements SidedInventory, IE
     @Override
     public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
         if (!ElectricItemManager.isElectric(stack)) return false;
-        // IC2-like: charge slot is UP, discharge slot is DOWN.
+        // IL-like: charge slot is UP, discharge slot is DOWN.
         if (slot == SLOT_CHARGE) return dir == null || dir == Direction.UP;
         if (slot == SLOT_DISCHARGE) return dir == null || dir == Direction.DOWN;
         return false;
@@ -335,7 +335,7 @@ public class BatBoxBlockEntity extends BlockEntity implements SidedInventory, IE
 
     @Override
     public boolean isFullEnergyOutput() {
-        // IC2 storage blocks emit full packets only.
+        // IL storage blocks emit full packets only.
         return true;
     }
 
@@ -369,7 +369,7 @@ public class BatBoxBlockEntity extends BlockEntity implements SidedInventory, IE
         if (amount <= 0) return 0;
         if (!canExtract(to)) return 0;
 
-        // IC2 "fullEnergy" behavior:
+        // IL "fullEnergy" behavior:
         // - Only start emitting when we have at least one full tier packet available.
         // - But the EnergyNet may still draw a *partial* amount (e.g. topping off a nearly-full sink).
         //   In that case, we allow extracting <= one packet, as long as we had >= one packet to begin with.
@@ -389,7 +389,7 @@ public class BatBoxBlockEntity extends BlockEntity implements SidedInventory, IE
     }
 
     public String getRedstoneModeTranslationKey() {
-        return "ic2.EUStorage.gui.mod.redstone" + redstoneMode;
+        return "il.EUStorage.gui.mod.redstone" + redstoneMode;
     }
 
     public void cycleRedstoneMode(@Nullable ServerPlayerEntity player) {

@@ -31,9 +31,9 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.entity.player.PlayerEntity;
 
 /**
- * IC2-like Generator tile.
+ * IL-like Generator tile.
  *
- * Matches the important parts of IC2 1.12.2 logic:
+ * Matches the important parts of IL 1.12.2 logic:
  * - production = round(10 * balance/energy/generator/generator)
  * - internal buffer = 4000 EU
  * - tier = 1 (packet size 32 EU)
@@ -41,7 +41,7 @@ import net.minecraft.entity.player.PlayerEntity;
  * - burns fuel while fuel>0 (even if the last tick doesn't fully fit into storage)
  */
 public class GeneratorBlockEntity extends BlockEntity implements SidedInventory, IEuEnergyStorage, ExtendedScreenHandlerFactory {
-    // Inventory layout (kept IC2-ish):
+    // Inventory layout (kept IL-ish):
     // 0 = charge (not yet used, but reserved for later electric items)
     // 1 = fuel
     /** Slot indices are public so blocks/menus can interact without reflection. */
@@ -101,12 +101,12 @@ public class GeneratorBlockEntity extends BlockEntity implements SidedInventory,
     }
 
     /**
-     * IC2 generator fuel logic:
+     * IL generator fuel logic:
      * vanilla burn time / 4 (so coal 1600 -> 400 ticks -> 4000 EU at 10 EU/t).
      */
     public static int getFuelTicksForStack(ItemStack stack) {
         if (stack.isEmpty()) return 0;
-        // IC2 generator disallows lava by default.
+        // IL generator disallows lava by default.
         if (stack.isOf(Items.LAVA_BUCKET)) return 0;
 
         Integer burnTime = FuelRegistry.INSTANCE.get(stack.getItem());
@@ -279,7 +279,7 @@ public class GeneratorBlockEntity extends BlockEntity implements SidedInventory,
         }
     }
 
-    // --- Sided inventory rules (IC2-like) ---
+    // --- Sided inventory rules (IL-like) ---
     @Override
     public int[] getAvailableSlots(Direction side) {
         if (side == Direction.UP) return TOP_SLOTS;
@@ -351,7 +351,7 @@ public class GeneratorBlockEntity extends BlockEntity implements SidedInventory,
     public long extractEu(long amount, Direction to, boolean simulate) {
         if (amount <= 0) return 0;
         if (energy <= 0) return 0;
-        // Single-packet source like IC2: at most one packet per extraction.
+        // Single-packet source like IL: at most one packet per extraction.
         long maxPacket = EuUtil.powerFromTier(this.tier);
         long extracted = Math.min(Math.min(amount, maxPacket), energy);
         if (!simulate) {

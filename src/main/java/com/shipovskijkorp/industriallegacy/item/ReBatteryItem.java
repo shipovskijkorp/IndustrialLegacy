@@ -13,15 +13,15 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 /**
- * IC2 RE-Battery (re_battery)
+ * IL RE-Battery (re_battery)
  *
- * Canon parameters (IC2 1.12.2):
+ * Canon parameters (IL 1.12.2):
  * - capacity: 10,000 EU
  * - transferLimit: 100 EU/t
  * - tier: 1
  * - max stack: 16
  *
- * Energy is stored in NBT. Newly crafted battery is empty (0 EU), like IC2.
+ * Energy is stored in NBT. Newly crafted battery is empty (0 EU), like IL.
  */
 public final class ReBatteryItem extends Item implements IElectricItem {
 
@@ -88,7 +88,7 @@ public final class ReBatteryItem extends Item implements IElectricItem {
 
     @Override
     public boolean isItemBarVisible(ItemStack stack) {
-        // Show charge bar always (IC2-like).
+        // Show charge bar always (IL-like).
         return true;
     }
 

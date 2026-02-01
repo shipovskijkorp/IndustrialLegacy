@@ -16,7 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 /*
-  IC2-style treetap: extracts sticky resin from rubber log "resin" spots.
+  IL-style treetap: extracts sticky resin from rubber log "resin" spots.
 
   <p>Important: in 1.20+ {@link ItemUsageContext#getHitResult()} is protected, so we use
   {@link ItemUsageContext#getBlockPos()} and {@link ItemUsageContext#getSide()} instead.</p>
@@ -45,7 +45,7 @@ public class TreetapItem extends Item {
 
         PlayerEntity player = ctx.getPlayer();
 
-        // Drop 1–3 sticky resin (IC2-like).
+        // Drop 1–3 sticky resin (IL-like).
         ItemStack drop = new ItemStack(ModItems.STICKY_RESIN, world.random.nextInt(3) + 1);
 
         if (player != null) {

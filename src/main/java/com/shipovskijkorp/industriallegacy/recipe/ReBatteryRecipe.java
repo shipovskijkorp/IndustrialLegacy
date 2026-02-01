@@ -16,7 +16,7 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
 /**
- * IC2 re_battery recipe (shaped_recipes.ini):
+ * IL re_battery recipe (shaped_recipes.ini):
  *
  * pattern:
  *  " C "

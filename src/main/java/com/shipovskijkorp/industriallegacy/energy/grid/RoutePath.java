@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Cached route from a starting cable to a sink.
  *
- * <p>Inspired by IC2's EnergyPath in EnergyCalculatorLeg: we track the maximum packet conducted
+ * <p>Inspired by IL's EnergyPath in EnergyCalculatorLeg: we track the maximum packet conducted
  * during a tick and total energy supplied, and apply cable/sink effects at end of tick.</p>
  */
 public final class RoutePath {

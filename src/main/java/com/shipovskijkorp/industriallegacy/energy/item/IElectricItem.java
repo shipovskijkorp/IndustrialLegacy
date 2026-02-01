@@ -3,7 +3,7 @@ package com.shipovskijkorp.industriallegacy.energy.item;
 import net.minecraft.item.ItemStack;
 
 /**
- * Minimal electric-item API (IC2-style).
+ * Minimal electric-item API (IL-style).
  *
  * Implementations store energy however they want (usually NBT).
  * All methods are INSTANCE methods (do NOT make them static).

@@ -18,7 +18,7 @@ import net.minecraft.world.World;
 /**
  * Crafting recipe: 1x cable + 1x rubber -> cable with insulation+1 (clamped by kind.maxInsulation).
  *
- * <p>Matches IC2 behavior: one rubber adds exactly one insulation layer.</p>
+ * <p>Matches IL behavior: one rubber adds exactly one insulation layer.</p>
  */
 public final class InsulateCableRecipe extends SpecialCraftingRecipe {
 

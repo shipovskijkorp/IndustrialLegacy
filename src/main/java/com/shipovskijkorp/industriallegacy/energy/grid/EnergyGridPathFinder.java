@@ -14,7 +14,7 @@ import java.util.*;
 /**
  * Dijkstra over cables, producing best-loss paths to reachable sinks.
  *
- * IC2-accurate loss model:
+ * IL-accurate loss model:
  * - Each node has an "inner loss": cables use CableKind.loss, endpoints (source/sink) use 0.002
  * - Each edge/link loss = average(innerLossA, innerLossB)
  * - Path loss = sum(link losses)
@@ -25,12 +25,12 @@ final class EnergyGridPathFinder {
     private static final int MAX_NODES = 4096;
     private static final double INF = 1e100;
 
-    // IC2: sources/sinks inner loss = 0.002
+    // IL: sources/sinks inner loss = 0.002
     private static final double ENDPOINT_INNER_LOSS = 0.002;
 
     /**
      * @param pos current cable position
-     * @param loss accumulated path loss up to this cable (IC2 link-loss model)
+     * @param loss accumulated path loss up to this cable (IL link-loss model)
      * @param innerLoss inner loss of THIS node (for cables = cableKind.loss)
      */
     private record Node(BlockPos pos, double loss, double innerLoss) {}
@@ -52,7 +52,7 @@ final class EnergyGridPathFinder {
         Map<Long, Double> dist = new HashMap<>();
         Map<Long, Long> prev = new HashMap<>();
 
-        // IC2: first link is (source endpoint innerLoss + startCable innerLoss)/2
+        // IL: first link is (source endpoint innerLoss + startCable innerLoss)/2
         double startInnerLoss = startCable.getKind().loss;
         double startLoss = (ENDPOINT_INNER_LOSS + startInnerLoss) / 2.0;
 
@@ -82,7 +82,7 @@ final class EnergyGridPathFinder {
 
                 BlockEntity nbe = world.getBlockEntity(np);
                 if (nbe instanceof IEuEnergyStorage) {
-                    // IC2: last link is (lastCable innerLoss + sink endpoint innerLoss)/2
+                    // IL: last link is (lastCable innerLoss + sink endpoint innerLoss)/2
                     double endLinkLoss = (curInnerLoss + ENDPOINT_INNER_LOSS) / 2.0;
                     double totalLossToSink = curLoss + endLinkLoss;
 
@@ -103,7 +103,7 @@ final class EnergyGridPathFinder {
                 if (!(ns.getBlock() instanceof CableBlock nextCable)) continue;
                 if (isCableDisabledByRedstone(world, np, nextCable)) continue;
 
-                // IC2: link loss between two cables is average(innerLossA, innerLossB)
+                // IL: link loss between two cables is average(innerLossA, innerLossB)
                 double nextInnerLoss = nextCable.getKind().loss;
                 double linkLoss = (curInnerLoss + nextInnerLoss) / 2.0;
                 double nextLoss = curLoss + linkLoss;

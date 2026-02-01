@@ -15,7 +15,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import java.util.List;
 
 /**
- * Applies IC2-like over-voltage side effects: conductor meltdown, insulation breakdown, entity shocks,
+ * Applies IL-like over-voltage side effects: conductor meltdown, insulation breakdown, entity shocks,
  * and sink explosions.
  */
 final class OverVoltageProcessor {
@@ -59,12 +59,12 @@ final class OverVoltageProcessor {
     private static void shockEntities(ServerWorld world, BlockPos pos, double packet) {
         // Very small AABB around the cable block.
         Box box = new Box(pos).expand(0.15);
-        float damage = (float) Math.min(20.0, packet / 64.0); // IC2-ish scaling (rough)
+        float damage = (float) Math.min(20.0, packet / 64.0); // IL-ish scaling (rough)
         if (damage <= 0.0f) return;
 
         var src = world.getDamageSources().lightningBolt();
         for (LivingEntity e : world.getEntitiesByClass(LivingEntity.class, box, ent -> ent.isAlive() && !ent.isSpectator())) {
-            // IC2 doesn't shock in creative, keep it mild here.
+            // IL doesn't shock in creative, keep it mild here.
             if (e instanceof PlayerEntity p && p.getAbilities().creativeMode) continue;
             e.damage(src, damage);
         }

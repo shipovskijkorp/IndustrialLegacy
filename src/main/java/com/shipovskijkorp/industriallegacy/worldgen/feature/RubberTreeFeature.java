@@ -12,7 +12,7 @@ import java.util.Random;
 /**
  * Single rubber tree generation feature (used by sapling growth).
  *
- * Config is empty (DefaultFeatureConfig) by design: IC2 has fixed rules.
+ * Config is empty (DefaultFeatureConfig) by design: IL has fixed rules.
  */
 public class RubberTreeFeature extends Feature<DefaultFeatureConfig> {
     public RubberTreeFeature(Codec<DefaultFeatureConfig> configCodec) {
