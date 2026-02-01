@@ -95,6 +95,14 @@ public final class ModItemGroups {
                         entries.add(ModItems.STEEL_CASING);
                         entries.add(ModItems.TIN_CASING);
 
+                        //crushed ore
+                        entries.add(ModItems.CRUSHED_COPPER_ORE);
+                        entries.add(ModItems.CRUSHED_TIN_ORE);
+                        entries.add(ModItems.CRUSHED_URANIUM_ORE);
+                        entries.add(ModItems.CRUSHED_IRON_ORE);
+                        entries.add(ModItems.CRUSHED_LEAD_ORE);
+                        entries.add(ModItems.CRUSHED_GOLD_ORE);
+
 
                         entries.add(ModItems.DEBUG_WRENCH);
                     })
