@@ -1,6 +1,7 @@
 package com.shipovskijkorp.industriallegacy.client;
 
 import com.shipovskijkorp.industriallegacy.client.screen.BatBoxScreen;
+import com.shipovskijkorp.industriallegacy.client.screen.CompressorScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.GeneratorScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.MaceratorScreen;
 import com.shipovskijkorp.industriallegacy.registry.ModScreenHandlers;
@@ -14,5 +15,6 @@ public class IndustrialLegacyGuiClient implements ClientModInitializer {
         HandledScreens.register(ModScreenHandlers.GENERATOR, GeneratorScreen::new);
         HandledScreens.register(ModScreenHandlers.BATBOX, BatBoxScreen::new);
         ScreenRegistry.register(ModScreenHandlers.MACERATOR, MaceratorScreen::new);
+        HandledScreens.register(ModScreenHandlers.COMPRESSOR, CompressorScreen::new);
     }
 }
