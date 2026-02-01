@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "FFF",
+    "CBC",
+    " M "
+  ],
+  "key": {
+    "F": {
+      "item": "minecraft:flint"
+    },
+    "C": {
+      "item": "minecraft:cobblestone"
+    },
+    "B": {
+      "item": "industrial_legacy:machine_casing"
+    },
+    "M": {
+      "item": "industrial_legacy:electronic_circuit"
+    }
+  },
+  "result": {
+    "item": "industrial_legacy:macerator",
+    "count": 1
+  }
+}
