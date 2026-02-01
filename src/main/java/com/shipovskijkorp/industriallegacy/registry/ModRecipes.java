@@ -71,6 +71,12 @@ public final class ModRecipes {
             new ReBatteryRecipeSerializer()
     );
 
+    public static final RecipeSerializer<BatBoxRecipe> BATBOX_SERIALIZER = Registry.register(
+            Registries.RECIPE_SERIALIZER,
+            new Identifier(IndustrialLegacy.MOD_ID, "batbox"),
+            new BatBoxRecipeSerializer()
+    );
+
     public static void register() {
         // classload triggers static init
     }
