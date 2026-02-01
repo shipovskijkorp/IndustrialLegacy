@@ -101,6 +101,7 @@ public final class ModItemGroups {
                     .build()
     );
 
+
     public static void register() {
         // classload triggers static init
     }
