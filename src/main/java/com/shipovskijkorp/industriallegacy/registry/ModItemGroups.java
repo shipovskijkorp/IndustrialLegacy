@@ -29,6 +29,11 @@ public final class ModItemGroups {
                         entries.add(ModBlocks.IRON_FURNACE);
                         entries.add(ModBlocks.MACHINE_CASING);
 
+                        // Machines
+                        // (Present in current codebase)
+                        entries.add(ModBlocks.MACERATOR);
+
+                        // Worldgen blocks
                         entries.add(ModBlocks.LEAD_ORE);
                         entries.add(ModBlocks.TIN_ORE);
                         entries.add(ModBlocks.URANIUM_ORE);
@@ -37,26 +42,38 @@ public final class ModItemGroups {
                         entries.add(ModBlocks.RUBBER_LEAVES);
                         entries.add(ModBlocks.RUBBER_SAPLING);
 
-                        // Add all cable variants (14) with correct NBT (kind/insulation + derived variant)
+                        // Add all cable variants with correct NBT (kind/insulation + derived variant)
                         for (ItemStack stack : CableVariants.createAll(ModItems.CABLE)) {
                             entries.add(stack);
                         }
 
-                        // Items
+                        // Tools / utilities
                         entries.add(ModItems.FORGE_HAMMER);
                         entries.add(ModItems.CUTTER);
                         entries.add(ModItems.TREETAP);
+                        entries.add(ModItems.DEBUG_WRENCH);
+
+                        // Electric
                         entries.add(ModItems.RE_BATTERY);
 
-                        entries.add(ModItems.RUBBER);
+                        // Raw resources
                         entries.add(ModItems.STICKY_RESIN);
+                        entries.add(ModItems.RUBBER);
                         entries.add(ModItems.SULFUR);
 
+                        // Ingots
                         entries.add(ModItems.SILVER_INGOT);
                         entries.add(ModItems.TIN_INGOT);
                         entries.add(ModItems.LEAD_INGOT);
                         entries.add(ModItems.BRONZE_INGOT);
 
+                        // Crushed ores (macerator outputs)
+                        entries.add(ModItems.CRUSHED_IRON_ORE);
+                        entries.add(ModItems.CRUSHED_GOLD_ORE);
+                        entries.add(ModItems.CRUSHED_COPPER_ORE);
+                        entries.add(ModItems.CRUSHED_TIN_ORE);
+                        entries.add(ModItems.CRUSHED_LEAD_ORE);
+                        entries.add(ModItems.CRUSHED_URANIUM_ORE);
 
                         // Materials
                         entries.add(ModItems.IRIDIUM);
@@ -94,21 +111,9 @@ public final class ModItemGroups {
                         entries.add(ModItems.LEAD_CASING);
                         entries.add(ModItems.STEEL_CASING);
                         entries.add(ModItems.TIN_CASING);
-
-                        //crushed ore
-                        entries.add(ModItems.CRUSHED_COPPER_ORE);
-                        entries.add(ModItems.CRUSHED_TIN_ORE);
-                        entries.add(ModItems.CRUSHED_URANIUM_ORE);
-                        entries.add(ModItems.CRUSHED_IRON_ORE);
-                        entries.add(ModItems.CRUSHED_LEAD_ORE);
-                        entries.add(ModItems.CRUSHED_GOLD_ORE);
-
-
-                        entries.add(ModItems.DEBUG_WRENCH);
                     })
                     .build()
     );
-
 
     public static void register() {
         // classload triggers static init
