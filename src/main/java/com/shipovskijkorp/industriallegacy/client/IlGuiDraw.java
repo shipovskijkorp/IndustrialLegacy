@@ -155,8 +155,8 @@ public final class IlGuiDraw {
         ctx.drawTexture(COMMON, x, dstY, 116, srcY, 7, fillH, TEX_W, TEX_H);
     }
     /**
-     * Compatibility alias: some screens call drawEnergyBoltFramed().
-     * The "bolt" gauge already draws its own frame (background) like IC2.
+     * Compatibility helper: some screens call a "framed" bolt.
+     * In IL, {@link #drawEnergyBolt} already draws the backing plate, so this is an alias.
      */
     public static void drawEnergyBoltFramed(DrawContext ctx, int x, int y, float ratio) {
         drawEnergyBolt(ctx, x, y, ratio);
@@ -180,4 +180,16 @@ public final class IlGuiDraw {
 
         ctx.drawTexture(COMMON, x, y, 165, 52, w, 11, TEX_W, TEX_H);
     }
+
+    public static void drawProgressTriangle(DrawContext ctx, int x, int y, float ratio) {
+        ratio = clamp01(ratio);
+
+        // IC2 classic "progresstriangle": background (160,64 32x16) at (-5,0), fill (165,80 22x15) at (0,1)
+        drawTex(ctx, x - 5, y, 160, 64, 32, 16);
+        int w = (int) Math.floor(22.0f * ratio);
+        if (w <= 0) return;
+
+        drawTex(ctx, x, y + 1, 165, 80, w, 15);
+    }
+
 }

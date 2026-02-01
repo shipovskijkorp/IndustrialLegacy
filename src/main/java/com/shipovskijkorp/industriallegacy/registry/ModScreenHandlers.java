@@ -4,6 +4,7 @@ import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
 import com.shipovskijkorp.industriallegacy.screen.BatBoxScreenHandler;
 import com.shipovskijkorp.industriallegacy.screen.GeneratorScreenHandler;
 import com.shipovskijkorp.industriallegacy.screen.MaceratorScreenHandler;
+import com.shipovskijkorp.industriallegacy.screen.CompressorScreenHandler;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.registry.Registries;
@@ -17,6 +18,12 @@ public final class ModScreenHandlers {
     public static final ScreenHandlerType<MaceratorScreenHandler> MACERATOR =
             Registry.register(Registries.SCREEN_HANDLER, new Identifier(IndustrialLegacy.MOD_ID, "macerator"),
                     new ExtendedScreenHandlerType<>(MaceratorScreenHandler::new));
+
+    public static final ScreenHandlerType<CompressorScreenHandler> COMPRESSOR = Registry.register(
+            Registries.SCREEN_HANDLER,
+            new Identifier(IndustrialLegacy.MOD_ID, "compressor"),
+            new ExtendedScreenHandlerType<>(CompressorScreenHandler::new)
+    );
 
 
     public static ScreenHandlerType<GeneratorScreenHandler> GENERATOR;

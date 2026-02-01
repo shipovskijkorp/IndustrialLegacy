@@ -36,6 +36,12 @@ public final class ModBlockEntities {
             BlockEntityType.Builder.create(MaceratorBlockEntity::new, ModBlocks.MACERATOR).build(null)
     );
 
+    public static final BlockEntityType<CompressorBlockEntity> COMPRESSOR = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE,
+            new Identifier(IndustrialLegacy.MOD_ID, "compressor"),
+            BlockEntityType.Builder.create(CompressorBlockEntity::new, ModBlocks.COMPRESSOR).build(null)
+    );
+
 
 
     /** Cable BE used for thin cable rendering + detector/splitter behavior and EU-net bookkeeping. */

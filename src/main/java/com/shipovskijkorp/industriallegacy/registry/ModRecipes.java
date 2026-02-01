@@ -42,6 +42,12 @@ public final class ModRecipes {
             }
     );
 
+    public static final RecipeSerializer<ElectronicCircuitRecipe> ELECTRONIC_CIRCUIT_SERIALIZER = Registry.register(
+            Registries.RECIPE_SERIALIZER,
+            new Identifier(IndustrialLegacy.MOD_ID, "electronic_circuit"),
+            new ElectronicCircuitRecipeSerializer()
+    );
+
     public static final RecipeSerializer<InsulateCableRecipe> INSULATE_CABLE_SERIALIZER = Registry.register(
             Registries.RECIPE_SERIALIZER,
             new Identifier(IndustrialLegacy.MOD_ID, "insulate_cable"),
@@ -71,13 +77,6 @@ public final class ModRecipes {
             new ReBatteryRecipeSerializer()
     );
 
-    public static final RecipeSerializer<ElectronicCircuitRecipe> ELECTRONIC_CIRCUIT_SERIALIZER = Registry.register(
-            Registries.RECIPE_SERIALIZER,
-            new Identifier(IndustrialLegacy.MOD_ID, "electronic_circuit"),
-            new ElectronicCircuitRecipeSerializer()
-    );
-
-
     public static final RecipeSerializer<BatBoxRecipe> BATBOX_SERIALIZER = Registry.register(
             Registries.RECIPE_SERIALIZER,
             new Identifier(IndustrialLegacy.MOD_ID, "batbox"),
@@ -99,6 +98,23 @@ public final class ModRecipes {
             Registries.RECIPE_SERIALIZER,
             new Identifier(IndustrialLegacy.MOD_ID, "macerator"),
             new MaceratorRecipeSerializer()
+    );
+
+    public static final RecipeType<CompressorRecipe> COMPRESSOR_TYPE = Registry.register(
+            Registries.RECIPE_TYPE,
+            new Identifier(IndustrialLegacy.MOD_ID, "compressor"),
+            new RecipeType<>() {
+                @Override
+                public String toString() {
+                    return IndustrialLegacy.MOD_ID + ":compressor";
+                }
+            }
+    );
+
+    public static final RecipeSerializer<CompressorRecipe> COMPRESSOR_SERIALIZER = Registry.register(
+            Registries.RECIPE_SERIALIZER,
+            new Identifier(IndustrialLegacy.MOD_ID, "compressor"),
+            new CompressorRecipeSerializer()
     );
 
     public static void register() {

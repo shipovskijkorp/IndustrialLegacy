@@ -1,0 +1,64 @@
+package com.shipovskijkorp.industriallegacy.recipe;
+
+import com.shipovskijkorp.industriallegacy.registry.ModRecipes;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.recipe.Ingredient;
+import net.minecraft.recipe.Recipe;
+import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.recipe.RecipeType;
+import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.util.Identifier;
+import net.minecraft.world.World;
+
+/**
+ * Simple machine recipe: one input -> one output, plus per-recipe tick cost.
+ */
+public class CompressorRecipe implements Recipe<Inventory> {
+    private final Identifier id;
+    private final Ingredient ingredient;
+    private final ItemStack output;
+    private final int ticks;
+
+    public CompressorRecipe(Identifier id, Ingredient ingredient, ItemStack output, int ticks) {
+        this.id = id;
+        this.ingredient = ingredient;
+        this.output = output;
+        this.ticks = ticks;
+    }
+
+    public Ingredient getIngredient() { return ingredient; }
+    public int getTicks() { return ticks; }
+
+    @Override
+    public boolean matches(Inventory inv, World world) {
+        return ingredient.test(inv.getStack(0));
+    }
+
+    @Override
+    public ItemStack craft(Inventory inv, DynamicRegistryManager registryManager) {
+        return output.copy();
+    }
+
+    @Override
+    public boolean fits(int width, int height) {
+        return true;
+    }
+
+    /**
+     * Yarn/MC 1.20.x uses getOutput(registryManager) as the canonical output getter.
+     */
+    @Override
+    public ItemStack getOutput(DynamicRegistryManager registryManager) {
+        return output;
+    }
+
+    // Convenience for other call-sites (do NOT annotate @Override; mappings differ).
+    public ItemStack getOutputStack() {
+        return output;
+    }
+
+    @Override public Identifier getId() { return id; }
+    @Override public RecipeSerializer<?> getSerializer() { return ModRecipes.COMPRESSOR_SERIALIZER; }
+    @Override public RecipeType<?> getType() { return ModRecipes.COMPRESSOR_TYPE; }
+}
