@@ -44,6 +44,7 @@ public final class ModItemGroups {
                         entries.add(ModItems.FORGE_HAMMER);
                         entries.add(ModItems.CUTTER);
                         entries.add(ModItems.TREETAP);
+                        entries.add(ModItems.RE_BATTERY);
 
                         entries.add(ModItems.RUBBER);
                         entries.add(ModItems.STICKY_RESIN);

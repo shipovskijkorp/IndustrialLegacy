@@ -3,6 +3,7 @@ package com.shipovskijkorp.industriallegacy.registry;
 import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
 import com.shipovskijkorp.industriallegacy.item.CableItem;
 import com.shipovskijkorp.industriallegacy.item.DebugWrenchItem;
+import com.shipovskijkorp.industriallegacy.item.ReBatteryItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -41,6 +42,9 @@ public final class ModItems {
 
     public static final Item TREETAP = register("treetap",
             new TreetapItem(new FabricItemSettings().maxDamage(64)));
+
+    public static final Item RE_BATTERY = register("re_battery",
+            new ReBatteryItem(new FabricItemSettings().maxCount(16)));
 
 
     public static final Item FORGE_HAMMER = register("forge_hammer",

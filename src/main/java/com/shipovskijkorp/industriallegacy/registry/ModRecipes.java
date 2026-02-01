@@ -1,12 +1,7 @@
 package com.shipovskijkorp.industriallegacy.registry;
 
 import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
-import com.shipovskijkorp.industriallegacy.recipe.CutterCableRecipe;
-import com.shipovskijkorp.industriallegacy.recipe.CutterCableRecipeSerializer;
-import com.shipovskijkorp.industriallegacy.recipe.HammerPlateRecipe;
-import com.shipovskijkorp.industriallegacy.recipe.HammerPlateRecipeSerializer;
-import com.shipovskijkorp.industriallegacy.recipe.InsulateCableRecipe;
-import com.shipovskijkorp.industriallegacy.recipe.InsulateCableRecipeSerializer;
+import com.shipovskijkorp.industriallegacy.recipe.*;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.registry.Registries;
@@ -68,6 +63,12 @@ public final class ModRecipes {
             Registries.RECIPE_SERIALIZER,
             new Identifier(IndustrialLegacy.MOD_ID, "hammer_plate"),
             new HammerPlateRecipeSerializer()
+    );
+
+    public static final RecipeSerializer<ReBatteryRecipe> RE_BATTERY_SERIALIZER = Registry.register(
+            Registries.RECIPE_SERIALIZER,
+            new Identifier(IndustrialLegacy.MOD_ID, "re_battery"),
+            new ReBatteryRecipeSerializer()
     );
 
     public static void register() {

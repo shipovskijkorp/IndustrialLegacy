@@ -1,11 +1,13 @@
 package com.shipovskijkorp.industriallegacy.screen;
 
 import com.shipovskijkorp.industriallegacy.block.entity.BatBoxBlockEntity;
+import com.shipovskijkorp.industriallegacy.energy.item.ElectricItemManager;
 import com.shipovskijkorp.industriallegacy.registry.ModScreenHandlers;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.network.PacketByteBuf;
@@ -124,6 +126,28 @@ public class BatBoxScreenHandler extends ScreenHandler {
             return bat.getGuiProperties();
         }
         return new ArrayPropertyDelegate(PROP_COUNT);
+    }
+
+
+    private static final class NonStackingElectricSlot extends Slot {
+        NonStackingElectricSlot(Inventory inv, int index, int x, int y) {
+            super(inv, index, x, y);
+        }
+
+        @Override
+        public boolean canInsert(ItemStack stack) {
+            return ElectricItemManager.isElectric(stack);
+        }
+
+        @Override
+        public int getMaxItemCount() {
+            return 1;
+        }
+
+        @Override
+        public int getMaxItemCount(ItemStack stack) {
+            return 1;
+        }
     }
 
     private static final class EquipmentArmorSlot extends Slot {

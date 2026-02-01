@@ -4,6 +4,7 @@ import com.shipovskijkorp.industriallegacy.block.BatBoxBlock;
 import com.shipovskijkorp.industriallegacy.energy.EuNetwork;
 import com.shipovskijkorp.industriallegacy.energy.EuUtil;
 import com.shipovskijkorp.industriallegacy.energy.IEuEnergyStorage;
+import com.shipovskijkorp.industriallegacy.energy.item.ElectricItemManager;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -96,6 +97,9 @@ public class BatBoxBlockEntity extends BlockEntity implements SidedInventory, IE
     public static void tick(World world, BlockPos pos, BlockState state, BatBoxBlockEntity be) {
         if (world.isClient) return;
 
+        // Charge/discharge items (slots).
+        be.chargeDischargeItems();
+
         // IC2-style: output may be disabled by redstone mode.
         be.emit();
 
@@ -159,6 +163,46 @@ public class BatBoxBlockEntity extends BlockEntity implements SidedInventory, IE
         return Math.max(0L, capacity - energy);
     }
 
+
+    private void chargeDischargeItems() {
+        if (world == null) return;
+
+        // Slot 0: charge (BatBox -> item)
+        ItemStack charge = items.get(SLOT_CHARGE);
+        if (!charge.isEmpty() && ElectricItemManager.isElectric(charge) && charge.getCount() == 1) {
+            long maxMove = Math.min((long) outputEuT, ElectricItemManager.getTransferLimit(charge));
+            long can = Math.min(maxMove, energy);
+            long free = ElectricItemManager.getFree(charge);
+            long move = Math.min(can, free);
+
+            if (move > 0L) {
+                long accepted = ElectricItemManager.charge(charge, move, false);
+                if (accepted > 0L) {
+                    energy -= accepted;
+                    markDirty();
+                }
+            }
+        }
+
+        // Slot 1: discharge (item -> BatBox)
+        ItemStack discharge = items.get(SLOT_DISCHARGE);
+        if (!discharge.isEmpty() && ElectricItemManager.isElectric(discharge) && discharge.getCount() == 1) {
+            long maxMove = Math.min((long) outputEuT, ElectricItemManager.getTransferLimit(discharge));
+            long free = getEuFree();
+            long stored = ElectricItemManager.getEnergy(discharge);
+            long move = Math.min(maxMove, Math.min(free, stored));
+
+            if (move > 0L) {
+                long extracted = ElectricItemManager.discharge(discharge, move, false);
+                if (extracted > 0L) {
+                    energy = Math.min(capacity, energy + extracted);
+                    markDirty();
+                }
+            }
+        }
+    }
+
+
     // --- Saving / loading ---
     @Override
     protected void writeNbt(NbtCompound nbt) {
@@ -181,6 +225,12 @@ public class BatBoxBlockEntity extends BlockEntity implements SidedInventory, IE
     @Override
     public int size() {
         return items.size();
+    }
+
+    @Override
+    public int getMaxCountPerStack() {
+        // IC2 BatBox slots effectively hold one electric item at a time.
+        return 1;
     }
 
     @Override
@@ -211,6 +261,11 @@ public class BatBoxBlockEntity extends BlockEntity implements SidedInventory, IE
     }
 
     @Override
+    public boolean isValid(int slot, ItemStack stack) {
+        // Only electric items in both slots.
+        return ElectricItemManager.isElectric(stack);
+    }
+
     public void setStack(int slot, ItemStack stack) {
         items.set(slot, stack);
         if (stack.getCount() > getMaxCountPerStack()) {
@@ -243,9 +298,10 @@ public class BatBoxBlockEntity extends BlockEntity implements SidedInventory, IE
 
     @Override
     public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
-        // We don't have electric items yet, but keep the slots reserved.
-        if (slot == SLOT_CHARGE) return dir == Direction.UP;
-        if (slot == SLOT_DISCHARGE) return dir == Direction.DOWN;
+        if (!ElectricItemManager.isElectric(stack)) return false;
+        // IC2-like: charge slot is UP, discharge slot is DOWN.
+        if (slot == SLOT_CHARGE) return dir == null || dir == Direction.UP;
+        if (slot == SLOT_DISCHARGE) return dir == null || dir == Direction.DOWN;
         return false;
     }
 
