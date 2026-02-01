@@ -26,6 +26,7 @@ public final class ModItemGroups {
                         // Blocks
                         entries.add(ModBlocks.GENERATOR);
                         entries.add(ModBlocks.BATBOX);
+                        entries.add(ModBlocks.MACHINE_CASING);
 
                         entries.add(ModBlocks.LEAD_ORE);
                         entries.add(ModBlocks.TIN_ORE);
@@ -44,7 +45,6 @@ public final class ModItemGroups {
                         entries.add(ModItems.FORGE_HAMMER);
                         entries.add(ModItems.CUTTER);
                         entries.add(ModItems.TREETAP);
-                        entries.add(ModItems.RE_BATTERY);
 
                         entries.add(ModItems.RUBBER);
                         entries.add(ModItems.STICKY_RESIN);

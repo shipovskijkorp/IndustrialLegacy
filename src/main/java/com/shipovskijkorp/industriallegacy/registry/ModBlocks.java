@@ -15,6 +15,8 @@ import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 
+import java.util.function.Function;
+
 /** Block + BlockItem registrations. */
 public final class ModBlocks {
     private ModBlocks() {}
@@ -35,6 +37,19 @@ public final class ModBlocks {
                     .sounds(BlockSoundGroup.METAL)
                     .requiresTool())
     );
+
+    /**
+     * Basic Machine Casing (IC2-like "machine casing").
+     *
+     * Building material + crafting component.
+     * Strength is identical to vanilla iron block.
+     */
+    public static final Block MACHINE_CASING = register(
+            "machine_casing",
+            new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).requiresTool())
+    );
+
+
 
 
     public static final Block LEAD_ORE =
@@ -140,10 +155,14 @@ public final class ModBlocks {
                     FabricBlockSettings.copyOf(Blocks.OAK_SAPLING)));
 
     private static Block register(String name, Block block) {
+        return register(name, block, b -> new BlockItem(b, new Item.Settings()));
+    }
+
+    private static Block register(String name, Block block, Function<Block, Item> itemFactory) {
         Identifier id = new Identifier(IndustrialLegacy.MOD_ID, name);
         Block registered = Registry.register(Registries.BLOCK, id, block);
         // Matching block item
-        Registry.register(Registries.ITEM, id, new BlockItem(registered, new Item.Settings()));
+        Registry.register(Registries.ITEM, id, itemFactory.apply(registered));
         return registered;
     }
 

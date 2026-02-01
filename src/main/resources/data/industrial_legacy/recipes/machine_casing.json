@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PPP",
+    "P P",
+    "PPP"
+  ],
+  "key": {
+    "P": {
+      "item": "industrial_legacy:iron_plate"
+    }
+  },
+  "result": {
+    "item": "industrial_legacy:machine_casing"
+  }
+}
