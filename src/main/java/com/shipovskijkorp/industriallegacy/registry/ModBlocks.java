@@ -38,6 +38,15 @@ public final class ModBlocks {
                     .requiresTool())
     );
 
+    public static final Block MACERATOR = register(
+            "macerator",
+            new MaceratorBlock(FabricBlockSettings.create()
+                    .strength(2.0f)
+                    .sounds(BlockSoundGroup.METAL)
+                    .requiresTool()
+                    .luminance(s -> s.get(MaceratorBlock.LIT) ? 13 : 0))
+    );
+
     /**
      * Iron Furnace — upgraded furnace (8s smelt, vanilla fuel burn time).
      * Light level matches vanilla furnace.

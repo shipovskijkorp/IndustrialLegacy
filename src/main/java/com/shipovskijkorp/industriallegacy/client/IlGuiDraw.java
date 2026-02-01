@@ -3,10 +3,12 @@ package com.shipovskijkorp.industriallegacy.client;
 import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
 
 public final class IlGuiDraw {
     public static final Identifier COMMON = new Identifier(IndustrialLegacy.MOD_ID, "textures/gui/common.png");
-
+    private static final int TEX_W = 256;
+    private static final int TEX_H = 256;
     private IlGuiDraw() {}
 
     /**
@@ -95,4 +97,40 @@ public static void drawEnergyBarFramed(DrawContext ctx, int x, int y, float rati
         if (v > 1f) return 1f;
         return v;
     }
+
+    // --- IC2-like widgets used by classic machines ---
+
+    /** Large output slot frame (used by macerator/etc). */
+    public static void drawSlotLarge(DrawContext ctx, int x, int y) {
+        // 64x64 frame in common.png
+        drawCommon(ctx, x, y, 16, 16, 64, 64);
+    }
+
+    /** Small energy bolt icon (dark/light variants). */
+    public static void drawEnergyBolt(DrawContext ctx, int x, int y, boolean lit) {
+        drawCommon(ctx, x, y, lit ? 116 : 100, 65, 7, 13);
+    }
+
+    /** Info button icon (purely cosmetic for now). */
+    public static void drawInfoButton(DrawContext ctx, int x, int y) {
+        drawCommon(ctx, x, y, 111, 113, 12, 13);
+    }
+
+    /**
+     * Macerator-style crushing progress (arrow + dust), filled left-to-right.
+     * The sprites are in common.png at (165,96) and (165,112).
+     */
+    public static void drawProgressCrush(DrawContext ctx, int x, int y, float ratio) {
+        ratio = MathHelper.clamp(ratio, 0.0f, 1.0f);
+
+        // background
+        drawCommon(ctx, x, y, 165, 96, 22, 15);
+
+        // fill (crop width)
+        int w = MathHelper.floor(22.0f * ratio);
+        if (w > 0) {
+            ctx.drawTexture(COMMON, x, y, 165, 112, w, 15, TEX_W, TEX_H);
+        }
+    }
+
 }

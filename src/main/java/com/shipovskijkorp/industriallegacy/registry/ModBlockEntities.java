@@ -1,10 +1,7 @@
 package com.shipovskijkorp.industriallegacy.registry;
 
 import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
-import com.shipovskijkorp.industriallegacy.block.entity.BatBoxBlockEntity;
-import com.shipovskijkorp.industriallegacy.block.entity.CableBlockEntity;
-import com.shipovskijkorp.industriallegacy.block.entity.GeneratorBlockEntity;
-import com.shipovskijkorp.industriallegacy.block.entity.IronFurnaceBlockEntity;
+import com.shipovskijkorp.industriallegacy.block.entity.*;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.registry.Registries;
@@ -32,6 +29,13 @@ public final class ModBlockEntities {
             new Identifier(IndustrialLegacy.MOD_ID, "iron_furnace"),
             FabricBlockEntityTypeBuilder.create(IronFurnaceBlockEntity::new, ModBlocks.IRON_FURNACE).build()
     );
+
+    public static final BlockEntityType<MaceratorBlockEntity> MACERATOR = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE,
+            new Identifier(IndustrialLegacy.MOD_ID, "macerator"),
+            BlockEntityType.Builder.create(MaceratorBlockEntity::new, ModBlocks.MACERATOR).build(null)
+    );
+
 
 
     /** Cable BE used for thin cable rendering + detector/splitter behavior and EU-net bookkeeping. */
