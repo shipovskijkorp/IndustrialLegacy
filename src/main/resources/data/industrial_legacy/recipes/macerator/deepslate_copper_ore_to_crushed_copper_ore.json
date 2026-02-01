@@ -1,0 +1,11 @@
+{
+  "type": "industrial_legacy:macerator",
+  "ingredient": {
+    "item": "minecraft:deepslate_copper_ore"
+  },
+  "result": {
+    "item": "industrial_legacy:crushed_copper_ore",
+    "count": 2
+  },
+  "ticks": 300
+}

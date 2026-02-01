@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "industrial_legacy:crushed_lead_ore"
+  },
+  "result": "industrial_legacy:lead_ingot",
+  "experience": 0.7,
+  "cookingtime": 100
+}

@@ -1,0 +1,11 @@
+{
+  "type": "industrial_legacy:macerator",
+  "ingredient": {
+    "item": "industrial_legacy:uranium_ore"
+  },
+  "result": {
+    "item": "industrial_legacy:crushed_uranium_ore",
+    "count": 2
+  },
+  "ticks": 300
+}
