@@ -8,13 +8,20 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 
 /**
- * IC2-like Compressor GUI.
+ * IC2-like Compressor GUI (guidef/compressor.xml).
  *
- * Layout is identical to macerator, but progress uses the triangle indicator.
+ * Slots:
+ *  - input:     (55,16)
+ *  - discharge: (55,52)
+ *  - output:    large frame at (111,30) (do NOT draw inner small frame)
+ *  - upgrades:  4 vertical slots at (151,7)
+ *
+ * Gauges:
+ *  - energy bolt: (59,37) + tooltip on hover
+ *  - progress triangle: (80,35)
  */
 public class CompressorScreen extends HandledScreen<CompressorScreenHandler> {
 
-    // GUI element positions (IC2 classic)
     private static final int SLOT_IN_X = 55;
     private static final int SLOT_IN_Y = 16;
 
@@ -31,7 +38,7 @@ public class CompressorScreen extends HandledScreen<CompressorScreenHandler> {
     private static final int ENERGY_BOLT_Y = 37;
 
     private static final int PROGRESS_X = 80;
-    private static final int PROGRESS_Y = 38;
+    private static final int PROGRESS_Y = 35;
 
     public CompressorScreen(CompressorScreenHandler handler, PlayerInventory inv, Text title) {
         super(handler, inv, title);
@@ -42,6 +49,7 @@ public class CompressorScreen extends HandledScreen<CompressorScreenHandler> {
     @Override
     protected void init() {
         super.init();
+        // Center title like IC2
         this.titleX = (this.backgroundWidth - this.textRenderer.getWidth(this.title)) / 2;
         this.playerInventoryTitleX = 8;
         this.playerInventoryTitleY = 72;
@@ -49,13 +57,12 @@ public class CompressorScreen extends HandledScreen<CompressorScreenHandler> {
 
     @Override
     public void render(DrawContext ctx, int mouseX, int mouseY, float delta) {
+        this.renderBackground(ctx);
         super.render(ctx, mouseX, mouseY, delta);
-
-        // default item tooltips (names, etc.)
         this.drawMouseoverTooltip(ctx, mouseX, mouseY);
 
-        // energy tooltip on bolt
-        if (this.isPointWithinBounds(ENERGY_BOLT_X, ENERGY_BOLT_Y, 16, 16, mouseX, mouseY)) {
+        // Energy tooltip on bolt icon
+        if (this.isPointWithinBounds(ENERGY_BOLT_X, ENERGY_BOLT_Y, 7, 13, mouseX, mouseY)) {
             int e = handler.getEnergy();
             int cap = handler.getEnergyCap();
             ctx.drawTooltip(this.textRenderer, Text.literal(e + " / " + cap + " EU"), mouseX, mouseY);
@@ -67,33 +74,32 @@ public class CompressorScreen extends HandledScreen<CompressorScreenHandler> {
         final int x = this.x;
         final int y = this.y;
 
-        // base panel (IC2 common background)
+        // Base panel (IC2 style)
         IlGuiDraw.drawDefaultBackground(ctx, x, y, backgroundWidth, backgroundHeight);
 
-        // info button (top-left)
+        // Info button (top-left) cosmetic
         IlGuiDraw.drawInfoButton(ctx, x + 4, y + 4);
 
-        // machine slot frames
-        IlGuiDraw.drawSlot(ctx, x + SLOT_IN_X, y + SLOT_IN_Y);      // input
-        IlGuiDraw.drawSlot(ctx, x + SLOT_BAT_X, y + SLOT_BAT_Y);    // discharge/battery
+        // Machine slot frames
+        IlGuiDraw.drawSlot(ctx, x + SLOT_IN_X, y + SLOT_IN_Y);     // input
+        IlGuiDraw.drawSlot(ctx, x + SLOT_BAT_X, y + SLOT_BAT_Y);   // discharge/battery
 
-        // output: ONLY large frame. Do NOT draw the inner small slot.
+        // Output: ONLY large frame. Do NOT draw inner small slot frame.
         IlGuiDraw.drawSlotLarge(ctx, x + SLOT_OUT_LARGE_X, y + SLOT_OUT_LARGE_Y);
 
-        // upgrades (4 vertical slots on right)
+        // 4 upgrade slots on the right
         for (int i = 0; i < 4; i++) {
             IlGuiDraw.drawSlot(ctx, x + UPGRADE_X, y + UPGRADE_Y + i * 18);
         }
 
-        // gauges
+        // Gauges
         float eRatio = handler.getEnergyCap() <= 0 ? 0f : (handler.getEnergy() / (float) handler.getEnergyCap());
         IlGuiDraw.drawEnergyBoltFramed(ctx, x + ENERGY_BOLT_X, y + ENERGY_BOLT_Y, eRatio);
 
         float pRatio = handler.getMaxProgress() <= 0 ? 0f : (handler.getProgress() / (float) handler.getMaxProgress());
         IlGuiDraw.drawProgressTriangle(ctx, x + PROGRESS_X, y + PROGRESS_Y, pRatio);
 
-        // player slot frames (must be exactly these offsets)
-        // Player slot frames
+        // Player slot frames (IC2 style offset)
         int invX = x + 6;
         int invY = y + 82;
         for (int row = 0; row < 3; row++) {

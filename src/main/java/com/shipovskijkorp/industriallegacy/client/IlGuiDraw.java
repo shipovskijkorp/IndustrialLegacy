@@ -64,6 +64,14 @@ public final class IlGuiDraw {
         ctx.drawTexture(COMMON, x, y, u, v, w, h, TEX_W, TEX_H);
     }
 
+    /**
+     * Internal helper (kept for older code paths): draw a region from {@link #COMMON}.
+     */
+    private static void drawTex(DrawContext ctx, int x, int y, int u, int v, int w, int h) {
+        ctx.drawTexture(COMMON, x, y, u, v, w, h, TEX_W, TEX_H);
+    }
+
+
     private static float clamp01(float v) {
         if (v < 0f) return 0f;
         if (v > 1f) return 1f;

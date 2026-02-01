@@ -288,6 +288,6 @@ public class CompressorBlockEntity extends BlockEntity implements SidedInventory
 
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        return new CompressorScreenHandler(syncId, inv, this, props);
+        return new CompressorScreenHandler(syncId, inv, this);
     }
 }
