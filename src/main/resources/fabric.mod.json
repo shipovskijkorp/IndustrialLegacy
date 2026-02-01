@@ -7,6 +7,10 @@
   "authors": [
     "ShipovskijKorp"
   ],
+
+  "mixins": [
+  "industrial_legacy.mixins.json"
+  ],
   "contact": {
     "sources": ""
   },
