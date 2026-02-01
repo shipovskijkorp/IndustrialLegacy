@@ -81,5 +81,7 @@
   "item.industrial_legacy.iridium_plate": "Iridium Plate",
   "item.industrial_legacy.cable": "Cable",
   "block.industrial_legacy.iron_furnace": "Iron Furnace",
-  "container.industrial_legacy.iron_furnace": "Iron Furnace"
+  "container.industrial_legacy.iron_furnace": "Iron Furnace",
+  "block.industrial_legacy.machine_casing": "Machine Casing",
+  "item.industrial_legacy.re_battery": "RE-Battery"
 }

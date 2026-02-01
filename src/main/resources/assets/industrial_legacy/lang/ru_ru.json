@@ -81,5 +81,7 @@
   "item.industrial_legacy.iridium_plate": "Иридиевая пластина",
   "item.industrial_legacy.cable": "Кабель",
   "block.industrial_legacy.iron_furnace": "Железная печь",
-  "container.industrial_legacy.iron_furnace": "Железная печь"
+  "container.industrial_legacy.iron_furnace": "Железная печь",
+  "block.industrial_legacy.machine_casing": "Основной корпус машины",
+  "item.industrial_legacy.re_battery": "RE-батарейка"
 }
