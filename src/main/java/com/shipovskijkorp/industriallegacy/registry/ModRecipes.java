@@ -7,8 +7,6 @@ import net.minecraft.recipe.RecipeType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import com.shipovskijkorp.industriallegacy.recipe.MaceratorRecipe;
-import com.shipovskijkorp.industriallegacy.recipe.MaceratorRecipeSerializer;
 
 /**
  * Recipe types/serializers.
@@ -72,6 +70,13 @@ public final class ModRecipes {
             new Identifier(IndustrialLegacy.MOD_ID, "re_battery"),
             new ReBatteryRecipeSerializer()
     );
+
+    public static final RecipeSerializer<ElectronicCircuitRecipe> ELECTRONIC_CIRCUIT_SERIALIZER = Registry.register(
+            Registries.RECIPE_SERIALIZER,
+            new Identifier(IndustrialLegacy.MOD_ID, "electronic_circuit"),
+            new ElectronicCircuitRecipeSerializer()
+    );
+
 
     public static final RecipeSerializer<BatBoxRecipe> BATBOX_SERIALIZER = Registry.register(
             Registries.RECIPE_SERIALIZER,

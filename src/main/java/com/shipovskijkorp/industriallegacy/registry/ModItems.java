@@ -79,6 +79,10 @@ public final class ModItems {
     public static final Item ADVANCED_ALLOY =
             register("advanced_alloy", new Item(new Item.Settings()));
 
+    public static final Item ELECTRONIC_CIRCUIT =
+            register("electronic_circuit", new Item(new Item.Settings()));
+
+
     // Plates (normal)
     public static final Item BRONZE_PLATE = register("bronze_plate", new Item(new Item.Settings()));
     public static final Item COPPER_PLATE = register("copper_plate", new Item(new Item.Settings()));
