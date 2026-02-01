@@ -80,6 +80,6 @@
   "item.industrial_legacy.tin_plate": "Оловянная пластина",
   "item.industrial_legacy.iridium_plate": "Иридиевая пластина",
   "item.industrial_legacy.cable": "Кабель",
-  "block.industrial_legacy.machine_casing": "Основной корпус машины",
-  "tooltip.industrial_legacy.machine_casing": "Основной корпус машины — блок-компонент для создания устройств. Также может использоваться как строительный материал."
+  "block.industrial_legacy.iron_furnace": "Железная печь",
+  "container.industrial_legacy.iron_furnace": "Железная печь"
 }

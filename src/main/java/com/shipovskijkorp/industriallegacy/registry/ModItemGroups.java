@@ -26,6 +26,7 @@ public final class ModItemGroups {
                         // Blocks
                         entries.add(ModBlocks.GENERATOR);
                         entries.add(ModBlocks.BATBOX);
+                        entries.add(ModBlocks.IRON_FURNACE);
                         entries.add(ModBlocks.MACHINE_CASING);
 
                         entries.add(ModBlocks.LEAD_ORE);

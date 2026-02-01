@@ -39,6 +39,17 @@ public final class ModBlocks {
     );
 
     /**
+     * Iron Furnace — upgraded furnace (8s smelt, vanilla fuel burn time).
+     * Light level matches vanilla furnace.
+     */
+    public static final Block IRON_FURNACE = register(
+            "iron_furnace",
+            new IronFurnaceBlock(FabricBlockSettings.copyOf(Blocks.FURNACE)
+                    .requiresTool()
+                    .luminance(state -> state.get(IronFurnaceBlock.LIT) ? 13 : 0))
+    );
+
+    /**
      * Basic Machine Casing (IC2-like "machine casing").
      *
      * Building material + crafting component.
@@ -49,16 +60,12 @@ public final class ModBlocks {
             new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).requiresTool())
     );
 
-
-
-
     public static final Block LEAD_ORE =
             register("lead_ore", new Block(FabricBlockSettings.copyOf(Blocks.IRON_ORE).requiresTool()));
     public static final Block TIN_ORE =
             register("tin_ore", new Block(FabricBlockSettings.copyOf(Blocks.IRON_ORE).requiresTool()));
     public static final Block URANIUM_ORE =
             register("uranium_ore", new Block(FabricBlockSettings.copyOf(Blocks.IRON_ORE).requiresTool()));
-
 
     public static final Block COPPER_CABLE_0 = registerNoItem(
             "copper_cable_0",
@@ -148,6 +155,7 @@ public final class ModBlocks {
      * It refers to the same registered block instance.</p>
      */
     public static final Block RUBBER_WOOD = RUBBER_LOG;
+
     public static final Block RUBBER_LEAVES = register("rubber_leaves",
             new LeavesBlock(FabricBlockSettings.copyOf(Blocks.OAK_LEAVES)));
     public static final Block RUBBER_SAPLING = register("rubber_sapling",

@@ -80,6 +80,6 @@
   "item.industrial_legacy.tin_plate": "Tin Plate",
   "item.industrial_legacy.iridium_plate": "Iridium Plate",
   "item.industrial_legacy.cable": "Cable",
-  "block.industrial_legacy.machine_casing": "Basic Machine Casing",
-  "tooltip.industrial_legacy.machine_casing": "A casing block used as a crafting component for machines. Can also be used as a building material."
+  "block.industrial_legacy.iron_furnace": "Iron Furnace",
+  "container.industrial_legacy.iron_furnace": "Iron Furnace"
 }
