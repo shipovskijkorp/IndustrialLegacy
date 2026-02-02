@@ -54,6 +54,39 @@ public final class ModItemGroups {
                         entries.add(ModItems.STICKY_RESIN);
                         entries.add(ModItems.SULFUR);
 
+                        // Dusts (IC2-style)
+                        entries.add(ModItems.BRONZE_DUST);
+                        entries.add(ModItems.CLAY_DUST);
+                        entries.add(ModItems.COAL_DUST);
+                        entries.add(ModItems.COAL_FUEL_DUST);
+                        entries.add(ModItems.COPPER_DUST);
+                        entries.add(ModItems.DIAMOND_DUST);
+                        entries.add(ModItems.ENERGIUM_DUST);
+                        entries.add(ModItems.GOLD_DUST);
+                        entries.add(ModItems.IRON_DUST);
+                        entries.add(ModItems.LAPIS_DUST);
+                        entries.add(ModItems.LEAD_DUST);
+                        entries.add(ModItems.LITHIUM_DUST);
+                        entries.add(ModItems.OBSIDIAN_DUST);
+                        entries.add(ModItems.SILICON_DIOXIDE);
+                        entries.add(ModItems.SILVER_DUST);
+                        entries.add(ModItems.STONE_DUST);
+                        entries.add(ModItems.TIN_DUST);
+                        entries.add(ModItems.TIN_HYDRATED_DUST);
+
+                        // Small dusts (tiny piles)
+                        entries.add(ModItems.SMALL_BRONZE_DUST);
+                        entries.add(ModItems.SMALL_COPPER_DUST);
+                        entries.add(ModItems.SMALL_GOLD_DUST);
+                        entries.add(ModItems.SMALL_IRON_DUST);
+                        entries.add(ModItems.SMALL_LAPIS_DUST);
+                        entries.add(ModItems.SMALL_LEAD_DUST);
+                        entries.add(ModItems.SMALL_LITHIUM_DUST);
+                        entries.add(ModItems.SMALL_OBSIDIAN_DUST);
+                        entries.add(ModItems.SMALL_SILVER_DUST);
+                        entries.add(ModItems.SMALL_SULFUR_DUST);
+                        entries.add(ModItems.SMALL_TIN_DUST);
+
                         entries.add(ModItems.SILVER_INGOT);
                         entries.add(ModItems.TIN_INGOT);
                         entries.add(ModItems.LEAD_INGOT);

@@ -45,6 +45,42 @@ public final class ModItems {
 
     public static final Item SULFUR =
             register("sulfur", new Item(new Item.Settings()));
+
+    // --- Dusts (IC2: dust.*) ---
+    public static final Item BRONZE_DUST = register("bronze_dust", new Item(new Item.Settings()));
+    public static final Item CLAY_DUST = register("clay_dust", new Item(new Item.Settings()));
+    public static final Item COAL_DUST = register("coal_dust", new Item(new Item.Settings()));
+    public static final Item COAL_FUEL_DUST = register("coal_fuel_dust", new Item(new Item.Settings()));
+    public static final Item COPPER_DUST = register("copper_dust", new Item(new Item.Settings()));
+    public static final Item DIAMOND_DUST = register("diamond_dust", new Item(new Item.Settings()));
+    public static final Item ENERGIUM_DUST = register("energium_dust", new Item(new Item.Settings()));
+    public static final Item GOLD_DUST = register("gold_dust", new Item(new Item.Settings()));
+    public static final Item IRON_DUST = register("iron_dust", new Item(new Item.Settings()));
+    public static final Item LAPIS_DUST = register("lapis_dust", new Item(new Item.Settings()));
+    public static final Item LEAD_DUST = register("lead_dust", new Item(new Item.Settings()));
+    public static final Item LITHIUM_DUST = register("lithium_dust", new Item(new Item.Settings()));
+    public static final Item OBSIDIAN_DUST = register("obsidian_dust", new Item(new Item.Settings()));
+    public static final Item SILICON_DIOXIDE = register("silicon_dioxide", new Item(new Item.Settings()));
+    public static final Item SILVER_DUST = register("silver_dust", new Item(new Item.Settings()));
+    public static final Item STONE_DUST = register("stone_dust", new Item(new Item.Settings()));
+    public static final Item TIN_DUST = register("tin_dust", new Item(new Item.Settings()));
+    public static final Item TIN_HYDRATED_DUST = register("tin_hydrated_dust", new Item(new Item.Settings()));
+
+    // --- Small dusts (tiny piles) ---
+    public static final Item SMALL_BRONZE_DUST = register("small_bronze_dust", new Item(new Item.Settings()));
+    public static final Item SMALL_COPPER_DUST = register("small_copper_dust", new Item(new Item.Settings()));
+    public static final Item SMALL_GOLD_DUST = register("small_gold_dust", new Item(new Item.Settings()));
+    public static final Item SMALL_IRON_DUST = register("small_iron_dust", new Item(new Item.Settings()));
+    public static final Item SMALL_LAPIS_DUST = register("small_lapis_dust", new Item(new Item.Settings()));
+    public static final Item SMALL_LEAD_DUST = register("small_lead_dust", new Item(new Item.Settings()));
+    public static final Item SMALL_LITHIUM_DUST = register("small_lithium_dust", new Item(new Item.Settings()));
+    public static final Item SMALL_OBSIDIAN_DUST = register("small_obsidian_dust", new Item(new Item.Settings()));
+    public static final Item SMALL_SILVER_DUST = register("small_silver_dust", new Item(new Item.Settings()));
+    public static final Item SMALL_SULFUR_DUST = register("small_sulfur_dust", new Item(new Item.Settings()));
+    public static final Item SMALL_TIN_DUST = register("small_tin_dust", new Item(new Item.Settings()));
+
+    /** Alias for clarity: in IC2, sulfur is a dust item. */
+    public static final Item SULFUR_DUST = SULFUR;
     public static final Item BRONZE_INGOT =
             register("bronze_ingot", new Item(new Item.Settings()));
 

@@ -1,0 +1,6 @@
+{
+  "type": "industrial_legacy:macerator",
+  "ingredient": { "item": "minecraft:blaze_rod" },
+  "result": { "item": "minecraft:blaze_powder", "count": 5 },
+  "ticks": 300
+}
