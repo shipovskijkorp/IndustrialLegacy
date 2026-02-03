@@ -54,7 +54,27 @@ public final class ModItemGroups {
                         entries.add(ModItems.STICKY_RESIN);
                         entries.add(ModItems.SULFUR);
 
-                        // Dusts (IC2-style)
+                        entries.add(ModItems.SILVER_INGOT);
+                        entries.add(ModItems.TIN_INGOT);
+                        entries.add(ModItems.LEAD_INGOT);
+                        entries.add(ModItems.BRONZE_INGOT);
+
+
+                        // Materials
+                        entries.add(ModItems.IRIDIUM);
+                        entries.add(ModItems.MIXED_METAL_INGOT);
+                        entries.add(ModItems.ADVANCED_ALLOY);
+
+                        // Crushed ores
+                        entries.add(ModItems.COPPER_CRUSHED_ORE);
+                        entries.add(ModItems.GOLD_CRUSHED_ORE);
+                        entries.add(ModItems.IRON_CRUSHED_ORE);
+                        entries.add(ModItems.LEAD_CRUSHED_ORE);
+                        entries.add(ModItems.SILVER_CRUSHED_ORE);
+                        entries.add(ModItems.TIN_CRUSHED_ORE);
+                        entries.add(ModItems.URANIUM_CRUSHED_ORE);
+
+                        // Dusts
                         entries.add(ModItems.BRONZE_DUST);
                         entries.add(ModItems.CLAY_DUST);
                         entries.add(ModItems.COAL_DUST);
@@ -74,7 +94,7 @@ public final class ModItemGroups {
                         entries.add(ModItems.TIN_DUST);
                         entries.add(ModItems.TIN_HYDRATED_DUST);
 
-                        // Small dusts (tiny piles)
+                        // Tiny dusts
                         entries.add(ModItems.SMALL_BRONZE_DUST);
                         entries.add(ModItems.SMALL_COPPER_DUST);
                         entries.add(ModItems.SMALL_GOLD_DUST);
@@ -87,24 +107,14 @@ public final class ModItemGroups {
                         entries.add(ModItems.SMALL_SULFUR_DUST);
                         entries.add(ModItems.SMALL_TIN_DUST);
 
-                        entries.add(ModItems.SILVER_INGOT);
-                        entries.add(ModItems.TIN_INGOT);
-                        entries.add(ModItems.LEAD_INGOT);
-                        entries.add(ModItems.BRONZE_INGOT);
+                        // Crafting materials
+                        entries.add(ModItems.BIO_CHAFF);
+                        entries.add(ModItems.COAL_BALL);
+                        entries.add(ModItems.COAL_BLOCK);
+                        entries.add(ModItems.COAL_CHUNK);
+                        entries.add(ModItems.CARBON_MESH);
+                        entries.add(ModItems.CARBON_PLATE);
 
-                        // Crushed ores (macerator output)
-                        entries.add(ModItems.CRUSHED_IRON_ORE);
-                        entries.add(ModItems.CRUSHED_GOLD_ORE);
-                        entries.add(ModItems.CRUSHED_COPPER_ORE);
-                        entries.add(ModItems.CRUSHED_TIN_ORE);
-                        entries.add(ModItems.CRUSHED_LEAD_ORE);
-                        entries.add(ModItems.CRUSHED_URANIUM_ORE);
-
-
-                        // Materials
-                        entries.add(ModItems.IRIDIUM);
-                        entries.add(ModItems.MIXED_METAL_INGOT);
-                        entries.add(ModItems.ADVANCED_ALLOY);
 
                         // Plates
                         entries.add(ModItems.BRONZE_PLATE);
