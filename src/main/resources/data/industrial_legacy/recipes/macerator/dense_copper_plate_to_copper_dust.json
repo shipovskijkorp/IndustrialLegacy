@@ -1,0 +1,11 @@
+{
+  "type": "industrial_legacy:macerator",
+  "ingredient": {
+    "item": "industrial_legacy:dense_copper_plate"
+  },
+  "result": {
+    "item": "industrial_legacy:copper_dust",
+    "count": 8
+  },
+  "ticks": 300
+}

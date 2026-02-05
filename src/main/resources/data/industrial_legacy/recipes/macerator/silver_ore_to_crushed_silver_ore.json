@@ -1,0 +1,11 @@
+{
+  "type": "industrial_legacy:macerator",
+  "ingredient": {
+    "item": "industrial_legacy:silver_ore"
+  },
+  "result": {
+    "item": "industrial_legacy:silver_crushed_ore",
+    "count": 2
+  },
+  "ticks": 300
+}

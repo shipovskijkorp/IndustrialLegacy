@@ -1,0 +1,11 @@
+{
+  "type": "industrial_legacy:macerator",
+  "ingredient": {
+    "item": "industrial_legacy:iron_plate"
+  },
+  "result": {
+    "item": "industrial_legacy:small_iron_dust",
+    "count": 8
+  },
+  "ticks": 300
+}

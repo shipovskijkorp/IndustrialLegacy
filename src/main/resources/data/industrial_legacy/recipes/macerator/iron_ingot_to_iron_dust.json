@@ -1,0 +1,11 @@
+{
+  "type": "industrial_legacy:macerator",
+  "ingredient": {
+    "item": "minecraft:iron_ingot"
+  },
+  "result": {
+    "item": "industrial_legacy:iron_dust",
+    "count": 1
+  },
+  "ticks": 300
+}
