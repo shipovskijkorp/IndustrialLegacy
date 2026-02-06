@@ -38,6 +38,7 @@
   "il.EUStorage.gui.mod.redstone5": "Красный сигнал: Не подавать энергию",
   "il.EUStorage.gui.mod.redstone6": "Красный сигнал: Не подавать энергию, если не заполнено",
   "item.industrial_legacy.advanced_alloy": "Продвинутый сплав",
+  "item.industrial_legacy.advanced_circuit": "Улучшенная электросхема",
   "item.industrial_legacy.bio_chaff": "Биомасса",
   "item.industrial_legacy.bronze_casing": "Бронзовая оболочка",
   "item.industrial_legacy.bronze_dust": "Бронзовая пыль",

@@ -143,6 +143,10 @@ public final class ModItems {
     public static final Item ADVANCED_ALLOY = register("advanced_alloy", new Item(new Item.Settings()));
     public static final Item ELECTRONIC_CIRCUIT = register("electronic_circuit", new Item(new Item.Settings()));
 
+    /** IC2: Advanced Circuit. */
+    public static final Item ADVANCED_CIRCUIT = register("advanced_circuit", new Item(new Item.Settings()));
+
+
     // Batteries (electric items)
     public static final Item ENERGY_CRYSTAL = register("energy_crystal", new com.shipovskijkorp.industriallegacy.item.EnergyCrystalItem(new Item.Settings().maxCount(1)));
 

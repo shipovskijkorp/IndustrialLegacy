@@ -96,6 +96,9 @@ public final class ModItemGroups {
                         add.accept(ModItems.SULFUR);
                         add.accept(ModItems.ELECTRONIC_CIRCUIT);
 
+                        // Circuits
+                        add.accept(ModItems.ADVANCED_CIRCUIT);
+
                         // Reactor components
                         add.accept(ModItems.HEAT_EXCHANGER);
                         add.accept(ModItems.REACTOR_HEAT_EXCHANGER);

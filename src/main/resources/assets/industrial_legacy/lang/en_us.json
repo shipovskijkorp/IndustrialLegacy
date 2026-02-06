@@ -38,6 +38,7 @@
   "il.EUStorage.gui.mod.redstone5": "Redstone Behavior: Do not output energy",
   "il.EUStorage.gui.mod.redstone6": "Redstone Behavior: Do not output energy unless full",
   "item.industrial_legacy.advanced_alloy": "Advanced Alloy",
+  "item.industrial_legacy.advanced_circuit": "Advanced Circuit",
   "item.industrial_legacy.bio_chaff": "Bio Chaff",
   "item.industrial_legacy.bronze_casing": "Bronze Casing",
   "item.industrial_legacy.bronze_dust": "Bronze Dust",
