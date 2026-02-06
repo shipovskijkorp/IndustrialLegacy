@@ -1,7 +1,7 @@
 {
   "type": "industrial_legacy:compressor",
   "ingredient": {
-    "item": "industrial_legacy:energy_dust"
+    "item": "industrial_legacy:energium_dust"
   },
   "input_count": 9,
   "result": {

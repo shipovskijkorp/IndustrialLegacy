@@ -10,11 +10,11 @@
       "item": "minecraft:redstone"
     },
     "D": {
-      "item": "industrial_legacy:redstone_dust"
+      "item": "industrial_legacy:diamond_dust"
     }
   },
   "result": {
-    "item": "industrial_legacy:energy_dust",
-    "count": 1
+    "item": "industrial_legacy:energium_dust",
+    "count": 9
   }
 }
