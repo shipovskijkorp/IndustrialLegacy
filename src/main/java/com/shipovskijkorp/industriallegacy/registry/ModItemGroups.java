@@ -5,12 +5,19 @@ import com.shipovskijkorp.industriallegacy.item.CableItem;
 import com.shipovskijkorp.industriallegacy.item.CableKind;
 import com.shipovskijkorp.industriallegacy.item.CableVariants;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public final class ModItemGroups {
     private ModItemGroups() {}
@@ -23,138 +30,209 @@ public final class ModItemGroups {
                     .icon(() -> CableItem.createStack(ModItems.CABLE, CableKind.COPPER, 0))
                     .displayName(Text.translatable("itemGroup.industrial_legacy.main"))
                     .entries((ctx, entries) -> {
-                        // Blocks
-                        entries.add(ModBlocks.GENERATOR);
-                        entries.add(ModBlocks.BATBOX);
-                        entries.add(ModBlocks.IRON_FURNACE);
-                        entries.add(ModBlocks.MACHINE_CASING);
-                        entries.add(ModBlocks.MACERATOR);
+                        // Single tab, but with a stable, readable order (no random registry ordering).
+                        // Anything missed is appended at the end, sorted by id.
 
-                        entries.add(ModBlocks.LEAD_ORE);
-                        entries.add(ModBlocks.TIN_ORE);
-                        entries.add(ModBlocks.URANIUM_ORE);
+                        Set<net.minecraft.item.Item> added = new HashSet<>();
 
-                        entries.add(ModBlocks.RUBBER_LOG);
-                        entries.add(ModBlocks.RUBBER_LEAVES);
-                        entries.add(ModBlocks.RUBBER_SAPLING);
+                        java.util.function.Consumer<ItemConvertible> add = (it) -> {
+                            net.minecraft.item.Item item = it.asItem();
+                            if (added.add(item)) {
+                                entries.add(it);
+                            }
+                        };
 
-                        // Add all cable variants (14) with correct NBT (kind/insulation + derived variant)
+                        // ------------------------------
+                        // Machines / energy blocks
+                        // ------------------------------
+                        add.accept(ModBlocks.GENERATOR);
+                        add.accept(ModBlocks.BATBOX);
+                        add.accept(ModBlocks.IRON_FURNACE);
+                        add.accept(ModBlocks.MACERATOR);
+                        add.accept(ModBlocks.COMPRESSOR);
+                        add.accept(ModBlocks.MACHINE_CASING);
+
+                        // ------------------------------
+                        // World resources / rubber tree
+                        // ------------------------------
+                        add.accept(ModBlocks.TIN_ORE);
+                        add.accept(ModBlocks.LEAD_ORE);
+                        add.accept(ModBlocks.URANIUM_ORE);
+
+                        add.accept(ModBlocks.RUBBER_LOG);
+                        add.accept(ModBlocks.RUBBER_LEAVES);
+                        add.accept(ModBlocks.RUBBER_SAPLING);
+
+                        // ------------------------------
+                        // Cables (variants only)
+                        // ------------------------------
                         for (ItemStack stack : CableVariants.createAll(ModItems.CABLE)) {
                             entries.add(stack);
                         }
+                        added.add(ModItems.CABLE); // prevent adding the blank cable item later
 
-                        // Items
-                        entries.add(ModItems.FORGE_HAMMER);
-                        entries.add(ModItems.CUTTER);
-                        entries.add(ModItems.TREETAP);
-                        entries.add(ModItems.RE_BATTERY);
-                        entries.add(ModItems.ELECTRONIC_CIRCUIT);
+                        // ------------------------------
+                        // Tools / electric items
+                        // ------------------------------
+                        add.accept(ModItems.TREETAP);
+                        add.accept(ModItems.FORGE_HAMMER);
+                        add.accept(ModItems.CUTTER);
 
-                        entries.add(ModItems.RUBBER);
-                        entries.add(ModItems.STICKY_RESIN);
-                        entries.add(ModItems.SULFUR);
+                        add.accept(ModItems.RE_BATTERY);
+                        add.accept(ModItems.ENERGY_CRYSTAL);
 
-                        entries.add(ModItems.SILVER_INGOT);
-                        entries.add(ModItems.TIN_INGOT);
-                        entries.add(ModItems.LEAD_INGOT);
-                        entries.add(ModItems.BRONZE_INGOT);
+                        // ------------------------------
+                        // Components / crafting items
+                        // ------------------------------
+                        add.accept(ModItems.STICKY_RESIN);
+                        add.accept(ModItems.RUBBER);
+                        add.accept(ModItems.SULFUR);
+                        add.accept(ModItems.ELECTRONIC_CIRCUIT);
 
+                        add.accept(ModItems.PLANT_BALL);
+                        add.accept(ModItems.TIN_CAN);
 
-                        // Materials
-                        entries.add(ModItems.IRIDIUM_SHARD);
-                        entries.add(ModItems.IRIDIUM);
-                        entries.add(ModItems.MIXED_METAL_INGOT);
-                        entries.add(ModItems.ADVANCED_ALLOY);
+                        // Carbon chain (if present)
+                        add.accept(ModItems.CARBON_FIBRE);
+                        add.accept(ModItems.CARBON_MESH);
+                        add.accept(ModItems.CARBON_PLATE);
 
+                        // ------------------------------
+                        // Ingots
+                        // ------------------------------
+                        add.accept(ModItems.TIN_INGOT);
+                        add.accept(ModItems.LEAD_INGOT);
+                        add.accept(ModItems.SILVER_INGOT);
+                        add.accept(ModItems.BRONZE_INGOT);
+                        add.accept(ModItems.IRIDIUM);
+
+                        // ------------------------------
+                        // Dusts (common)
+                        // ------------------------------
+                        add.accept(ModItems.COPPER_DUST);
+                        add.accept(ModItems.TIN_DUST);
+                        add.accept(ModItems.LEAD_DUST);
+                        add.accept(ModItems.SILVER_DUST);
+                        add.accept(ModItems.IRON_DUST);
+                        add.accept(ModItems.GOLD_DUST);
+                        add.accept(ModItems.BRONZE_DUST);
+
+                        add.accept(ModItems.COAL_DUST);
+                        add.accept(ModItems.CLAY_DUST);
+                        add.accept(ModItems.LAPIS_DUST);
+                        add.accept(ModItems.OBSIDIAN_DUST);
+                        add.accept(ModItems.DIAMOND_DUST);
+
+                        add.accept(ModItems.LITHIUM_DUST);
+                        add.accept(ModItems.SILICON_DIOXIDE);
+
+                        add.accept(ModItems.STONE_DUST);
+                        add.accept(ModItems.TIN_HYDRATED_DUST);
+                        add.accept(ModItems.COAL_FUEL_DUST);
+                        add.accept(ModItems.ENERGIUM_DUST);
+
+                        // ------------------------------
+                        // Small dusts
+                        // ------------------------------
+                        add.accept(ModItems.SMALL_COPPER_DUST);
+                        add.accept(ModItems.SMALL_TIN_DUST);
+                        add.accept(ModItems.SMALL_LEAD_DUST);
+                        add.accept(ModItems.SMALL_SILVER_DUST);
+                        add.accept(ModItems.SMALL_IRON_DUST);
+                        add.accept(ModItems.SMALL_GOLD_DUST);
+                        add.accept(ModItems.SMALL_BRONZE_DUST);
+
+                        add.accept(ModItems.SMALL_LAPIS_DUST);
+                        add.accept(ModItems.SMALL_OBSIDIAN_DUST);
+                        add.accept(ModItems.SMALL_LITHIUM_DUST);
+                        add.accept(ModItems.SMALL_SULFUR_DUST);
+
+                        // ------------------------------
                         // Crushed ores
-                        entries.add(ModItems.COPPER_CRUSHED_ORE);
-                        entries.add(ModItems.GOLD_CRUSHED_ORE);
-                        entries.add(ModItems.IRON_CRUSHED_ORE);
-                        entries.add(ModItems.LEAD_CRUSHED_ORE);
-                        entries.add(ModItems.SILVER_CRUSHED_ORE);
-                        entries.add(ModItems.TIN_CRUSHED_ORE);
-                        entries.add(ModItems.URANIUM_CRUSHED_ORE);
+                        // ------------------------------
+                        add.accept(ModItems.CRUSHED_COPPER_ORE);
+                        add.accept(ModItems.CRUSHED_TIN_ORE);
+                        add.accept(ModItems.CRUSHED_LEAD_ORE);
+                        add.accept(ModItems.CRUSHED_SILVER_ORE);
+                        add.accept(ModItems.CRUSHED_IRON_ORE);
+                        add.accept(ModItems.CRUSHED_GOLD_ORE);
+                        add.accept(ModItems.CRUSHED_URANIUM_ORE);
 
-                        // Dusts
-                        entries.add(ModItems.BRONZE_DUST);
-                        entries.add(ModItems.CLAY_DUST);
-                        entries.add(ModItems.COAL_DUST);
-                        entries.add(ModItems.COAL_FUEL_DUST);
-                        entries.add(ModItems.COPPER_DUST);
-                        entries.add(ModItems.DIAMOND_DUST);
-                        entries.add(ModItems.ENERGIUM_DUST);
-                        entries.add(ModItems.GOLD_DUST);
-                        entries.add(ModItems.IRON_DUST);
-                        entries.add(ModItems.LAPIS_DUST);
-                        entries.add(ModItems.LEAD_DUST);
-                        entries.add(ModItems.LITHIUM_DUST);
-                        entries.add(ModItems.OBSIDIAN_DUST);
-                        entries.add(ModItems.SILICON_DIOXIDE);
-                        entries.add(ModItems.SILVER_DUST);
-                        entries.add(ModItems.STONE_DUST);
-                        entries.add(ModItems.TIN_DUST);
-                        entries.add(ModItems.TIN_HYDRATED_DUST);
-
-                        // Tiny dusts
-                        entries.add(ModItems.SMALL_BRONZE_DUST);
-                        entries.add(ModItems.SMALL_COPPER_DUST);
-                        entries.add(ModItems.SMALL_GOLD_DUST);
-                        entries.add(ModItems.SMALL_IRON_DUST);
-                        entries.add(ModItems.SMALL_LAPIS_DUST);
-                        entries.add(ModItems.SMALL_LEAD_DUST);
-                        entries.add(ModItems.SMALL_LITHIUM_DUST);
-                        entries.add(ModItems.SMALL_OBSIDIAN_DUST);
-                        entries.add(ModItems.SMALL_SILVER_DUST);
-                        entries.add(ModItems.SMALL_SULFUR_DUST);
-                        entries.add(ModItems.SMALL_TIN_DUST);
-
-                        // Crafting materials
-                        entries.add(ModItems.BIO_CHAFF);
-                        entries.add(ModItems.COAL_BALL);
-                        entries.add(ModItems.COAL_BLOCK);
-                        entries.add(ModItems.COAL_CHUNK);
-                        entries.add(ModItems.CARBON_MESH);
-                        entries.add(ModItems.CARBON_PLATE);
-
-
+                        // ------------------------------
                         // Plates
-                        entries.add(ModItems.BRONZE_PLATE);
-                        entries.add(ModItems.COPPER_PLATE);
-                        entries.add(ModItems.GOLD_PLATE);
-                        entries.add(ModItems.IRON_PLATE);
-                        entries.add(ModItems.LAPIS_PLATE);
-                        entries.add(ModItems.LEAD_PLATE);
-                        entries.add(ModItems.OBSIDIAN_PLATE);
-                        entries.add(ModItems.STEEL_PLATE);
-                        entries.add(ModItems.TIN_PLATE);
-                        entries.add(ModItems.IRIDIUM_PLATE);
+                        // ------------------------------
+                        add.accept(ModItems.COPPER_PLATE);
+                        add.accept(ModItems.TIN_PLATE);
+                        add.accept(ModItems.LEAD_PLATE);
+                        add.accept(ModItems.IRON_PLATE);
+                        add.accept(ModItems.GOLD_PLATE);
+                        add.accept(ModItems.BRONZE_PLATE);
+                        add.accept(ModItems.STEEL_PLATE);
 
+                        add.accept(ModItems.LAPIS_PLATE);
+                        add.accept(ModItems.OBSIDIAN_PLATE);
+                        add.accept(ModItems.IRIDIUM_PLATE);
+
+                        // ------------------------------
                         // Dense plates
-                        entries.add(ModItems.DENSE_BRONZE_PLATE);
-                        entries.add(ModItems.DENSE_COPPER_PLATE);
-                        entries.add(ModItems.DENSE_GOLD_PLATE);
-                        entries.add(ModItems.DENSE_IRON_PLATE);
-                        entries.add(ModItems.DENSE_LAPIS_PLATE);
-                        entries.add(ModItems.DENSE_LEAD_PLATE);
-                        entries.add(ModItems.DENSE_OBSIDIAN_PLATE);
-                        entries.add(ModItems.DENSE_STEEL_PLATE);
-                        entries.add(ModItems.DENSE_TIN_PLATE);
+                        // ------------------------------
+                        add.accept(ModItems.DENSE_COPPER_PLATE);
+                        add.accept(ModItems.DENSE_TIN_PLATE);
+                        add.accept(ModItems.DENSE_LEAD_PLATE);
+                        add.accept(ModItems.DENSE_IRON_PLATE);
+                        add.accept(ModItems.DENSE_GOLD_PLATE);
+                        add.accept(ModItems.DENSE_BRONZE_PLATE);
+                        add.accept(ModItems.DENSE_STEEL_PLATE);
 
+                        add.accept(ModItems.DENSE_LAPIS_PLATE);
+                        add.accept(ModItems.DENSE_OBSIDIAN_PLATE);
+
+                        // ------------------------------
                         // Casings
-                        entries.add(ModItems.BRONZE_CASING);
-                        entries.add(ModItems.COPPER_CASING);
-                        entries.add(ModItems.GOLD_CASING);
-                        entries.add(ModItems.IRON_CASING);
-                        entries.add(ModItems.LEAD_CASING);
-                        entries.add(ModItems.STEEL_CASING);
-                        entries.add(ModItems.TIN_CASING);
+                        // ------------------------------
+                        add.accept(ModItems.COPPER_CASING);
+                        add.accept(ModItems.TIN_CASING);
+                        add.accept(ModItems.LEAD_CASING);
+                        add.accept(ModItems.IRON_CASING);
+                        add.accept(ModItems.GOLD_CASING);
+                        add.accept(ModItems.BRONZE_CASING);
+                        add.accept(ModItems.STEEL_CASING);
 
+                        // ------------------------------
+                        // Crop / misc (if present)
+                        // ------------------------------
+                        add.accept(ModItems.COFFEE_BEANS);
+                        add.accept(ModItems.COFFEE_POWDER);
+                        add.accept(ModItems.GRIN_POWDER);
+                        add.accept(ModItems.WEED);
 
-                        entries.add(ModItems.DEBUG_WRENCH);
+                        // Advanced alloys (IC2 chain)
+                        add.accept(ModItems.MIXED_METAL_INGOT);
+                        add.accept(ModItems.ADVANCED_ALLOY);
+
+                        // Debug last
+                        add.accept(ModItems.DEBUG_WRENCH);
+
+                        // ------------------------------
+                        // Fallback: anything else registered under this modid (sorted by id)
+                        // ------------------------------
+                        List<Identifier> ids = new ArrayList<>();
+                        for (Identifier id : Registries.ITEM.getIds()) {
+                            if (IndustrialLegacy.MOD_ID.equals(id.getNamespace())) {
+                                ids.add(id);
+                            }
+                        }
+                        ids.sort(Comparator.comparing(Identifier::getPath));
+
+                        for (Identifier id : ids) {
+                            net.minecraft.item.Item item = Registries.ITEM.get(id);
+                            if (added.add(item)) {
+                                entries.add(item);
+                            }
+                        }
                     })
                     .build()
     );
-
 
     public static void register() {
         // classload triggers static init
