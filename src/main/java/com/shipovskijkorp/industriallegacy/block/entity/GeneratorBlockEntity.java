@@ -4,6 +4,7 @@ import com.shipovskijkorp.industriallegacy.block.GeneratorBlock;
 import com.shipovskijkorp.industriallegacy.config.ILConfig;
 import com.shipovskijkorp.industriallegacy.energy.EuNetwork;
 import com.shipovskijkorp.industriallegacy.energy.EuUtil;
+import com.shipovskijkorp.industriallegacy.energy.item.ElectricItemManager;
 import com.shipovskijkorp.industriallegacy.energy.IEuEnergyStorage;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
@@ -130,6 +131,9 @@ public class GeneratorBlockEntity extends BlockEntity implements SidedInventory,
 
         boolean active = be.gainEnergy();
 
+        // Charge electric item in the charge slot (IC2-like).
+        be.chargeItem();
+
         // Very simple direct-adjacency output (temporary until full cable/grid net exists).
         be.emitToNeighbors();
 
@@ -178,6 +182,26 @@ public class GeneratorBlockEntity extends BlockEntity implements SidedInventory,
 
     private long getEuFree() {
         return Math.max(0L, capacity - energy);
+    }
+
+    private void chargeItem() {
+        // Slot 0: charge (Generator buffer -> item), IC2-like.
+        ItemStack charge = items.get(SLOT_CHARGE);
+        if (charge.isEmpty() || !ElectricItemManager.isElectric(charge) || charge.getCount() != 1) return;
+        if (energy <= 0L) return;
+
+        long maxMove = Math.min((long) production, ElectricItemManager.getTransferLimit(charge));
+        if (maxMove <= 0L) return;
+
+        long free = ElectricItemManager.getFree(charge);
+        long move = Math.min(maxMove, Math.min(energy, free));
+        if (move <= 0L) return;
+
+        long accepted = ElectricItemManager.charge(charge, move, false);
+        if (accepted > 0L) {
+            energy -= accepted;
+            markDirty();
+        }
     }
 
     private void emitToNeighbors() {

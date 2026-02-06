@@ -44,6 +44,15 @@ public class IndustrialLegacyClient implements ClientModInitializer {
                         ElectricItemManager.getChargeRatio(stack)
         );
 
+        // Charge indicator for Advanced RE-Battery (0..1) used by item model overrides.
+        ModelPredicateProviderRegistry.register(
+                ModItems.ADVANCED_RE_BATTERY,
+                new Identifier(IndustrialLegacy.MOD_ID, "charge"),
+                (ItemStack stack, ClientWorld world, LivingEntity entity, int seed) ->
+                        ElectricItemManager.getChargeRatio(stack)
+        );
+
+
         // Charge indicator for Energy Crystal (0..1) used by item model overrides.
         ModelPredicateProviderRegistry.register(
                 ModItems.ENERGY_CRYSTAL,

@@ -82,6 +82,7 @@ public final class ModItemGroups {
                         add.accept(ModItems.CUTTER);
 
                         add.accept(ModItems.RE_BATTERY);
+                        add.accept(ModItems.ADVANCED_RE_BATTERY);
                         add.accept(ModItems.ENERGY_CRYSTAL);
 
                         // ------------------------------
@@ -91,6 +92,12 @@ public final class ModItemGroups {
                         add.accept(ModItems.RUBBER);
                         add.accept(ModItems.SULFUR);
                         add.accept(ModItems.ELECTRONIC_CIRCUIT);
+
+                        // Reactor components
+                        add.accept(ModItems.HEAT_EXCHANGER);
+                        add.accept(ModItems.REACTOR_HEAT_EXCHANGER);
+                        add.accept(ModItems.COMPONENT_HEAT_EXCHANGER);
+                        add.accept(ModItems.ADVANCED_HEAT_EXCHANGER);
 
                         add.accept(ModItems.PLANT_BALL);
                         add.accept(ModItems.TIN_CAN);

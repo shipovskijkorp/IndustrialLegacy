@@ -77,6 +77,13 @@ public final class ModRecipes {
             new ReBatteryRecipeSerializer()
     );
 
+    public static final RecipeSerializer<AdvancedReBatteryRecipe> ADVANCED_RE_BATTERY_SERIALIZER = Registry.register(
+            Registries.RECIPE_SERIALIZER,
+            new Identifier(IndustrialLegacy.MOD_ID, "advanced_re_battery"),
+            new AdvancedReBatteryRecipeSerializer()
+    );
+
+
     public static final RecipeSerializer<BatBoxRecipe> BATBOX_SERIALIZER = Registry.register(
             Registries.RECIPE_SERIALIZER,
             new Identifier(IndustrialLegacy.MOD_ID, "batbox"),

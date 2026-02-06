@@ -1,10 +1,8 @@
 package com.shipovskijkorp.industriallegacy.registry;
 
 import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
-import com.shipovskijkorp.industriallegacy.item.CableItem;
-import com.shipovskijkorp.industriallegacy.item.DebugWrenchItem;
-import com.shipovskijkorp.industriallegacy.item.ReBatteryItem;
-import com.shipovskijkorp.industriallegacy.item.TreetapItem;
+import com.shipovskijkorp.industriallegacy.item.*;
+import com.shipovskijkorp.industriallegacy.item.reactor.HeatExchangerItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -31,6 +29,8 @@ public final class ModItems {
 
     // Electric items
     public static final Item RE_BATTERY = register("re_battery", new ReBatteryItem(new FabricItemSettings().maxCount(16)));
+
+    public static final Item ADVANCED_RE_BATTERY = register("advanced_re_battery", new AdvancedReBatteryItem(new FabricItemSettings().maxCount(16)));
 
     // --- Basic materials / drops ---
     public static final Item STICKY_RESIN = register("sticky_resin", new Item(new FabricItemSettings()));
@@ -130,6 +130,13 @@ public final class ModItems {
 
     // --- Materials (IL resources; split into separate IDs in IL) ---
     public static final Item IRIDIUM_SHARD = register("iridium_shard", new Item(new Item.Settings()));
+
+    // --- Reactor components (IC2) ---
+    public static final Item HEAT_EXCHANGER = register("heat_exchanger", new HeatExchangerItem(new Item.Settings(), 2500, 12, 4));
+    public static final Item REACTOR_HEAT_EXCHANGER = register("reactor_heat_exchanger", new HeatExchangerItem(new Item.Settings(), 5000, 0, 72));
+    public static final Item COMPONENT_HEAT_EXCHANGER = register("component_heat_exchanger", new HeatExchangerItem(new Item.Settings(), 5000, 36, 0));
+    public static final Item ADVANCED_HEAT_EXCHANGER = register("advanced_heat_exchanger", new HeatExchangerItem(new Item.Settings(), 10000, 24, 8));
+
 
     public static final Item IRIDIUM = register("iridium", new Item(new Item.Settings()));
     public static final Item MIXED_METAL_INGOT = register("mixed_metal_ingot", new Item(new Item.Settings()));
