@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CBC",
+    "CPC"
+  ],
+  "key": {
+    "C": {
+      "item": "industrial_legacy:carbon_plate"
+    },
+    "B": {
+      "item": "industrial_legacy:energy_crystal"
+    },
+    "P": {
+      "item": "industrial_legacy:nightvision_goggles"
+    }
+  },
+  "result": {
+    "item": "industrial_legacy:nano_helmet",
+    "count": 1
+  }
+}
