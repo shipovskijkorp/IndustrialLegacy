@@ -1,0 +1,12 @@
+{
+  "type": "industrial_legacy:compressor",
+  "ingredient": {
+    "item": "industrial_legacy:carbon_mesh"
+  },
+  "input_count": 1,
+  "result": {
+    "item": "industrial_legacy:carbon_plate",
+    "count": 1
+  },
+  "ticks": 300
+}

@@ -1,0 +1,9 @@
+{
+  "parent": "industrial_legacy:item/battery/energy_crystal_0",
+  "overrides": [
+    { "predicate": { "industrial_legacy:charge": 0.25 }, "model": "industrial_legacy:item/battery/energy_crystal_1" },
+    { "predicate": { "industrial_legacy:charge": 0.50 }, "model": "industrial_legacy:item/battery/energy_crystal_2" },
+    { "predicate": { "industrial_legacy:charge": 0.75 }, "model": "industrial_legacy:item/battery/energy_crystal_3" },
+    { "predicate": { "industrial_legacy:charge": 0.99 }, "model": "industrial_legacy:item/battery/energy_crystal_4" }
+  ]
+}

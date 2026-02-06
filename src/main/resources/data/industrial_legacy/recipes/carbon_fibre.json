@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CC",
+    "CC"
+  ],
+  "key": {
+    "C": {
+      "item": "industrial_legacy:coal_dust"
+    }
+  },
+  "result": {
+    "item": "industrial_legacy:carbon_fibre",
+    "count": 1
+  }
+}

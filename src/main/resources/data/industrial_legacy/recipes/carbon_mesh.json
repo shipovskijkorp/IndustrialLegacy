@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "industrial_legacy:carbon_fibre" },
+    { "item": "industrial_legacy:carbon_fibre" }
+  ],
+  "result": {
+    "item": "industrial_legacy:carbon_mesh",
+    "count": 1
+  }
+}

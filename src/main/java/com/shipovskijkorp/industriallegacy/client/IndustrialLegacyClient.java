@@ -44,6 +44,14 @@ public class IndustrialLegacyClient implements ClientModInitializer {
                         ElectricItemManager.getChargeRatio(stack)
         );
 
+        // Charge indicator for Energy Crystal (0..1) used by item model overrides.
+        ModelPredicateProviderRegistry.register(
+                ModItems.ENERGY_CRYSTAL,
+                new Identifier(IndustrialLegacy.MOD_ID, "charge"),
+                (ItemStack stack, ClientWorld world, LivingEntity entity, int seed) ->
+                        ElectricItemManager.getChargeRatio(stack)
+        );
+
 
         // Phase3: thin-cable BlockEntity renderer.
         BlockEntityRendererFactories.register(ModBlockEntities.CABLE, CableBlockEntityRenderer::new);

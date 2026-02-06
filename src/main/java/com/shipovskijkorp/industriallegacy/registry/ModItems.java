@@ -117,6 +117,7 @@ public final class ModItems {
     public static final Item COAL_BALL = register("coal_ball", new Item(new Item.Settings()));
     public static final Item COAL_BLOCK = register("coal_block", new Item(new Item.Settings()));
     public static final Item COAL_CHUNK = register("coal_chunk", new Item(new Item.Settings()));
+    public static final Item CARBON_FIBRE = register("carbon_fibre", new Item(new Item.Settings()));
     public static final Item CARBON_MESH = register("carbon_mesh", new Item(new Item.Settings()));
     public static final Item CARBON_PLATE = register("carbon_plate", new Item(new Item.Settings()));
     public static final Item TIN_CAN = register("tin_can", new Item(new Item.Settings()));
@@ -132,6 +133,9 @@ public final class ModItems {
     public static final Item MIXED_METAL_INGOT = register("mixed_metal_ingot", new Item(new Item.Settings()));
     public static final Item ADVANCED_ALLOY = register("advanced_alloy", new Item(new Item.Settings()));
     public static final Item ELECTRONIC_CIRCUIT = register("electronic_circuit", new Item(new Item.Settings()));
+
+    // Batteries (electric items)
+    public static final Item ENERGY_CRYSTAL = register("energy_crystal", new com.shipovskijkorp.industriallegacy.item.EnergyCrystalItem(new Item.Settings().maxCount(1)));
 
     // Plates (normal)
     public static final Item BRONZE_PLATE = register("bronze_plate", new Item(new Item.Settings()));
