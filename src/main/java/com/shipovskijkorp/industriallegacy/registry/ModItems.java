@@ -2,6 +2,8 @@ package com.shipovskijkorp.industriallegacy.registry;
 
 import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
 import com.shipovskijkorp.industriallegacy.item.*;
+import com.shipovskijkorp.industriallegacy.item.armor.NanoArmorItem;
+import com.shipovskijkorp.industriallegacy.item.armor.NanoHelmetItem;
 import com.shipovskijkorp.industriallegacy.item.armor.NightVisionGogglesItem;
 import com.shipovskijkorp.industriallegacy.item.reactor.HeatExchangerItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -152,6 +154,12 @@ public final class ModItems {
     public static final Item ENERGY_CRYSTAL = register("energy_crystal", new com.shipovskijkorp.industriallegacy.item.EnergyCrystalItem(new Item.Settings().maxCount(1)));
     // Armor / utility
     public static final Item NIGHTVISION_GOGGLES = register("nightvision_goggles", new NightVisionGogglesItem(new Item.Settings().maxCount(1)));
+
+    // NanoSuit armor (IC2 Exp)
+    public static final Item NANO_HELMET = register("nano_helmet", new NanoHelmetItem(new Item.Settings().maxCount(1)));
+    public static final Item NANO_CHESTPLATE = register("nano_chestplate", new NanoArmorItem(net.minecraft.item.ArmorItem.Type.CHESTPLATE, new Item.Settings().maxCount(1)));
+    public static final Item NANO_LEGGINGS = register("nano_leggings", new NanoArmorItem(net.minecraft.item.ArmorItem.Type.LEGGINGS, new Item.Settings().maxCount(1)));
+    public static final Item NANO_BOOTS = register("nano_boots", new NanoArmorItem(net.minecraft.item.ArmorItem.Type.BOOTS, new Item.Settings().maxCount(1)));
 
 
     // Plates (normal)

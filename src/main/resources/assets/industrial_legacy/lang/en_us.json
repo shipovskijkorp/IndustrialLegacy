@@ -109,6 +109,10 @@
   "item.industrial_legacy.lead_plate": "Lead Plate",
   "item.industrial_legacy.lithium_dust": "Lithium Dust",
   "item.industrial_legacy.mixed_metal_ingot": "Mixed Metal Ingot",
+  "item.industrial_legacy.nano_boots": "Nano Boots",
+  "item.industrial_legacy.nano_chestplate": "Nano Chestplate",
+  "item.industrial_legacy.nano_helmet": "Nano Helmet",
+  "item.industrial_legacy.nano_leggings": "Nano Leggings",
   "item.industrial_legacy.nightvision_goggles": "Nightvision Goggles",
   "item.industrial_legacy.obsidian_dust": "Obsidian Dust",
   "item.industrial_legacy.obsidian_plate": "Obsidian Plate",
@@ -155,5 +159,6 @@
   "tooltip.industrial_legacy.cable.capacity": "%s EU/t",
   "tooltip.industrial_legacy.cable.insulation": "Insulation: %s",
   "tooltip.industrial_legacy.cable.kind": "Type: %s",
-  "tooltip.industrial_legacy.cable.loss": "Loss: %s EU/Block"
+  "tooltip.industrial_legacy.cable.loss": "Loss: %s EU/Block",
+  "tooltip.industrial_legacy.power_tier": "Power Tier: %s"
 }

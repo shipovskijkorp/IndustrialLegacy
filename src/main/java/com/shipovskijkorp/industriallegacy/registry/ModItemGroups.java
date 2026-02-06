@@ -91,6 +91,12 @@ public final class ModItemGroups {
                         // Night Vision
                         add.accept(ModItems.NIGHTVISION_GOGGLES);
 
+                        // NanoSuit armor
+                        add.accept(ModItems.NANO_HELMET);
+                        add.accept(ModItems.NANO_CHESTPLATE);
+                        add.accept(ModItems.NANO_LEGGINGS);
+                        add.accept(ModItems.NANO_BOOTS);
+
                         // ------------------------------
                         // Components / crafting items
                         // ------------------------------
