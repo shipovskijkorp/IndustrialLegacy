@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "industrial_legacy:tin_dust",
+    "industrial_legacy:tin_crushed_ore",
+    "industrial_legacy:tin_purified_crushed_ore"
+  ]
+}
