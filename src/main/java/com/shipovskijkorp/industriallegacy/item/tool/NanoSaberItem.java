@@ -208,16 +208,16 @@ public final class NanoSaberItem extends SwordItem implements IElectricItem {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+    public void appendTooltip(ItemStack stack, @org.jetbrains.annotations.Nullable World world, java.util.List<net.minecraft.text.Text> tooltip, net.minecraft.client.item.TooltipContext context) {
         super.appendTooltip(stack, world, tooltip, context);
 
         long eu = getEnergy(stack);
         long cap = CAPACITY_EU;
 
-        // "EU: 12 345 / 160 000"
+        // IC2-style: "832 / 160 000 EU"
         String euStr = String.format("%,d", eu).replace(',', ' ');
         String capStr = String.format("%,d", cap).replace(',', ' ');
 
-        tooltip.add(Text.translatable("tooltip.industrial_legacy.eu", euStr, capStr).formatted(Formatting.GRAY));
+        tooltip.add(net.minecraft.text.Text.literal(euStr + " / " + capStr + " EU").formatted(net.minecraft.util.Formatting.GRAY));
     }
 }
