@@ -127,7 +127,7 @@ public class CompressorBlockEntity extends BlockEntity implements SidedInventory
         progress++;
 
         if (progress >= maxProgress) {
-            in.decrement(1);
+            in.decrement(Math.max(1, recipe.getIngredientCount()));
             insertOutput(result);
             progress = 0;
         }

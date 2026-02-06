@@ -1,0 +1,12 @@
+{
+  "type": "industrial_legacy:compressor",
+  "ingredient": {
+    "item": "industrial_legacy:gold_plate"
+  },
+  "result": {
+    "item": "industrial_legacy:dense_gold_plate",
+    "count": 1
+  },
+  "ticks": 300,
+  "input_count": 9
+}

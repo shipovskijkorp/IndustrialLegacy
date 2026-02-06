@@ -17,22 +17,31 @@ import net.minecraft.world.World;
 public class CompressorRecipe implements Recipe<Inventory> {
     private final Identifier id;
     private final Ingredient ingredient;
+    /**
+     * How many items are required in the input slot.
+     *
+     * IC2 machine configs frequently require 2/4/9 items (e.g. 9 plates -> dense plate).
+     */
+    private final int ingredientCount;
     private final ItemStack output;
     private final int ticks;
 
-    public CompressorRecipe(Identifier id, Ingredient ingredient, ItemStack output, int ticks) {
+    public CompressorRecipe(Identifier id, Ingredient ingredient, int ingredientCount, ItemStack output, int ticks) {
         this.id = id;
         this.ingredient = ingredient;
+        this.ingredientCount = Math.max(1, ingredientCount);
         this.output = output;
         this.ticks = ticks;
     }
 
     public Ingredient getIngredient() { return ingredient; }
+    public int getIngredientCount() { return ingredientCount; }
     public int getTicks() { return ticks; }
 
     @Override
     public boolean matches(Inventory inv, World world) {
-        return ingredient.test(inv.getStack(0));
+        ItemStack in = inv.getStack(0);
+        return !in.isEmpty() && in.getCount() >= ingredientCount && ingredient.test(in);
     }
 
     @Override

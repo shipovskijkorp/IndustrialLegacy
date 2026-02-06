@@ -1,0 +1,12 @@
+{
+  "type": "industrial_legacy:compressor",
+  "ingredient": {
+    "item": "industrial_legacy:small_lithium_dust"
+  },
+  "result": {
+    "item": "industrial_legacy:lithium_dust",
+    "count": 1
+  },
+  "ticks": 300,
+  "input_count": 9
+}

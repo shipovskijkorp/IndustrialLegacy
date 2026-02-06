@@ -1,0 +1,12 @@
+{
+  "type": "industrial_legacy:compressor",
+  "ingredient": {
+    "item": "industrial_legacy:obsidian_plate"
+  },
+  "result": {
+    "item": "industrial_legacy:dense_obsidian_plate",
+    "count": 1
+  },
+  "ticks": 300,
+  "input_count": 9
+}

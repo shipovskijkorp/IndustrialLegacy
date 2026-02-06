@@ -1,0 +1,12 @@
+{
+  "type": "industrial_legacy:compressor",
+  "ingredient": {
+    "item": "industrial_legacy:small_iron_dust"
+  },
+  "result": {
+    "item": "industrial_legacy:iron_dust",
+    "count": 1
+  },
+  "ticks": 300,
+  "input_count": 9
+}

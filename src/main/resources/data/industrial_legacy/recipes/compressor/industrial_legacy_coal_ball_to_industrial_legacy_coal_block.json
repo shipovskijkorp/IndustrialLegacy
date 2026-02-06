@@ -1,0 +1,11 @@
+{
+  "type": "industrial_legacy:compressor",
+  "ingredient": {
+    "item": "industrial_legacy:coal_ball"
+  },
+  "result": {
+    "item": "industrial_legacy:coal_block",
+    "count": 1
+  },
+  "ticks": 300
+}
