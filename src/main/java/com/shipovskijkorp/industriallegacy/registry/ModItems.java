@@ -6,6 +6,7 @@ import com.shipovskijkorp.industriallegacy.item.armor.NanoArmorItem;
 import com.shipovskijkorp.industriallegacy.item.armor.NanoHelmetItem;
 import com.shipovskijkorp.industriallegacy.item.armor.NightVisionGogglesItem;
 import com.shipovskijkorp.industriallegacy.item.reactor.HeatExchangerItem;
+import com.shipovskijkorp.industriallegacy.item.tool.NanoSaberItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -161,7 +162,8 @@ public final class ModItems {
     public static final Item NANO_LEGGINGS = register("nano_leggings", new NanoArmorItem(net.minecraft.item.ArmorItem.Type.LEGGINGS, new Item.Settings().maxCount(1)));
     public static final Item NANO_BOOTS = register("nano_boots", new NanoArmorItem(net.minecraft.item.ArmorItem.Type.BOOTS, new Item.Settings().maxCount(1)));
 
-
+    /** IC2: Nano Saber (electric sword). */
+    public static final Item NANO_SABER = register("nano_saber", new NanoSaberItem(new Item.Settings().maxCount(1)));
     // Plates (normal)
     public static final Item BRONZE_PLATE = register("bronze_plate", new Item(new Item.Settings()));
     public static final Item COPPER_PLATE = register("copper_plate", new Item(new Item.Settings()));

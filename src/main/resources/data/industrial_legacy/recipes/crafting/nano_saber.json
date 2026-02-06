@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " S ",
+    "CKC",
+    " B "
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:glowstone_dust"
+    },
+    "K": {
+      "item": "industrial_legacy:advanced_alloy"
+    },
+    "B": {
+      "item": "industrial_legacy:energy_crystal"
+    },
+    "C": {
+      "item": "industrial_legacy:carbon_plate"
+    }
+  },
+  "result": {
+    "item": "industrial_legacy:nano_saber",
+    "count": 1
+  }
+}

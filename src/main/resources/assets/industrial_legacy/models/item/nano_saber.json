@@ -8,7 +8,7 @@
       "predicate": {
         "industrial_legacy:active": 1.0
       },
-      "model": "industrial_legacy:item/tool/electric/nano_saber_active"
+      "model": "industrial_legacy:item/nano_saber_active"
     }
   ]
 }

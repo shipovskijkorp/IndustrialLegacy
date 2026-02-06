@@ -90,6 +90,7 @@ public final class ModItemGroups {
 
                         // Night Vision
                         add.accept(ModItems.NIGHTVISION_GOGGLES);
+                        add.accept(ModItems.NANO_SABER);
 
                         // NanoSuit armor
                         add.accept(ModItems.NANO_HELMET);

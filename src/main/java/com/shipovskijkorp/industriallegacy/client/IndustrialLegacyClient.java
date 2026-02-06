@@ -4,6 +4,7 @@ import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
 import com.shipovskijkorp.industriallegacy.client.render.CableBlockEntityRenderer;
 import com.shipovskijkorp.industriallegacy.item.CableItem;
 import com.shipovskijkorp.industriallegacy.item.CableVariants;
+import com.shipovskijkorp.industriallegacy.item.tool.NanoSaberItem;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
 import com.shipovskijkorp.industriallegacy.registry.ModItems;
 import com.shipovskijkorp.industriallegacy.energy.item.ElectricItemManager;
@@ -70,7 +71,24 @@ public class IndustrialLegacyClient implements ClientModInitializer {
         );
 
 
-        // Phase3: thin-cable BlockEntity renderer.
+        
+
+        // Nano Saber: active (0/1) used by item model overrides.
+        ModelPredicateProviderRegistry.register(
+                ModItems.NANO_SABER,
+                new Identifier(IndustrialLegacy.MOD_ID, "active"),
+                (ItemStack stack, ClientWorld world, LivingEntity entity, int seed) ->
+                        NanoSaberItem.isActive(stack) ? 1.0f : 0.0f
+        );
+
+        // Nano Saber: charge (0..1) used by item model overrides (optional, for future UI/model use).
+        ModelPredicateProviderRegistry.register(
+                ModItems.NANO_SABER,
+                new Identifier(IndustrialLegacy.MOD_ID, "charge"),
+                (ItemStack stack, ClientWorld world, LivingEntity entity, int seed) ->
+                        ElectricItemManager.getChargeRatio(stack)
+        );
+// Phase3: thin-cable BlockEntity renderer.
         BlockEntityRendererFactories.register(ModBlockEntities.CABLE, CableBlockEntityRenderer::new);
 
         
