@@ -40,8 +40,22 @@ public final class ModPackets {
                     });
                 });
 
-        ServerPlayNetworking.registerGlobalReceiver(TOGGLE_NIGHTVISION,
-                (srv, player, handler, buf, responseSender) -> srv.execute(() -> toggleNightVision(player)));
+        ServerPlayNetworking.registerGlobalReceiver(TOGGLE_NIGHTVISION, (srv, player, handler, buf, responseSender) -> {
+            srv.execute(() -> {
+                // Head-only: NV modules are only considered when equipped in helmet slot.
+                ItemStack head = player.getEquippedStack(EquipmentSlot.HEAD);
+                if (!(head.getItem() instanceof INightVisionModule module)) {
+                    player.sendMessage(Text.translatable("message.industrial_legacy.nightvision.no_module"), true);
+                    return;
+                }
+
+                boolean active = module.isNightVisionActive(head);
+                module.setNightVisionActive(head, !active);
+                player.sendMessage(Text.translatable(!active
+                        ? "message.industrial_legacy.nightvision.enabled"
+                        : "message.industrial_legacy.nightvision.disabled"), true);
+            });
+        });
     }
 
     private static final String NBT_ACTIVE = "active";
@@ -49,7 +63,7 @@ public final class ModPackets {
     private static void toggleNightVision(ServerPlayerEntity player) {
         ItemStack stack = findFirstNvModule(player);
         if (stack.isEmpty()) {
-            player.sendMessage(Text.translatable("message.industrial_legacy.nightvision.no_module"), false);
+            player.sendMessage(Text.literal("No nightvision module found."), false);
             return;
         }
 
@@ -57,7 +71,7 @@ public final class ModPackets {
         boolean active = nbt.getBoolean(NBT_ACTIVE);
         nbt.putBoolean(NBT_ACTIVE, !active);
 
-        player.sendMessage(Text.translatable(!active ? "message.industrial_legacy.nightvision.enabled" : "message.industrial_legacy.nightvision.disabled"), true);
+        player.sendMessage(Text.literal(!active ? "Nightvision enabled." : "Nightvision disabled."), true);
     }
 
     /**
