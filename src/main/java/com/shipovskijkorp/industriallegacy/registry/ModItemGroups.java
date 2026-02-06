@@ -88,6 +88,9 @@ public final class ModItemGroups {
                         add.accept(ModItems.ADVANCED_RE_BATTERY);
                         add.accept(ModItems.ENERGY_CRYSTAL);
 
+                        // Night Vision
+                        add.accept(ModItems.NIGHTVISION_GOGGLES);
+
                         // ------------------------------
                         // Components / crafting items
                         // ------------------------------

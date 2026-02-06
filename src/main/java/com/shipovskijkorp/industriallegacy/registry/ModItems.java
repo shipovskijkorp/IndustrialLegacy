@@ -2,6 +2,7 @@ package com.shipovskijkorp.industriallegacy.registry;
 
 import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
 import com.shipovskijkorp.industriallegacy.item.*;
+import com.shipovskijkorp.industriallegacy.item.armor.NightVisionGogglesItem;
 import com.shipovskijkorp.industriallegacy.item.reactor.HeatExchangerItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.Item;
@@ -149,6 +150,9 @@ public final class ModItems {
 
     // Batteries (electric items)
     public static final Item ENERGY_CRYSTAL = register("energy_crystal", new com.shipovskijkorp.industriallegacy.item.EnergyCrystalItem(new Item.Settings().maxCount(1)));
+    // Armor / utility
+    public static final Item NIGHTVISION_GOGGLES = register("nightvision_goggles", new NightVisionGogglesItem(new Item.Settings().maxCount(1)));
+
 
     // Plates (normal)
     public static final Item BRONZE_PLATE = register("bronze_plate", new Item(new Item.Settings()));
