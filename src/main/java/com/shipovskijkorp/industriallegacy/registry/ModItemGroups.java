@@ -61,6 +61,7 @@ public final class ModItemGroups {
 
 
                         // Materials
+                        entries.add(ModItems.IRIDIUM_SHARD);
                         entries.add(ModItems.IRIDIUM);
                         entries.add(ModItems.MIXED_METAL_INGOT);
                         entries.add(ModItems.ADVANCED_ALLOY);

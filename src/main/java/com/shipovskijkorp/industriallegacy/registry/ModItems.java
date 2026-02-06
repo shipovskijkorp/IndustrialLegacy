@@ -129,6 +129,8 @@ public final class ModItems {
     public static final Item WEED = register("weed", new Item(new Item.Settings()));
 
     // --- Materials (IL resources; split into separate IDs in IL) ---
+    public static final Item IRIDIUM_SHARD = register("iridium_shard", new Item(new Item.Settings()));
+
     public static final Item IRIDIUM = register("iridium", new Item(new Item.Settings()));
     public static final Item MIXED_METAL_INGOT = register("mixed_metal_ingot", new Item(new Item.Settings()));
     public static final Item ADVANCED_ALLOY = register("advanced_alloy", new Item(new Item.Settings()));
