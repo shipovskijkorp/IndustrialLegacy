@@ -83,6 +83,10 @@ public final class ModBlocks {
     public static final Block REINFORCED_GLASS =
             register("reinforced_glass", new ReinforcedGlassBlock());
 
+    /** IC2-like Luminator (simplified): always-on light block. */
+    public static final Block LUMINATOR =
+            register("luminator", new LuminatorBlock());
+
     public static final Block LEAD_ORE =
             register("lead_ore", new Block(FabricBlockSettings.copyOf(Blocks.IRON_ORE).requiresTool()));
     public static final Block TIN_ORE =

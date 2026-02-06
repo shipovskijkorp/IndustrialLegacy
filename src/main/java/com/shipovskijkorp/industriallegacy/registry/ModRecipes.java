@@ -83,6 +83,12 @@ public final class ModRecipes {
             new AdvancedReBatteryRecipeSerializer()
     );
 
+    public static final RecipeSerializer<LuminatorRecipe> LUMINATOR_SERIALIZER = Registry.register(
+            Registries.RECIPE_SERIALIZER,
+            new Identifier(IndustrialLegacy.MOD_ID, "luminator"),
+            new LuminatorRecipeSerializer()
+    );
+
 
     public static final RecipeSerializer<BatBoxRecipe> BATBOX_SERIALIZER = Registry.register(
             Registries.RECIPE_SERIALIZER,

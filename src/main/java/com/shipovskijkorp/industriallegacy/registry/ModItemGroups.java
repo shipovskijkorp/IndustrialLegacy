@@ -55,6 +55,9 @@ public final class ModItemGroups {
                         // Reinforced building block
                         add.accept(ModBlocks.REINFORCED_GLASS);
 
+                        // Lighting
+                        add.accept(ModBlocks.LUMINATOR);
+
                         // ------------------------------
                         // World resources / rubber tree
                         // ------------------------------

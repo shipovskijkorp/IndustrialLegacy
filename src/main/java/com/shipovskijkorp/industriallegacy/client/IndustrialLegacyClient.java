@@ -73,6 +73,9 @@ public class IndustrialLegacyClient implements ClientModInitializer {
         // Reinforced glass (IC2-like): translucent.
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.REINFORCED_GLASS, RenderLayer.getTranslucent());
 
+        // Luminator: translucent.
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.LUMINATOR, RenderLayer.getTranslucent());
+
         // Biome foliage tint for rubber leaves (otherwise they render gray).
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> {
             if (world == null || pos == null) return FoliageColors.getDefaultColor();
