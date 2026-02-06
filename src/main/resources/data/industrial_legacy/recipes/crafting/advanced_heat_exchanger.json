@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "LML",
+    "TCT",
+    "LML"
+  ],
+  "key": {
+    "L": { "item": "industrial_legacy:lapis_plate" },
+    "M": { "item": "industrial_legacy:electronic_circuit" },
+    "C": { "item": "industrial_legacy:copper_plate" },
+    "T": { "item": "industrial_legacy:heat_exchanger" }
+  },
+  "result": {
+    "item": "industrial_legacy:advanced_heat_exchanger",
+    "count": 1
+  }
+}

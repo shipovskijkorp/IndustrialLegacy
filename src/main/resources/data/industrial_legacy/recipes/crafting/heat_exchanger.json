@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CMC",
+    "TCT",
+    "CTC"
+  ],
+  "key": {
+    "C": { "item": "industrial_legacy:copper_plate" },
+    "T": { "item": "industrial_legacy:tin_plate" },
+    "M": { "item": "industrial_legacy:electronic_circuit" }
+  },
+  "result": {
+    "item": "industrial_legacy:heat_exchanger",
+    "count": 1
+  }
+}
