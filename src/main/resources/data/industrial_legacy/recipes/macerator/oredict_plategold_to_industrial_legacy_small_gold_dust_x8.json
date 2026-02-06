@@ -1,0 +1,13 @@
+{
+  "type": "industrial_legacy:macerator",
+  "input": {
+    "kind": "oredict",
+    "name": "plateGold",
+    "count": 1
+  },
+  "output": {
+    "kind": "item",
+    "item": "industrial_legacy:small_gold_dust",
+    "count": 8
+  }
+}

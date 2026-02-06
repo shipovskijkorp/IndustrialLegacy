@@ -1,0 +1,13 @@
+{
+  "type": "industrial_legacy:macerator",
+  "input": {
+    "kind": "tag",
+    "tag": "minecraft:wool",
+    "count": 1
+  },
+  "output": {
+    "kind": "item",
+    "item": "minecraft:string",
+    "count": 2
+  }
+}

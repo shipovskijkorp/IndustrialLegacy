@@ -1,0 +1,13 @@
+{
+  "type": "industrial_legacy:macerator",
+  "input": {
+    "kind": "item",
+    "item": "minecraft:tallgrass",
+    "count": 8
+  },
+  "output": {
+    "kind": "item",
+    "item": "industrial_legacy:bio_chaff",
+    "count": 1
+  }
+}

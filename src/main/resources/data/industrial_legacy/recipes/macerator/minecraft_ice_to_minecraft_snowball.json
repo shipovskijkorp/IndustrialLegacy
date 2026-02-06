@@ -1,0 +1,13 @@
+{
+  "type": "industrial_legacy:macerator",
+  "input": {
+    "kind": "item",
+    "item": "minecraft:ice",
+    "count": 1
+  },
+  "output": {
+    "kind": "item",
+    "item": "minecraft:snowball",
+    "count": 1
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "type": "industrial_legacy:macerator",
+  "input": {
+    "kind": "item",
+    "item": "minecraft:gold_ingot",
+    "count": 1
+  },
+  "output": {
+    "kind": "item",
+    "item": "industrial_legacy:gold_dust",
+    "count": 1
+  }
+}

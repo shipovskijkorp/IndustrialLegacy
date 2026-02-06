@@ -1,0 +1,13 @@
+{
+  "type": "industrial_legacy:macerator",
+  "input": {
+    "kind": "item",
+    "item": "minecraft:stone",
+    "count": 1
+  },
+  "output": {
+    "kind": "item",
+    "item": "minecraft:cobblestone",
+    "count": 1
+  }
+}

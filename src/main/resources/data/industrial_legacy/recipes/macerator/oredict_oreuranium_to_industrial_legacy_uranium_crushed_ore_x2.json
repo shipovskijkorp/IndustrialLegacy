@@ -1,0 +1,13 @@
+{
+  "type": "industrial_legacy:macerator",
+  "input": {
+    "kind": "oredict",
+    "name": "oreUranium",
+    "count": 1
+  },
+  "output": {
+    "kind": "item",
+    "item": "industrial_legacy:uranium_crushed_ore",
+    "count": 2
+  }
+}

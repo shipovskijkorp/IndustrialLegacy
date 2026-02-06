@@ -1,0 +1,13 @@
+{
+  "type": "industrial_legacy:macerator",
+  "input": {
+    "kind": "oredict",
+    "name": "oreTin",
+    "count": 1
+  },
+  "output": {
+    "kind": "item",
+    "item": "industrial_legacy:tin_crushed_ore",
+    "count": 2
+  }
+}

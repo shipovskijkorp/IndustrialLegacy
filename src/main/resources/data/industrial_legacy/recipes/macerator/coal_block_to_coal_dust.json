@@ -1,0 +1,11 @@
+{
+  "type": "industrial_legacy:macerator",
+  "ingredient": {
+    "item": "minecraft:coal_block"
+  },
+  "result": {
+    "item": "industrial_legacy:coal_dust",
+    "count": 9
+  },
+  "ticks": 300
+}
