@@ -16,6 +16,11 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
+import net.minecraft.client.item.TooltipContext;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
+import org.jetbrains.annotations.Nullable;
+import java.util.List;
 
 /**
  * IC2 Experimental Nano Saber (electric sword).
@@ -200,5 +205,19 @@ public final class NanoSaberItem extends SwordItem implements IElectricItem {
                 EntityAttributes.GENERIC_ATTACK_SPEED,
                 new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Tool modifier", ATTACK_SPEED, EntityAttributeModifier.Operation.ADDITION)
         );
+    }
+
+    @Override
+    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+        super.appendTooltip(stack, world, tooltip, context);
+
+        long eu = getEnergy(stack);
+        long cap = CAPACITY_EU;
+
+        // "EU: 12 345 / 160 000"
+        String euStr = String.format("%,d", eu).replace(',', ' ');
+        String capStr = String.format("%,d", cap).replace(',', ' ');
+
+        tooltip.add(Text.translatable("tooltip.industrial_legacy.eu", euStr, capStr).formatted(Formatting.GRAY));
     }
 }

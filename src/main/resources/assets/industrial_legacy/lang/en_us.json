@@ -161,5 +161,6 @@
   "tooltip.industrial_legacy.cable.insulation": "Insulation: %s",
   "tooltip.industrial_legacy.cable.kind": "Type: %s",
   "tooltip.industrial_legacy.cable.loss": "Loss: %s EU/Block",
+  "tooltip.industrial_legacy.eu": "EU: %s / %s",
   "tooltip.industrial_legacy.power_tier": "Power Tier: %s"
 }
