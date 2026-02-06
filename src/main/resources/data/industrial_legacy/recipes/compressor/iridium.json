@@ -1,0 +1,12 @@
+{
+  "type": "industrial_legacy:compressor",
+  "ingredient": {
+    "item": "industrial_legacy:iridium_shard"
+  },
+  "input_count": 9,
+  "result": {
+    "item": "industrial_legacy:iridium",
+    "count": 1
+  },
+  "ticks": 600
+}

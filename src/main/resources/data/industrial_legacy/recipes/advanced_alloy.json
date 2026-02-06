@@ -1,0 +1,12 @@
+{
+  "type": "industrial_legacy:compressor",
+  "ingredient": {
+    "item": "industrial_legacy:mixed_metal_ingot"
+  },
+  "input_count": 1,
+  "result": {
+    "item": "industrial_legacy:advanced_alloy",
+    "count": 1
+  },
+  "ticks": 400
+}

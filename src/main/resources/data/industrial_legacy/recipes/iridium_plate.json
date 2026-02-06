@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ICI",
+    "CDC",
+    "ICI"
+  ],
+  "key": {
+    "I": {
+      "item": "industrial_legacy:iridium"
+    },
+    "C": {
+      "item": "industrial_legacy:advanced_alloy"
+    },
+    "D": {
+      "item": "minecraft:diamond"
+    }
+  },
+  "result": {
+    "item": "industrial_legacy:iridium_plate",
+    "count": 1
+  }
+}

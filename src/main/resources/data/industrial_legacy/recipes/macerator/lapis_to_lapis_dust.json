@@ -1,0 +1,12 @@
+{
+  "type": "industrial_legacy:macerator",
+  "ingredient": {
+    "item": "minecraft:lapis_lazuli"
+  },
+  "input_count": 1,
+  "result": {
+    "item": "industrial_legacy:lapis_dust",
+    "count": 1
+  },
+  "ticks": 200
+}
