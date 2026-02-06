@@ -3,6 +3,7 @@ package com.shipovskijkorp.industriallegacy.item.tool;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.shipovskijkorp.industriallegacy.energy.item.IElectricItem;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
@@ -13,22 +14,25 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolMaterials;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
-import net.minecraft.client.item.TooltipContext;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.Nullable;
+
 import java.util.List;
 
 /**
  * IC2 Experimental Nano Saber (electric sword).
  *
  * Visuals:
- * - NO glint (requested)
  * - model swap via predicate industrial_legacy:active (0/1) to nano_saber_active model
  * - animated texture driven by nano_saber_active.png.mcmeta
+ * - no enchant glint (requested)
+ *
+ * Charge bar:
+ * - always visible like NanoSuit armor
  */
 public final class NanoSaberItem extends SwordItem implements IElectricItem {
 
@@ -187,6 +191,23 @@ public final class NanoSaberItem extends SwordItem implements IElectricItem {
         return false;
     }
 
+    // Always show charge bar (like Nano armor)
+    @Override
+    public boolean isItemBarVisible(ItemStack stack) {
+        return true;
+    }
+
+    @Override
+    public int getItemBarStep(ItemStack stack) {
+        double r = (double) getEnergy(stack) / (double) CAPACITY_EU;
+        return (int) Math.round(r * 13.0);
+    }
+
+    @Override
+    public int getItemBarColor(ItemStack stack) {
+        return 0x55FF55;
+    }
+
     // Stack-aware attribute modifiers (Fabric)
     @Override
     public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(ItemStack stack, EquipmentSlot slot) {
@@ -208,7 +229,7 @@ public final class NanoSaberItem extends SwordItem implements IElectricItem {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, @org.jetbrains.annotations.Nullable World world, java.util.List<net.minecraft.text.Text> tooltip, net.minecraft.client.item.TooltipContext context) {
+    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         super.appendTooltip(stack, world, tooltip, context);
 
         long eu = getEnergy(stack);
@@ -218,6 +239,6 @@ public final class NanoSaberItem extends SwordItem implements IElectricItem {
         String euStr = String.format("%,d", eu).replace(',', ' ');
         String capStr = String.format("%,d", cap).replace(',', ' ');
 
-        tooltip.add(net.minecraft.text.Text.literal(euStr + " / " + capStr + " EU").formatted(net.minecraft.util.Formatting.GRAY));
+        tooltip.add(Text.literal(euStr + " / " + capStr + " EU").formatted(Formatting.GRAY));
     }
 }
