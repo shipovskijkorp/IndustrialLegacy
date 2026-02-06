@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GCG",
+    "GGG",
+    "GCG"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "C": {
+      "item": "industrial_legacy:advanced_alloy"
+    }
+  },
+  "result": {
+    "item": "industrial_legacy:reinforced_glass",
+    "count": 7
+  }
+}

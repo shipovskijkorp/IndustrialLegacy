@@ -52,6 +52,9 @@ public final class ModItemGroups {
                         add.accept(ModBlocks.COMPRESSOR);
                         add.accept(ModBlocks.MACHINE_CASING);
 
+                        // Reinforced building block
+                        add.accept(ModBlocks.REINFORCED_GLASS);
+
                         // ------------------------------
                         // World resources / rubber tree
                         // ------------------------------

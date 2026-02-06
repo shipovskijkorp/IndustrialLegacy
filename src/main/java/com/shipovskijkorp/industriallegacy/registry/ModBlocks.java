@@ -79,6 +79,10 @@ public final class ModBlocks {
             new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).requiresTool())
     );
 
+    /** Reinforced glass (IC2-like): explosion resistant glass. */
+    public static final Block REINFORCED_GLASS =
+            register("reinforced_glass", new ReinforcedGlassBlock());
+
     public static final Block LEAD_ORE =
             register("lead_ore", new Block(FabricBlockSettings.copyOf(Blocks.IRON_ORE).requiresTool()));
     public static final Block TIN_ORE =
