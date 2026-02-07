@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "industrial_legacy:uranium_ore",
+    "industrial_legacy:deepslate_uranium_ore"
+  ]
+}

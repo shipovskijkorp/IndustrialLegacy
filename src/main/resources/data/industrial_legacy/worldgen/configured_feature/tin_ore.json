@@ -12,6 +12,15 @@
         "state": {
           "Name": "industrial_legacy:tin_ore"
         }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:tag_match",
+          "tag": "minecraft:deepslate_ore_replaceables"
+        },
+        "state": {
+          "Name": "industrial_legacy:deepslate_tin_ore"
+        }
       }
     ]
   }

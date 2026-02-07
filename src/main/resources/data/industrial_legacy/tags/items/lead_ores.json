@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "industrial_legacy:lead_ore",
+    "industrial_legacy:deepslate_lead_ore"
+  ]
+}

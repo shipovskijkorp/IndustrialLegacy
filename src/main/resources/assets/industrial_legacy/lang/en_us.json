@@ -199,5 +199,8 @@
   "tooltip.industrial_legacy.cable.loss": "Loss: %s EU/Block",
   "tooltip.industrial_legacy.eu": "EU: %s / %s",
   "tooltip.industrial_legacy.power_tier": "Power Tier: %s",
-  "block.industrial_legacy.mfe": "MFE"
+  "block.industrial_legacy.mfe": "MFE",
+  "block.industrial_legacy.deepslate_tin_ore": "Deepslate Tin Ore",
+  "block.industrial_legacy.deepslate_lead_ore": "Deepslate Lead Ore",
+  "block.industrial_legacy.deepslate_uranium_ore": "Deepslate Uranium Ore"
 }

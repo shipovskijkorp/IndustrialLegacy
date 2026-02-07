@@ -1,7 +1,7 @@
 {
   "type": "industrial_legacy:macerator",
   "ingredient": {
-    "item": "industrial_legacy:tin_ore"
+    "tag": "industrial_legacy:tin_ores"
   },
   "result": {
     "item": "industrial_legacy:crushed_tin_ore",

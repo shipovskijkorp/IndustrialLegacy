@@ -109,6 +109,30 @@ public final class ModBlocks {
             register("tin_ore", new Block(FabricBlockSettings.copyOf(Blocks.IRON_ORE).requiresTool()));
     public static final Block URANIUM_ORE =
             register("uranium_ore", new Block(FabricBlockSettings.copyOf(Blocks.IRON_ORE).requiresTool()));
+    public static final Block DEEPSLATE_TIN_ORE = register(
+            "deepslate_tin_ore",
+            new Block(FabricBlockSettings.create()
+                    .strength(4.5f, 3.0f)
+                    .sounds(BlockSoundGroup.DEEPSLATE)
+                    .requiresTool())
+    );
+
+    public static final Block DEEPSLATE_LEAD_ORE = register(
+            "deepslate_lead_ore",
+            new Block(FabricBlockSettings.create()
+                    .strength(4.5f, 3.0f)
+                    .sounds(BlockSoundGroup.DEEPSLATE)
+                    .requiresTool())
+    );
+
+    public static final Block DEEPSLATE_URANIUM_ORE = register(
+            "deepslate_uranium_ore",
+            new Block(FabricBlockSettings.create()
+                    .strength(4.5f, 3.0f)
+                    .sounds(BlockSoundGroup.DEEPSLATE)
+                    .requiresTool())
+    );
+
 
     public static final Block COPPER_CABLE_0 = registerNoItem(
             "copper_cable_0",
@@ -116,6 +140,7 @@ public final class ModBlocks {
                     CableKind.COPPER, 0, "block/wiring/cable/copper_cable_0")
     );
     public static final Block COPPER_CABLE_1 = registerNoItem(
+
             "copper_cable_1",
             new CableBlock(FabricBlockSettings.create().strength(0.2f).sounds(BlockSoundGroup.METAL),
                     CableKind.COPPER, 1, "block/wiring/cable/copper_cable_1_white")

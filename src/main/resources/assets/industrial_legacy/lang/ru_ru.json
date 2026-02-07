@@ -199,5 +199,8 @@
   "tooltip.industrial_legacy.cable.loss": "Потери: %s EU/Блок",
   "tooltip.industrial_legacy.eu": "EU: %s / %s",
   "tooltip.industrial_legacy.power_tier": "Power Tier: %s",
-  "block.industrial_legacy.mfe": "МФЭ"
+  "block.industrial_legacy.mfe": "МФЭ",
+  "block.industrial_legacy.deepslate_tin_ore": "Глубинная оловянная руда",
+  "block.industrial_legacy.deepslate_lead_ore": "Глубинная свинцовая руда",
+  "block.industrial_legacy.deepslate_uranium_ore": "Глубинная урановая руда"
 }

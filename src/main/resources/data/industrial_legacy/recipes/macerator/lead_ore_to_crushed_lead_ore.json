@@ -1,7 +1,7 @@
 {
   "type": "industrial_legacy:macerator",
   "ingredient": {
-    "item": "industrial_legacy:lead_ore"
+    "tag": "industrial_legacy:lead_ores"
   },
   "result": {
     "item": "industrial_legacy:crushed_lead_ore",
