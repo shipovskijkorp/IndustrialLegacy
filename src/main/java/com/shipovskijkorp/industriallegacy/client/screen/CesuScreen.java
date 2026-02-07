@@ -9,8 +9,6 @@ import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.sound.PositionedSoundInstance;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
@@ -22,7 +20,8 @@ public class CesuScreen extends HandledScreen<CesuScreenHandler> {
     private static final Identifier BG =
             new Identifier(IndustrialLegacy.MOD_ID, "textures/gui/guielectricblock.png");
 
-    private static final ItemStack REDSTONE_ICON = new ItemStack(Items.REDSTONE);
+    // GUI-only icon for the redstone mode indicator (no button background, no item render)
+    private static final Identifier REDSTONE_SLOT_ICON = new Identifier("industrial_legacy", "textures/gui/redstone_slot.png");
 
     // IL VanillaButton: (152,4) size 20x20, texture lives inside guielectricblock.png at (176,0)
     private static final int REDSTONE_BTN_X = 152;
@@ -137,6 +136,9 @@ public class CesuScreen extends HandledScreen<CesuScreenHandler> {
     @Override
     protected void drawBackground(DrawContext ctx, float delta, int mouseX, int mouseY) {
         ctx.drawTexture(BG, x, y, 0, 0, backgroundWidth, backgroundHeight, 256, 256);
+
+        // Redstone mode icon (static texture)
+        ctx.drawTexture(REDSTONE_SLOT_ICON, x + REDSTONE_BTN_X + 2, y + REDSTONE_BTN_Y + 2, 0, 0, 16, 16, 16, 16);
 // energy gauge: draw frame + fill (matches IL EnergyGaugeStyle.Bar)
         float eRatio = handler.getEuCap() <= 0 ? 0f : (handler.getEuStored() / (float) handler.getEuCap());
         IlGuiDraw.drawEnergyBarFramed(ctx, x + ENERGY_X, y + ENERGY_Y, eRatio);
