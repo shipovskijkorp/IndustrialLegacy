@@ -102,7 +102,14 @@ public final class ModRecipes {
             new CesuRecipeSerializer()
     );
 
-    public static final RecipeType<MaceratorRecipe> MACERATOR_TYPE = Registry.register(
+    
+
+    public static final RecipeSerializer<MfeRecipe> MFE_SERIALIZER = Registry.register(
+            Registries.RECIPE_SERIALIZER,
+            new Identifier(IndustrialLegacy.MOD_ID, "mfe"),
+            new MfeRecipeSerializer()
+    );
+public static final RecipeType<MaceratorRecipe> MACERATOR_TYPE = Registry.register(
             Registries.RECIPE_TYPE,
             new Identifier(IndustrialLegacy.MOD_ID, "macerator"),
             new RecipeType<>() {

@@ -198,5 +198,6 @@
   "tooltip.industrial_legacy.cable.kind": "Тип: %s",
   "tooltip.industrial_legacy.cable.loss": "Потери: %s EU/Блок",
   "tooltip.industrial_legacy.eu": "EU: %s / %s",
-  "tooltip.industrial_legacy.power_tier": "Power Tier: %s"
+  "tooltip.industrial_legacy.power_tier": "Power Tier: %s",
+  "block.industrial_legacy.mfe": "МФЭ"
 }

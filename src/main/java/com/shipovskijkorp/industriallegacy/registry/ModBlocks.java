@@ -46,6 +46,14 @@ public final class ModBlocks {
                     .requiresTool())
     );
 
+    public static final Block MFE = register(
+            "mfe",
+            new MfeBlock(FabricBlockSettings.create()
+                    .strength(2.0f)
+                    .sounds(BlockSoundGroup.METAL)
+                    .requiresTool())
+    );
+
     public static final Block MACERATOR = register(
             "macerator",
             new MaceratorBlock(FabricBlockSettings.create()
