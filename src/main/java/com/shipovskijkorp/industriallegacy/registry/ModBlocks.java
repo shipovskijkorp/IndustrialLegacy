@@ -145,6 +145,18 @@ public final class ModBlocks {
                     .requiresTool())
     );
 
+    // --- Ores ---
+    public static final Block ALUMINUM_ORE =
+            register("aluminum_ore", new Block(FabricBlockSettings.copyOf(Blocks.IRON_ORE).requiresTool()));
+    public static final Block DEEPSLATE_ALUMINUM_ORE =
+            register("deepslate_aluminum_ore", new Block(FabricBlockSettings.copyOf(Blocks.DEEPSLATE_IRON_ORE).requiresTool()));
+
+    public static final Block LITHIUM_ORE =
+            register("lithium_ore", new Block(FabricBlockSettings.copyOf(Blocks.IRON_ORE).requiresTool()));
+    public static final Block DEEPSLATE_LITHIUM_ORE =
+            register("deepslate_lithium_ore", new Block(FabricBlockSettings.copyOf(Blocks.DEEPSLATE_IRON_ORE).requiresTool()));
+
+
 
     public static final Block COPPER_CABLE_0 = registerNoItem(
             "copper_cable_0",

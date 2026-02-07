@@ -67,11 +67,15 @@ public final class ModItemGroups {
                         add.accept(ModBlocks.LEAD_ORE);
                         add.accept(ModBlocks.URANIUM_ORE);
                         add.accept(ModBlocks.SILVER_ORE);
+                        add.accept(ModBlocks.ALUMINUM_ORE);
+                        add.accept(ModBlocks.LITHIUM_ORE);
 
                         add.accept(ModBlocks.DEEPSLATE_TIN_ORE);
                         add.accept(ModBlocks.DEEPSLATE_LEAD_ORE);
                         add.accept(ModBlocks.DEEPSLATE_URANIUM_ORE);
                         add.accept(ModBlocks.DEEPSLATE_SILVER_ORE);
+                        add.accept(ModBlocks.DEEPSLATE_ALUMINUM_ORE);
+                        add.accept(ModBlocks.DEEPSLATE_LITHIUM_ORE);
 
                         add.accept(ModBlocks.RUBBER_LOG);
                         add.accept(ModBlocks.RUBBER_LEAVES);

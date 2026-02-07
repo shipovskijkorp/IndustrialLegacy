@@ -3,6 +3,10 @@
   "values": [
     "industrial_legacy:deepslate_tin_ore",
     "industrial_legacy:deepslate_lead_ore",
-    "industrial_legacy:deepslate_uranium_ore"
+    "industrial_legacy:deepslate_uranium_ore",
+    "industrial_legacy:aluminum_ore",
+    "industrial_legacy:deepslate_aluminum_ore",
+    "industrial_legacy:lithium_ore",
+    "industrial_legacy:deepslate_lithium_ore"
   ]
 }
