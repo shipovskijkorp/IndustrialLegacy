@@ -4,6 +4,8 @@
     "industrial_legacy:lead_ore",
     "industrial_legacy:tin_ore",
     "industrial_legacy:uranium_ore",
-    "industrial_legacy:iron_furnace"
+    "industrial_legacy:iron_furnace",
+    "industrial_legacy:silver_ore",
+    "industrial_legacy:deepslate_silver_ore"
   ]
 }

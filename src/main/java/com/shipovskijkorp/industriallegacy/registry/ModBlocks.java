@@ -109,6 +109,9 @@ public final class ModBlocks {
             register("tin_ore", new Block(FabricBlockSettings.copyOf(Blocks.IRON_ORE).requiresTool()));
     public static final Block URANIUM_ORE =
             register("uranium_ore", new Block(FabricBlockSettings.copyOf(Blocks.IRON_ORE).requiresTool()));
+    public static final Block SILVER_ORE =
+            register("silver_ore", new Block(FabricBlockSettings.copyOf(Blocks.IRON_ORE).requiresTool()));
+
     public static final Block DEEPSLATE_TIN_ORE = register(
             "deepslate_tin_ore",
             new Block(FabricBlockSettings.create()
@@ -127,6 +130,15 @@ public final class ModBlocks {
 
     public static final Block DEEPSLATE_URANIUM_ORE = register(
             "deepslate_uranium_ore",
+            new Block(FabricBlockSettings.create()
+                    .strength(4.5f, 3.0f)
+                    .sounds(BlockSoundGroup.DEEPSLATE)
+                    .requiresTool())
+    );
+
+
+    public static final Block DEEPSLATE_SILVER_ORE = register(
+            "deepslate_silver_ore",
             new Block(FabricBlockSettings.create()
                     .strength(4.5f, 3.0f)
                     .sounds(BlockSoundGroup.DEEPSLATE)

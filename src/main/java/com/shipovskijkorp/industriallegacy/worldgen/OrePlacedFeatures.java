@@ -20,6 +20,9 @@ public final class OrePlacedFeatures {
     public static final RegistryKey<PlacedFeature> LEAD_ORE_PLACED = key("lead_ore");
     public static final RegistryKey<PlacedFeature> URANIUM_ORE_PLACED = key("uranium_ore");
 
+    public static final RegistryKey<PlacedFeature> SILVER_ORE_PLACED = key("silver_ore");
+    public static final RegistryKey<PlacedFeature> SILVER_ORE_MOUNTAINS_PLACED = key("silver_ore_mountains");
+
     private static RegistryKey<PlacedFeature> key(String name) {
         return RegistryKey.of(RegistryKeys.PLACED_FEATURE, new Identifier(IndustrialLegacy.MOD_ID, name));
     }

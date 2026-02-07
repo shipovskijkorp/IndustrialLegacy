@@ -202,5 +202,7 @@
   "block.industrial_legacy.mfe": "МФЭ",
   "block.industrial_legacy.deepslate_tin_ore": "Глубинная оловянная руда",
   "block.industrial_legacy.deepslate_lead_ore": "Глубинная свинцовая руда",
-  "block.industrial_legacy.deepslate_uranium_ore": "Глубинная урановая руда"
+  "block.industrial_legacy.deepslate_uranium_ore": "Глубинная урановая руда",
+  "block.industrial_legacy.silver_ore": "Серебряная руда",
+  "block.industrial_legacy.deepslate_silver_ore": "Глубинная серебряная руда"
 }
