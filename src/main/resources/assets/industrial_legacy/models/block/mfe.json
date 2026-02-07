@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "industrial_legacy:block/wiring/storage/mfe_leftright",
+    "down": "industrial_legacy:block/wiring/storage/mfe_bottomtop",
+    "up": "industrial_legacy:block/wiring/storage/mfe_bottomtop",
+    "north": "industrial_legacy:block/wiring/storage/mfe_front",
+    "east": "industrial_legacy:block/wiring/storage/mfe_leftright",
+    "south": "industrial_legacy:block/wiring/storage/mfe_back",
+    "west": "industrial_legacy:block/wiring/storage/mfe_leftright"
+  }
+}
