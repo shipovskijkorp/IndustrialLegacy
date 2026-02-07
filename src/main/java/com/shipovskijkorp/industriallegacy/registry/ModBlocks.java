@@ -38,6 +38,14 @@ public final class ModBlocks {
                     .requiresTool())
     );
 
+    public static final Block CESU = register(
+            "cesu",
+            new CesuBlock(FabricBlockSettings.create()
+                    .strength(2.0f)
+                    .sounds(BlockSoundGroup.METAL)
+                    .requiresTool())
+    );
+
     public static final Block MACERATOR = register(
             "macerator",
             new MaceratorBlock(FabricBlockSettings.create()

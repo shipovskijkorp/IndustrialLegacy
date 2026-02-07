@@ -24,6 +24,12 @@ public final class ModBlockEntities {
             FabricBlockEntityTypeBuilder.create(BatBoxBlockEntity::new, ModBlocks.BATBOX).build()
     );
 
+    public static final BlockEntityType<CesuBlockEntity> CESU = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE,
+            new Identifier(IndustrialLegacy.MOD_ID, "cesu"),
+            FabricBlockEntityTypeBuilder.create(CesuBlockEntity::new, ModBlocks.CESU).build()
+    );
+
     public static final BlockEntityType<IronFurnaceBlockEntity> IRON_FURNACE = Registry.register(
             Registries.BLOCK_ENTITY_TYPE,
             new Identifier(IndustrialLegacy.MOD_ID, "iron_furnace"),

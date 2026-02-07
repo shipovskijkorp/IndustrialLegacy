@@ -96,6 +96,12 @@ public final class ModRecipes {
             new BatBoxRecipeSerializer()
     );
 
+    public static final RecipeSerializer<CesuRecipe> CESU_SERIALIZER = Registry.register(
+            Registries.RECIPE_SERIALIZER,
+            new Identifier(IndustrialLegacy.MOD_ID, "cesu"),
+            new CesuRecipeSerializer()
+    );
+
     public static final RecipeType<MaceratorRecipe> MACERATOR_TYPE = Registry.register(
             Registries.RECIPE_TYPE,
             new Identifier(IndustrialLegacy.MOD_ID, "macerator"),

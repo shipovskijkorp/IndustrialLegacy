@@ -47,6 +47,7 @@ public final class ModItemGroups {
                         // ------------------------------
                         add.accept(ModBlocks.GENERATOR);
                         add.accept(ModBlocks.BATBOX);
+                        add.accept(ModBlocks.CESU);
                         add.accept(ModBlocks.IRON_FURNACE);
                         add.accept(ModBlocks.MACERATOR);
                         add.accept(ModBlocks.COMPRESSOR);

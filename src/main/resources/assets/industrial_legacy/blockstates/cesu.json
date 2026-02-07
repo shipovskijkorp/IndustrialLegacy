@@ -1,0 +1,11 @@
+{
+  "variants": {
+    "facing=down":  { "model": "industrial_legacy:block/cesu", "x": 90 },
+    "facing=up":    { "model": "industrial_legacy:block/cesu", "x": 270 },
+
+    "facing=north": { "model": "industrial_legacy:block/cesu" },
+    "facing=east":  { "model": "industrial_legacy:block/cesu", "y": 90 },
+    "facing=south": { "model": "industrial_legacy:block/cesu", "y": 180 },
+    "facing=west":  { "model": "industrial_legacy:block/cesu", "y": 270 }
+  }
+}
