@@ -64,6 +64,12 @@ public final class EuEnergyCalculator {
 
         EnergyNetLocal net = EnergyNetLocal.get(world);
         List<RoutePath> paths = net.getOrComputeRoutes(world, sourcePos, firstPos);
+        if (paths.isEmpty()) {
+            // Self-healing: if the cached topology got out of sync (e.g. cable replaced),
+            // invalidate at the start cable and recompute once.
+            net.invalidateAt(firstPos);
+            paths = net.getOrComputeRoutes(world, sourcePos, firstPos);
+        }
         if (paths.isEmpty()) return 0;
 
         int pathCount = paths.size();

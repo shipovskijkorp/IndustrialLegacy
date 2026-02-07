@@ -32,6 +32,11 @@ public class BatBoxScreen extends HandledScreen<BatBoxScreenHandler> {
     private static final int REDSTONE_BTN_U = 176;
     private static final int REDSTONE_BTN_V = 0;
 
+    // Clean GUI background sample (solid gray) used to hide the legacy bottom strip on the redstone button
+    private static final int CLEAN_BG_STRIP_U = 4;
+    private static final int CLEAN_BG_STRIP_V = 3;
+    private static final int CLEAN_BG_STRIP_H = 4;
+
     // IL EnergyGaugeStyle.Bar inner rect (top-left inside the frame)
     private static final int ENERGY_X = 79;
     private static final int ENERGY_Y = 38;
@@ -145,6 +150,18 @@ public class BatBoxScreen extends HandledScreen<BatBoxScreenHandler> {
                 REDSTONE_BTN_U, REDSTONE_BTN_V,
                 REDSTONE_BTN_W, REDSTONE_BTN_H,
                 256, 256);
+
+        // Hide the unwanted bottom strip baked into the button background (keep IC2-style frame)
+        ctx.drawTexture(BG,
+                x + REDSTONE_BTN_X, y + REDSTONE_BTN_Y + (REDSTONE_BTN_H - CLEAN_BG_STRIP_H),
+                CLEAN_BG_STRIP_U, CLEAN_BG_STRIP_V,
+                REDSTONE_BTN_W, CLEAN_BG_STRIP_H,
+                256, 256);
+
+        // remove the unwanted bottom strip on the vanilla-style button
+        ctx.fill(x + REDSTONE_BTN_X, y + REDSTONE_BTN_Y + (REDSTONE_BTN_H - 4),
+                x + REDSTONE_BTN_X + REDSTONE_BTN_W, y + REDSTONE_BTN_Y + REDSTONE_BTN_H,
+                0xFFC6C6C6);
         ctx.drawItem(REDSTONE_ICON, x + REDSTONE_BTN_X + 2, y + REDSTONE_BTN_Y + 2);
 
         // energy gauge: draw frame + fill (matches IL EnergyGaugeStyle.Bar)

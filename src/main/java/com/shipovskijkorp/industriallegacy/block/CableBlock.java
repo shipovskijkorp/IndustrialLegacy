@@ -32,6 +32,15 @@ import org.jetbrains.annotations.Nullable;
  */
 public class CableBlock extends BlockWithEntity {
 
+    private static void invalidateAround(World world, BlockPos pos) {
+        // Targeted invalidation is cheaper and also forces endpoints to re-evaluate connections.
+        EuNetwork.invalidate(world, pos);
+        for (Direction d : Direction.values()) {
+            EuNetwork.invalidate(world, pos.offset(d));
+        }
+    }
+
+
     private final CableKind kind;
     private final int insulation;
     private final String texturePath; // block atlas path without extension
@@ -89,8 +98,8 @@ public class CableBlock extends BlockWithEntity {
         super.onPlaced(world, pos, state, placer, itemStack);
         if (!world.isClient) {
             // Network topology changed.
-            EuNetwork.invalidate(world);
-            BlockEntity be = world.getBlockEntity(pos);
+            invalidateAround(world, pos);
+BlockEntity be = world.getBlockEntity(pos);
             if (be instanceof CableBlockEntity cableBe) {
                 cableBe.refreshDerivedState();
             }
@@ -102,14 +111,17 @@ public class CableBlock extends BlockWithEntity {
         super.onStateReplaced(state, world, pos, newState, moved);
         if (!world.isClient && state.getBlock() != newState.getBlock()) {
             // Network topology changed.
-            EuNetwork.invalidate(world);
-        }
+            invalidateAround(world, pos);
+}
     }
 
     @Override
     public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
         super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, notify);
         if (world.isClient) return;
+
+        // Any neighbor change can affect cable routes and endpoints (e.g. storage/machine added/removed).
+        invalidateAround(world, pos);
 
         // Splitter enable/disable affects routes.
         if (kind == CableKind.SPLITTER) {
