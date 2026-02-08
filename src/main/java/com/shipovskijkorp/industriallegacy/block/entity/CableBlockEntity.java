@@ -39,6 +39,10 @@ public class CableBlockEntity extends BlockEntity {
     private int redstoneLevel = 0;
     private int comparatorLevel = 0;
 
+    // Copper cable oxidation (IL extension; only for COPPER + insulation=0)
+    private int oxidationLevel = 0; // 0 clean, 1 exposed, 2 weathered, 3 oxidized
+    private int oxidationTicker = 0;
+
     public CableBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.CABLE, pos, state);
     }
@@ -68,6 +72,28 @@ public class CableBlockEntity extends BlockEntity {
         return comparatorLevel;
     }
 
+    public int getOxidationLevel() {
+        return oxidationLevel;
+    }
+
+    public void setOxidationLevel(int level) {
+        int clamped = Math.max(0, Math.min(3, level));
+        if (this.oxidationLevel != clamped) {
+            this.oxidationLevel = clamped;
+            markDirty();
+            sync();
+        }
+    }
+
+    public static double oxidationLossMultiplier(int level) {
+        return switch (Math.max(0, Math.min(3, level))) {
+            case 1 -> 2.0;
+            case 2 -> 3.0;
+            case 3 -> 10.0;
+            default -> 1.0;
+        };
+    }
+
     /**
      * Force-sync derived state (mainly for splitter cables right after placement).
      */
@@ -86,12 +112,49 @@ public class CableBlockEntity extends BlockEntity {
         }
     }
 
+    
+    private static boolean isCopperUninsulated(CableBlock cb) {
+        return cb.getKind() == CableKind.COPPER && cb.getInsulation() == 0;
+    }
+
+    private static boolean hasWaterNearby(World world, BlockPos pos) {
+        // Check self + 6-neighbors for water fluid
+        if (world.getFluidState(pos).isIn(net.minecraft.registry.tag.FluidTags.WATER)) return true;
+        for (var d : net.minecraft.util.math.Direction.values()) {
+            if (world.getFluidState(pos.offset(d)).isIn(net.minecraft.registry.tag.FluidTags.WATER)) return true;
+        }
+        return false;
+    }
+
+    private static boolean isExposedToRain(World world, BlockPos pos) {
+        // Similar to vanilla: raining + sky visible + rain reaches position
+        return world.isRaining() && world.isSkyVisible(pos.up()) && world.hasRain(pos.up());
+    }
+
     /** Server tick; wired from {@link CableBlock#getTicker}. */
     public static void tick(World world, BlockPos pos, BlockState state, CableBlockEntity be) {
         if (world.isClient) return;
         if (!(state.getBlock() instanceof CableBlock cb)) return;
 
         CableKind kind = cb.getKind();
+
+        // Copper oxidation: only COPPER + insulation=0. Insulated cables never oxidize.
+        if (isCopperUninsulated(cb)) {
+            // Run rarely to keep server cheap.
+            if ((be.oxidationTicker++ % 200) == 0 && be.oxidationLevel < 3) {
+                boolean rain = isExposedToRain(world, pos);
+                boolean water = hasWaterNearby(world, pos);
+                boolean openSky = world.isSkyVisible(pos.up());
+                // Faster outside & wet; slower indoors.
+                int chance = (rain || water) ? 4 : (openSky ? 16 : 64);
+                if (world.random.nextInt(chance) == 0) {
+                    be.oxidationLevel++;
+                    be.markDirty();
+                    be.sync();
+                    com.shipovskijkorp.industriallegacy.energy.EuNetwork.invalidate(world, pos);
+                }
+            }
+        }
 
         // Splitter: active state is purely redstone-controlled (matches IL load/unload toggle).
         if (kind == CableKind.SPLITTER) {
@@ -176,6 +239,8 @@ public class CableBlockEntity extends BlockEntity {
         this.comparatorLevel = nbt.getInt("cmp");
         this.energyInWindow = nbt.getDouble("energyInWindow");
         this.ticker = nbt.getInt("ticker");
+        this.oxidationLevel = nbt.getInt("ox");
+        this.oxidationTicker = nbt.getInt("ox_t");
     }
 
     @Override
@@ -187,6 +252,8 @@ public class CableBlockEntity extends BlockEntity {
         nbt.putInt("cmp", this.comparatorLevel);
         nbt.putDouble("energyInWindow", this.energyInWindow);
         nbt.putInt("ticker", this.ticker);
+        nbt.putInt("ox", this.oxidationLevel);
+        nbt.putInt("ox_t", this.oxidationTicker);
     }
 
     @Override

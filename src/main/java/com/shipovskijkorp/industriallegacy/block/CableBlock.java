@@ -5,6 +5,8 @@ import com.shipovskijkorp.industriallegacy.energy.EuNetwork;
 import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
 import com.shipovskijkorp.industriallegacy.item.CableKind;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
+import com.shipovskijkorp.industriallegacy.registry.ModBlocks;
+import com.shipovskijkorp.industriallegacy.registry.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -15,6 +17,17 @@ import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.entity.player.PlayerEntity;
+
+import net.minecraft.item.AxeItem;
+
+import net.minecraft.sound.SoundEvents;
+
+import net.minecraft.util.Hand;
+
+import net.minecraft.util.hit.BlockHitResult;
+
+import net.minecraft.world.WorldEvents;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -137,7 +150,55 @@ BlockEntity be = world.getBlockEntity(pos);
         }
     }
 
-    // ---- Shapes (thin cable + arms) ----
+    
+    @Override
+    public net.minecraft.util.ActionResult onUse(BlockState state, World world, BlockPos pos,
+                                                PlayerEntity player, Hand hand, BlockHitResult hit) {
+        ItemStack held = player.getStackInHand(hand);
+
+        // Only copper uninsulated participates.
+        if (this.kind == CableKind.COPPER && this.insulation == 0) {
+            BlockEntity be = world.getBlockEntity(pos);
+            if (be instanceof CableBlockEntity cableBe) {
+                // Axe scrape: oxidized -> weathered -> exposed -> clean
+                if (held.getItem() instanceof AxeItem) {
+                    int lvl = cableBe.getOxidationLevel();
+                    if (lvl > 0) {
+                        if (!world.isClient) {
+                            cableBe.setOxidationLevel(lvl - 1);
+                            held.damage(1, player, p -> p.sendToolBreakStatus(hand));
+                            world.syncWorldEvent(player, WorldEvents.BLOCK_SCRAPED, pos, 0);
+                            world.playSound(null, pos, SoundEvents.ITEM_AXE_SCRAPE, net.minecraft.sound.SoundCategory.BLOCKS, 1.0f, 1.0f);
+                            invalidateAround(world, pos);
+                        }
+                        return net.minecraft.util.ActionResult.SUCCESS;
+                    }
+                }
+
+                // Rubber insulation: only if cable is clean (lvl=0)
+                if (held.isOf(ModItems.RUBBER)) {
+                    if (cableBe.getOxidationLevel() != 0) {
+                        if (!world.isClient) {
+                            player.sendMessage(net.minecraft.text.Text.translatable("msg.industrial_legacy.cable_needs_cleaning"), true);
+                        }
+                        return net.minecraft.util.ActionResult.SUCCESS;
+                    }
+
+                    if (!world.isClient) {
+                        // Replace with insulated copper cable block (lvl 1 insulation)
+                        world.setBlockState(pos, ModBlocks.COPPER_CABLE_1.getDefaultState(), Block.NOTIFY_ALL);
+                        if (!player.getAbilities().creativeMode) held.decrement(1);
+                        invalidateAround(world, pos);
+                    }
+                    return net.minecraft.util.ActionResult.SUCCESS;
+                }
+            }
+        }
+
+        return super.onUse(state, world, pos, player, hand, hit);
+    }
+
+// ---- Shapes (thin cable + arms) ----
 
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {

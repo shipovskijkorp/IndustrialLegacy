@@ -55,7 +55,19 @@ public class CableBlockEntityRenderer implements BlockEntityRenderer<CableBlockE
 
         CableKind kind = cable.getKind();
 
-        Identifier texId = new Identifier(IndustrialLegacy.MOD_ID, cable.getTexturePath());
+        String texPath = cable.getTexturePath();
+        // Copper oxidation visual stages for COPPER + insulation=0.
+        if (kind == CableKind.COPPER && cable.getInsulation() == 0) {
+            int lvl = entity.getOxidationLevel();
+            texPath = switch (lvl) {
+                case 1 -> texPath + "_exposed";
+                case 2 -> texPath + "_weathered";
+                case 3 -> texPath + "_oxidized";
+                default -> texPath;
+            };
+        }
+
+        Identifier texId = new Identifier(IndustrialLegacy.MOD_ID, texPath);
         if ((kind == CableKind.DETECTOR || kind == CableKind.SPLITTER) && entity.isActive()) {
             texId = new Identifier(IndustrialLegacy.MOD_ID, cable.getTexturePath() + "_active");
         }

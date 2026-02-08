@@ -1,6 +1,7 @@
 package com.shipovskijkorp.industriallegacy.energy.grid;
 
 import com.shipovskijkorp.industriallegacy.block.CableBlock;
+import com.shipovskijkorp.industriallegacy.block.entity.CableBlockEntity;
 import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
 import com.shipovskijkorp.industriallegacy.registry.ModBlocks;
 import net.minecraft.block.BlockState;
@@ -28,6 +29,17 @@ final class EnergyGridPathFinder {
     // IL: sources/sinks inner loss = 0.002
     private static final double ENDPOINT_INNER_LOSS = 0.002;
 
+    private static double dynamicInnerLoss(World world, BlockPos pos, CableBlock cable) {
+        double base = cable.getKind().loss;
+        if (cable.getKind() == com.shipovskijkorp.industriallegacy.item.CableKind.COPPER && cable.getInsulation() == 0) {
+            BlockEntity be = world.getBlockEntity(pos);
+            if (be instanceof CableBlockEntity cbe) {
+                base *= CableBlockEntity.oxidationLossMultiplier(cbe.getOxidationLevel());
+            }
+        }
+        return base;
+    }
+
     /**
      * @param pos current cable position
      * @param loss accumulated path loss up to this cable (IL link-loss model)
@@ -53,7 +65,7 @@ final class EnergyGridPathFinder {
         Map<Long, Long> prev = new HashMap<>();
 
         // IL: first link is (source endpoint innerLoss + startCable innerLoss)/2
-        double startInnerLoss = startCable.getKind().loss;
+        double startInnerLoss = dynamicInnerLoss(world, startCablePos, startCable);
         double startLoss = (ENDPOINT_INNER_LOSS + startInnerLoss) / 2.0;
 
         dist.put(startCablePos.asLong(), startLoss);
@@ -104,7 +116,7 @@ final class EnergyGridPathFinder {
                 if (isCableDisabledByRedstone(world, np, nextCable)) continue;
 
                 // IL: link loss between two cables is average(innerLossA, innerLossB)
-                double nextInnerLoss = nextCable.getKind().loss;
+                double nextInnerLoss = dynamicInnerLoss(world, np, nextCable);
                 double linkLoss = (curInnerLoss + nextInnerLoss) / 2.0;
                 double nextLoss = curLoss + linkLoss;
 

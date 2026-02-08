@@ -1,6 +1,7 @@
 package com.shipovskijkorp.industriallegacy.energy.path;
 
 import com.shipovskijkorp.industriallegacy.block.CableBlock;
+import com.shipovskijkorp.industriallegacy.block.entity.CableBlockEntity;
 import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
 import com.shipovskijkorp.industriallegacy.item.CableKind;
 import com.shipovskijkorp.industriallegacy.registry.ModBlocks;
@@ -36,7 +37,7 @@ public final class PathFinder {
         Map<Long, Double> dist = new HashMap<>();
         Map<Long, Long> prev = new HashMap<>();
 
-        double startLoss = startCable.getKind().loss;
+        double startLoss = dynamicInnerLoss(world, startCablePos, startCable);
         dist.put(startCablePos.asLong(), startLoss);
         pq.add(new Node(startCablePos, startLoss));
 
@@ -80,7 +81,7 @@ public final class PathFinder {
                 if (!(ns.getBlock() instanceof CableBlock nextCable)) continue;
                 if (isSplitterDisabled(world, np, nextCable)) continue;
 
-                double nextLoss = curLoss + nextCable.getKind().loss;
+                double nextLoss = curLoss + dynamicInnerLoss(world, np, nextCable);
                 long nkey = np.asLong();
                 if (nextLoss < dist.getOrDefault(nkey, INF)) {
                     dist.put(nkey, nextLoss);
@@ -129,5 +130,33 @@ public final class PathFinder {
 
     private static long mixSinkKey(long posLong, int sideId) {
         return (posLong * 31L) ^ (long) sideId;
+    }
+
+    /**
+     * Base cable loss, optionally multiplied by copper oxidation stage.
+     *
+     * Rules:
+     * - Only COPPER cables with insulation=0 oxidize.
+     * - Multipliers: clean=1x, exposed=2x, weathered=3x, oxidized=10x
+     */
+    private static double dynamicInnerLoss(World world, BlockPos pos, CableBlock cable) {
+        double baseLoss = cable.getKind().loss;
+
+        // Only bare copper is affected
+        if (cable.getKind() != CableKind.COPPER) return baseLoss;
+        if (cable.getInsulation() != 0) return baseLoss; // insulation blocks oxidation completely
+
+        BlockEntity be = world.getBlockEntity(pos);
+        if (!(be instanceof CableBlockEntity cbe)) return baseLoss;
+
+        int level = cbe.getOxidationLevel(); // 0..3
+        double mult = switch (level) {
+            case 1 -> 2.0;
+            case 2 -> 3.0;
+            case 3 -> 10.0;
+            default -> 1.0;
+        };
+
+        return baseLoss * mult;
     }
 }
