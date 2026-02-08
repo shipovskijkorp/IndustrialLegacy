@@ -12,11 +12,21 @@ import net.minecraft.util.Identifier;
 public final class ModBlockEntities {
     private ModBlockEntities() {}
 
+    private static Identifier id(String path) {
+        return new Identifier(IndustrialLegacy.MOD_ID, path);
+    }
+
     public static final BlockEntityType<GeneratorBlockEntity> GENERATOR = Registry.register(
             Registries.BLOCK_ENTITY_TYPE,
             new Identifier(IndustrialLegacy.MOD_ID, "generator"),
             FabricBlockEntityTypeBuilder.create(GeneratorBlockEntity::new, ModBlocks.GENERATOR).build()
     );
+
+    public static final BlockEntityType<LvTransformerBlockEntity> LV_TRANSFORMER =
+            Registry.register(Registries.BLOCK_ENTITY_TYPE,
+                    id("lv_transformer"),
+                    FabricBlockEntityTypeBuilder.create(LvTransformerBlockEntity::new, ModBlocks.LV_TRANSFORMER).build());
+
 
     public static final BlockEntityType<BatBoxBlockEntity> BATBOX = Registry.register(
             Registries.BLOCK_ENTITY_TYPE,

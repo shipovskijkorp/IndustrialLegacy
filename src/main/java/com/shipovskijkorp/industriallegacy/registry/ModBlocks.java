@@ -72,6 +72,9 @@ public final class ModBlocks {
                     .luminance(state -> state.get(CompressorBlock.LIT) ? 13 : 0))
     );
 
+    public static final Block LV_TRANSFORMER = register("lv_transformer",
+            new LvTransformerBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).strength(2.0f).nonOpaque()));
+
 
     /**
      * Iron Furnace — upgraded furnace (8s smelt, vanilla fuel burn time).

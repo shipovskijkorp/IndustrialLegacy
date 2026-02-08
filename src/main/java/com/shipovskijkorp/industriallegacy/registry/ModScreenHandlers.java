@@ -1,18 +1,14 @@
 package com.shipovskijkorp.industriallegacy.registry;
 
 import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
-import com.shipovskijkorp.industriallegacy.screen.BatBoxScreenHandler;
-import com.shipovskijkorp.industriallegacy.screen.CesuScreenHandler;
-import com.shipovskijkorp.industriallegacy.screen.MfeScreenHandler;
-import com.shipovskijkorp.industriallegacy.screen.GeneratorScreenHandler;
-import com.shipovskijkorp.industriallegacy.screen.MaceratorScreenHandler;
-import com.shipovskijkorp.industriallegacy.screen.CompressorScreenHandler;
+import com.shipovskijkorp.industriallegacy.screen.*;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
+
 
 public final class ModScreenHandlers {
     public static final Identifier GENERATOR_ID = new Identifier(IndustrialLegacy.MOD_ID, "generator");
@@ -22,6 +18,10 @@ public final class ModScreenHandlers {
     public static final ScreenHandlerType<MaceratorScreenHandler> MACERATOR =
             Registry.register(Registries.SCREEN_HANDLER, new Identifier(IndustrialLegacy.MOD_ID, "macerator"),
                     new ExtendedScreenHandlerType<>(MaceratorScreenHandler::new));
+    public static final ScreenHandlerType<LvTransformerScreenHandler> LV_TRANSFORMER =
+            Registry.register(Registries.SCREEN_HANDLER, new Identifier(IndustrialLegacy.MOD_ID, "lv_transformer"),
+                    new ExtendedScreenHandlerType<>(LvTransformerScreenHandler::new));
+
 
     public static final ScreenHandlerType<CompressorScreenHandler> COMPRESSOR = Registry.register(
             Registries.SCREEN_HANDLER,
@@ -34,6 +34,7 @@ public final class ModScreenHandlers {
     public static ScreenHandlerType<BatBoxScreenHandler> BATBOX;
     public static ScreenHandlerType<CesuScreenHandler> CESU;
     public static ScreenHandlerType<MfeScreenHandler> MFE;
+
 
     private ModScreenHandlers() {}
 

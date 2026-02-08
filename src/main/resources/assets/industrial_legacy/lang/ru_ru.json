@@ -221,5 +221,6 @@
   "tooltip.industrial_legacy.oxidation.weathered": "Состаренный",
   "tooltip.industrial_legacy.oxidation.oxidized": "Окисленный",
   "tooltip.industrial_legacy.cable.oxidation": "Окисление: %s",
-  "tooltip.industrial_legacy.cable.loss_mult": "Множитель потерь: %sx"
+  "tooltip.industrial_legacy.cable.loss_mult": "Множитель потерь: %sx",
+  "block.industrial_legacy.lv_transformer": "Трансформатор НН"
 }

@@ -221,5 +221,6 @@
   "tooltip.industrial_legacy.oxidation.weathered": "Weathered",
   "tooltip.industrial_legacy.oxidation.oxidized": "Oxidized",
   "tooltip.industrial_legacy.cable.oxidation": "Oxidation: %s",
-  "tooltip.industrial_legacy.cable.loss_mult": "Loss multiplier: %sx"
+  "tooltip.industrial_legacy.cable.loss_mult": "Loss multiplier: %sx",
+  "block.industrial_legacy.lv_transformer": "LV Transformer"
 }

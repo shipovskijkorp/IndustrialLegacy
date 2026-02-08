@@ -2,13 +2,16 @@ package com.shipovskijkorp.industriallegacy.client;
 
 import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
 import com.shipovskijkorp.industriallegacy.client.render.CableBlockEntityRenderer;
+import com.shipovskijkorp.industriallegacy.client.screen.LvTransformerScreen;
 import com.shipovskijkorp.industriallegacy.item.CableItem;
 import com.shipovskijkorp.industriallegacy.item.CableVariants;
 import com.shipovskijkorp.industriallegacy.item.tool.NanoSaberItem;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
 import com.shipovskijkorp.industriallegacy.registry.ModItems;
 import com.shipovskijkorp.industriallegacy.energy.item.ElectricItemManager;
+import com.shipovskijkorp.industriallegacy.registry.ModScreenHandlers;
 import net.fabricmc.api.ClientModInitializer;
+import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.world.ClientWorld;
@@ -102,6 +105,8 @@ public class IndustrialLegacyClient implements ClientModInitializer {
         // Luminator: translucent.
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.LUMINATOR, RenderLayer.getTranslucent());
 
+
+
         // Biome foliage tint for rubber leaves (otherwise they render gray).
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> {
             if (world == null || pos == null) return FoliageColors.getDefaultColor();
@@ -126,7 +131,7 @@ public class IndustrialLegacyClient implements ClientModInitializer {
                 ClientPlayNetworking.send(ModPackets.TOGGLE_NIGHTVISION, net.fabricmc.fabric.api.networking.v1.PacketByteBufs.empty());
             }
         });
-
+        HandledScreens.register(ModScreenHandlers.LV_TRANSFORMER, LvTransformerScreen::new);
         IndustrialLegacy.LOGGER.info("Industrial Legacy client initialized");
     }
 }
