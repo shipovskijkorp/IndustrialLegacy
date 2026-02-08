@@ -111,7 +111,7 @@ public class CableBlock extends BlockWithEntity {
         super.onPlaced(world, pos, state, placer, itemStack);
         if (world.isClient) return;
 
-        // ✅ 2) When placed: apply stack NBT oxidation into BE (only copper, only uninsulated)
+        // Apply stack oxidation into BE (only copper, only uninsulated)
         BlockEntity be = world.getBlockEntity(pos);
         if (be instanceof CableBlockEntity cableBe) {
             if (this.kind == CableKind.COPPER && this.insulation == 0) {
@@ -152,14 +152,13 @@ public class CableBlock extends BlockWithEntity {
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos,
                               PlayerEntity player, Hand hand, BlockHitResult hit) {
+
         ItemStack held = player.getStackInHand(hand);
 
-        // Only copper uninsulated participates.
+        // --- Copper uninsulated: axe scrape (oxidized -> ... -> clean)
         if (this.kind == CableKind.COPPER && this.insulation == 0) {
             BlockEntity be = world.getBlockEntity(pos);
             if (be instanceof CableBlockEntity cableBe) {
-
-                // Axe scrape: oxidized -> weathered -> exposed -> clean
                 if (held.getItem() instanceof AxeItem) {
                     int lvl = cableBe.getOxidationLevel();
                     if (lvl > 0) {
@@ -173,36 +172,62 @@ public class CableBlock extends BlockWithEntity {
                         return ActionResult.SUCCESS;
                     }
                 }
+            }
+        }
 
-                // Rubber insulation: only if cable is clean (lvl=0)
-                if (held.isOf(ModItems.RUBBER)) {
+        // --- Rubber: add insulation level if possible (ALL cable kinds)
+        if (held.isOf(ModItems.RUBBER)) {
+            int next = this.insulation + 1;
+            if (next > this.kind.maxInsulation) {
+                return ActionResult.PASS; // no next tier
+            }
+
+            // Copper special rule: only allow insulating if uninsulated and CLEAN
+            if (this.kind == CableKind.COPPER && this.insulation == 0) {
+                BlockEntity be = world.getBlockEntity(pos);
+                if (be instanceof CableBlockEntity cableBe) {
                     if (cableBe.getOxidationLevel() != 0) {
                         if (!world.isClient) {
                             player.sendMessage(net.minecraft.text.Text.translatable("msg.industrial_legacy.cable_needs_cleaning"), true);
                         }
                         return ActionResult.SUCCESS;
                     }
-
-                    if (!world.isClient) {
-                        // Replace with insulated copper cable block (lvl 1 insulation)
-                        world.setBlockState(pos, ModBlocks.COPPER_CABLE_1.getDefaultState(), Block.NOTIFY_ALL);
-                        if (!player.getAbilities().creativeMode) held.decrement(1);
-                        invalidateAround(world, pos);
-                    }
-                    return ActionResult.SUCCESS;
                 }
             }
+
+            if (world.isClient) {
+                return ActionResult.SUCCESS;
+            }
+
+            Block newBlock = ModBlocks.getCableBlock(this.kind, next);
+            boolean ok = world.setBlockState(pos, newBlock.getDefaultState(), Block.NOTIFY_ALL);
+            if (!ok) return ActionResult.FAIL;
+
+            BlockEntity newBe = world.getBlockEntity(pos);
+            if (newBe instanceof CableBlockEntity cableBe) {
+                // Copper becomes insulated: oxidation no longer applies; keep BE consistent
+                if (this.kind == CableKind.COPPER && next > 0) {
+                    cableBe.setOxidationLevel(0);
+                }
+                cableBe.refreshDerivedState();
+            }
+
+            if (!player.getAbilities().creativeMode) {
+                held.decrement(1);
+            }
+
+            invalidateAround(world, pos);
+            return ActionResult.SUCCESS;
         }
 
         return super.onUse(state, world, pos, player, hand, hit);
     }
 
-    // ✅ 3) Drops preserve oxidation (only copper uninsulated)
+    // Drops preserve oxidation (only copper uninsulated)
     @Override
     public List<ItemStack> getDroppedStacks(BlockState state, LootContextParameterSet.Builder builder) {
         BlockEntity be = builder.getOptional(LootContextParameters.BLOCK_ENTITY);
 
-        // Always drop exactly "the cable item stack for this block variant"
         ItemStack drop = CableItem.createStack(ModItems.CABLE, this.kind, this.insulation);
 
         if (this.kind == CableKind.COPPER && this.insulation == 0 && be instanceof CableBlockEntity cableBe) {
@@ -212,7 +237,7 @@ public class CableBlock extends BlockWithEntity {
         return List.of(drop);
     }
 
-    // ✅ 4) Middle-click gives current oxidation stage (only copper uninsulated)
+    // Middle-click gives current oxidation stage (only copper uninsulated)
     @Override
     public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
         ItemStack pick = CableItem.createStack(ModItems.CABLE, this.kind, this.insulation);
@@ -327,7 +352,6 @@ public class CableBlock extends BlockWithEntity {
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        // Cables don't have directional state, but this keeps vanilla placement flow consistent.
         return getDefaultState();
     }
 }
