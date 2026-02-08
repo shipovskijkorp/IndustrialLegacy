@@ -2,5 +2,19 @@
   "parent": "item/generated",
   "textures": {
     "layer0": "industrial_legacy:item/cable/copper_cable_0"
-  }
+  },
+  "overrides": [
+    {
+      "predicate": { "industrial_legacy:ox": 0.33333334 },
+      "model": "industrial_legacy:item/cable/copper_cable_0_exposed"
+    },
+    {
+      "predicate": { "industrial_legacy:ox": 0.6666667 },
+      "model": "industrial_legacy:item/cable/copper_cable_0_weathered"
+    },
+    {
+      "predicate": { "industrial_legacy:ox": 1.0 },
+      "model": "industrial_legacy:item/cable/copper_cable_0_oxidized"
+    }
+  ]
 }
