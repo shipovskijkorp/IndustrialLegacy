@@ -13,6 +13,7 @@ import net.minecraft.item.ItemUsageContext;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
@@ -25,21 +26,44 @@ import java.text.DecimalFormatSymbols;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * IL-style multi-variant cable item.
- *
- * <p>Variants are encoded in NBT ({@code kind}+{@code insulation}) and additionally mirrored
- * into vanilla {@code CustomModelData} for resource-pack driven item models.</p>
- */
 public class CableItem extends Item {
-    public static final String NBT_KIND = "kind";            // string id ("copper", "tin", ...)
-    public static final String NBT_INSULATION = "insulation"; // int
-    public static final String NBT_COLOR = "color";          // int ARGB or -1 (reserved)
+    public static final String NBT_KIND = "kind";
+    public static final String NBT_INSULATION = "insulation";
+    public static final String NBT_COLOR = "color";
 
-    private static final DecimalFormat LOSS_FORMAT = new DecimalFormat("0.00", DecimalFormatSymbols.getInstance(Locale.ROOT));
+    // 0..3, only for COPPER + insulation=0
+    public static final String NBT_OXIDATION = "ox";
+
+    private static final int[] OX_LOSS_MULT = {1, 2, 3, 10};
+
+    private static final DecimalFormat LOSS_FORMAT =
+            new DecimalFormat("0.00", DecimalFormatSymbols.getInstance(Locale.ROOT));
 
     public CableItem(Settings settings) {
         super(settings);
+    }
+
+    public static int getOxidation(ItemStack stack) {
+        if (!stack.hasNbt()) return 0;
+        return Math.max(0, Math.min(3, stack.getNbt().getInt(NBT_OXIDATION)));
+    }
+
+    private static int lossMultiplier(ItemStack stack) {
+        CableKind kind = getKind(stack);
+        int ins = getInsulation(stack);
+        if (kind == CableKind.COPPER && ins == 0) {
+            return OX_LOSS_MULT[getOxidation(stack)];
+        }
+        return 1;
+    }
+
+    private static String oxidationKey(int ox) {
+        return switch (ox) {
+            case 1 -> "tooltip." + IndustrialLegacy.MOD_ID + ".oxidation.exposed";
+            case 2 -> "tooltip." + IndustrialLegacy.MOD_ID + ".oxidation.weathered";
+            case 3 -> "tooltip." + IndustrialLegacy.MOD_ID + ".oxidation.oxidized";
+            default -> "tooltip." + IndustrialLegacy.MOD_ID + ".oxidation.clean";
+        };
     }
 
     public static ItemStack createStack(Item cableItem, CableKind kind, int insulation) {
@@ -49,11 +73,8 @@ public class CableItem extends Item {
         int clampedInsulation = Math.max(0, Math.min(kind.maxInsulation, insulation));
         nbt.putInt(NBT_INSULATION, clampedInsulation);
 
-        // Keep the legacy "variant" int for item model overrides (models/item/cable.json).
         int variant = CableVariants.variantId(kind, clampedInsulation);
         nbt.putInt(CableVariants.NBT_VARIANT, variant);
-
-        // Vanilla item model override hook.
         nbt.putInt("CustomModelData", variant);
         return stack;
     }
@@ -85,24 +106,62 @@ public class CableItem extends Item {
         return "item." + IndustrialLegacy.MOD_ID + ".cable." + model;
     }
 
+    /**
+     * ✅ Dynamic name: adds oxidation stage for copper (uninsulated) stacks.
+     * Example: "Copper Cable" -> "Copper Cable (Exposed)"
+     */
+    @Override
+    public Text getName(ItemStack stack) {
+        Text base = Text.translatable(getTranslationKey(stack));
+
+        CableKind kind = getKind(stack);
+        int ins = getInsulation(stack);
+
+        if (kind == CableKind.COPPER && ins == 0) {
+            int ox = getOxidation(stack);
+            // Always show stage, even clean, to make it obvious in creative
+            MutableText out = base.copy();
+            out.append(Text.literal(" (").formatted(Formatting.DARK_GRAY));
+            out.append(Text.translatable(oxidationKey(ox)).formatted(Formatting.GRAY));
+            out.append(Text.literal(")").formatted(Formatting.DARK_GRAY));
+            return out;
+        }
+
+        return base;
+    }
+
     @Override
     public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
         CableKind kind = getKind(stack);
+        int ins = getInsulation(stack);
 
-        // IL-style cable tooltip:
-        //  - transfer limit (EU/t)
-        //  - conduction loss (EU/Block)
+        // capacity
         tooltip.add(Text.translatable("tooltip." + IndustrialLegacy.MOD_ID + ".cable.capacity", kind.capacity)
                 .formatted(Formatting.GRAY));
-        tooltip.add(Text.translatable("tooltip." + IndustrialLegacy.MOD_ID + ".cable.loss", LOSS_FORMAT.format(kind.loss))
-                .formatted(Formatting.GRAY));
+
+        // loss (effective)
+        int mult = lossMultiplier(stack);
+        double effectiveLoss = kind.loss * mult;
+
+        if (kind == CableKind.COPPER && ins == 0) {
+            int ox = getOxidation(stack);
+            tooltip.add(Text.translatable("tooltip." + IndustrialLegacy.MOD_ID + ".cable.oxidation",
+                            Text.translatable(oxidationKey(ox)))
+                    .formatted(Formatting.GRAY));
+
+            tooltip.add(Text.translatable("tooltip." + IndustrialLegacy.MOD_ID + ".cable.loss",
+                            LOSS_FORMAT.format(effectiveLoss))
+                    .formatted(Formatting.GRAY));
+
+            tooltip.add(Text.translatable("tooltip." + IndustrialLegacy.MOD_ID + ".cable.loss_mult", mult)
+                    .formatted(Formatting.DARK_GRAY));
+        } else {
+            tooltip.add(Text.translatable("tooltip." + IndustrialLegacy.MOD_ID + ".cable.loss",
+                            LOSS_FORMAT.format(kind.loss))
+                    .formatted(Formatting.GRAY));
+        }
     }
 
-    /**
-     * Place the cable block variant.
-     *
-     * <p>The block itself is TE-rendered (thin geometry + connection arms), matching IL behavior.</p>
-     */
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
         World world = context.getWorld();
@@ -110,7 +169,6 @@ public class CableItem extends Item {
         Direction side = context.getSide();
         ItemStack stack = context.getStack();
 
-        // Vanilla BlockItem-like replacement logic.
         BlockState clicked = world.getBlockState(pos);
         ItemPlacementContext placementContext = new ItemPlacementContext(context);
         if (!clicked.canReplace(placementContext)) {
@@ -131,7 +189,6 @@ public class CableItem extends Item {
             return ActionResult.FAIL;
         }
 
-        // Play place sound like vanilla BlockItem.
         BlockSoundGroup snd = placeState.getSoundGroup();
         world.playSound(
                 context.getPlayer(),
@@ -142,9 +199,11 @@ public class CableItem extends Item {
                 snd.getPitch() * 0.8f
         );
 
-        // Initialize BE derived state (splitter active/inactive). Detector updates via ticking.
         if (!world.isClient) {
             if (world.getBlockEntity(pos) instanceof CableBlockEntity cableBe) {
+                if (kind == CableKind.COPPER && ins == 0) {
+                    cableBe.setOxidationLevel(getOxidation(stack));
+                }
                 cableBe.refreshDerivedState();
             }
         }

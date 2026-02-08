@@ -215,5 +215,11 @@
   "tooltip.industrial_legacy.cable.kind": "Type: %s",
   "tooltip.industrial_legacy.cable.loss": "Loss: %s EU/Block",
   "tooltip.industrial_legacy.eu": "EU: %s / %s",
-  "tooltip.industrial_legacy.power_tier": "Power Tier: %s"
+  "tooltip.industrial_legacy.power_tier": "Power Tier: %s",
+  "tooltip.industrial_legacy.oxidation.clean": "Clean",
+  "tooltip.industrial_legacy.oxidation.exposed": "Exposed",
+  "tooltip.industrial_legacy.oxidation.weathered": "Weathered",
+  "tooltip.industrial_legacy.oxidation.oxidized": "Oxidized",
+  "tooltip.industrial_legacy.cable.oxidation": "Oxidation: %s",
+  "tooltip.industrial_legacy.cable.loss_mult": "Loss multiplier: %sx"
 }

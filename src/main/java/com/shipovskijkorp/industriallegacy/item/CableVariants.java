@@ -12,13 +12,12 @@ public final class CableVariants {
     /** Если ты всё ещё используешь item-model predicate "industrial_legacy:variant" */
     public static final String NBT_VARIANT = "variant";
 
-    /** Ровно 14 item-моделей, которые ты скинул */
-    public static final int VARIANT_COUNT = 14;
-
     /**
-     * Важно: имена должны совпадать с models/item/cable/*.json и textures/item/cable/*.png
-     * (без .json/.png)
+     * Базовых моделей/вариантов = 14 (как у тебя в overrides).
+     * В креативе мы показываем больше, потому что copper_0 заменяем на 4 стадии окисления.
      */
+    public static final int BASE_VARIANT_COUNT = 14;
+
     public static String modelName(CableKind kind, int insulation) {
         return switch (kind) {
             case COPPER -> "copper_cable_" + (insulation <= 0 ? 0 : 1);
@@ -31,23 +30,6 @@ public final class CableVariants {
         };
     }
 
-    /**
-     * Маппинг к твоему cable.json overrides:
-     * 0  = copper_cable_0 (base model)
-     * 1  = copper_cable_1
-     * 2  = detector_cable
-     * 3  = glass_cable
-     * 4  = gold_cable_0
-     * 5  = gold_cable_1
-     * 6  = gold_cable_2
-     * 7  = iron_cable_0
-     * 8  = iron_cable_1
-     * 9  = iron_cable_2
-     * 10 = iron_cable_3
-     * 11 = splitter_cable
-     * 12 = tin_cable_0
-     * 13 = tin_cable_1
-     */
     public static int variantId(CableKind kind, int insulation) {
         return switch (kind) {
             case COPPER -> (insulation <= 0 ? 0 : 1);
@@ -60,13 +42,22 @@ public final class CableVariants {
         };
     }
 
-    /** Создаёт 14 стакoв с kind/insulation и (опционально) проставляет NBT variant */
+    /** Создаёт стаки для вкладки креатива */
     public static List<ItemStack> createAll(Item cableItem) {
-        List<ItemStack> out = new ArrayList<>(VARIANT_COUNT);
+        // 14 базовых - 1 (copper_0) + 4 окисления = 17
+        List<ItemStack> out = new ArrayList<>(17);
 
-        out.add(make(cableItem, CableKind.COPPER, 0));
+        // --- Copper uninsulated: 4 oxidation stages (0..3) ---
+        for (int ox = 0; ox <= 3; ox++) {
+            ItemStack s = CableItem.createStack(cableItem, CableKind.COPPER, 0);
+            s.getOrCreateNbt().putInt(CableItem.NBT_OXIDATION, ox);
+            out.add(s);
+        }
+
+        // Copper insulated
         out.add(make(cableItem, CableKind.COPPER, 1));
 
+        // Others
         out.add(make(cableItem, CableKind.DETECTOR, 0));
         out.add(make(cableItem, CableKind.GLASS, 0));
 
