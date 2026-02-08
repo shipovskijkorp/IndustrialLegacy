@@ -1,1 +1,7 @@
-{ "variants": { "": { "model": "industrial_legacy:block/aluminum_ore" } } }
+{
+  "variants": {
+    "": {
+      "model": "industrial_legacy:block/aluminum_ore"
+    }
+  }
+}

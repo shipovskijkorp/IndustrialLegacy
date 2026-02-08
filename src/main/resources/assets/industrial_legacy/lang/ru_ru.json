@@ -204,5 +204,15 @@
   "block.industrial_legacy.deepslate_lead_ore": "Глубинная свинцовая руда",
   "block.industrial_legacy.deepslate_uranium_ore": "Глубинная урановая руда",
   "block.industrial_legacy.silver_ore": "Серебряная руда",
-  "block.industrial_legacy.deepslate_silver_ore": "Глубинная серебряная руда"
+  "block.industrial_legacy.deepslate_silver_ore": "Глубинная серебряная руда",
+  "block.industrial_legacy.aluminum_ore": "Алюминиевая руда",
+  "block.industrial_legacy.deepslate_aluminum_ore": "Глубинная алюминиевая руда",
+  "block.industrial_legacy.lithium_ore": "Литиевая руда",
+  "block.industrial_legacy.deepslate_lithium_ore": "Глубинная литиевая руда",
+  "item.industrial_legacy.aluminum_ingot": "Алюминиевый слиток",
+  "item.industrial_legacy.lithium_ingot": "Литиевый слиток",
+  "item.industrial_legacy.aluminum_dust": "Алюминиевая пыль",
+  "item.industrial_legacy.small_aluminum_dust": "Маленькая кучка алюминиевой пыли",
+  "item.industrial_legacy.crushed_aluminum_ore": "Дроблёная алюминиевая руда",
+  "item.industrial_legacy.crushed_lithium_ore": "Дроблёная литиевая руда"
 }

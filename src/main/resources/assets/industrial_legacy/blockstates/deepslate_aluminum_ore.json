@@ -1,1 +1,7 @@
-{ "variants": { "": { "model": "industrial_legacy:block/deepslate_aluminum_ore" } } }
+{
+  "variants": {
+    "": {
+      "model": "industrial_legacy:block/deepslate_aluminum_ore"
+    }
+  }
+}

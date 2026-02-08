@@ -1,1 +1,3 @@
-{ "parent": "industrial_legacy:block/deepslate_lithium_ore" }
+{
+  "parent": "industrial_legacy:block/deepslate_lithium_ore"
+}

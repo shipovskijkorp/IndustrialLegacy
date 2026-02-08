@@ -204,5 +204,15 @@
   "block.industrial_legacy.deepslate_lead_ore": "Deepslate Lead Ore",
   "block.industrial_legacy.deepslate_uranium_ore": "Deepslate Uranium Ore",
   "block.industrial_legacy.silver_ore": "Silver Ore",
-  "block.industrial_legacy.deepslate_silver_ore": "Deepslate Silver Ore"
+  "block.industrial_legacy.deepslate_silver_ore": "Deepslate Silver Ore",
+  "block.industrial_legacy.aluminum_ore": "Aluminum Ore",
+  "block.industrial_legacy.deepslate_aluminum_ore": "Deepslate Aluminum Ore",
+  "block.industrial_legacy.lithium_ore": "Lithium Ore",
+  "block.industrial_legacy.deepslate_lithium_ore": "Deepslate Lithium Ore",
+  "item.industrial_legacy.aluminum_ingot": "Aluminum Ingot",
+  "item.industrial_legacy.lithium_ingot": "Lithium Ingot",
+  "item.industrial_legacy.aluminum_dust": "Aluminum Dust",
+  "item.industrial_legacy.small_aluminum_dust": "Small Pile of Aluminum Dust",
+  "item.industrial_legacy.crushed_aluminum_ore": "Crushed Aluminum Ore",
+  "item.industrial_legacy.crushed_lithium_ore": "Crushed Lithium Ore"
 }

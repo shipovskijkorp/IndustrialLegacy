@@ -1,0 +1,11 @@
+{
+  "type": "industrial_legacy:macerator",
+  "ingredient": {
+    "item": "industrial_legacy:crushed_aluminum_ore"
+  },
+  "result": {
+    "item": "industrial_legacy:aluminum_dust",
+    "count": 2
+  },
+  "ticks": 200
+}
