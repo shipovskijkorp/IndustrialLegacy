@@ -14,7 +14,6 @@ import net.minecraft.world.World;
 
 public class LvTransformerScreenHandler extends ScreenHandler {
     public static final int PROP_COUNT = 3;
-
     private final LvTransformerBlockEntity be;
     private final PropertyDelegate props;
 
