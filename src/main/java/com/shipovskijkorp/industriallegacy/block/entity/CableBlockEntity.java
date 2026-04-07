@@ -117,19 +117,9 @@ public class CableBlockEntity extends BlockEntity {
         return cb.getKind() == CableKind.COPPER && cb.getInsulation() == 0;
     }
 
-    private static boolean hasWaterNearby(World world, BlockPos pos) {
-        // Check self + 6-neighbors for water fluid
-        if (world.getFluidState(pos).isIn(net.minecraft.registry.tag.FluidTags.WATER)) return true;
-        for (var d : net.minecraft.util.math.Direction.values()) {
-            if (world.getFluidState(pos.offset(d)).isIn(net.minecraft.registry.tag.FluidTags.WATER)) return true;
-        }
-        return false;
-    }
 
-    private static boolean isExposedToRain(World world, BlockPos pos) {
-        // Similar to vanilla: raining + sky visible + rain reaches position
-        return world.isRaining() && world.isSkyVisible(pos.up()) && world.hasRain(pos.up());
-    }
+    private static final int COPPER_OXIDATION_CHECK_INTERVAL = 1200; // ~60s between checks
+    private static final int COPPER_OXIDATION_STAGE_CHANCE = 20;      // ~20 min average per stage
 
     /** Server tick; wired from {@link CableBlock#getTicker}. */
     public static void tick(World world, BlockPos pos, BlockState state, CableBlockEntity be) {
@@ -139,15 +129,15 @@ public class CableBlockEntity extends BlockEntity {
         CableKind kind = cb.getKind();
 
         // Copper oxidation: only COPPER + insulation=0. Insulated cables never oxidize.
-        if (isCopperUninsulated(cb)) {
-            // Run rarely to keep server cheap.
-            if ((be.oxidationTicker++ % 200) == 0 && be.oxidationLevel < 3) {
-                boolean rain = isExposedToRain(world, pos);
-                boolean water = hasWaterNearby(world, pos);
-                boolean openSky = world.isSkyVisible(pos.up());
-                // Faster outside & wet; slower indoors.
-                int chance = (rain || water) ? 4 : (openSky ? 16 : 64);
-                if (world.random.nextInt(chance) == 0) {
+        //
+        // The previous implementation aged cables far too quickly and could even oxidize a
+        // freshly placed cable on the very first tick. Vanilla copper weathering is much
+        // slower, so we model it as a coarse periodic check with a small chance per stage.
+        if (isCopperUninsulated(cb) && be.oxidationLevel < 3) {
+            if (++be.oxidationTicker >= COPPER_OXIDATION_CHECK_INTERVAL) {
+                be.oxidationTicker = 0;
+
+                if (world.random.nextInt(COPPER_OXIDATION_STAGE_CHANCE) == 0) {
                     be.oxidationLevel++;
                     be.markDirty();
                     be.sync();
