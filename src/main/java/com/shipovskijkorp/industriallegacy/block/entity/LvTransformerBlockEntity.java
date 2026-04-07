@@ -117,17 +117,11 @@ public class LvTransformerBlockEntity extends BlockEntity implements IEuEnergySt
     }
 
     public double getInputFlowDisplay() {
-        if (!isStepUp()) {
-            return inputFlow;
-        }
-        return outputFlow;
+        return isDisplayStepUp() ? MV_PACKET : LV_PACKET;
     }
 
     public double getOutputFlowDisplay() {
-        if (isStepUp()) {
-            return inputFlow;
-        }
-        return outputFlow;
+        return isDisplayStepUp() ? LV_PACKET : MV_PACKET;
     }
 
     private void emitEnergy() {
@@ -212,6 +206,25 @@ public class LvTransformerBlockEntity extends BlockEntity implements IEuEnergySt
 
     private boolean isStepUp() {
         return transformMode == Mode.STEPUP;
+    }
+
+    private boolean isDisplayStepUp() {
+        Mode effectiveMode = getEffectiveMode();
+        return effectiveMode == Mode.STEPUP;
+    }
+
+    private Mode getEffectiveMode() {
+        if (configuredMode == Mode.REDSTONE) {
+            if (world != null) {
+                return world.isReceivingRedstonePower(pos) ? Mode.STEPUP : Mode.STEPDOWN;
+            }
+            if (transformMode != null) {
+                return transformMode;
+            }
+            return Mode.STEPDOWN;
+        }
+
+        return configuredMode;
     }
 
     private int getActualSinkTier() {

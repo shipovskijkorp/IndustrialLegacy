@@ -68,7 +68,7 @@ public class LvTransformerBlock extends BlockWithEntity implements BlockEntityPr
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         return getDefaultState()
-                .with(DOT, ctx.getSide())
+                .with(DOT, ctx.getPlayerLookDirection().getOpposite())
                 .with(ACTIVE, false);
     }
 
