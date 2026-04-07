@@ -10,6 +10,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
+import com.shipovskijkorp.industriallegacy.util.EnergyDisplayUtil;
 import net.minecraft.world.World;
 
 /**
@@ -47,7 +48,7 @@ public class DebugWrenchItem extends Item {
 
         if (be instanceof IEuEnergyStorage eu) {
             player.sendMessage(Text.literal(
-                    "EU: " + eu.getEuStored() + "/" + eu.getEuCapacity()
+                    "EU: " + EnergyDisplayUtil.formatEuStorage(eu.getEuStored(), eu.getEuCapacity(), 4)
             ), false);
             player.sendMessage(Text.literal(
                     "Tiers: sink=" + eu.getSinkTier(context.getSide())
@@ -66,7 +67,7 @@ public class DebugWrenchItem extends Item {
                     false
             );
             player.sendMessage(
-                    Text.literal("Production: " + gen.getProduction() + " EU/t"),
+                    Text.literal("Production: " + EnergyDisplayUtil.formatEuPerTick(gen.getProduction(), 4)),
                     false
             );
         }

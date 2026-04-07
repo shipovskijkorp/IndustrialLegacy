@@ -6,6 +6,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
+import com.shipovskijkorp.industriallegacy.util.EnergyDisplayUtil;
 
 public class MaceratorScreen extends HandledScreen<MaceratorScreenHandler> {
 
@@ -112,7 +113,7 @@ public class MaceratorScreen extends HandledScreen<MaceratorScreenHandler> {
         if (hover) {
             int e = handler.getEnergy();
             int cap = handler.getEnergyCap();
-            ctx.drawTooltip(this.textRenderer, Text.literal(e + " / " + cap + " EU"), mouseX, mouseY);
+            ctx.drawTooltip(this.textRenderer, Text.literal(EnergyDisplayUtil.formatEuStorage(e, cap, 4)), mouseX, mouseY);
         }
     }
 }

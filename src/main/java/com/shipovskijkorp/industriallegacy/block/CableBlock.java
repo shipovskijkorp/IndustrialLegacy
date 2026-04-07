@@ -328,10 +328,11 @@ public class CableBlock extends BlockWithEntity {
     public List<ItemStack> getDroppedStacks(BlockState state, LootContextParameterSet.Builder builder) {
         BlockEntity be = builder.getOptional(LootContextParameters.BLOCK_ENTITY);
 
-        ItemStack drop = CableItem.createStack(ModItems.CABLE, this.kind, this.insulation);
-
+        ItemStack drop;
         if (this.kind == CableKind.COPPER && this.insulation == 0 && be instanceof CableBlockEntity cableBe) {
-            drop.getOrCreateNbt().putInt(CableItem.NBT_OXIDATION, cableBe.getOxidationLevel());
+            drop = CableItem.createStack(ModItems.CABLE, this.kind, this.insulation, cableBe.getOxidationLevel());
+        } else {
+            drop = CableItem.createStack(ModItems.CABLE, this.kind, this.insulation);
         }
 
         return List.of(drop);
@@ -340,16 +341,14 @@ public class CableBlock extends BlockWithEntity {
     // Middle-click gives current oxidation stage (only copper uninsulated)
     @Override
     public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
-        ItemStack pick = CableItem.createStack(ModItems.CABLE, this.kind, this.insulation);
-
         if (this.kind == CableKind.COPPER && this.insulation == 0) {
             BlockEntity be = world.getBlockEntity(pos);
             if (be instanceof CableBlockEntity cableBe) {
-                pick.getOrCreateNbt().putInt(CableItem.NBT_OXIDATION, cableBe.getOxidationLevel());
+                return CableItem.createStack(ModItems.CABLE, this.kind, this.insulation, cableBe.getOxidationLevel());
             }
         }
 
-        return pick;
+        return CableItem.createStack(ModItems.CABLE, this.kind, this.insulation);
     }
 
     // ---- Shapes (thin cable + arms) ----

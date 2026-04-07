@@ -14,6 +14,7 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import com.shipovskijkorp.industriallegacy.util.EnergyDisplayUtil;
 
 import java.util.Locale;
 
@@ -68,10 +69,10 @@ public abstract class AbstractElectricStorageScreen<T extends AbstractElectricSt
         int stored = handler.getEuStored();
         int clamped = Math.min(stored, capacity);
 
-        context.drawText(this.textRenderer, Text.literal(" " + clamped), 110, 35, TEXT_COLOR, false);
-        context.drawText(this.textRenderer, Text.literal("/" + capacity), 110, 45, TEXT_COLOR, false);
+        context.drawText(this.textRenderer, Text.literal(" " + EnergyDisplayUtil.toSiString(clamped, 4)), 110, 35, TEXT_COLOR, false);
+        context.drawText(this.textRenderer, Text.literal("/" + EnergyDisplayUtil.toSiString(capacity, 4)), 110, 45, TEXT_COLOR, false);
 
-        String outputText = String.format(Locale.ROOT, "%.1f", (double) handler.getOutputEUt());
+        String outputText = EnergyDisplayUtil.toSiString((double) handler.getOutputEUt(), 4);
         context.drawText(this.textRenderer, Text.translatable("il.EUStorage.gui.info.output", outputText),
                 85, 60, TEXT_COLOR, false);
     }
@@ -91,7 +92,7 @@ public abstract class AbstractElectricStorageScreen<T extends AbstractElectricSt
                     mouseX, mouseY);
         } else if (isMouseOver(ENERGY_HOVER_X, ENERGY_HOVER_Y, ENERGY_HOVER_W, ENERGY_HOVER_H, mouseX, mouseY)) {
             context.drawTooltip(this.textRenderer,
-                    Text.literal(handler.getEuStored() + "/" + handler.getEuCap() + " EU"),
+                    Text.literal(EnergyDisplayUtil.formatEuStorage(handler.getEuStored(), handler.getEuCap(), 4)),
                     mouseX, mouseY);
         }
 

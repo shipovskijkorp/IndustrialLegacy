@@ -11,6 +11,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import com.shipovskijkorp.industriallegacy.util.EnergyDisplayUtil;
 
 /**
  * IL Energy Crystal (energy_crystal).
@@ -101,6 +102,6 @@ public final class EnergyCrystalItem extends Item implements IElectricItem {
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         long e = getEnergy(stack);
-        tooltip.add(Text.literal(e + " / " + CAPACITY_EU + " EU").formatted(Formatting.GRAY));
+        tooltip.add(Text.literal(EnergyDisplayUtil.formatEuStorage(e, CAPACITY_EU, 3)).formatted(Formatting.GRAY));
     }
 }

@@ -25,6 +25,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.List;
 import java.util.Locale;
+import com.shipovskijkorp.industriallegacy.util.EnergyDisplayUtil;
 
 public class CableItem extends Item {
     public static final String NBT_KIND = "kind";
@@ -67,16 +68,42 @@ public class CableItem extends Item {
     }
 
     public static ItemStack createStack(Item cableItem, CableKind kind, int insulation) {
+        return createStack(cableItem, kind, insulation, 0);
+    }
+
+    public static ItemStack createStack(Item cableItem, CableKind kind, int insulation, int oxidation) {
         ItemStack stack = new ItemStack(cableItem);
         NbtCompound nbt = stack.getOrCreateNbt();
         nbt.putString(NBT_KIND, kind.id());
         int clampedInsulation = Math.max(0, Math.min(kind.maxInsulation, insulation));
         nbt.putInt(NBT_INSULATION, clampedInsulation);
+        setOxidation(stack, oxidation);
+        syncVisualVariant(stack);
+        return stack;
+    }
 
-        int variant = CableVariants.variantId(kind, clampedInsulation);
+    public static void setOxidation(ItemStack stack, int oxidation) {
+        if (stack == null || stack.isEmpty()) return;
+        CableKind kind = getKind(stack);
+        int insulation = getInsulation(stack);
+        NbtCompound nbt = stack.getOrCreateNbt();
+        if (kind == CableKind.COPPER && insulation == 0) {
+            nbt.putInt(NBT_OXIDATION, Math.max(0, Math.min(3, oxidation)));
+        } else {
+            nbt.remove(NBT_OXIDATION);
+        }
+        syncVisualVariant(stack);
+    }
+
+    public static void syncVisualVariant(ItemStack stack) {
+        if (stack == null || stack.isEmpty()) return;
+        CableKind kind = getKind(stack);
+        int insulation = getInsulation(stack);
+        int oxidation = (kind == CableKind.COPPER && insulation == 0) ? getOxidation(stack) : 0;
+        int variant = CableVariants.variantId(kind, insulation, oxidation);
+        NbtCompound nbt = stack.getOrCreateNbt();
         nbt.putInt(CableVariants.NBT_VARIANT, variant);
         nbt.putInt("CustomModelData", variant);
-        return stack;
     }
 
     public static CableKind getKind(ItemStack stack) {
@@ -135,6 +162,8 @@ public class CableItem extends Item {
         CableKind kind = getKind(stack);
         int ins = getInsulation(stack);
 
+        syncVisualVariant(stack);
+
         // capacity
         tooltip.add(Text.translatable("tooltip." + IndustrialLegacy.MOD_ID + ".cable.capacity", kind.capacity)
                 .formatted(Formatting.GRAY));
@@ -160,6 +189,12 @@ public class CableItem extends Item {
                             LOSS_FORMAT.format(kind.loss))
                     .formatted(Formatting.GRAY));
         }
+    }
+
+    @Override
+    public void inventoryTick(ItemStack stack, World world, net.minecraft.entity.Entity entity, int slot, boolean selected) {
+        super.inventoryTick(stack, world, entity, slot, selected);
+        syncVisualVariant(stack);
     }
 
     @Override

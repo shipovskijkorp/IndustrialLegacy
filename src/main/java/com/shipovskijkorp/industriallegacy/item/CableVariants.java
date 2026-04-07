@@ -31,8 +31,22 @@ public final class CableVariants {
     }
 
     public static int variantId(CableKind kind, int insulation) {
+        return variantId(kind, insulation, 0);
+    }
+
+    public static int variantId(CableKind kind, int insulation, int oxidation) {
         return switch (kind) {
-            case COPPER -> (insulation <= 0 ? 0 : 1);
+            case COPPER -> {
+                if (insulation > 0) {
+                    yield 1;
+                }
+                yield switch (Math.max(0, Math.min(3, oxidation))) {
+                    case 1 -> 14;
+                    case 2 -> 15;
+                    case 3 -> 16;
+                    default -> 0;
+                };
+            }
             case DETECTOR -> 2;
             case GLASS -> 3;
             case GOLD -> (insulation <= 0 ? 4 : (insulation == 1 ? 5 : 6));
@@ -49,9 +63,7 @@ public final class CableVariants {
 
         // --- Copper uninsulated: 4 oxidation stages (0..3) ---
         for (int ox = 0; ox <= 3; ox++) {
-            ItemStack s = CableItem.createStack(cableItem, CableKind.COPPER, 0);
-            s.getOrCreateNbt().putInt(CableItem.NBT_OXIDATION, ox);
-            out.add(s);
+            out.add(CableItem.createStack(cableItem, CableKind.COPPER, 0, ox));
         }
 
         // Copper insulated

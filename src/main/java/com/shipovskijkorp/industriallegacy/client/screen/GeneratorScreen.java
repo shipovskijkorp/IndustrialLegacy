@@ -6,6 +6,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
+import com.shipovskijkorp.industriallegacy.util.EnergyDisplayUtil;
 
 public class GeneratorScreen extends HandledScreen<GeneratorScreenHandler> {
 
@@ -45,7 +46,7 @@ public class GeneratorScreen extends HandledScreen<GeneratorScreenHandler> {
         if (isMouseOver(ENERGY_HOVER_X, ENERGY_HOVER_Y, ENERGY_HOVER_W, ENERGY_HOVER_H, mouseX, mouseY)) {
             int stored = handler.getEuStored();
             int cap = handler.getEuCap();
-            ctx.drawTooltip(this.textRenderer, Text.literal(stored + "/" + cap + " EU"), mouseX, mouseY);
+            ctx.drawTooltip(this.textRenderer, Text.literal(EnergyDisplayUtil.formatEuStorage(stored, cap, 4)), mouseX, mouseY);
         }
         // Ensure vanilla item tooltips (hovered slots) are drawn on top.
         this.drawMouseoverTooltip(ctx, mouseX, mouseY);

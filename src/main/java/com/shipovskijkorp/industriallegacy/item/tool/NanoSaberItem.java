@@ -22,6 +22,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import com.shipovskijkorp.industriallegacy.util.EnergyDisplayUtil;
 
 /**
  * IC2 Experimental Nano Saber (electric sword).
@@ -235,10 +236,6 @@ public final class NanoSaberItem extends SwordItem implements IElectricItem {
         long eu = getEnergy(stack);
         long cap = CAPACITY_EU;
 
-        // IC2-style: "832 / 160 000 EU"
-        String euStr = String.format("%,d", eu).replace(',', ' ');
-        String capStr = String.format("%,d", cap).replace(',', ' ');
-
-        tooltip.add(Text.literal(euStr + " / " + capStr + " EU").formatted(Formatting.GRAY));
+        tooltip.add(Text.literal(EnergyDisplayUtil.formatEuStorage(eu, cap, 3)).formatted(Formatting.GRAY));
     }
 }

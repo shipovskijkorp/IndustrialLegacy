@@ -57,7 +57,7 @@ public class IndustrialLegacyClient implements ClientModInitializer {
 
     private static void registerItemModelPredicates() {
         registerModelPredicate(ModItems.CABLE, "variant",
-                (stack, world, entity, seed) -> (float) CableVariants.variantId(CableItem.getKind(stack), CableItem.getInsulation(stack)));
+                (stack, world, entity, seed) -> (float) CableVariants.variantId(CableItem.getKind(stack), CableItem.getInsulation(stack), CableItem.getOxidation(stack)));
 
         registerModelPredicate(ModItems.CABLE, "ox", (stack, world, entity, seed) -> {
             CableKind kind = CableItem.getKind(stack);

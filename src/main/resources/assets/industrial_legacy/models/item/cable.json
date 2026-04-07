@@ -16,6 +16,9 @@
     { "predicate": { "custom_model_data": 10 }, "model": "industrial_legacy:item/cable/iron_cable_3" },
     { "predicate": { "custom_model_data": 11 }, "model": "industrial_legacy:item/cable/splitter_cable" },
     { "predicate": { "custom_model_data": 12 }, "model": "industrial_legacy:item/cable/tin_cable_0" },
-    { "predicate": { "custom_model_data": 13 }, "model": "industrial_legacy:item/cable/tin_cable_1" }
+    { "predicate": { "custom_model_data": 13 }, "model": "industrial_legacy:item/cable/tin_cable_1" },
+    { "predicate": { "custom_model_data": 14 }, "model": "industrial_legacy:item/cable/copper_cable_0_exposed" },
+    { "predicate": { "custom_model_data": 15 }, "model": "industrial_legacy:item/cable/copper_cable_0_weathered" },
+    { "predicate": { "custom_model_data": 16 }, "model": "industrial_legacy:item/cable/copper_cable_0_oxidized" }
   ]
 }

@@ -12,6 +12,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import com.shipovskijkorp.industriallegacy.util.EnergyDisplayUtil;
 
 /**
  * IC2 Experimental NanoSuit armor (electric).
@@ -96,7 +97,7 @@ public class NanoArmorItem extends ArmorItem implements IElectricItem {
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        tooltip.add(Text.literal(getEnergy(stack) + " / " + CAPACITY_EU + " EU").formatted(Formatting.GRAY));
+        tooltip.add(Text.literal(EnergyDisplayUtil.formatEuStorage(getEnergy(stack), CAPACITY_EU, 3)).formatted(Formatting.GRAY));
         tooltip.add(Text.translatable("tooltip.industrial_legacy.power_tier", TIER).formatted(Formatting.DARK_GRAY));
     }
 }

@@ -6,6 +6,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
+import com.shipovskijkorp.industriallegacy.util.EnergyDisplayUtil;
 
 /**
  * IC2-like Compressor GUI (guidef/compressor.xml).
@@ -65,7 +66,7 @@ public class CompressorScreen extends HandledScreen<CompressorScreenHandler> {
         if (this.isPointWithinBounds(ENERGY_BOLT_X, ENERGY_BOLT_Y, 7, 13, mouseX, mouseY)) {
             int e = handler.getEnergy();
             int cap = handler.getEnergyCap();
-            ctx.drawTooltip(this.textRenderer, Text.literal(e + " / " + cap + " EU"), mouseX, mouseY);
+            ctx.drawTooltip(this.textRenderer, Text.literal(EnergyDisplayUtil.formatEuStorage(e, cap, 4)), mouseX, mouseY);
         }
     }
 

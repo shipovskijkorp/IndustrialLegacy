@@ -18,6 +18,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import com.shipovskijkorp.industriallegacy.util.EnergyDisplayUtil;
 
 /**
  * IC2 Experimental Nightvision Goggles (ported semantics):
@@ -102,7 +103,7 @@ public final class NightVisionGogglesItem extends ArmorItem implements IElectric
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        tooltip.add(Text.literal(getEnergy(stack) + " / " + CAPACITY_EU + " EU").formatted(Formatting.GRAY));
+        tooltip.add(Text.literal(EnergyDisplayUtil.formatEuStorage(getEnergy(stack), CAPACITY_EU, 3)).formatted(Formatting.GRAY));
         tooltip.add(Text.translatable(isNightVisionActive(stack)
                 ? "message.industrial_legacy.nightvision.state_on"
                 : "message.industrial_legacy.nightvision.state_off").formatted(Formatting.DARK_GRAY));
