@@ -51,11 +51,14 @@ public class LvTransformerScreen extends HandledScreen<LvTransformerScreenHandle
 
     @Override
     protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
+        Text title = Text.literal("LV-Transformer");
+        int titleX = (this.backgroundWidth - this.textRenderer.getWidth(title)) / 2;
+        context.drawText(this.textRenderer, title, titleX, 6, 4210752, false);
         context.drawText(this.textRenderer, Text.translatable("gui.industrial_legacy.transformer.output"), 6, 30, 4210752, false);
         context.drawText(this.textRenderer, Text.translatable("gui.industrial_legacy.transformer.input"), 6, 43, 4210752, false);
 
-        context.drawText(this.textRenderer, Text.literal(handler.getOutputFlow() + " EU/t"), 52, 30, 2157374, false);
-        context.drawText(this.textRenderer, Text.literal(handler.getInputFlow() + " EU/t"), 52, 45, 2157374, false);
+        context.drawText(this.textRenderer, Text.literal(handler.getInputFlow() + " EU/t"), 52, 30, 2157374, false);
+        context.drawText(this.textRenderer, Text.literal(handler.getOutputFlow() + " EU/t"), 52, 45, 2157374, false);
 
         int wrenchY = switch (handler.getModeOrdinal()) {
             case 1 -> 87;
