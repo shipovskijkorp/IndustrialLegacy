@@ -38,3 +38,13 @@ hs_err_*.log
 replay_*.log
 *.hprof
 *.jfr
+
+.github
+gradle
+.gitignore
+.gitattributes
+build.gradle
+gradle.properties
+gradlew
+gradlew.bat
+settings.gradle
