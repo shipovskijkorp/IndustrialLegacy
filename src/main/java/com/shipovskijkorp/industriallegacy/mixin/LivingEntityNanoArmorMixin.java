@@ -77,7 +77,7 @@ public abstract class LivingEntityNanoArmorMixin {
         if (canAbsorbByCharge <= 0.0f) return 0.0f;
 
         long energyCost = (long) Math.ceil(canAbsorbByCharge * (double) energyPerDamage);
-        long actuallyDrained = drainIgnoreLimit(stack, energyCost);
+        long actuallyDrained = industriallegacy$drainIgnoreLimitNanoArmor(stack, energyCost);
 
         if (actuallyDrained <= 0L) return 0.0f;
 
@@ -86,7 +86,7 @@ public abstract class LivingEntityNanoArmorMixin {
         return (float) (canAbsorbByCharge * paidRatio);
     }
 
-    private static long drainIgnoreLimit(ItemStack stack, long amount) {
+    private static long industriallegacy$drainIgnoreLimitNanoArmor(ItemStack stack, long amount) {
         if (!(stack.getItem() instanceof IElectricItem ei)) return 0L;
         long stored = Math.max(0L, ei.getEnergy(stack));
         long extracted = Math.min(amount, stored);

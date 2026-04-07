@@ -38,6 +38,7 @@ public class GeneratorScreen extends HandledScreen<GeneratorScreenHandler> {
 
     @Override
     public void render(DrawContext ctx, int mouseX, int mouseY, float delta) {
+        this.renderBackground(ctx);
         super.render(ctx, mouseX, mouseY, delta);
 
         // Energy tooltip (hover over the full energy gauge frame, like IL)

@@ -175,6 +175,11 @@ public class CableItem extends Item {
             pos = pos.offset(side);
         }
 
+        BlockState targetState = world.getBlockState(pos);
+        if (targetState.getBlock() instanceof com.shipovskijkorp.industriallegacy.block.CableBlock) {
+            return ActionResult.FAIL;
+        }
+
         CableKind kind = getKind(stack);
         int ins = getInsulation(stack);
 

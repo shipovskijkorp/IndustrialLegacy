@@ -170,7 +170,7 @@ public final class ModBlocks {
 
             "copper_cable_1",
             new CableBlock(FabricBlockSettings.create().strength(0.2f).sounds(BlockSoundGroup.METAL),
-                    CableKind.COPPER, 1, "block/wiring/cable/copper_cable_1_white")
+                    CableKind.COPPER, 1, "block/wiring/cable/copper_cable_1_black")
     );
 
     public static final Block TIN_CABLE_0 = registerNoItem(
@@ -181,7 +181,7 @@ public final class ModBlocks {
     public static final Block TIN_CABLE_1 = registerNoItem(
             "tin_cable_1",
             new CableBlock(FabricBlockSettings.create().strength(0.2f).sounds(BlockSoundGroup.METAL),
-                    CableKind.TIN, 1, "block/wiring/cable/tin_cable_1_white")
+                    CableKind.TIN, 1, "block/wiring/cable/tin_cable_1_black")
     );
 
     public static final Block GOLD_CABLE_0 = registerNoItem(
@@ -192,12 +192,12 @@ public final class ModBlocks {
     public static final Block GOLD_CABLE_1 = registerNoItem(
             "gold_cable_1",
             new CableBlock(FabricBlockSettings.create().strength(0.2f).sounds(BlockSoundGroup.METAL),
-                    CableKind.GOLD, 1, "block/wiring/cable/gold_cable_1_white")
+                    CableKind.GOLD, 1, "block/wiring/cable/gold_cable_1_black")
     );
     public static final Block GOLD_CABLE_2 = registerNoItem(
             "gold_cable_2",
             new CableBlock(FabricBlockSettings.create().strength(0.2f).sounds(BlockSoundGroup.METAL),
-                    CableKind.GOLD, 2, "block/wiring/cable/gold_cable_2_white")
+                    CableKind.GOLD, 2, "block/wiring/cable/gold_cable_2_black")
     );
 
     public static final Block IRON_CABLE_0 = registerNoItem(
@@ -208,23 +208,23 @@ public final class ModBlocks {
     public static final Block IRON_CABLE_1 = registerNoItem(
             "iron_cable_1",
             new CableBlock(FabricBlockSettings.create().strength(0.2f).sounds(BlockSoundGroup.METAL),
-                    CableKind.IRON, 1, "block/wiring/cable/iron_cable_1_white")
+                    CableKind.IRON, 1, "block/wiring/cable/iron_cable_1_black")
     );
     public static final Block IRON_CABLE_2 = registerNoItem(
             "iron_cable_2",
             new CableBlock(FabricBlockSettings.create().strength(0.2f).sounds(BlockSoundGroup.METAL),
-                    CableKind.IRON, 2, "block/wiring/cable/iron_cable_2_white")
+                    CableKind.IRON, 2, "block/wiring/cable/iron_cable_2_black")
     );
     public static final Block IRON_CABLE_3 = registerNoItem(
             "iron_cable_3",
             new CableBlock(FabricBlockSettings.create().strength(0.2f).sounds(BlockSoundGroup.METAL),
-                    CableKind.IRON, 3, "block/wiring/cable/iron_cable_3_white")
+                    CableKind.IRON, 3, "block/wiring/cable/iron_cable_3_black")
     );
 
     public static final Block GLASS_CABLE = registerNoItem(
             "glass_cable",
             new CableBlock(FabricBlockSettings.create().strength(0.2f).sounds(BlockSoundGroup.GLASS),
-                    CableKind.GLASS, 0, "block/wiring/cable/glass_cable_white")
+                    CableKind.GLASS, 0, "block/wiring/cable/glass_cable_black")
     );
 
     public static final Block DETECTOR_CABLE = registerNoItem(

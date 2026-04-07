@@ -33,7 +33,7 @@ public abstract class LivingEntityNanoBootsFallMixin {
         long energyCost = (long) NanoArmorItem.ENERGY_PER_DAMAGE * (long) fallDamage;
         if (energyCost <= 0L) return;
 
-        long drained = drainIgnoreLimit(boots, energyCost);
+        long drained = industriallegacy$drainIgnoreLimitNanoBoots(boots, energyCost);
         if (drained >= energyCost) {
             cir.setReturnValue(false); // cancel vanilla fall damage
         } else {
@@ -44,7 +44,7 @@ public abstract class LivingEntityNanoBootsFallMixin {
         }
     }
 
-    private static long drainIgnoreLimit(ItemStack stack, long amount) {
+    private static long industriallegacy$drainIgnoreLimitNanoBoots(ItemStack stack, long amount) {
         if (!(stack.getItem() instanceof IElectricItem ei)) return 0L;
         long stored = Math.max(0L, ei.getEnergy(stack));
         long extracted = Math.min(amount, stored);
