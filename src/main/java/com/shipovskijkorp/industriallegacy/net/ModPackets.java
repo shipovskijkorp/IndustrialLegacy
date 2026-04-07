@@ -1,6 +1,7 @@
 package com.shipovskijkorp.industriallegacy.net;
 
 import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
+import com.shipovskijkorp.industriallegacy.block.entity.LvTransformerBlockEntity;
 import com.shipovskijkorp.industriallegacy.block.entity.RedstoneModeCycleTarget;
 import com.shipovskijkorp.industriallegacy.item.nvg.INightVisionModule;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -20,6 +21,9 @@ public final class ModPackets {
     public static final Identifier BATBOX_CYCLE_REDSTONE_MODE =
             new Identifier(IndustrialLegacy.MOD_ID, "batbox_cycle_redstone_mode");
 
+    public static final Identifier TRANSFORMER_EVENT =
+            new Identifier(IndustrialLegacy.MOD_ID, "transformer_event");
+
     public static final Identifier TOGGLE_NIGHTVISION =
             new Identifier(IndustrialLegacy.MOD_ID, "toggle_nightvision");
 
@@ -28,6 +32,13 @@ public final class ModPackets {
                 (server, player, handler, buf, responseSender) -> {
                     BlockPos pos = buf.readBlockPos();
                     server.execute(() -> handleRedstoneModeCycle(player, pos));
+                });
+
+        ServerPlayNetworking.registerGlobalReceiver(TRANSFORMER_EVENT,
+                (server, player, handler, buf, responseSender) -> {
+                    BlockPos pos = buf.readBlockPos();
+                    int eventId = buf.readVarInt();
+                    server.execute(() -> handleTransformerEvent(player, pos, eventId));
                 });
 
         ServerPlayNetworking.registerGlobalReceiver(TOGGLE_NIGHTVISION,
@@ -44,6 +55,16 @@ public final class ModPackets {
         }
 
         target.cycleRedstoneMode(player);
+    }
+
+    private static void handleTransformerEvent(net.minecraft.server.network.ServerPlayerEntity player, BlockPos pos, int eventId) {
+        if (player.squaredDistanceTo(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5) > 64.0) {
+            return;
+        }
+
+        if (player.getWorld().getBlockEntity(pos) instanceof LvTransformerBlockEntity transformer) {
+            transformer.handleClientEvent(eventId);
+        }
     }
 
     private static void toggleNightVision(net.minecraft.server.network.ServerPlayerEntity player) {

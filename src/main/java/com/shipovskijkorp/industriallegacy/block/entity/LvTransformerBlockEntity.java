@@ -7,9 +7,12 @@ import com.shipovskijkorp.industriallegacy.energy.util.EuUtil;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
 import com.shipovskijkorp.industriallegacy.screen.LvTransformerScreenHandler;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
@@ -18,56 +21,65 @@ import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * LV Transformer (НН): LV <-> MV.
+ * IC2-like LV Transformer.
  *
- * DOT side = MV (tier2=128).
- * Other sides = LV (tier1=32).
- *
- * Energy is conserved:
- * - Step-up: accumulate 128 from LV inputs, emit 128 on DOT.
- * - Step-down: accept 128 on DOT, emit up to 4x32 on other sides.
+ * <p>Default mode is redstone controlled. When powered it step-ups LV to MV. When unpowered it
+ * step-downs MV to LV. The facing side is the special side.</p>
  */
 public class LvTransformerBlockEntity extends BlockEntity implements IEuEnergyStorage, ExtendedScreenHandlerFactory {
+    private static final int DEFAULT_TIER = 1; // LV
+    private static final long LV_PACKET = EuUtil.powerFromTier(DEFAULT_TIER);
+    private static final long MV_PACKET = EuUtil.powerFromTier(DEFAULT_TIER + 1);
+    private static final long CAPACITY = LV_PACKET * 8L; // IC2 Energy component size
+    private static final int STEP_DOWN_PACKET_COUNT = 4;
 
-    // Tier mapping for this transformer
-    private static final int LV = 1; // 32
-    private static final int MV = 2; // 128
-    private static final long LV_PACKET = EuUtil.powerFromTier(LV); // 32
-    private static final long MV_PACKET = EuUtil.powerFromTier(MV); // 128
+    private enum Mode {
+        REDSTONE,
+        STEPDOWN,
+        STEPUP;
 
-    // Buffers:
-    // lowBuffer collects LV energy to form MV packets (step-up output).
-    // highBuffer collects MV energy to be split into LV packets (step-down output).
-    private long lowBuffer = 0;   // 0..128
-    private long highBuffer = 0;  // 0..128
+        private static final Mode[] VALUES = values();
 
-    // GUI props: lowBuffer, highBuffer, dotDirOrdinal
+        private static Mode byOrdinal(int ordinal) {
+            if (ordinal < 0 || ordinal >= VALUES.length) {
+                return REDSTONE;
+            }
+            return VALUES[ordinal];
+        }
+    }
+
+    private long energy;
+    private Mode configuredMode = Mode.REDSTONE;
+    @Nullable
+    private Mode transformMode;
+    private double inputFlow;
+    private double outputFlow;
+    private int emissionRoundRobin;
+
     private final PropertyDelegate guiProps = new PropertyDelegate() {
-        @Override public int size() { return LvTransformerScreenHandler.PROP_COUNT; }
+        @Override
+        public int size() {
+            return LvTransformerScreenHandler.PROP_COUNT;
+        }
 
         @Override
         public int get(int index) {
             return switch (index) {
-                case 0 -> (int) Math.min(Integer.MAX_VALUE, lowBuffer);
-                case 1 -> (int) Math.min(Integer.MAX_VALUE, highBuffer);
-                case 2 -> getDot().getId();
+                case 0 -> configuredMode.ordinal();
+                case 1 -> (int) Math.round(getInputFlowDisplay());
+                case 2 -> (int) Math.round(getOutputFlowDisplay());
                 default -> 0;
             };
         }
 
         @Override
         public void set(int index, int value) {
-            switch (index) {
-                case 0 -> lowBuffer = clamp(value, 0, (int) MV_PACKET);
-                case 1 -> highBuffer = clamp(value, 0, (int) MV_PACKET);
-                default -> {}
+            if (index == 0) {
+                configuredMode = Mode.byOrdinal(value);
             }
-        }
-
-        private long clamp(int v, int min, int max) {
-            return Math.max(min, Math.min(max, v));
         }
     };
 
@@ -75,149 +87,234 @@ public class LvTransformerBlockEntity extends BlockEntity implements IEuEnergySt
         super(ModBlockEntities.LV_TRANSFORMER, pos, state);
     }
 
-    private Direction getDot() {
-        if (getCachedState().contains(LvTransformerBlock.DOT)) {
-            return getCachedState().get(LvTransformerBlock.DOT);
+    public static void tick(World world, BlockPos pos, BlockState state, LvTransformerBlockEntity be) {
+        if (world.isClient) return;
+
+        be.updateTransformMode(false);
+        be.emitEnergy();
+    }
+
+    public PropertyDelegate getGuiProperties() {
+        return guiProps;
+    }
+
+    public void onFacingChanged() {
+        if (world == null || world.isClient) return;
+        updateTransformMode(true);
+    }
+
+    public void handleClientEvent(int event) {
+        if (event >= 0 && event < Mode.VALUES.length) {
+            configuredMode = Mode.VALUES[event];
+            updateTransformMode(false);
+        } else if (event == 3) {
+            // IC2 sends event 3 when clicking the current-mode wrench icon. It is intentionally a no-op.
+        }
+    }
+
+    public int getModeOrdinal() {
+        return configuredMode.ordinal();
+    }
+
+    public double getInputFlowDisplay() {
+        if (!isStepUp()) {
+            return inputFlow;
+        }
+        return outputFlow;
+    }
+
+    public double getOutputFlowDisplay() {
+        if (isStepUp()) {
+            return inputFlow;
+        }
+        return outputFlow;
+    }
+
+    private void emitEnergy() {
+        if (world == null || transformMode == null) return;
+
+        if (isStepUp()) {
+            Direction outputSide = getFacing();
+            if (energy >= MV_PACKET) {
+                long spent = EuNetwork.route(world, pos, this, outputSide, MV_PACKET);
+                if (spent > 0) {
+                    markDirty();
+                }
+            }
+            return;
+        }
+
+        if (energy < LV_PACKET) return;
+
+        Direction facing = getFacing();
+        Direction[] directions = Direction.values();
+        int sent = 0;
+        int start = emissionRoundRobin % directions.length;
+        emissionRoundRobin++;
+
+        for (int i = 0; i < directions.length && sent < STEP_DOWN_PACKET_COUNT && energy >= LV_PACKET; i++) {
+            Direction direction = directions[(start + i) % directions.length];
+            if (direction == facing) continue;
+
+            long spent = EuNetwork.route(world, pos, this, direction, LV_PACKET);
+            if (spent > 0) {
+                sent++;
+                markDirty();
+            }
+        }
+    }
+
+    private void updateTransformMode(boolean force) {
+        if (world == null || world.isClient) return;
+
+        Mode newMode = switch (configuredMode) {
+            case REDSTONE -> world.isReceivingRedstonePower(pos) ? Mode.STEPUP : Mode.STEPDOWN;
+            case STEPDOWN -> Mode.STEPDOWN;
+            case STEPUP -> Mode.STEPUP;
+        };
+
+        if (!force && transformMode == newMode) {
+            return;
+        }
+
+        transformMode = newMode;
+        inputFlow = EuUtil.powerFromTierD(getActualSinkTier());
+        outputFlow = EuUtil.powerFromTierD(getActualSourceTier());
+        syncActiveState();
+        invalidateNetwork();
+        markDirty();
+    }
+
+    private void syncActiveState() {
+        if (world == null) return;
+
+        BlockState state = getCachedState();
+        if (!state.contains(LvTransformerBlock.ACTIVE)) return;
+
+        boolean shouldBeActive = isStepUp();
+        if (state.get(LvTransformerBlock.ACTIVE) != shouldBeActive) {
+            world.setBlockState(pos, state.with(LvTransformerBlock.ACTIVE, shouldBeActive), Block.NOTIFY_ALL);
+        }
+    }
+
+    private void invalidateNetwork() {
+        if (world == null || world.isClient) return;
+        LvTransformerBlock.invalidateAround(world, pos);
+    }
+
+    private Direction getFacing() {
+        BlockState state = getCachedState();
+        if (state.contains(LvTransformerBlock.DOT)) {
+            return state.get(LvTransformerBlock.DOT);
         }
         return Direction.NORTH;
     }
 
-    public static void tick(World world, BlockPos pos, BlockState state, LvTransformerBlockEntity be) {
-        if (world.isClient) return;
-
-        // Step-up emission: lowBuffer -> MV out on DOT
-        if (be.lowBuffer >= MV_PACKET) {
-            Direction dot = be.getDot();
-            // Try route one MV packet. If it goes nowhere, we keep energy (IC2 feel).
-            long spent = EuNetwork.route(world, pos, be, dot, MV_PACKET);
-            // extractEu() will subtract from lowBuffer only if it actually spent.
-            if (spent > 0) {
-                be.markDirty();
-            }
-        }
-
-        // Step-down emission: highBuffer -> LV out on non-DOT sides (up to 4 packets per 128)
-        if (be.highBuffer >= LV_PACKET) {
-            Direction dot = be.getDot();
-
-            int maxPackets = (int) Math.min(4, be.highBuffer / LV_PACKET);
-            int sent = 0;
-
-            // Simple round-robin-ish over sides (skip DOT)
-            for (Direction d : Direction.values()) {
-                if (d == dot) continue;
-                if (sent >= maxPackets) break;
-
-                long spent = EuNetwork.route(world, pos, be, d, LV_PACKET);
-                if (spent > 0) {
-                    sent++;
-                    be.markDirty();
-                }
-            }
-        }
+    private boolean isStepUp() {
+        return transformMode == Mode.STEPUP;
     }
 
-    // ---- IEuEnergyStorage ----
+    private int getActualSinkTier() {
+        return isStepUp() ? DEFAULT_TIER : DEFAULT_TIER + 1;
+    }
 
-    @Override public long getEuStored() { return lowBuffer + highBuffer; }
-    @Override public long getEuCapacity() { return 2L * MV_PACKET; } // conceptual
-
-    @Override
-    public int getSinkTier(Direction side) {
-        // DOT accepts MV; other sides accept LV.
-        return (side == getDot()) ? MV : LV;
+    private int getActualSourceTier() {
+        return isStepUp() ? DEFAULT_TIER + 1 : DEFAULT_TIER;
     }
 
     @Override
-    public int getSourceTier(Direction side) {
-        // DOT outputs MV; other sides output LV.
-        return (side == getDot()) ? MV : LV;
+    protected void writeNbt(NbtCompound nbt) {
+        super.writeNbt(nbt);
+        nbt.putLong("energy", energy);
+        nbt.putInt("mode", configuredMode.ordinal());
+        nbt.putInt("emit_cursor", emissionRoundRobin);
     }
 
-    /**
-     * Some generic helpers (and older callers) use the no-arg tier getters.
-     * For a transformer, the "highest" tier it can handle is the MV tier.
-     */
+    @Override
+    public void readNbt(NbtCompound nbt) {
+        super.readNbt(nbt);
+        energy = Math.max(0L, Math.min(CAPACITY, nbt.getLong("energy")));
+        configuredMode = Mode.byOrdinal(nbt.getInt("mode"));
+        emissionRoundRobin = nbt.getInt("emit_cursor");
+    }
+
+    @Override
+    public long getEuStored() {
+        return energy;
+    }
+
+    @Override
+    public long getEuCapacity() {
+        return CAPACITY;
+    }
+
     @Override
     public int getSinkTier() {
-        return MV;
+        return DEFAULT_TIER + 1;
     }
 
     @Override
     public int getSourceTier() {
-        return MV;
+        return DEFAULT_TIER + 1;
     }
 
     @Override
-    public boolean canInsert(Direction from) {
+    public int getSinkTier(Direction side) {
+        return canInsert(side) ? getActualSinkTier() : DEFAULT_TIER + 1;
+    }
+
+    @Override
+    public int getSourceTier(Direction side) {
+        return canExtract(side) ? getActualSourceTier() : DEFAULT_TIER + 1;
+    }
+
+    @Override
+    public boolean isFullEnergyOutput() {
         return true;
     }
 
     @Override
+    public boolean canInsert(Direction from) {
+        Direction facing = getFacing();
+        return isStepUp() ? from != facing : from == facing;
+    }
+
+    @Override
     public boolean canExtract(Direction to) {
-        Direction dot = getDot();
-        if (to == dot) {
-            return lowBuffer >= MV_PACKET; // step-up ready
-        } else {
-            return highBuffer >= LV_PACKET; // step-down ready
-        }
+        Direction facing = getFacing();
+        return isStepUp() ? to == facing : to != facing;
     }
 
     @Override
     public long insertEu(long amount, Direction from, boolean simulate) {
-        if (amount <= 0) return 0;
+        if (amount <= 0 || !canInsert(from)) return 0L;
 
-        Direction dot = getDot();
-        if (from == dot) {
-            // MV input (step-down buffer)
-            long max = Math.min(amount, MV_PACKET);
-            long free = MV_PACKET - highBuffer;
-            long acc = Math.min(max, free);
-            if (!simulate && acc > 0) {
-                highBuffer += acc;
-                markDirty();
-            }
-            return acc;
-        } else {
-            // LV input (step-up buffer)
-            long max = Math.min(amount, LV_PACKET);
-            long free = MV_PACKET - lowBuffer;
-            long acc = Math.min(max, free);
-            if (!simulate && acc > 0) {
-                lowBuffer += acc;
-                markDirty();
-            }
-            return acc;
+        long packetLimit = EuUtil.powerFromTier(getActualSinkTier());
+        long accepted = Math.min(amount, packetLimit);
+        accepted = Math.min(accepted, CAPACITY - energy);
+
+        if (!simulate && accepted > 0) {
+            energy += accepted;
+            markDirty();
         }
+        return accepted;
     }
 
     @Override
     public long extractEu(long amount, Direction to, boolean simulate) {
-        if (amount <= 0) return 0;
+        if (amount <= 0 || !canExtract(to)) return 0L;
 
-        Direction dot = getDot();
-        if (to == dot) {
-            // MV output consumes lowBuffer in chunks of 128
-            long can = Math.min(amount, MV_PACKET);
-            if (lowBuffer < can) return 0;
-            if (!simulate) {
-                lowBuffer -= can;
-                markDirty();
-            }
-            return can;
-        } else {
-            // LV output consumes highBuffer in chunks of 32
-            long can = Math.min(amount, LV_PACKET);
-            if (highBuffer < can) return 0;
-            if (!simulate) {
-                highBuffer -= can;
-                markDirty();
-            }
-            return can;
+        long packetLimit = EuUtil.powerFromTier(getActualSourceTier());
+        long extracted = Math.min(amount, packetLimit);
+        extracted = Math.min(extracted, energy);
+
+        if (!simulate && extracted > 0) {
+            energy -= extracted;
+            markDirty();
         }
+        return extracted;
     }
 
-    // GUI integration (simple)
     @Override
     public Text getDisplayName() {
         return Text.translatable("block.industrial_legacy.lv_transformer");
@@ -229,7 +326,7 @@ public class LvTransformerBlockEntity extends BlockEntity implements IEuEnergySt
     }
 
     @Override
-    public ScreenHandler createMenu(int syncId, PlayerInventory inv, net.minecraft.entity.player.PlayerEntity player) {
-        return new LvTransformerScreenHandler(syncId, inv, this, guiProps);
+    public ScreenHandler createMenu(int syncId, PlayerInventory inventory, PlayerEntity player) {
+        return new LvTransformerScreenHandler(syncId, inventory, this);
     }
 }

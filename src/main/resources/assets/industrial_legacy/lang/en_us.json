@@ -222,5 +222,10 @@
   "tooltip.industrial_legacy.oxidation.oxidized": "Oxidized",
   "tooltip.industrial_legacy.cable.oxidation": "Oxidation: %s",
   "tooltip.industrial_legacy.cable.loss_mult": "Loss multiplier: %sx",
-  "block.industrial_legacy.lv_transformer": "LV Transformer"
+  "block.industrial_legacy.lv_transformer": "LV Transformer",
+  "gui.industrial_legacy.transformer.switch.mode1": "Redstone = step-up",
+  "gui.industrial_legacy.transformer.switch.mode2": "fixed step-down",
+  "gui.industrial_legacy.transformer.switch.mode3": "fixed step-up",
+  "gui.industrial_legacy.transformer.output": "Output:",
+  "gui.industrial_legacy.transformer.input": "Input:"
 }

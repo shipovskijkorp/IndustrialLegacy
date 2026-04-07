@@ -2,54 +2,86 @@ package com.shipovskijkorp.industriallegacy.screen;
 
 import com.shipovskijkorp.industriallegacy.block.entity.LvTransformerBlockEntity;
 import com.shipovskijkorp.industriallegacy.registry.ModScreenHandlers;
-import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.screen.ArrayPropertyDelegate;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.slot.Slot;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class LvTransformerScreenHandler extends ScreenHandler {
     public static final int PROP_COUNT = 3;
-    private final LvTransformerBlockEntity be;
-    private final PropertyDelegate props;
 
-    // Client constructor
-    public LvTransformerScreenHandler(int syncId, PlayerInventory inv, PacketByteBuf buf) {
-        this(syncId, inv, getBe(inv.player.getWorld(), buf.readBlockPos()), new net.minecraft.screen.ArrayPropertyDelegate(PROP_COUNT));
+    public final BlockPos pos;
+    private final PropertyDelegate properties;
+
+    public LvTransformerScreenHandler(int syncId, PlayerInventory playerInventory, PacketByteBuf buf) {
+        this(syncId, playerInventory, buf.readBlockPos());
     }
 
-    // Server constructor
-    public LvTransformerScreenHandler(int syncId, PlayerInventory inv, LvTransformerBlockEntity be, PropertyDelegate props) {
+    private LvTransformerScreenHandler(int syncId, PlayerInventory playerInventory, BlockPos pos) {
+        this(syncId, playerInventory, pos, getClientProperties(playerInventory.player.getWorld(), pos));
+    }
+
+    public LvTransformerScreenHandler(int syncId, PlayerInventory playerInventory, LvTransformerBlockEntity blockEntity) {
+        this(syncId, playerInventory, blockEntity.getPos(), blockEntity.getGuiProperties());
+    }
+
+    private LvTransformerScreenHandler(int syncId, PlayerInventory playerInventory, BlockPos pos, PropertyDelegate properties) {
         super(ModScreenHandlers.LV_TRANSFORMER, syncId);
-        this.be = be;
-        this.props = props;
-        addProperties(props);
+        this.pos = pos;
+        this.properties = properties;
+        addProperties(properties);
+        addPlayerInventorySlots(playerInventory);
     }
 
-    private static LvTransformerBlockEntity getBe(World world, BlockPos pos) {
-        var be = world.getBlockEntity(pos);
-        if (!(be instanceof LvTransformerBlockEntity tr)) {
-            throw new IllegalStateException("LV Transformer BE not found at " + pos);
+    private static PropertyDelegate getClientProperties(World world, BlockPos pos) {
+        if (world.getBlockEntity(pos) instanceof LvTransformerBlockEntity transformer) {
+            return transformer.getGuiProperties();
         }
-        return tr;
+        return new ArrayPropertyDelegate(PROP_COUNT);
     }
 
-    public int getLowBuffer() { return props.get(0); }
-    public int getHighBuffer() { return props.get(1); }
-    public int getDotDirId() { return props.get(2); }
+    private void addPlayerInventorySlots(PlayerInventory playerInventory) {
+        final int height = 219;
+        final int xStart = (178 - 162) / 2;
+
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 9; col++) {
+                addSlot(new Slot(playerInventory, col + row * 9 + 9, xStart + col * 18, height - 82 + row * 18));
+            }
+        }
+
+        for (int col = 0; col < 9; col++) {
+            addSlot(new Slot(playerInventory, col, xStart + col * 18, height - 24));
+        }
+    }
+
+    public int getModeOrdinal() {
+        return properties.get(0);
+    }
+
+    public int getInputFlow() {
+        return properties.get(1);
+    }
+
+    public int getOutputFlow() {
+        return properties.get(2);
+    }
 
     @Override
     public boolean canUse(PlayerEntity player) {
-        return true;
+        if (player.getWorld().getBlockEntity(pos) instanceof LvTransformerBlockEntity) {
+            return player.squaredDistanceTo(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5) <= 64.0;
+        }
+        return false;
     }
 
     @Override
-    public ItemStack quickMove(PlayerEntity player, int slot) {
-        // Transformer has no inventory slots (GUI is informational only).
-        return ItemStack.EMPTY;
+    public net.minecraft.item.ItemStack quickMove(PlayerEntity player, int slot) {
+        return net.minecraft.item.ItemStack.EMPTY;
     }
 }

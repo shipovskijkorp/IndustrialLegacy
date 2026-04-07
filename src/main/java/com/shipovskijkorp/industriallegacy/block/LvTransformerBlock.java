@@ -7,16 +7,18 @@ import com.shipovskijkorp.industriallegacy.registry.ModBlocks;
 import com.shipovskijkorp.industriallegacy.registry.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
+import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
-import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateManager;
+import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
@@ -28,43 +30,46 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-import net.minecraft.entity.player.PlayerEntity;
 
 /**
- * LV Transformer (НН): LV <-> MV.
+ * IC2-like LV Transformer.
  *
- * DOT side = high side (MV).
- * Other sides = low side (LV).
+ * <p>The block facing marks the transformer special side. In step-down mode the facing side is the
+ * high-voltage input. In step-up mode the facing side is the high-voltage output.</p>
  */
 public class LvTransformerBlock extends BlockWithEntity implements BlockEntityProvider {
     public static final DirectionProperty DOT = Properties.FACING;
+    public static final BooleanProperty ACTIVE = BooleanProperty.of("active");
 
     public LvTransformerBlock(Settings settings) {
         super(settings);
-        setDefaultState(getStateManager().getDefaultState().with(DOT, Direction.NORTH));
+        setDefaultState(getStateManager().getDefaultState()
+                .with(DOT, Direction.NORTH)
+                .with(ACTIVE, false));
     }
 
-    private static void invalidateAround(World world, BlockPos pos) {
+    public static void invalidateAround(World world, BlockPos pos) {
         if (world == null || world.isClient) return;
+
         EuNetwork.invalidate(world, pos);
-        for (Direction d : Direction.values()) {
-            BlockPos p = pos.offset(d);
-            if (ModBlocks.isCable(world.getBlockState(p).getBlock())) {
-                EuNetwork.invalidate(world, p);
+        for (Direction direction : Direction.values()) {
+            BlockPos neighbor = pos.offset(direction);
+            if (ModBlocks.isCable(world.getBlockState(neighbor).getBlock())) {
+                EuNetwork.invalidate(world, neighbor);
             }
         }
     }
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(DOT);
+        builder.add(DOT, ACTIVE);
     }
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        // Make DOT point to the face the player clicked (IC2-feel: dot is a "specific side")
-        Direction dot = ctx.getSide();
-        return getDefaultState().with(DOT, dot);
+        return getDefaultState()
+                .with(DOT, ctx.getSide())
+                .with(ACTIVE, false);
     }
 
     @Override
@@ -108,28 +113,28 @@ public class LvTransformerBlock extends BlockWithEntity implements BlockEntityPr
     }
 
     @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos,
-                              PlayerEntity player, Hand hand, BlockHitResult hit) {
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         ItemStack held = player.getStackInHand(hand);
 
-        // DOT-set by wrench (у тебя пока есть DebugWrench — используем его)
         if (held.isOf(ModItems.DEBUG_WRENCH)) {
             if (!world.isClient) {
-                Direction newDot = hit.getSide();
-                world.setBlockState(pos, state.with(DOT, newDot), Block.NOTIFY_ALL);
+                world.setBlockState(pos, state.with(DOT, hit.getSide()), Block.NOTIFY_ALL);
+                if (world.getBlockEntity(pos) instanceof LvTransformerBlockEntity transformer) {
+                    transformer.onFacingChanged();
+                }
                 invalidateAround(world, pos);
             }
             return ActionResult.SUCCESS;
         }
 
-        // GUI (интерфейс)
         if (!world.isClient) {
             BlockEntity be = world.getBlockEntity(pos);
-            if (be instanceof LvTransformerBlockEntity tr) {
-                player.openHandledScreen(tr);
+            if (be instanceof LvTransformerBlockEntity transformer) {
+                player.openHandledScreen(transformer);
                 return ActionResult.CONSUME;
             }
         }
+
         return ActionResult.SUCCESS;
     }
 }

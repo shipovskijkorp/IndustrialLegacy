@@ -222,5 +222,10 @@
   "tooltip.industrial_legacy.oxidation.oxidized": "Окисленный",
   "tooltip.industrial_legacy.cable.oxidation": "Окисление: %s",
   "tooltip.industrial_legacy.cable.loss_mult": "Множитель потерь: %sx",
-  "block.industrial_legacy.lv_transformer": "Трансформатор НН"
+  "block.industrial_legacy.lv_transformer": "Трансформатор НН",
+  "gui.industrial_legacy.transformer.switch.mode1": "Редстоун = повышающий",
+  "gui.industrial_legacy.transformer.switch.mode2": "фиксированный понижающий",
+  "gui.industrial_legacy.transformer.switch.mode3": "фиксированный повышающий",
+  "gui.industrial_legacy.transformer.output": "Выход:",
+  "gui.industrial_legacy.transformer.input": "Вход:"
 }
