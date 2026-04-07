@@ -163,7 +163,7 @@ public final class ModBlocks {
 
     public static final Block COPPER_CABLE_0 = registerNoItem(
             "copper_cable_0",
-            new CableBlock(FabricBlockSettings.create().strength(0.2f).sounds(BlockSoundGroup.METAL),
+            new CableBlock(FabricBlockSettings.create().ticksRandomly().strength(0.2f).sounds(BlockSoundGroup.METAL),
                     CableKind.COPPER, 0, "block/wiring/cable/copper_cable_0")
     );
     public static final Block COPPER_CABLE_1 = registerNoItem(
