@@ -37,7 +37,7 @@ import com.shipovskijkorp.industriallegacy.registry.ModBlocks;
  * Output side = {@link #FACING}.
  */
 public class BatBoxBlock extends BlockWithEntity implements BlockEntityProvider {
-    // IC2 storage blocks support all six facings.
+    // IL electric storage blocks can face in all 6 directions.
     // The "output dot" is on the front face.
     public static final DirectionProperty FACING = Properties.FACING;
 
@@ -65,18 +65,8 @@ public class BatBoxBlock extends BlockWithEntity implements BlockEntityProvider 
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return getDefaultState().with(FACING, getPlacementFacing(ctx));
-    }
-
-    private static Direction getPlacementFacing(ItemPlacementContext ctx) {
-        // IC2 storage blocks choose the face opposite to the player's look direction,
-        // which allows placing them vertically as well as horizontally.
-        if (ctx.getPlayer() != null) {
-            return ctx.getPlayerLookDirection().getOpposite();
-        }
-
-        Direction clickedSide = ctx.getSide();
-        return clickedSide.getOpposite();
+        // IL: when placed, the front/output face points towards the player.
+        return getDefaultState().with(FACING, ctx.getPlayerLookDirection().getOpposite());
     }
     @Override
     public void onPlaced(World world, BlockPos pos, BlockState state,

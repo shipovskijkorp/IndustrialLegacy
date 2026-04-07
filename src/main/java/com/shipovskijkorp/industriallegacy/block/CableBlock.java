@@ -32,6 +32,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldEvents;
@@ -46,6 +48,21 @@ import java.util.List;
  * by {@code CableBlockEntityRenderer} with the original IL textures.</p>
  */
 public class CableBlock extends BlockWithEntity {
+
+    /**
+     * Vanilla copper uses an additional per-random-tick gate before the neighborhood check.
+     * We keep a similar gate so isolated cables oxidize slowly even at the default randomTickSpeed.
+     */
+    private static final float OXIDATION_BASE_CHANCE = 0.05688889F;
+    /**
+     * Clean copper is slightly slower to start oxidizing, matching the feel of vanilla copper.
+     */
+    private static final float UNAFFECTED_MULTIPLIER = 0.75F;
+    /**
+     * Same-stage neighbors accelerate oxidation. With no neighbors the block is intentionally slow;
+     * clusters ramp up to the capped base chance.
+     */
+    private static final int FULL_CLUSTER_NEIGHBOR_COUNT = 4;
 
     private static void invalidateAround(World world, BlockPos pos) {
         EuNetwork.invalidate(world, pos);
@@ -87,6 +104,86 @@ public class CableBlock extends BlockWithEntity {
             w += insulation * (2.0f / 16.0f);
         }
         return Math.max(2.0f / 16.0f, Math.min(1.0f, w));
+    }
+
+    private boolean isOxidizableCopperCable() {
+        return this.kind == CableKind.COPPER && this.insulation == 0;
+    }
+
+    @Override
+    public boolean hasRandomTicks(BlockState state) {
+        return isOxidizableCopperCable();
+    }
+
+    @Override
+    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+        super.randomTick(state, world, pos, random);
+
+        if (!isOxidizableCopperCable()) {
+            return;
+        }
+
+        BlockEntity be = world.getBlockEntity(pos);
+        if (!(be instanceof CableBlockEntity cableBe)) {
+            return;
+        }
+
+        int currentOxidation = cableBe.getOxidationLevel();
+        if (currentOxidation >= 3) {
+            return;
+        }
+
+        // Vanilla-like extra gate so random ticks do not instantly age fresh placements.
+        float stageMultiplier = currentOxidation == 0 ? UNAFFECTED_MULTIPLIER : 1.0F;
+        if (random.nextFloat() >= OXIDATION_BASE_CHANCE * stageMultiplier) {
+            return;
+        }
+
+        int same = 0;
+
+        for (int dx = -4; dx <= 4; dx++) {
+            for (int dy = -4; dy <= 4; dy++) {
+                for (int dz = -4; dz <= 4; dz++) {
+                    int manhattan = Math.abs(dx) + Math.abs(dy) + Math.abs(dz);
+                    if (manhattan == 0 || manhattan > 4) {
+                        continue;
+                    }
+
+                    BlockPos otherPos = pos.add(dx, dy, dz);
+                    BlockState otherState = world.getBlockState(otherPos);
+                    if (!(otherState.getBlock() instanceof CableBlock otherCable)) {
+                        continue;
+                    }
+
+                    // Insulation behaves like wax: insulated copper cables do not participate.
+                    if (otherCable.getKind() != CableKind.COPPER || otherCable.getInsulation() != 0) {
+                        continue;
+                    }
+
+                    BlockEntity otherBe = world.getBlockEntity(otherPos);
+                    if (!(otherBe instanceof CableBlockEntity otherCableBe)) {
+                        continue;
+                    }
+
+                    int otherOxidation = otherCableBe.getOxidationLevel();
+                    if (otherOxidation > currentOxidation) {
+                        // Per the requested behavior: a more-oxidized neighbor is a hard stop.
+                        return;
+                    }
+                    if (otherOxidation == currentOxidation) {
+                        same++;
+                    }
+                }
+            }
+        }
+
+        float clusterFactor = Math.min(1.0F, (same + 1.0F) / FULL_CLUSTER_NEIGHBOR_COUNT);
+        if (random.nextFloat() >= clusterFactor) {
+            return;
+        }
+
+        cableBe.setOxidationLevel(currentOxidation + 1);
+        com.shipovskijkorp.industriallegacy.energy.EuNetwork.invalidate(world, pos);
     }
 
     @Override

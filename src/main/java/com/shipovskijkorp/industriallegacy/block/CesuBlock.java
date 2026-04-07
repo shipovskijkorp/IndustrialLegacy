@@ -61,18 +61,7 @@ public class CesuBlock extends BlockWithEntity implements BlockEntityProvider {
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return getDefaultState().with(FACING, getPlacementFacing(ctx));
-    }
-
-    private static Direction getPlacementFacing(ItemPlacementContext ctx) {
-        // IC2 storage blocks choose the face opposite to the player's look direction,
-        // which allows placing them vertically as well as horizontally.
-        if (ctx.getPlayer() != null) {
-            return ctx.getPlayerLookDirection().getOpposite();
-        }
-
-        Direction clickedSide = ctx.getSide();
-        return clickedSide.getOpposite();
+        return getDefaultState().with(FACING, ctx.getPlayerLookDirection().getOpposite());
     }
 
     @Override

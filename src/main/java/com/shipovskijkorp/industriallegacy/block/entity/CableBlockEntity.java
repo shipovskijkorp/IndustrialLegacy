@@ -41,7 +41,6 @@ public class CableBlockEntity extends BlockEntity {
 
     // Copper cable oxidation (IL extension; only for COPPER + insulation=0)
     private int oxidationLevel = 0; // 0 clean, 1 exposed, 2 weathered, 3 oxidized
-    private int oxidationTicker = 0;
 
     public CableBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.CABLE, pos, state);
@@ -112,14 +111,6 @@ public class CableBlockEntity extends BlockEntity {
         }
     }
 
-    
-    private static boolean isCopperUninsulated(CableBlock cb) {
-        return cb.getKind() == CableKind.COPPER && cb.getInsulation() == 0;
-    }
-
-
-    private static final int COPPER_OXIDATION_CHECK_INTERVAL = 1200; // ~60s between checks
-    private static final int COPPER_OXIDATION_STAGE_CHANCE = 20;      // ~20 min average per stage
 
     /** Server tick; wired from {@link CableBlock#getTicker}. */
     public static void tick(World world, BlockPos pos, BlockState state, CableBlockEntity be) {
@@ -127,24 +118,6 @@ public class CableBlockEntity extends BlockEntity {
         if (!(state.getBlock() instanceof CableBlock cb)) return;
 
         CableKind kind = cb.getKind();
-
-        // Copper oxidation: only COPPER + insulation=0. Insulated cables never oxidize.
-        //
-        // The previous implementation aged cables far too quickly and could even oxidize a
-        // freshly placed cable on the very first tick. Vanilla copper weathering is much
-        // slower, so we model it as a coarse periodic check with a small chance per stage.
-        if (isCopperUninsulated(cb) && be.oxidationLevel < 3) {
-            if (++be.oxidationTicker >= COPPER_OXIDATION_CHECK_INTERVAL) {
-                be.oxidationTicker = 0;
-
-                if (world.random.nextInt(COPPER_OXIDATION_STAGE_CHANCE) == 0) {
-                    be.oxidationLevel++;
-                    be.markDirty();
-                    be.sync();
-                    com.shipovskijkorp.industriallegacy.energy.EuNetwork.invalidate(world, pos);
-                }
-            }
-        }
 
         // Splitter: active state is purely redstone-controlled (matches IL load/unload toggle).
         if (kind == CableKind.SPLITTER) {
@@ -230,7 +203,6 @@ public class CableBlockEntity extends BlockEntity {
         this.energyInWindow = nbt.getDouble("energyInWindow");
         this.ticker = nbt.getInt("ticker");
         this.oxidationLevel = nbt.getInt("ox");
-        this.oxidationTicker = nbt.getInt("ox_t");
     }
 
     @Override
@@ -243,7 +215,6 @@ public class CableBlockEntity extends BlockEntity {
         nbt.putDouble("energyInWindow", this.energyInWindow);
         nbt.putInt("ticker", this.ticker);
         nbt.putInt("ox", this.oxidationLevel);
-        nbt.putInt("ox_t", this.oxidationTicker);
     }
 
     @Override
