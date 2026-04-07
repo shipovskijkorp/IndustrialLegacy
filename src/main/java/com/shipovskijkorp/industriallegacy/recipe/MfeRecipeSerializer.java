@@ -15,9 +15,9 @@ import net.minecraft.util.JsonHelper;
  *
  * JSON format:
  * {
- *   "type": "industrial_legacy:cesu",
+ *   "type": "industrial_legacy:mfe",
  *   "category": "misc",
- *   "result": { "item": "industrial_legacy:cesu" }
+ *   "result": { "item": "industrial_legacy:mfe" }
  * }
  */
 public final class MfeRecipeSerializer implements RecipeSerializer<MfeRecipe> {
@@ -26,15 +26,15 @@ public final class MfeRecipeSerializer implements RecipeSerializer<MfeRecipe> {
     public MfeRecipe read(Identifier id, JsonObject json) {
         CraftingRecipeCategory category = CraftingRecipeCategory.MISC;
         if (json.has("category")) {
-            String c = JsonHelper.getString(json, "category");
+            String rawCategory = JsonHelper.getString(json, "category");
             try {
-                category = CraftingRecipeCategory.valueOf(c.toUpperCase());
+                category = CraftingRecipeCategory.valueOf(rawCategory.toUpperCase());
             } catch (IllegalArgumentException ignored) {
                 category = CraftingRecipeCategory.MISC;
             }
         }
 
-        ItemStack result = ModBlocks.CESU.asItem().getDefaultStack();
+        ItemStack result = ModBlocks.MFE.asItem().getDefaultStack();
         if (json.has("result")) {
             result = ShapedRecipe.outputFromJson(JsonHelper.getObject(json, "result"));
         }

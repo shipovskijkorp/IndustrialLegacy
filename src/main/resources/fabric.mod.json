@@ -22,8 +22,7 @@
       "com.shipovskijkorp.industriallegacy.IndustrialLegacy"
     ],
     "client": [
-      "com.shipovskijkorp.industriallegacy.client.IndustrialLegacyClient",
-      "com.shipovskijkorp.industriallegacy.client.IndustrialLegacyGuiClient"
+      "com.shipovskijkorp.industriallegacy.client.IndustrialLegacyClient"
     ]
   },
   "depends": {

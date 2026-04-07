@@ -16,16 +16,16 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
 /**
- * CESU recipe:
- *  P C P
- *  A A A
- *  P P P
+ * MFE recipe:
+ *  G E G
+ *  E M E
+ *  G E G
  *
- * P = bronze plate
- * A = advanced battery
- * C = copper cable (insulation = 1)
+ * G = gold cable (insulation = 2)
+ * E = energy crystal
+ * M = machine casing
  *
- * Result: mfe
+ * Result: MFE
  */
 public final class MfeRecipe extends SpecialCraftingRecipe {
 
@@ -44,17 +44,14 @@ public final class MfeRecipe extends SpecialCraftingRecipe {
     public boolean matches(RecipeInputInventory inv, World world) {
         if (inv.getWidth() != 3 || inv.getHeight() != 3) return false;
 
-        // Row 0: P C P
         if (!isGoldCableIns2(inv.getStack(0))) return false;
         if (!inv.getStack(1).isOf(ModItems.ENERGY_CRYSTAL)) return false;
         if (!isGoldCableIns2(inv.getStack(2))) return false;
 
-        // Row 1: A A A
         if (!inv.getStack(3).isOf(ModItems.ENERGY_CRYSTAL)) return false;
         if (!inv.getStack(4).isOf(ModBlocks.MACHINE_CASING.asItem())) return false;
         if (!inv.getStack(5).isOf(ModItems.ENERGY_CRYSTAL)) return false;
 
-        // Row 2: P P P
         if (!isGoldCableIns2(inv.getStack(6))) return false;
         if (!inv.getStack(7).isOf(ModItems.ENERGY_CRYSTAL)) return false;
         if (!isGoldCableIns2(inv.getStack(8))) return false;
@@ -62,10 +59,10 @@ public final class MfeRecipe extends SpecialCraftingRecipe {
         return true;
     }
 
-    private static boolean isGoldCableIns2(ItemStack s) {
-        if (s.isEmpty() || !(s.getItem() instanceof CableItem)) return false;
-        if (CableItem.getKind(s) != CableKind.GOLD) return false;
-        return CableItem.getInsulation(s) == 2;
+    private static boolean isGoldCableIns2(ItemStack stack) {
+        if (stack.isEmpty() || !(stack.getItem() instanceof CableItem)) return false;
+        if (CableItem.getKind(stack) != CableKind.GOLD) return false;
+        return CableItem.getInsulation(stack) == 2;
     }
 
     @Override

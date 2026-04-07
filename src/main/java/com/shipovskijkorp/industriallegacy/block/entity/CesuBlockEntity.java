@@ -36,7 +36,7 @@ import net.minecraft.entity.player.PlayerEntity;
  * - input on all other sides
  * - 1 packet per tick (full packets only, like IL's "fullEnergy" behavior)
  */
-public class CesuBlockEntity extends BlockEntity implements SidedInventory, IEuEnergyStorage, ExtendedScreenHandlerFactory {
+public class CesuBlockEntity extends BlockEntity implements SidedInventory, IEuEnergyStorage, ExtendedScreenHandlerFactory, RedstoneModeCycleTarget {
     // Inventory layout (IL-ish):
     // 0 = charge (top)
     // 1 = discharge (bottom)
