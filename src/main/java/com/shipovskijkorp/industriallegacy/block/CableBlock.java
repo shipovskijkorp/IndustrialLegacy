@@ -140,6 +140,7 @@ public class CableBlock extends BlockWithEntity {
         }
 
         int same = 0;
+        boolean hasHigherOxidationNeighbor = false;
 
         for (int dx = -4; dx <= 4; dx++) {
             for (int dy = -4; dy <= 4; dy++) {
@@ -167,8 +168,7 @@ public class CableBlock extends BlockWithEntity {
 
                     int otherOxidation = otherCableBe.getOxidationLevel();
                     if (otherOxidation > currentOxidation) {
-                        // Per the requested behavior: a more-oxidized neighbor is a hard stop.
-                        return;
+                        hasHigherOxidationNeighbor = true;
                     }
                     if (otherOxidation == currentOxidation) {
                         same++;
@@ -178,6 +178,9 @@ public class CableBlock extends BlockWithEntity {
         }
 
         float clusterFactor = Math.min(1.0F, (same + 1.0F) / FULL_CLUSTER_NEIGHBOR_COUNT);
+        if (hasHigherOxidationNeighbor) {
+            clusterFactor *= 0.5F;
+        }
         if (random.nextFloat() >= clusterFactor) {
             return;
         }
