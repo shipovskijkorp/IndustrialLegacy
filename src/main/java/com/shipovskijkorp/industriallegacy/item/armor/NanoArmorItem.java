@@ -81,7 +81,9 @@ public class NanoArmorItem extends ArmorItem implements IElectricItem {
 
     @Override
     public boolean isItemBarVisible(ItemStack stack) {
-        return true;
+        long cap = getCapacity(stack);
+        if (cap <= 0L) return false;
+        return getEnergy(stack) < cap;
     }
 
     @Override

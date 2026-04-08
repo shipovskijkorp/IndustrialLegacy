@@ -75,7 +75,7 @@ public class EnergyMachineBlockItem extends BlockItem {
 
     @Override
     public boolean isItemBarVisible(ItemStack stack) {
-        return chargeable && getStoredEnergy(stack) > 0L;
+        return false;
     }
 
     @Override

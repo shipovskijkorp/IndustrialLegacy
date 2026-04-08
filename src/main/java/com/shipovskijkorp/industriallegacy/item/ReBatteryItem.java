@@ -89,8 +89,9 @@ public final class ReBatteryItem extends Item implements IElectricItem {
 
     @Override
     public boolean isItemBarVisible(ItemStack stack) {
-        // Show charge bar always (IL-like).
-        return true;
+        long cap = getCapacity(stack);
+        if (cap <= 0L) return false;
+        return getEnergy(stack) < cap;
     }
 
     @Override

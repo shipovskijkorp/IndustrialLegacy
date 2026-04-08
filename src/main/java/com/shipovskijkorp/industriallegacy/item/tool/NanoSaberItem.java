@@ -195,7 +195,9 @@ public final class NanoSaberItem extends SwordItem implements IElectricItem {
     // Always show charge bar (like Nano armor)
     @Override
     public boolean isItemBarVisible(ItemStack stack) {
-        return true;
+        long cap = getCapacity(stack);
+        if (cap <= 0L) return false;
+        return getEnergy(stack) < cap;
     }
 
     @Override
