@@ -75,6 +75,15 @@ public final class ModBlocks {
     public static final Block LV_TRANSFORMER = register("lv_transformer",
             new LvTransformerBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).strength(2.0f).nonOpaque()));
 
+    public static final Block MV_TRANSFORMER = register("mv_transformer",
+            new MvTransformerBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).strength(2.0f).nonOpaque()));
+
+    public static final Block HV_TRANSFORMER = register("hv_transformer",
+            new HvTransformerBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).strength(2.0f).nonOpaque()));
+
+    public static final Block EV_TRANSFORMER = register("ev_transformer",
+            new EvTransformerBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).strength(2.0f).nonOpaque()));
+
 
     /**
      * Iron Furnace — upgraded furnace (8s smelt, vanilla fuel burn time).

@@ -27,6 +27,21 @@ public final class ModBlockEntities {
                     id("lv_transformer"),
                     FabricBlockEntityTypeBuilder.create(LvTransformerBlockEntity::new, ModBlocks.LV_TRANSFORMER).build());
 
+    public static final BlockEntityType<MvTransformerBlockEntity> MV_TRANSFORMER =
+            Registry.register(Registries.BLOCK_ENTITY_TYPE,
+                    id("mv_transformer"),
+                    FabricBlockEntityTypeBuilder.create(MvTransformerBlockEntity::new, ModBlocks.MV_TRANSFORMER).build());
+
+    public static final BlockEntityType<HvTransformerBlockEntity> HV_TRANSFORMER =
+            Registry.register(Registries.BLOCK_ENTITY_TYPE,
+                    id("hv_transformer"),
+                    FabricBlockEntityTypeBuilder.create(HvTransformerBlockEntity::new, ModBlocks.HV_TRANSFORMER).build());
+
+    public static final BlockEntityType<EvTransformerBlockEntity> EV_TRANSFORMER =
+            Registry.register(Registries.BLOCK_ENTITY_TYPE,
+                    id("ev_transformer"),
+                    FabricBlockEntityTypeBuilder.create(EvTransformerBlockEntity::new, ModBlocks.EV_TRANSFORMER).build());
+
 
     public static final BlockEntityType<BatBoxBlockEntity> BATBOX = Registry.register(
             Registries.BLOCK_ENTITY_TYPE,

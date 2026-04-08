@@ -3,7 +3,7 @@ package com.shipovskijkorp.industriallegacy.client.screen;
 import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
 import com.shipovskijkorp.industriallegacy.net.ModPackets;
 import com.shipovskijkorp.industriallegacy.registry.ModItems;
-import com.shipovskijkorp.industriallegacy.screen.LvTransformerScreenHandler;
+import com.shipovskijkorp.industriallegacy.screen.HvTransformerScreenHandler;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.gui.DrawContext;
@@ -13,10 +13,10 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-public class LvTransformerScreen extends HandledScreen<LvTransformerScreenHandler> {
+public class HvTransformerScreen extends HandledScreen<HvTransformerScreenHandler> {
     private static final Identifier BACKGROUND = new Identifier(IndustrialLegacy.MOD_ID, "textures/gui/guitransfomer.png");
 
-    public LvTransformerScreen(LvTransformerScreenHandler handler, PlayerInventory inventory, Text title) {
+    public HvTransformerScreen(HvTransformerScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
         this.backgroundWidth = 176;
         this.backgroundHeight = 219;

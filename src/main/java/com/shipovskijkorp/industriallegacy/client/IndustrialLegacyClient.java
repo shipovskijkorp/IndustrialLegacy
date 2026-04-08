@@ -7,6 +7,9 @@ import com.shipovskijkorp.industriallegacy.client.screen.CesuScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.CompressorScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.GeneratorScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.LvTransformerScreen;
+import com.shipovskijkorp.industriallegacy.client.screen.MvTransformerScreen;
+import com.shipovskijkorp.industriallegacy.client.screen.HvTransformerScreen;
+import com.shipovskijkorp.industriallegacy.client.screen.EvTransformerScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.MaceratorScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.MfeScreen;
 import com.shipovskijkorp.industriallegacy.energy.item.ElectricItemManager;
@@ -94,6 +97,9 @@ public class IndustrialLegacyClient implements ClientModInitializer {
         HandledScreens.register(ModScreenHandlers.MACERATOR, MaceratorScreen::new);
         HandledScreens.register(ModScreenHandlers.COMPRESSOR, CompressorScreen::new);
         HandledScreens.register(ModScreenHandlers.LV_TRANSFORMER, LvTransformerScreen::new);
+        HandledScreens.register(ModScreenHandlers.MV_TRANSFORMER, MvTransformerScreen::new);
+        HandledScreens.register(ModScreenHandlers.HV_TRANSFORMER, HvTransformerScreen::new);
+        HandledScreens.register(ModScreenHandlers.EV_TRANSFORMER, EvTransformerScreen::new);
     }
 
     private static void registerRenderers() {

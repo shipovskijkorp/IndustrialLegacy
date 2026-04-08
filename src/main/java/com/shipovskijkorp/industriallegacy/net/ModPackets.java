@@ -1,7 +1,10 @@
 package com.shipovskijkorp.industriallegacy.net;
 
 import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
+import com.shipovskijkorp.industriallegacy.block.entity.EvTransformerBlockEntity;
+import com.shipovskijkorp.industriallegacy.block.entity.HvTransformerBlockEntity;
 import com.shipovskijkorp.industriallegacy.block.entity.LvTransformerBlockEntity;
+import com.shipovskijkorp.industriallegacy.block.entity.MvTransformerBlockEntity;
 import com.shipovskijkorp.industriallegacy.block.entity.RedstoneModeCycleTarget;
 import com.shipovskijkorp.industriallegacy.item.nvg.INightVisionModule;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -62,7 +65,14 @@ public final class ModPackets {
             return;
         }
 
-        if (player.getWorld().getBlockEntity(pos) instanceof LvTransformerBlockEntity transformer) {
+        var blockEntity = player.getWorld().getBlockEntity(pos);
+        if (blockEntity instanceof LvTransformerBlockEntity transformer) {
+            transformer.handleClientEvent(eventId);
+        } else if (blockEntity instanceof MvTransformerBlockEntity transformer) {
+            transformer.handleClientEvent(eventId);
+        } else if (blockEntity instanceof HvTransformerBlockEntity transformer) {
+            transformer.handleClientEvent(eventId);
+        } else if (blockEntity instanceof EvTransformerBlockEntity transformer) {
             transformer.handleClientEvent(eventId);
         }
     }

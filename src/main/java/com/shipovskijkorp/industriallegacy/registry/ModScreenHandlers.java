@@ -15,12 +15,24 @@ public final class ModScreenHandlers {
     public static final Identifier BATBOX_ID = new Identifier(IndustrialLegacy.MOD_ID, "batbox");
     public static final Identifier CESU_ID = new Identifier(IndustrialLegacy.MOD_ID, "cesu");
     public static final Identifier MFE_ID = new Identifier(IndustrialLegacy.MOD_ID, "mfe");
+    public static final Identifier MV_TRANSFORMER_ID = new Identifier(IndustrialLegacy.MOD_ID, "mv_transformer");
+    public static final Identifier HV_TRANSFORMER_ID = new Identifier(IndustrialLegacy.MOD_ID, "hv_transformer");
+    public static final Identifier EV_TRANSFORMER_ID = new Identifier(IndustrialLegacy.MOD_ID, "ev_transformer");
     public static final ScreenHandlerType<MaceratorScreenHandler> MACERATOR =
             Registry.register(Registries.SCREEN_HANDLER, new Identifier(IndustrialLegacy.MOD_ID, "macerator"),
                     new ExtendedScreenHandlerType<>(MaceratorScreenHandler::new));
     public static final ScreenHandlerType<LvTransformerScreenHandler> LV_TRANSFORMER =
             Registry.register(Registries.SCREEN_HANDLER, new Identifier(IndustrialLegacy.MOD_ID, "lv_transformer"),
                     new ExtendedScreenHandlerType<>(LvTransformerScreenHandler::new));
+    public static final ScreenHandlerType<MvTransformerScreenHandler> MV_TRANSFORMER =
+            Registry.register(Registries.SCREEN_HANDLER, new Identifier(IndustrialLegacy.MOD_ID, "mv_transformer"),
+                    new ExtendedScreenHandlerType<>(MvTransformerScreenHandler::new));
+    public static final ScreenHandlerType<HvTransformerScreenHandler> HV_TRANSFORMER =
+            Registry.register(Registries.SCREEN_HANDLER, new Identifier(IndustrialLegacy.MOD_ID, "hv_transformer"),
+                    new ExtendedScreenHandlerType<>(HvTransformerScreenHandler::new));
+    public static final ScreenHandlerType<EvTransformerScreenHandler> EV_TRANSFORMER =
+            Registry.register(Registries.SCREEN_HANDLER, new Identifier(IndustrialLegacy.MOD_ID, "ev_transformer"),
+                    new ExtendedScreenHandlerType<>(EvTransformerScreenHandler::new));
 
 
     public static final ScreenHandlerType<CompressorScreenHandler> COMPRESSOR = Registry.register(

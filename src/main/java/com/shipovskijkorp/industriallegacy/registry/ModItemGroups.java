@@ -49,6 +49,10 @@ public final class ModItemGroups {
                         add.accept(ModBlocks.BATBOX);
                         add.accept(ModBlocks.CESU);
                         add.accept(ModBlocks.MFE);
+                        add.accept(ModBlocks.LV_TRANSFORMER);
+                        add.accept(ModBlocks.MV_TRANSFORMER);
+                        add.accept(ModBlocks.HV_TRANSFORMER);
+                        add.accept(ModBlocks.EV_TRANSFORMER);
                         add.accept(ModBlocks.IRON_FURNACE);
                         add.accept(ModBlocks.MACERATOR);
                         add.accept(ModBlocks.COMPRESSOR);
