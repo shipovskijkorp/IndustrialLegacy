@@ -22,8 +22,6 @@ public class MetalFormerScreen extends HandledScreen<MetalFormerScreenHandler> {
 
     private static final int ENERGY_BOLT_X = 20;
     private static final int ENERGY_BOLT_Y = 37;
-    private static final int PROGRESS_X = 52;
-    private static final int PROGRESS_Y = 39;
 
     private static final int MODE_BUTTON_X = 65;
     private static final int MODE_BUTTON_Y = 53;
@@ -90,8 +88,9 @@ public class MetalFormerScreen extends HandledScreen<MetalFormerScreenHandler> {
         float eRatio = handler.getEnergyCap() <= 0 ? 0f : (handler.getEnergy() / (float) handler.getEnergyCap());
         IlGuiDraw.drawEnergyBoltFramed(ctx, x + ENERGY_BOLT_X, y + ENERGY_BOLT_Y, eRatio);
 
-        float pRatio = handler.getMaxProgress() <= 0 ? 0f : (handler.getProgress() / (float) handler.getMaxProgress());
-        IlGuiDraw.drawProgressTriangle(ctx, x + PROGRESS_X, y + PROGRESS_Y, pRatio);
+        // No triangle progress overlay here: the Metal Former GUI should keep the center clean.
+        // Draw a framed mode switch button like the previous UI instead.
+        IlGuiDraw.drawSlot(ctx, x + MODE_BUTTON_X + 1, y + MODE_BUTTON_Y + 1);
     }
 
     @Override
