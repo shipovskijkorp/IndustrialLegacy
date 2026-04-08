@@ -1,0 +1,11 @@
+{
+  "type": "industrial_legacy:macerator",
+  "ingredient": {
+    "item": "minecraft:spider_eye"
+  },
+  "result": {
+    "item": "industrial_legacy:grin_powder",
+    "count": 2
+  },
+  "ticks": 300
+}

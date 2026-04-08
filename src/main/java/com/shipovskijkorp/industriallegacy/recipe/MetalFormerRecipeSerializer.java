@@ -1,7 +1,11 @@
 package com.shipovskijkorp.industriallegacy.recipe;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.shipovskijkorp.industriallegacy.item.CableItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.StringNbtReader;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
@@ -25,6 +29,19 @@ public class MetalFormerRecipeSerializer implements RecipeSerializer<MetalFormer
         int ticks = JsonHelper.getInt(json, "ticks", 200);
         int inputCount = JsonHelper.getInt(json, "input_count", 1);
         ItemStack out = new ItemStack(Registries.ITEM.get(itemId), count);
+
+        if (res.has("nbt")) {
+            try {
+                out.setNbt(StringNbtReader.parse(JsonHelper.getString(res, "nbt")));
+            } catch (CommandSyntaxException e) {
+                throw new JsonParseException("Invalid result.nbt in metal former recipe " + id, e);
+            }
+        }
+
+        if (out.getItem() instanceof CableItem) {
+            CableItem.syncVisualVariant(out);
+        }
+
         return new MetalFormerRecipe(id, ing, out, ticks, inputCount, type, this);
     }
 

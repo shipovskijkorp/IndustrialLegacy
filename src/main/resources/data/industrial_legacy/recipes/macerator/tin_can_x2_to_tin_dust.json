@@ -1,0 +1,12 @@
+{
+  "type": "industrial_legacy:macerator",
+  "ingredient": {
+    "item": "industrial_legacy:tin_can"
+  },
+  "input_count": 2,
+  "result": {
+    "item": "industrial_legacy:tin_dust",
+    "count": 1
+  },
+  "ticks": 300
+}

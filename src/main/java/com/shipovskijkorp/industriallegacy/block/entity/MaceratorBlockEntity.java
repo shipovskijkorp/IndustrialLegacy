@@ -127,7 +127,7 @@ public class MaceratorBlockEntity extends BlockEntity implements SidedInventory,
         progress++;
 
         if (progress >= maxProgress) {
-            in.decrement(1);
+            in.decrement(recipe.getIngredientCount());
             insertOutput(result);
             progress = 0;
         }

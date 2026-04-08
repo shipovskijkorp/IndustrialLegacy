@@ -1,0 +1,13 @@
+{
+  "type": "industrial_legacy:metal_former_extruding",
+  "ingredient": {
+    "item": "minecraft:gold_ingot"
+  },
+  "input_count": 1,
+  "result": {
+    "item": "industrial_legacy:cable",
+    "count": 4,
+    "nbt": "{kind:\"gold\",insulation:0}"
+  },
+  "ticks": 200
+}

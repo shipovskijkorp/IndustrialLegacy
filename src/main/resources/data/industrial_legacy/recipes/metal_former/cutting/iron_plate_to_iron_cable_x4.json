@@ -1,0 +1,13 @@
+{
+  "type": "industrial_legacy:metal_former_cutting",
+  "ingredient": {
+    "item": "industrial_legacy:iron_plate"
+  },
+  "input_count": 1,
+  "result": {
+    "item": "industrial_legacy:cable",
+    "count": 4,
+    "nbt": "{kind:\"iron\",insulation:0}"
+  },
+  "ticks": 200
+}

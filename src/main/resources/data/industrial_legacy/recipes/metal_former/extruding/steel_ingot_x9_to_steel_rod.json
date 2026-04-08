@@ -1,0 +1,12 @@
+{
+  "type": "industrial_legacy:metal_former_extruding",
+  "ingredient": {
+    "item": "industrial_legacy:steel_ingot"
+  },
+  "input_count": 9,
+  "result": {
+    "item": "industrial_legacy:steel_rod",
+    "count": 1
+  },
+  "ticks": 200
+}
