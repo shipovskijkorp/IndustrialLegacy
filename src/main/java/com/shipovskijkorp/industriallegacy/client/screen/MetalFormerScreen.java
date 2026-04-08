@@ -19,6 +19,7 @@ import net.minecraft.util.Identifier;
 
 public class MetalFormerScreen extends HandledScreen<MetalFormerScreenHandler> {
     private static final Identifier BACKGROUND = new Identifier(IndustrialLegacy.MOD_ID, "textures/gui/guimetalformer.png");
+    private static final Identifier MODE_BUTTON = new Identifier(IndustrialLegacy.MOD_ID, "textures/gui/button_enabled.png");
 
     private static final int ENERGY_BOLT_X = 20;
     private static final int ENERGY_BOLT_Y = 37;
@@ -88,9 +89,7 @@ public class MetalFormerScreen extends HandledScreen<MetalFormerScreenHandler> {
         float eRatio = handler.getEnergyCap() <= 0 ? 0f : (handler.getEnergy() / (float) handler.getEnergyCap());
         IlGuiDraw.drawEnergyBoltFramed(ctx, x + ENERGY_BOLT_X, y + ENERGY_BOLT_Y, eRatio);
 
-        // No triangle progress overlay here: the Metal Former GUI should keep the center clean.
-        // Draw a framed mode switch button like the previous UI instead.
-        IlGuiDraw.drawSlot(ctx, x + MODE_BUTTON_X + 1, y + MODE_BUTTON_Y + 1);
+        ctx.drawTexture(MODE_BUTTON, x + MODE_BUTTON_X, y + MODE_BUTTON_Y, 0, 0, MODE_BUTTON_W, MODE_BUTTON_H, MODE_BUTTON_W, MODE_BUTTON_H);
     }
 
     @Override
