@@ -125,6 +125,15 @@ public interface IEuEnergyStorage {
     /**
      * Draw energy from a source like IL: returns actually drawn amount.
      */
+
+    /**
+     * Allows charged block items to push their stored EU into a freshly placed block entity.
+     * Default no-op so existing machines do not need to implement it.
+     */
+    default void setStoredEnergyFromItem(long amount) {
+        // no-op by default
+    }
+
     default double drawEnergy(double amount, boolean simulate) {
         if (amount <= 0.0) return 0.0;
 

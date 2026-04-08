@@ -4,6 +4,8 @@ import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
 import com.shipovskijkorp.industriallegacy.item.CableItem;
 import com.shipovskijkorp.industriallegacy.item.CableKind;
 import com.shipovskijkorp.industriallegacy.item.CableVariants;
+import com.shipovskijkorp.industriallegacy.item.EnergyMachineBlockItem;
+import com.shipovskijkorp.industriallegacy.energy.item.ElectricItemManager;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemGroup;
@@ -42,6 +44,22 @@ public final class ModItemGroups {
                             }
                         };
 
+                        java.util.function.Consumer<ItemConvertible> addCharged = (it) -> {
+                            ItemStack stack = new ItemStack(it);
+                            if (stack.getItem() instanceof com.shipovskijkorp.industriallegacy.energy.item.IElectricItem) {
+                                ElectricItemManager.setEnergy(stack, ElectricItemManager.getCapacity(stack));
+                                entries.add(stack);
+                            }
+                        };
+
+                        java.util.function.Consumer<ItemConvertible> addChargedBlock = (it) -> {
+                            ItemStack stack = new ItemStack(it);
+                            if (stack.getItem() instanceof EnergyMachineBlockItem energyBlockItem && energyBlockItem.isChargeable()) {
+                                energyBlockItem.setStoredEnergy(stack, energyBlockItem.getChargeCapacity());
+                                entries.add(stack);
+                            }
+                        };
+
                         // ------------------------------
                         // Machines / energy blocks
                         // ------------------------------
@@ -50,9 +68,9 @@ public final class ModItemGroups {
                         add.accept(ModBlocks.CESU);
                         add.accept(ModBlocks.MFE);
                         add.accept(ModBlocks.LV_TRANSFORMER);
-                        add.accept(ModBlocks.MV_TRANSFORMER);
-                        add.accept(ModBlocks.HV_TRANSFORMER);
-                        add.accept(ModBlocks.EV_TRANSFORMER);
+                        addChargedBlock.accept(ModBlocks.BATBOX);
+                        addChargedBlock.accept(ModBlocks.CESU);
+                        addChargedBlock.accept(ModBlocks.MFE);
                         add.accept(ModBlocks.IRON_FURNACE);
                         add.accept(ModBlocks.MACERATOR);
                         add.accept(ModBlocks.COMPRESSOR);
@@ -103,16 +121,25 @@ public final class ModItemGroups {
                         add.accept(ModItems.RE_BATTERY);
                         add.accept(ModItems.ADVANCED_RE_BATTERY);
                         add.accept(ModItems.ENERGY_CRYSTAL);
+                        addCharged.accept(ModItems.RE_BATTERY);
+                        addCharged.accept(ModItems.ADVANCED_RE_BATTERY);
+                        addCharged.accept(ModItems.ENERGY_CRYSTAL);
 
                         // Night Vision
                         add.accept(ModItems.NIGHTVISION_GOGGLES);
                         add.accept(ModItems.NANO_SABER);
+                        addCharged.accept(ModItems.NIGHTVISION_GOGGLES);
+                        addCharged.accept(ModItems.NANO_SABER);
 
                         // NanoSuit armor
                         add.accept(ModItems.NANO_HELMET);
                         add.accept(ModItems.NANO_CHESTPLATE);
                         add.accept(ModItems.NANO_LEGGINGS);
                         add.accept(ModItems.NANO_BOOTS);
+                        addCharged.accept(ModItems.NANO_HELMET);
+                        addCharged.accept(ModItems.NANO_CHESTPLATE);
+                        addCharged.accept(ModItems.NANO_LEGGINGS);
+                        addCharged.accept(ModItems.NANO_BOOTS);
 
                         // ------------------------------
                         // Components / crafting items

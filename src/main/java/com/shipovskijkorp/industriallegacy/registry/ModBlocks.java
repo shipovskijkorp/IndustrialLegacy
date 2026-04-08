@@ -3,6 +3,7 @@ package com.shipovskijkorp.industriallegacy.registry;
 import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
 import com.shipovskijkorp.industriallegacy.block.*;
 import com.shipovskijkorp.industriallegacy.item.CableKind;
+import com.shipovskijkorp.industriallegacy.item.EnergyMachineBlockItem;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -27,7 +28,8 @@ public final class ModBlocks {
                     .strength(2.0f)
                     .sounds(BlockSoundGroup.METAL)
                     .requiresTool()
-                    .luminance(state -> state.get(GeneratorBlock.LIT) ? 13 : 0))
+                    .luminance(state -> state.get(GeneratorBlock.LIT) ? 13 : 0)),
+            b -> new EnergyMachineBlockItem(b, new Item.Settings(), 1)
     );
 
     public static final Block BATBOX = register(
@@ -35,7 +37,8 @@ public final class ModBlocks {
             new BatBoxBlock(FabricBlockSettings.create()
                     .strength(2.0f)
                     .sounds(BlockSoundGroup.METAL)
-                    .requiresTool())
+                    .requiresTool()),
+            b -> new EnergyMachineBlockItem(b, new Item.Settings(), 1, 40_000L, true)
     );
 
     public static final Block CESU = register(
@@ -43,7 +46,8 @@ public final class ModBlocks {
             new CesuBlock(FabricBlockSettings.create()
                     .strength(2.0f)
                     .sounds(BlockSoundGroup.METAL)
-                    .requiresTool())
+                    .requiresTool()),
+            b -> new EnergyMachineBlockItem(b, new Item.Settings(), 2, 300_000L, true)
     );
 
     public static final Block MFE = register(
@@ -51,7 +55,8 @@ public final class ModBlocks {
             new MfeBlock(FabricBlockSettings.create()
                     .strength(2.0f)
                     .sounds(BlockSoundGroup.METAL)
-                    .requiresTool())
+                    .requiresTool()),
+            b -> new EnergyMachineBlockItem(b, new Item.Settings(), 3, 4_000_000L, true)
     );
 
     public static final Block MACERATOR = register(
@@ -60,7 +65,8 @@ public final class ModBlocks {
                     .strength(2.0f)
                     .sounds(BlockSoundGroup.METAL)
                     .requiresTool()
-                    .luminance(s -> s.get(MaceratorBlock.LIT) ? 13 : 0))
+                    .luminance(s -> s.get(MaceratorBlock.LIT) ? 13 : 0)),
+            b -> new EnergyMachineBlockItem(b, new Item.Settings(), 1)
     );
 
     public static final Block COMPRESSOR = register(
@@ -69,20 +75,25 @@ public final class ModBlocks {
                     .strength(2.0f)
                     .sounds(BlockSoundGroup.METAL)
                     .requiresTool()
-                    .luminance(state -> state.get(CompressorBlock.LIT) ? 13 : 0))
+                    .luminance(state -> state.get(CompressorBlock.LIT) ? 13 : 0)),
+            b -> new EnergyMachineBlockItem(b, new Item.Settings(), 1)
     );
 
     public static final Block LV_TRANSFORMER = register("lv_transformer",
-            new LvTransformerBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).strength(2.0f).nonOpaque()));
+            new LvTransformerBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).strength(2.0f).nonOpaque()),
+            b -> new EnergyMachineBlockItem(b, new Item.Settings(), 1));
 
     public static final Block MV_TRANSFORMER = register("mv_transformer",
-            new MvTransformerBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).strength(2.0f).nonOpaque()));
+            new MvTransformerBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).strength(2.0f).nonOpaque()),
+            b -> new EnergyMachineBlockItem(b, new Item.Settings(), 2));
 
     public static final Block HV_TRANSFORMER = register("hv_transformer",
-            new HvTransformerBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).strength(2.0f).nonOpaque()));
+            new HvTransformerBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).strength(2.0f).nonOpaque()),
+            b -> new EnergyMachineBlockItem(b, new Item.Settings(), 3));
 
     public static final Block EV_TRANSFORMER = register("ev_transformer",
-            new EvTransformerBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).strength(2.0f).nonOpaque()));
+            new EvTransformerBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).strength(2.0f).nonOpaque()),
+            b -> new EnergyMachineBlockItem(b, new Item.Settings(), 4));
 
 
     /**

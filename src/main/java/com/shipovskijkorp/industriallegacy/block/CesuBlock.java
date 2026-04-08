@@ -28,6 +28,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import com.shipovskijkorp.industriallegacy.energy.net.EuNetwork;
 import com.shipovskijkorp.industriallegacy.registry.ModBlocks;
+import com.shipovskijkorp.industriallegacy.item.EnergyMachineBlockItem;
 import net.minecraft.entity.player.PlayerEntity;
 
 /**
@@ -67,6 +68,9 @@ public class CesuBlock extends BlockWithEntity implements BlockEntityProvider {
     @Override
     public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
         super.onPlaced(world, pos, state, placer, itemStack);
+        if (!world.isClient && world.getBlockEntity(pos) instanceof CesuBlockEntity storage && itemStack.getItem() instanceof EnergyMachineBlockItem energyItem) {
+            storage.setStoredEnergyFromItem(energyItem.getStoredEnergy(itemStack));
+        }
         invalidateAdjacentCables(world, pos);
     }
 

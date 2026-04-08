@@ -314,6 +314,11 @@ public class BatBoxBlockEntity extends BlockEntity implements SidedInventory, IE
 
     // --- EU storage ---
     @Override
+    public void setStoredEnergyFromItem(long amount) {
+        this.energy = Math.max(0L, Math.min(this.capacity, amount));
+        markDirty();
+    }
+
     public long getEuStored() {
         return energy;
     }
