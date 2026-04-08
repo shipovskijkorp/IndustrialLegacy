@@ -46,8 +46,8 @@ public class MetalFormerScreenHandler extends ScreenHandler {
             this.addSlot(new Slot(inv, MetalFormerBlockEntity.SLOT_UPGRADE_0 + i, 152, 8 + i * 18));
         }
 
-        int invX = 7;
-        int invY = 83;
+        int invX = 8;
+        int invY = 84;
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 9; col++) {
                 this.addSlot(new Slot(playerInv, col + row * 9 + 9, invX + col * 18, invY + row * 18));
