@@ -230,5 +230,17 @@
   "gui.industrial_legacy.transformer.switch.mode2": "fixed step-down",
   "gui.industrial_legacy.transformer.switch.mode3": "fixed step-up",
   "gui.industrial_legacy.transformer.output": "Output:",
-  "gui.industrial_legacy.transformer.input": "Input:"
+  "gui.industrial_legacy.transformer.input": "Input:",
+  "block.industrial_legacy.metal_former": "Metal Former",
+  "block.industrial_legacy.iron_fence": "Iron Fence",
+  "item.industrial_legacy.iron_rod": "Iron Rod",
+  "item.industrial_legacy.bronze_rod": "Bronze Rod",
+  "item.industrial_legacy.steel_rod": "Steel Rod",
+  "item.industrial_legacy.fuel_rod": "Fuel Rod",
+  "gui.industrial_legacy.metal_former.mode.extruding": "Extruding",
+  "gui.industrial_legacy.metal_former.mode.rolling": "Rolling",
+  "gui.industrial_legacy.metal_former.mode.cutting": "Cutting",
+  "gui.industrial_legacy.metal_former.switch.extruding": "Switch mode: Extruding",
+  "gui.industrial_legacy.metal_former.switch.rolling": "Switch mode: Rolling",
+  "gui.industrial_legacy.metal_former.switch.cutting": "Switch mode: Cutting"
 }

@@ -1,0 +1,7 @@
+{
+  "type": "industrial_legacy:metal_former_rolling",
+  "ingredient": { "item": "minecraft:iron_ingot" },
+  "input_count": 1,
+  "result": { "item": "industrial_legacy:iron_plate", "count": 1 },
+  "ticks": 200
+}

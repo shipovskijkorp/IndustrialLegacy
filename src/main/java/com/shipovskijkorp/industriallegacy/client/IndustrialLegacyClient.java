@@ -11,6 +11,7 @@ import com.shipovskijkorp.industriallegacy.client.screen.MvTransformerScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.HvTransformerScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.EvTransformerScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.MaceratorScreen;
+import com.shipovskijkorp.industriallegacy.client.screen.MetalFormerScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.MfeScreen;
 import com.shipovskijkorp.industriallegacy.energy.item.ElectricItemManager;
 import com.shipovskijkorp.industriallegacy.item.CableItem;
@@ -96,6 +97,7 @@ public class IndustrialLegacyClient implements ClientModInitializer {
         HandledScreens.register(ModScreenHandlers.MFE, MfeScreen::new);
         HandledScreens.register(ModScreenHandlers.MACERATOR, MaceratorScreen::new);
         HandledScreens.register(ModScreenHandlers.COMPRESSOR, CompressorScreen::new);
+        HandledScreens.register(ModScreenHandlers.METAL_FORMER, MetalFormerScreen::new);
         HandledScreens.register(ModScreenHandlers.LV_TRANSFORMER, LvTransformerScreen::new);
         HandledScreens.register(ModScreenHandlers.MV_TRANSFORMER, MvTransformerScreen::new);
         HandledScreens.register(ModScreenHandlers.HV_TRANSFORMER, HvTransformerScreen::new);

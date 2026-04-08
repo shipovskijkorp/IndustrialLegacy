@@ -50,6 +50,7 @@ public final class ModItems {
     public static final Item TIN_INGOT = register("tin_ingot", new Item(new Item.Settings()));
     public static final Item LEAD_INGOT = register("lead_ingot", new Item(new Item.Settings()));
     public static final Item BRONZE_INGOT = register("bronze_ingot", new Item(new Item.Settings()));
+    public static final Item STEEL_INGOT = register("steel_ingot", new Item(new Item.Settings()));
     public static final Item ALUMINUM_INGOT = register("aluminum_ingot", new Item(new Item.Settings()));
     public static final Item LITHIUM_INGOT = register("lithium_ingot", new Item(new Item.Settings()));
 
@@ -133,6 +134,10 @@ public final class ModItems {
     public static final Item CARBON_MESH = register("carbon_mesh", new Item(new Item.Settings()));
     public static final Item CARBON_PLATE = register("carbon_plate", new Item(new Item.Settings()));
     public static final Item TIN_CAN = register("tin_can", new Item(new Item.Settings()));
+    public static final Item IRON_ROD = register("iron_rod", new Item(new Item.Settings()));
+    public static final Item BRONZE_ROD = register("bronze_rod", new Item(new Item.Settings()));
+    public static final Item STEEL_ROD = register("steel_rod", new Item(new Item.Settings()));
+    public static final Item FUEL_ROD = register("fuel_rod", new Item(new Item.Settings()));
 
     // Crop-ish / misc (often referenced in IC2 experimental configs)
     public static final Item COFFEE_BEANS = register("coffee_beans", new Item(new Item.Settings()));

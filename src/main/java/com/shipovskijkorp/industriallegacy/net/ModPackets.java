@@ -5,6 +5,7 @@ import com.shipovskijkorp.industriallegacy.block.entity.EvTransformerBlockEntity
 import com.shipovskijkorp.industriallegacy.block.entity.HvTransformerBlockEntity;
 import com.shipovskijkorp.industriallegacy.block.entity.LvTransformerBlockEntity;
 import com.shipovskijkorp.industriallegacy.block.entity.MvTransformerBlockEntity;
+import com.shipovskijkorp.industriallegacy.block.entity.MetalFormerBlockEntity;
 import com.shipovskijkorp.industriallegacy.block.entity.RedstoneModeCycleTarget;
 import com.shipovskijkorp.industriallegacy.item.nvg.INightVisionModule;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -30,6 +31,9 @@ public final class ModPackets {
     public static final Identifier TOGGLE_NIGHTVISION =
             new Identifier(IndustrialLegacy.MOD_ID, "toggle_nightvision");
 
+    public static final Identifier METAL_FORMER_CYCLE_MODE =
+            new Identifier(IndustrialLegacy.MOD_ID, "metal_former_cycle_mode");
+
     public static void registerServerReceivers() {
         ServerPlayNetworking.registerGlobalReceiver(BATBOX_CYCLE_REDSTONE_MODE,
                 (server, player, handler, buf, responseSender) -> {
@@ -46,6 +50,12 @@ public final class ModPackets {
 
         ServerPlayNetworking.registerGlobalReceiver(TOGGLE_NIGHTVISION,
                 (server, player, handler, buf, responseSender) -> server.execute(() -> toggleNightVision(player)));
+
+        ServerPlayNetworking.registerGlobalReceiver(METAL_FORMER_CYCLE_MODE,
+                (server, player, handler, buf, responseSender) -> {
+                    BlockPos pos = buf.readBlockPos();
+                    server.execute(() -> handleMetalFormerCycle(player, pos));
+                });
     }
 
     private static void handleRedstoneModeCycle(net.minecraft.server.network.ServerPlayerEntity player, BlockPos pos) {
@@ -74,6 +84,15 @@ public final class ModPackets {
             transformer.handleClientEvent(eventId);
         } else if (blockEntity instanceof EvTransformerBlockEntity transformer) {
             transformer.handleClientEvent(eventId);
+        }
+    }
+
+    private static void handleMetalFormerCycle(net.minecraft.server.network.ServerPlayerEntity player, BlockPos pos) {
+        if (player.squaredDistanceTo(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5) > 64.0) {
+            return;
+        }
+        if (player.getWorld().getBlockEntity(pos) instanceof MetalFormerBlockEntity be) {
+            be.cycleMode();
         }
     }
 

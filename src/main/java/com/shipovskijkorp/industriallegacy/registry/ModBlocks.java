@@ -5,10 +5,7 @@ import com.shipovskijkorp.industriallegacy.block.*;
 import com.shipovskijkorp.industriallegacy.item.CableKind;
 import com.shipovskijkorp.industriallegacy.item.EnergyMachineBlockItem;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.LeavesBlock;
-import net.minecraft.block.SaplingBlock;
+import net.minecraft.block.*;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -79,6 +76,16 @@ public final class ModBlocks {
             b -> new EnergyMachineBlockItem(b, new Item.Settings(), 1)
     );
 
+    public static final Block METAL_FORMER = register(
+            "metal_former",
+            new MetalFormerBlock(FabricBlockSettings.create()
+                    .strength(2.0f)
+                    .sounds(BlockSoundGroup.METAL)
+                    .requiresTool()
+                    .luminance(state -> state.get(MetalFormerBlock.LIT) ? 13 : 0)),
+            b -> new EnergyMachineBlockItem(b, new Item.Settings(), 1)
+    );
+
     public static final Block LV_TRANSFORMER = register("lv_transformer",
             new LvTransformerBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).strength(2.0f).nonOpaque()),
             b -> new EnergyMachineBlockItem(b, new Item.Settings(), 1));
@@ -121,6 +128,11 @@ public final class ModBlocks {
     /** Reinforced glass (IC2-like): explosion resistant glass. */
     public static final Block REINFORCED_GLASS =
             register("reinforced_glass", new ReinforcedGlassBlock());
+
+    public static final Block IRON_FENCE = register(
+            "iron_fence",
+            new FenceBlock(FabricBlockSettings.copyOf(Blocks.IRON_BARS).sounds(BlockSoundGroup.METAL).requiresTool())
+    );
 
     /** IC2-like Luminator (simplified): always-on light block. */
     public static final Block LUMINATOR =

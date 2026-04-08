@@ -1,0 +1,7 @@
+{
+  "type": "industrial_legacy:metal_former_rolling",
+  "ingredient": { "item": "industrial_legacy:steel_ingot" },
+  "input_count": 1,
+  "result": { "item": "industrial_legacy:steel_plate", "count": 1 },
+  "ticks": 200
+}

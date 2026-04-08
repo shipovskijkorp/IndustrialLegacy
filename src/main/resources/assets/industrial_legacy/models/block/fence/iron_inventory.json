@@ -1,0 +1,6 @@
+{
+  "parent": "block/fence_inventory",
+  "textures": {
+    "texture": "industrial_legacy:block/fence_iron"
+  }
+}

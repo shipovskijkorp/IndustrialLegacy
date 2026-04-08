@@ -79,7 +79,11 @@ public final class ModBlockEntities {
             BlockEntityType.Builder.create(CompressorBlockEntity::new, ModBlocks.COMPRESSOR).build(null)
     );
 
-
+    public static final BlockEntityType<MetalFormerBlockEntity> METAL_FORMER = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE,
+            new Identifier(IndustrialLegacy.MOD_ID, "metal_former"),
+            BlockEntityType.Builder.create(MetalFormerBlockEntity::new, ModBlocks.METAL_FORMER).build(null)
+    );
 
     /** Cable BE used for thin cable rendering + detector/splitter behavior and EU-net bookkeeping. */
     public static final BlockEntityType<CableBlockEntity> CABLE = Registry.register(

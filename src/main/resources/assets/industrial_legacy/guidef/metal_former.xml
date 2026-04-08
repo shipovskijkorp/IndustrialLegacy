@@ -8,6 +8,6 @@
         <slotgrid name="upgrade" x="151" y="7" cols="1"/>
     </environment>
     <energygauge x="20" y="37"/>
-    <gauge name="progress" x="52" y="40" style="progressmetalformer"/>
+    <gauge name="progress" x="52" y="39" style="progressmetalformer"/>
     <playerInventory x="7" y="83"/>
 </gui>

@@ -230,5 +230,17 @@
   "gui.industrial_legacy.transformer.switch.mode2": "фиксир. пониж.",
   "gui.industrial_legacy.transformer.switch.mode3": "фиксир. повыш.",
   "gui.industrial_legacy.transformer.output": "Выход:",
-  "gui.industrial_legacy.transformer.input": "Вход:"
+  "gui.industrial_legacy.transformer.input": "Вход:",
+  "block.industrial_legacy.metal_former": "Формовщик металла",
+  "block.industrial_legacy.iron_fence": "Железный забор",
+  "item.industrial_legacy.iron_rod": "Железный стержень",
+  "item.industrial_legacy.bronze_rod": "Бронзовый стержень",
+  "item.industrial_legacy.steel_rod": "Стальной стержень",
+  "item.industrial_legacy.fuel_rod": "Топливный стержень",
+  "gui.industrial_legacy.metal_former.mode.extruding": "Экструзия",
+  "gui.industrial_legacy.metal_former.mode.rolling": "Прокатка",
+  "gui.industrial_legacy.metal_former.mode.cutting": "Резка",
+  "gui.industrial_legacy.metal_former.switch.extruding": "Сменить режим: Экструзия",
+  "gui.industrial_legacy.metal_former.switch.rolling": "Сменить режим: Прокатка",
+  "gui.industrial_legacy.metal_former.switch.cutting": "Сменить режим: Резка"
 }

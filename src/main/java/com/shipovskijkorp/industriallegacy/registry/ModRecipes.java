@@ -143,6 +143,66 @@ public static final RecipeType<MaceratorRecipe> MACERATOR_TYPE = Registry.regist
             new CompressorRecipeSerializer()
     );
 
+
+    public static final RecipeType<MetalFormerRecipe> METAL_FORMER_EXTRUDING_TYPE = Registry.register(
+            Registries.RECIPE_TYPE,
+            new Identifier(IndustrialLegacy.MOD_ID, "metal_former_extruding"),
+            new RecipeType<>() {
+                @Override
+                public String toString() {
+                    return IndustrialLegacy.MOD_ID + ":metal_former_extruding";
+                }
+            }
+    );
+
+    public static final RecipeSerializer<MetalFormerRecipe> METAL_FORMER_EXTRUDING_SERIALIZER = Registry.register(
+            Registries.RECIPE_SERIALIZER,
+            new Identifier(IndustrialLegacy.MOD_ID, "metal_former_extruding"),
+            new MetalFormerRecipeSerializer(METAL_FORMER_EXTRUDING_TYPE)
+    );
+
+    public static final RecipeType<MetalFormerRecipe> METAL_FORMER_ROLLING_TYPE = Registry.register(
+            Registries.RECIPE_TYPE,
+            new Identifier(IndustrialLegacy.MOD_ID, "metal_former_rolling"),
+            new RecipeType<>() {
+                @Override
+                public String toString() {
+                    return IndustrialLegacy.MOD_ID + ":metal_former_rolling";
+                }
+            }
+    );
+
+    public static final RecipeSerializer<MetalFormerRecipe> METAL_FORMER_ROLLING_SERIALIZER = Registry.register(
+            Registries.RECIPE_SERIALIZER,
+            new Identifier(IndustrialLegacy.MOD_ID, "metal_former_rolling"),
+            new MetalFormerRecipeSerializer(METAL_FORMER_ROLLING_TYPE)
+    );
+
+    public static final RecipeType<MetalFormerRecipe> METAL_FORMER_CUTTING_TYPE = Registry.register(
+            Registries.RECIPE_TYPE,
+            new Identifier(IndustrialLegacy.MOD_ID, "metal_former_cutting"),
+            new RecipeType<>() {
+                @Override
+                public String toString() {
+                    return IndustrialLegacy.MOD_ID + ":metal_former_cutting";
+                }
+            }
+    );
+
+    public static final RecipeSerializer<MetalFormerRecipe> METAL_FORMER_CUTTING_SERIALIZER = Registry.register(
+            Registries.RECIPE_SERIALIZER,
+            new Identifier(IndustrialLegacy.MOD_ID, "metal_former_cutting"),
+            new MetalFormerRecipeSerializer(METAL_FORMER_CUTTING_TYPE)
+    );
+
+    public static RecipeType<MetalFormerRecipe> typeForMode(com.shipovskijkorp.industriallegacy.block.entity.MetalFormerBlockEntity.Mode mode) {
+        return switch (mode) {
+            case ROLLING -> METAL_FORMER_ROLLING_TYPE;
+            case CUTTING -> METAL_FORMER_CUTTING_TYPE;
+            default -> METAL_FORMER_EXTRUDING_TYPE;
+        };
+    }
+
     public static void register() {
         // classload triggers static init
     }

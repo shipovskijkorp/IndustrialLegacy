@@ -74,7 +74,9 @@ public final class ModItemGroups {
                         add.accept(ModBlocks.IRON_FURNACE);
                         add.accept(ModBlocks.MACERATOR);
                         add.accept(ModBlocks.COMPRESSOR);
+                        add.accept(ModBlocks.METAL_FORMER);
                         add.accept(ModBlocks.MACHINE_CASING);
+                        add.accept(ModBlocks.IRON_FENCE);
 
                         // Reinforced building block
                         add.accept(ModBlocks.REINFORCED_GLASS);
@@ -165,6 +167,10 @@ public final class ModItemGroups {
                         add.accept(ModItems.CARBON_FIBRE);
                         add.accept(ModItems.CARBON_MESH);
                         add.accept(ModItems.CARBON_PLATE);
+                        add.accept(ModItems.IRON_ROD);
+                        add.accept(ModItems.BRONZE_ROD);
+                        add.accept(ModItems.STEEL_ROD);
+                        add.accept(ModItems.FUEL_ROD);
 
                         // ------------------------------
                         // Ingots
@@ -173,6 +179,7 @@ public final class ModItemGroups {
                         add.accept(ModItems.LEAD_INGOT);
                         add.accept(ModItems.SILVER_INGOT);
                         add.accept(ModItems.BRONZE_INGOT);
+                        add.accept(ModItems.STEEL_INGOT);
                         add.accept(ModItems.IRIDIUM);
 
                         // ------------------------------

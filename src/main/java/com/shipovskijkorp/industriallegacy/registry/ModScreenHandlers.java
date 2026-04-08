@@ -41,6 +41,11 @@ public final class ModScreenHandlers {
             new ExtendedScreenHandlerType<>(CompressorScreenHandler::new)
     );
 
+    public static final ScreenHandlerType<MetalFormerScreenHandler> METAL_FORMER = Registry.register(
+            Registries.SCREEN_HANDLER,
+            new Identifier(IndustrialLegacy.MOD_ID, "metal_former"),
+            new ExtendedScreenHandlerType<>(MetalFormerScreenHandler::new)
+    );
 
     public static ScreenHandlerType<GeneratorScreenHandler> GENERATOR;
     public static ScreenHandlerType<BatBoxScreenHandler> BATBOX;
