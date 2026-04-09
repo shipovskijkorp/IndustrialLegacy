@@ -29,6 +29,13 @@ public class MetalFormerScreen extends HandledScreen<MetalFormerScreenHandler> {
     private static final int MODE_BUTTON_W = 20;
     private static final int MODE_BUTTON_H = 20;
 
+    private static final int PROGRESS_X = 52;
+    private static final int PROGRESS_Y = 36;
+    private static final int PROGRESS_U = 179;
+    private static final int PROGRESS_V = 15;
+    private static final int PROGRESS_W = 45;
+    private static final int PROGRESS_H = 15;
+
     public MetalFormerScreen(MetalFormerScreenHandler handler, PlayerInventory inv, Text title) {
         super(handler, inv, title);
         this.backgroundWidth = 176;
@@ -88,6 +95,18 @@ public class MetalFormerScreen extends HandledScreen<MetalFormerScreenHandler> {
 
         float eRatio = handler.getEnergyCap() <= 0 ? 0f : (handler.getEnergy() / (float) handler.getEnergyCap());
         IlGuiDraw.drawEnergyBoltFramed(ctx, x + ENERGY_BOLT_X, y + ENERGY_BOLT_Y, eRatio);
+
+        float pRatio = handler.getMaxProgress() <= 0 ? 0f : (handler.getProgress() / (float) handler.getMaxProgress());
+        int pw = Math.round(PROGRESS_W * pRatio);
+        if (pw > 0) {
+            ctx.drawTexture(
+                    BACKGROUND,
+                    x + PROGRESS_X, y + PROGRESS_Y,
+                    PROGRESS_U, PROGRESS_V,
+                    pw, PROGRESS_H,
+                    256, 256
+            );
+        }
 
         ctx.drawTexture(MODE_BUTTON, x + MODE_BUTTON_X, y + MODE_BUTTON_Y, 0, 0, MODE_BUTTON_W, MODE_BUTTON_H, MODE_BUTTON_W, MODE_BUTTON_H);
     }
