@@ -19,6 +19,7 @@ import net.minecraft.util.Identifier;
 
 public class MetalFormerScreen extends HandledScreen<MetalFormerScreenHandler> {
     private static final Identifier BACKGROUND = new Identifier(IndustrialLegacy.MOD_ID, "textures/gui/guimetalformer.png");
+    private static final Identifier COMMON = new Identifier(IndustrialLegacy.MOD_ID, "textures/gui/common.png");
     private static final Identifier MODE_BUTTON = new Identifier(IndustrialLegacy.MOD_ID, "textures/gui/button_enabled.png");
 
     private static final int ENERGY_BOLT_X = 20;
@@ -29,12 +30,14 @@ public class MetalFormerScreen extends HandledScreen<MetalFormerScreenHandler> {
     private static final int MODE_BUTTON_W = 20;
     private static final int MODE_BUTTON_H = 20;
 
+    // IC2 GuiMetalFormer + GaugeStyle.ProgressMetalFormer:
+    // widget at 52,39 and fill from common.png at 200,19 size 46x9.
     private static final int PROGRESS_X = 52;
-    private static final int PROGRESS_Y = 36;
-    private static final int PROGRESS_U = 179;
-    private static final int PROGRESS_V = 15;
-    private static final int PROGRESS_W = 45;
-    private static final int PROGRESS_H = 15;
+    private static final int PROGRESS_Y = 39;
+    private static final int PROGRESS_U = 200;
+    private static final int PROGRESS_V = 19;
+    private static final int PROGRESS_W = 46;
+    private static final int PROGRESS_H = 9;
 
     public MetalFormerScreen(MetalFormerScreenHandler handler, PlayerInventory inv, Text title) {
         super(handler, inv, title);
@@ -99,13 +102,7 @@ public class MetalFormerScreen extends HandledScreen<MetalFormerScreenHandler> {
         float pRatio = handler.getMaxProgress() <= 0 ? 0f : (handler.getProgress() / (float) handler.getMaxProgress());
         int pw = Math.round(PROGRESS_W * pRatio);
         if (pw > 0) {
-            ctx.drawTexture(
-                    BACKGROUND,
-                    x + PROGRESS_X, y + PROGRESS_Y,
-                    PROGRESS_U, PROGRESS_V,
-                    pw, PROGRESS_H,
-                    256, 256
-            );
+            ctx.drawTexture(COMMON, x + PROGRESS_X, y + PROGRESS_Y, PROGRESS_U, PROGRESS_V, pw, PROGRESS_H, 256, 256);
         }
 
         ctx.drawTexture(MODE_BUTTON, x + MODE_BUTTON_X, y + MODE_BUTTON_Y, 0, 0, MODE_BUTTON_W, MODE_BUTTON_H, MODE_BUTTON_W, MODE_BUTTON_H);
