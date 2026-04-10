@@ -9,8 +9,6 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -65,21 +63,10 @@ public class HazmatArmorItem extends ArmorItem {
 
         int air = player.getAir();
         if (air <= 100) {
-            int neededMb = (300 - air) * 1000 / 150;
-            int suppliedMb = UniversalFluidCellItem.consumeFluidFromPlayerInventory(player, UniversalFluidCellItem.CellFluid.AIR, neededMb);
-            if (suppliedMb > 0) {
-                player.setAir(air + suppliedMb * 150 / 1000);
+            int suppliedMb = UniversalFluidCellItem.consumeFluidFromPlayerInventory(player, UniversalFluidCellItem.CellFluid.AIR, 1000);
+            if (suppliedMb >= 1000) {
+                player.setAir(300);
             }
-        }
-    }
-
-    @Override
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        if (getType() == Type.HELMET) {
-            tooltip.add(Text.translatable("tooltip.industrial_legacy.hazmat.air_refill").formatted(Formatting.DARK_GRAY));
-        }
-        if (getType() == Type.BOOTS) {
-            tooltip.add(Text.translatable("tooltip.industrial_legacy.hazmat.fall_protection").formatted(Formatting.DARK_GRAY));
         }
     }
 }

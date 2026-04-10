@@ -99,16 +99,19 @@ public class UniversalFluidCellItem extends Item {
             if (stack.isEmpty() || !(stack.getItem() instanceof UniversalFluidCellItem)) continue;
             if (getFluid(stack) != fluid) continue;
 
-            ItemStack emptyCell = createStack(CellFluid.EMPTY);
-            stack.decrement(1);
-            if (stack.isEmpty()) {
-                player.getInventory().main.set(i, emptyCell);
-            } else if (!player.getInventory().insertStack(emptyCell)) {
-                player.dropItem(emptyCell, false);
-            }
+            while (!stack.isEmpty() && getFluid(stack) == fluid && neededMb > 0) {
+                ItemStack emptyCell = createStack(CellFluid.EMPTY);
+                stack.decrement(1);
+                if (stack.isEmpty()) {
+                    player.getInventory().main.set(i, emptyCell);
+                    stack = player.getInventory().main.get(i);
+                } else if (!player.getInventory().insertStack(emptyCell)) {
+                    player.dropItem(emptyCell, false);
+                }
 
-            supplied += AMOUNT_MB;
-            neededMb -= AMOUNT_MB;
+                supplied += AMOUNT_MB;
+                neededMb -= AMOUNT_MB;
+            }
         }
         return supplied;
     }
@@ -174,15 +177,24 @@ public class UniversalFluidCellItem extends Item {
 
     private static void fillFromSource(PlayerEntity user, Hand hand, ItemStack stack, CellFluid fluid, BlockPos pos) {
         World world = user.getWorld();
-        if (!user.getAbilities().creativeMode) {
-            ItemStack filled = createStack(fluid);
-            stack.decrement(1);
-            world.setBlockState(pos, Blocks.AIR.getDefaultState(), Block.NOTIFY_ALL);
-            if (stack.isEmpty()) {
+        ItemStack filled = createStack(fluid);
+
+        world.setBlockState(pos, Blocks.AIR.getDefaultState(), Block.NOTIFY_ALL);
+
+        if (user.getAbilities().creativeMode) {
+            if (stack.getCount() == 1) {
                 user.setStackInHand(hand, filled);
             } else if (!user.getInventory().insertStack(filled)) {
                 user.dropItem(filled, false);
             }
+            return;
+        }
+
+        stack.decrement(1);
+        if (stack.isEmpty()) {
+            user.setStackInHand(hand, filled);
+        } else if (!user.getInventory().insertStack(filled)) {
+            user.dropItem(filled, false);
         }
     }
 

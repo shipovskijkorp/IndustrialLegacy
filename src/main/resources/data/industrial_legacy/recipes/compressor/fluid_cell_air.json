@@ -7,7 +7,7 @@
   "result": {
     "item": "industrial_legacy:fluid_cell",
     "count": 1,
-    "nbt": "{Fluid:"industrial_legacy:air"}"
+    "nbt": "{Fluid:\"industrial_legacy:air\"}"
   },
   "ticks": 300
 }
