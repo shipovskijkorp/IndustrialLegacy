@@ -5,6 +5,8 @@ import com.shipovskijkorp.industriallegacy.client.render.CableBlockEntityRendere
 import com.shipovskijkorp.industriallegacy.client.screen.BatBoxScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.CesuScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.CompressorScreen;
+import com.shipovskijkorp.industriallegacy.client.screen.ElectricFurnaceScreen;
+import com.shipovskijkorp.industriallegacy.client.screen.GeoGeneratorScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.GeneratorScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.LvTransformerScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.MvTransformerScreen;
@@ -110,6 +112,8 @@ public class IndustrialLegacyClient implements ClientModInitializer {
 
     private static void registerScreens() {
         HandledScreens.register(ModScreenHandlers.GENERATOR, GeneratorScreen::new);
+        HandledScreens.register(ModScreenHandlers.GEO_GENERATOR, GeoGeneratorScreen::new);
+        HandledScreens.register(ModScreenHandlers.ELECTRIC_FURNACE, ElectricFurnaceScreen::new);
         HandledScreens.register(ModScreenHandlers.BATBOX, BatBoxScreen::new);
         HandledScreens.register(ModScreenHandlers.CESU, CesuScreen::new);
         HandledScreens.register(ModScreenHandlers.MFE, MfeScreen::new);

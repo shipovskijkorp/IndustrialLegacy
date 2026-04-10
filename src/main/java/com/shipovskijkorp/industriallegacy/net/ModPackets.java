@@ -1,6 +1,7 @@
 package com.shipovskijkorp.industriallegacy.net;
 
 import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
+import com.shipovskijkorp.industriallegacy.block.entity.ElectricFurnaceBlockEntity;
 import com.shipovskijkorp.industriallegacy.block.entity.EvTransformerBlockEntity;
 import com.shipovskijkorp.industriallegacy.block.entity.HvTransformerBlockEntity;
 import com.shipovskijkorp.industriallegacy.block.entity.LvTransformerBlockEntity;
@@ -42,6 +43,9 @@ public final class ModPackets {
     public static final Identifier METAL_FORMER_CYCLE_MODE =
             new Identifier(IndustrialLegacy.MOD_ID, "metal_former_cycle_mode");
 
+    public static final Identifier ELECTRIC_FURNACE_TAKE_XP =
+            new Identifier(IndustrialLegacy.MOD_ID, "electric_furnace_take_xp");
+
     public static void registerServerReceivers() {
         ServerPlayNetworking.registerGlobalReceiver(BATBOX_CYCLE_REDSTONE_MODE,
                 (server, player, handler, buf, responseSender) -> {
@@ -75,6 +79,12 @@ public final class ModPackets {
                 (server, player, handler, buf, responseSender) -> {
                     BlockPos pos = buf.readBlockPos();
                     server.execute(() -> handleMetalFormerCycle(player, pos));
+                });
+
+        ServerPlayNetworking.registerGlobalReceiver(ELECTRIC_FURNACE_TAKE_XP,
+                (server, player, handler, buf, responseSender) -> {
+                    BlockPos pos = buf.readBlockPos();
+                    server.execute(() -> handleElectricFurnaceTakeXp(player, pos));
                 });
     }
 
@@ -113,6 +123,16 @@ public final class ModPackets {
         }
         if (player.getWorld().getBlockEntity(pos) instanceof MetalFormerBlockEntity be) {
             be.cycleMode();
+        }
+    }
+
+
+    private static void handleElectricFurnaceTakeXp(net.minecraft.server.network.ServerPlayerEntity player, BlockPos pos) {
+        if (player.squaredDistanceTo(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5) > 64.0) {
+            return;
+        }
+        if (player.getWorld().getBlockEntity(pos) instanceof ElectricFurnaceBlockEntity be) {
+            be.collectXp(player);
         }
     }
 

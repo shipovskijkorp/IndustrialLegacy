@@ -29,6 +29,17 @@ public final class ModBlocks {
             b -> new EnergyMachineBlockItem(b, new Item.Settings(), 1)
     );
 
+
+    public static final Block GEO_GENERATOR = register(
+            "geo_generator",
+            new GeoGeneratorBlock(FabricBlockSettings.create()
+                    .strength(2.0f)
+                    .sounds(BlockSoundGroup.METAL)
+                    .requiresTool()
+                    .luminance(state -> state.get(GeoGeneratorBlock.LIT) ? 13 : 0)),
+            b -> new EnergyMachineBlockItem(b, new Item.Settings(), 1)
+    );
+
     public static final Block BATBOX = register(
             "batbox",
             new BatBoxBlock(FabricBlockSettings.create()
@@ -73,6 +84,17 @@ public final class ModBlocks {
                     .sounds(BlockSoundGroup.METAL)
                     .requiresTool()
                     .luminance(state -> state.get(CompressorBlock.LIT) ? 13 : 0)),
+            b -> new EnergyMachineBlockItem(b, new Item.Settings(), 1)
+    );
+
+
+    public static final Block ELECTRIC_FURNACE = register(
+            "electric_furnace",
+            new ElectricFurnaceBlock(FabricBlockSettings.create()
+                    .strength(2.0f)
+                    .sounds(BlockSoundGroup.METAL)
+                    .requiresTool()
+                    .luminance(state -> state.get(ElectricFurnaceBlock.LIT) ? 13 : 0)),
             b -> new EnergyMachineBlockItem(b, new Item.Settings(), 1)
     );
 

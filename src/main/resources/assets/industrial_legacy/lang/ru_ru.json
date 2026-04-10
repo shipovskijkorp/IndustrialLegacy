@@ -274,5 +274,10 @@
   "item.industrial_legacy.quantum_chestplate": "Квантовый бронежилет",
   "item.industrial_legacy.quantum_leggings": "Квантовые штаны",
   "item.industrial_legacy.quantum_boots": "Квантовые ботинки",
-  "key.industrial_legacy.boost": "Ускорение"
+  "key.industrial_legacy.boost": "Ускорение",
+  "block.industrial_legacy.geo_generator": "Геотермальный генератор",
+  "container.industrial_legacy.geo_generator": "Геотермальный генератор",
+  "block.industrial_legacy.electric_furnace": "Электрическая печь",
+  "container.industrial_legacy.electric_furnace": "Электрическая печь",
+  "gui.industrial_legacy.electric_furnace.take_xp": "Забрать опыт: %s"
 }

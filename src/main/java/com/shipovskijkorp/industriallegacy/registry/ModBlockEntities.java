@@ -22,6 +22,12 @@ public final class ModBlockEntities {
             FabricBlockEntityTypeBuilder.create(GeneratorBlockEntity::new, ModBlocks.GENERATOR).build()
     );
 
+    public static final BlockEntityType<GeoGeneratorBlockEntity> GEO_GENERATOR = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE,
+            id("geo_generator"),
+            FabricBlockEntityTypeBuilder.create(GeoGeneratorBlockEntity::new, ModBlocks.GEO_GENERATOR).build()
+    );
+
     public static final BlockEntityType<LvTransformerBlockEntity> LV_TRANSFORMER =
             Registry.register(Registries.BLOCK_ENTITY_TYPE,
                     id("lv_transformer"),
@@ -77,6 +83,12 @@ public final class ModBlockEntities {
             Registries.BLOCK_ENTITY_TYPE,
             new Identifier(IndustrialLegacy.MOD_ID, "compressor"),
             BlockEntityType.Builder.create(CompressorBlockEntity::new, ModBlocks.COMPRESSOR).build(null)
+    );
+
+    public static final BlockEntityType<ElectricFurnaceBlockEntity> ELECTRIC_FURNACE = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE,
+            new Identifier(IndustrialLegacy.MOD_ID, "electric_furnace"),
+            BlockEntityType.Builder.create(ElectricFurnaceBlockEntity::new, ModBlocks.ELECTRIC_FURNACE).build(null)
     );
 
     public static final BlockEntityType<MetalFormerBlockEntity> METAL_FORMER = Registry.register(

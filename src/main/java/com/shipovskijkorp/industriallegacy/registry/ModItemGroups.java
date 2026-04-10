@@ -65,6 +65,7 @@ public final class ModItemGroups {
                         // Machines / energy blocks
                         // ------------------------------
                         add.accept(ModBlocks.GENERATOR);
+                        add.accept(ModBlocks.GEO_GENERATOR);
                         add.accept(ModBlocks.BATBOX);
                         add.accept(ModBlocks.CESU);
                         add.accept(ModBlocks.MFE);
@@ -73,6 +74,7 @@ public final class ModItemGroups {
                         addChargedBlock.accept(ModBlocks.CESU);
                         addChargedBlock.accept(ModBlocks.MFE);
                         add.accept(ModBlocks.IRON_FURNACE);
+                        add.accept(ModBlocks.ELECTRIC_FURNACE);
                         add.accept(ModBlocks.MACERATOR);
                         add.accept(ModBlocks.COMPRESSOR);
                         add.accept(ModBlocks.METAL_FORMER);

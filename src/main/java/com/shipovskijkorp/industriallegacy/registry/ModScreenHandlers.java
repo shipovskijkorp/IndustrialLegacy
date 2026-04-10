@@ -13,6 +13,8 @@ import net.minecraft.util.Identifier;
 public final class ModScreenHandlers {
     public static final Identifier GENERATOR_ID = new Identifier(IndustrialLegacy.MOD_ID, "generator");
     public static final Identifier BATBOX_ID = new Identifier(IndustrialLegacy.MOD_ID, "batbox");
+    public static final Identifier GEO_GENERATOR_ID = new Identifier(IndustrialLegacy.MOD_ID, "geo_generator");
+    public static final Identifier ELECTRIC_FURNACE_ID = new Identifier(IndustrialLegacy.MOD_ID, "electric_furnace");
     public static final Identifier CESU_ID = new Identifier(IndustrialLegacy.MOD_ID, "cesu");
     public static final Identifier MFE_ID = new Identifier(IndustrialLegacy.MOD_ID, "mfe");
     public static final Identifier MV_TRANSFORMER_ID = new Identifier(IndustrialLegacy.MOD_ID, "mv_transformer");
@@ -34,6 +36,14 @@ public final class ModScreenHandlers {
             Registry.register(Registries.SCREEN_HANDLER, new Identifier(IndustrialLegacy.MOD_ID, "ev_transformer"),
                     new ExtendedScreenHandlerType<>(EvTransformerScreenHandler::new));
 
+
+    public static final ScreenHandlerType<GeoGeneratorScreenHandler> GEO_GENERATOR =
+            Registry.register(Registries.SCREEN_HANDLER, new Identifier(IndustrialLegacy.MOD_ID, "geo_generator"),
+                    new ExtendedScreenHandlerType<>(GeoGeneratorScreenHandler::new));
+
+    public static final ScreenHandlerType<ElectricFurnaceScreenHandler> ELECTRIC_FURNACE =
+            Registry.register(Registries.SCREEN_HANDLER, new Identifier(IndustrialLegacy.MOD_ID, "electric_furnace"),
+                    new ExtendedScreenHandlerType<>(ElectricFurnaceScreenHandler::new));
 
     public static final ScreenHandlerType<CompressorScreenHandler> COMPRESSOR = Registry.register(
             Registries.SCREEN_HANDLER,
