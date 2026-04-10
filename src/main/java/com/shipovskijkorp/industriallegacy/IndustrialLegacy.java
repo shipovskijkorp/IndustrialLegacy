@@ -4,7 +4,7 @@ import com.shipovskijkorp.industriallegacy.energy.grid.EnergyNetLocal;
 import com.shipovskijkorp.industriallegacy.block.entity.CableBlockEntity;
 import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
 import com.shipovskijkorp.industriallegacy.net.ModPackets;
-import com.shipovskijkorp.industriallegacy.item.armor.ElectricJetpackItem;
+import com.shipovskijkorp.industriallegacy.item.flight.ChestFlightManager;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
 import com.shipovskijkorp.industriallegacy.registry.ModBlocks;
 import com.shipovskijkorp.industriallegacy.registry.ModItemGroups;
@@ -38,7 +38,7 @@ public class IndustrialLegacy implements ModInitializer {
 
         ServerTickEvents.START_SERVER_TICK.register(server -> {
             for (var player : server.getPlayerManager().getPlayerList()) {
-                ElectricJetpackItem.tickServerPlayer(player);
+                ChestFlightManager.tickServerPlayer(player);
             }
         });
 

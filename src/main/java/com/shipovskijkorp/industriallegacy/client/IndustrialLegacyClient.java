@@ -17,7 +17,8 @@ import com.shipovskijkorp.industriallegacy.energy.item.ElectricItemManager;
 import com.shipovskijkorp.industriallegacy.item.CableItem;
 import com.shipovskijkorp.industriallegacy.item.CableKind;
 import com.shipovskijkorp.industriallegacy.item.CableVariants;
-import com.shipovskijkorp.industriallegacy.item.armor.ElectricJetpackItem;
+import com.shipovskijkorp.industriallegacy.item.flight.ChestFlightManager;
+import com.shipovskijkorp.industriallegacy.item.flight.IFlightChestItem;
 import com.shipovskijkorp.industriallegacy.item.tool.NanoSaberItem;
 import com.shipovskijkorp.industriallegacy.net.ModPackets;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
@@ -139,7 +140,7 @@ public class IndustrialLegacyClient implements ClientModInitializer {
         ));
 
         KeyBinding jetpackHoverToggle = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "key.industrial_legacy.jetpack_hover_toggle",
+                "key.industrial_legacy.flight_hover_toggle",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_H,
                 "key.categories.industrial_legacy"
@@ -161,12 +162,12 @@ public class IndustrialLegacyClient implements ClientModInitializer {
                 if (client.player == null) {
                     return;
                 }
-                ClientPlayNetworking.send(ModPackets.TOGGLE_JETPACK_HOVER,
+                ClientPlayNetworking.send(ModPackets.TOGGLE_CHEST_FLIGHT_HOVER,
                         net.fabricmc.fabric.api.networking.v1.PacketByteBufs.empty());
             }
             hoverWasDown[0] = hoverDown;
 
-            if (client.player != null && client.player.getEquippedStack(net.minecraft.entity.EquipmentSlot.CHEST).getItem() instanceof ElectricJetpackItem) {
+            if (client.player != null && client.player.getEquippedStack(net.minecraft.entity.EquipmentSlot.CHEST).getItem() instanceof IFlightChestItem) {
                 boolean jump = client.options.jumpKey.isPressed();
                 boolean sneak = client.options.sneakKey.isPressed();
                 boolean forward = client.options.forwardKey.isPressed();
@@ -175,9 +176,9 @@ public class IndustrialLegacyClient implements ClientModInitializer {
                 buf.writeBoolean(jump);
                 buf.writeBoolean(sneak);
                 buf.writeBoolean(forward);
-                ClientPlayNetworking.send(ModPackets.JETPACK_INPUT, buf);
+                ClientPlayNetworking.send(ModPackets.CHEST_FLIGHT_INPUT, buf);
 
-                ElectricJetpackItem.tickClientPlayer(client.player, jump, sneak, forward);
+                ChestFlightManager.tickClientPlayer(client.player, jump, sneak, forward);
             }
         });
     }

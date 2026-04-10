@@ -1,9 +1,9 @@
 package com.shipovskijkorp.industriallegacy.item.armor;
 
 import com.shipovskijkorp.industriallegacy.energy.item.IElectricItem;
+import com.shipovskijkorp.industriallegacy.item.flight.IFlightChestItem;
 import com.shipovskijkorp.industriallegacy.util.EnergyDisplayUtil;
 import net.minecraft.client.item.TooltipContext;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
@@ -15,22 +15,15 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 /**
  * IC2 Experimental Electric Jetpack port.
  *
- * This implementation follows the original IC2 flow closely:
- * - server receives key state packets
- * - client applies local prediction every client tick
- * - server applies authoritative motion every server tick start
- * - hover toggle uses a 10-tick debounce timer
- * - forward thrust is applied using moveRelative-equivalent logic via updateVelocity()
+ * Flight behaviour stays jetpack-specific, while hover toggling and input
+ * routing are handled through the generic chest-flight capability.
  */
-public final class ElectricJetpackItem extends ArmorItem implements IElectricItem {
+public final class ElectricJetpackItem extends ArmorItem implements IElectricItem, IFlightChestItem {
     public static final long CAPACITY_EU = 30_000L;
     public static final long TRANSFER_LIMIT_EU_T = 60L;
     public static final int TIER = 1;
@@ -45,17 +38,6 @@ public final class ElectricJetpackItem extends ArmorItem implements IElectricIte
     private static final long EU_NORMAL = 8L;
 
     private static final String NBT_ENERGY = "energy";
-    private static final String NBT_HOVER = "hoverMode";
-    private static final String NBT_TOGGLE_TIMER = "toggleTimer";
-
-    private static final Map<UUID, InputState> INPUTS = new HashMap<>();
-
-    private static final class InputState {
-        boolean jump;
-        boolean sneak;
-        boolean forward;
-        int ttl;
-    }
 
     public ElectricJetpackItem(Settings settings) {
         super(ModArmorMaterials.JETPACK, Type.CHESTPLATE, settings.maxCount(1));
@@ -100,112 +82,37 @@ public final class ElectricJetpackItem extends ArmorItem implements IElectricIte
         return TIER;
     }
 
-    public boolean isHoverModeActive(ItemStack stack) {
-        return stack.hasNbt() && stack.getNbt().getBoolean(NBT_HOVER);
+    @Override
+    public boolean isFlightActive(ItemStack stack) {
+        return true;
     }
 
-    public void setHoverModeActive(ItemStack stack, boolean active) {
-        if (!active && !stack.hasNbt()) return;
-        stack.getOrCreateNbt().putBoolean(NBT_HOVER, active);
-    }
-
-    public static void toggleHoverMode(ServerPlayerEntity player) {
-        ItemStack chest = player.getEquippedStack(EquipmentSlot.CHEST);
-        if (!(chest.getItem() instanceof ElectricJetpackItem jetpack)) {
-            player.sendMessage(Text.translatable("message.industrial_legacy.jetpack.no_module").formatted(Formatting.GRAY), true);
-            return;
-        }
-
-        NbtCompound nbt = chest.getOrCreateNbt();
-        int toggleTimer = nbt.getByte(NBT_TOGGLE_TIMER) & 0xFF;
-        if (toggleTimer != 0) {
-            return;
-        }
-
-        boolean hoverMode = !jetpack.isHoverModeActive(chest);
-        jetpack.setHoverModeActive(chest, hoverMode);
-        nbt.putByte(NBT_TOGGLE_TIMER, (byte) 10);
-        player.sendMessage(Text.translatable(hoverMode
-                ? "message.industrial_legacy.jetpack.hover_enabled"
-                : "message.industrial_legacy.jetpack.hover_disabled").formatted(Formatting.GRAY), true);
-    }
-
-    public static void handleInput(ServerPlayerEntity player, boolean jump, boolean sneak, boolean forward) {
-        ItemStack chest = player.getEquippedStack(EquipmentSlot.CHEST);
-        if (!(chest.getItem() instanceof ElectricJetpackItem)) {
-            INPUTS.remove(player.getUuid());
-            return;
-        }
-
-        InputState state = INPUTS.computeIfAbsent(player.getUuid(), id -> new InputState());
-        state.jump = jump;
-        state.sneak = sneak;
-        state.forward = forward;
-        state.ttl = 3;
-    }
-
-    public static void tickServerPlayer(ServerPlayerEntity player) {
-        ItemStack chest = player.getEquippedStack(EquipmentSlot.CHEST);
-        if (!(chest.getItem() instanceof ElectricJetpackItem jetpack) || !jetpack.isJetpackActive(chest)) {
-            INPUTS.remove(player.getUuid());
-            return;
-        }
-
-        decrementToggleTimer(chest);
-
-        InputState state = INPUTS.get(player.getUuid());
-        boolean jump = state != null && state.jump;
-        boolean sneak = state != null && state.sneak;
-        boolean forward = state != null && state.forward;
-        decayInputState(player.getUuid(), state);
-
-        boolean hoverMode = jetpack.isHoverModeActive(chest);
-        boolean jetpackUsed = false;
+    @Override
+    public void tickFlightServer(ServerPlayerEntity player, ItemStack stack, boolean jump, boolean sneak, boolean forward) {
+        boolean hoverMode = isHoverModeActive(stack);
+        boolean used = false;
 
         if (jump || hoverMode) {
-            jetpackUsed = jetpack.useJetpack(player, hoverMode, chest, jump, sneak, forward, true);
+            used = useJetpack(player, hoverMode, stack, jump, sneak, forward, true);
             if (player.isOnGround() && hoverMode) {
-                jetpack.setHoverModeActive(chest, false);
-                player.sendMessage(Text.translatable("message.industrial_legacy.jetpack.hover_disabled").formatted(Formatting.GRAY), true);
+                setHoverModeActive(stack, false);
+                onGroundHoverDisabled(player, stack);
             }
         }
 
-        if (jetpackUsed) {
+        if (used) {
             player.currentScreenHandler.sendContentUpdates();
         }
     }
 
-    public static void tickClientPlayer(PlayerEntity player, boolean jump, boolean sneak, boolean forward) {
-        if (player == null) return;
-
-        ItemStack chest = player.getEquippedStack(EquipmentSlot.CHEST);
-        if (!(chest.getItem() instanceof ElectricJetpackItem jetpack) || !jetpack.isJetpackActive(chest)) {
-            return;
-        }
-
-        boolean hoverMode = jetpack.isHoverModeActive(chest);
+    @Override
+    public void tickFlightClient(PlayerEntity player, ItemStack stack, boolean jump, boolean sneak, boolean forward) {
+        boolean hoverMode = isHoverModeActive(stack);
         if (jump || hoverMode) {
-            jetpack.useJetpack(player, hoverMode, chest, jump, sneak, forward, false);
+            useJetpack(player, hoverMode, stack, jump, sneak, forward, false);
             if (player.isOnGround() && hoverMode) {
-                jetpack.setHoverModeActive(chest, false);
+                setHoverModeActive(stack, false);
             }
-        }
-    }
-
-    private static void decrementToggleTimer(ItemStack stack) {
-        if (!stack.hasNbt()) return;
-        NbtCompound nbt = stack.getNbt();
-        int toggleTimer = nbt.getByte(NBT_TOGGLE_TIMER) & 0xFF;
-        if (toggleTimer > 0) {
-            nbt.putByte(NBT_TOGGLE_TIMER, (byte) (toggleTimer - 1));
-        }
-    }
-
-    private static void decayInputState(UUID playerId, @Nullable InputState state) {
-        if (state == null) return;
-        if (state.ttl > 0) state.ttl--;
-        if (state.ttl <= 0) {
-            INPUTS.remove(playerId);
         }
     }
 
@@ -271,10 +178,6 @@ public final class ElectricJetpackItem extends ArmorItem implements IElectricIte
         return true;
     }
 
-    public boolean isJetpackActive(ItemStack stack) {
-        return true;
-    }
-
     private double getChargeLevel(ItemStack stack) {
         return (double) getEnergy(stack) / (double) CAPACITY_EU;
     }
@@ -311,8 +214,8 @@ public final class ElectricJetpackItem extends ArmorItem implements IElectricIte
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         tooltip.add(Text.literal(EnergyDisplayUtil.formatEuStorage(getEnergy(stack), CAPACITY_EU, 3)).formatted(Formatting.GRAY));
         tooltip.add(Text.translatable(isHoverModeActive(stack)
-                ? "message.industrial_legacy.jetpack.state_hover_on"
-                : "message.industrial_legacy.jetpack.state_hover_off").formatted(Formatting.DARK_GRAY));
+                ? "message.industrial_legacy.flight.state_hover_on"
+                : "message.industrial_legacy.flight.state_hover_off").formatted(Formatting.DARK_GRAY));
         tooltip.add(Text.translatable("tooltip.industrial_legacy.power_tier", TIER).formatted(Formatting.DARK_GRAY));
     }
 }

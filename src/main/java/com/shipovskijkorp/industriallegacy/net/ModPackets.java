@@ -7,7 +7,7 @@ import com.shipovskijkorp.industriallegacy.block.entity.LvTransformerBlockEntity
 import com.shipovskijkorp.industriallegacy.block.entity.MvTransformerBlockEntity;
 import com.shipovskijkorp.industriallegacy.block.entity.MetalFormerBlockEntity;
 import com.shipovskijkorp.industriallegacy.block.entity.RedstoneModeCycleTarget;
-import com.shipovskijkorp.industriallegacy.item.armor.ElectricJetpackItem;
+import com.shipovskijkorp.industriallegacy.item.flight.ChestFlightManager;
 import com.shipovskijkorp.industriallegacy.item.nvg.INightVisionModule;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.EquipmentSlot;
@@ -32,11 +32,11 @@ public final class ModPackets {
     public static final Identifier TOGGLE_NIGHTVISION =
             new Identifier(IndustrialLegacy.MOD_ID, "toggle_nightvision");
 
-    public static final Identifier TOGGLE_JETPACK_HOVER =
-            new Identifier(IndustrialLegacy.MOD_ID, "toggle_jetpack_hover");
+    public static final Identifier TOGGLE_CHEST_FLIGHT_HOVER =
+            new Identifier(IndustrialLegacy.MOD_ID, "toggle_chest_flight_hover");
 
-    public static final Identifier JETPACK_INPUT =
-            new Identifier(IndustrialLegacy.MOD_ID, "jetpack_input");
+    public static final Identifier CHEST_FLIGHT_INPUT =
+            new Identifier(IndustrialLegacy.MOD_ID, "chest_flight_input");
 
     public static final Identifier METAL_FORMER_CYCLE_MODE =
             new Identifier(IndustrialLegacy.MOD_ID, "metal_former_cycle_mode");
@@ -58,15 +58,15 @@ public final class ModPackets {
         ServerPlayNetworking.registerGlobalReceiver(TOGGLE_NIGHTVISION,
                 (server, player, handler, buf, responseSender) -> server.execute(() -> toggleNightVision(player)));
 
-        ServerPlayNetworking.registerGlobalReceiver(TOGGLE_JETPACK_HOVER,
-                (server, player, handler, buf, responseSender) -> server.execute(() -> ElectricJetpackItem.toggleHoverMode(player)));
+        ServerPlayNetworking.registerGlobalReceiver(TOGGLE_CHEST_FLIGHT_HOVER,
+                (server, player, handler, buf, responseSender) -> server.execute(() -> ChestFlightManager.toggleHoverMode(player)));
 
-        ServerPlayNetworking.registerGlobalReceiver(JETPACK_INPUT,
+        ServerPlayNetworking.registerGlobalReceiver(CHEST_FLIGHT_INPUT,
                 (server, player, handler, buf, responseSender) -> {
                     boolean jump = buf.readBoolean();
                     boolean sneak = buf.readBoolean();
                     boolean forward = buf.readBoolean();
-                    server.execute(() -> ElectricJetpackItem.handleInput(player, jump, sneak, forward));
+                    server.execute(() -> ChestFlightManager.handleInput(player, jump, sneak, forward));
                 });
 
         ServerPlayNetworking.registerGlobalReceiver(METAL_FORMER_CYCLE_MODE,
