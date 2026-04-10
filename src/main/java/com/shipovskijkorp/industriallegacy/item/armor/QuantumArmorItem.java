@@ -85,7 +85,7 @@ public class QuantumArmorItem extends ArmorItem implements IElectricItem {
 
     @Override
     public int getItemBarColor(ItemStack stack) {
-        return 0x55FFFF;
+        return 0x55FF55;
     }
 
     protected static long drainIgnoreLimit(ItemStack stack, long amount, boolean simulate) {

@@ -2,17 +2,24 @@ package com.shipovskijkorp.industriallegacy.item.armor;
 
 import com.shipovskijkorp.industriallegacy.util.PlayerInputStateManager;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.World;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 /**
  * Quantum boots jump boost.
+ *
+ * Server side mirrors the original energy trigger, client side mirrors the original motion logic.
  */
 public final class QuantumBootsItem extends QuantumArmorItem {
     private static final String NBT_WAS_ON_GROUND = "wasOnGround";
-    private static final String NBT_JUMP_CHARGE = "jumpCharge";
+    private static final Map<UUID, Float> CLIENT_JUMP_CHARGE = new HashMap<>();
 
     public QuantumBootsItem(Settings settings) {
         super(Type.BOOTS, settings);
@@ -30,18 +37,27 @@ public final class QuantumBootsItem extends QuantumArmorItem {
         boolean boost = PlayerInputStateManager.isBoost(player);
 
         boolean wasOnGround = !nbt.contains(NBT_WAS_ON_GROUND) || nbt.getBoolean(NBT_WAS_ON_GROUND);
-        if (wasOnGround && !player.isOnGround() && jump && boost && canUse(stack, 4000)) {
+        if (wasOnGround && !player.isOnGround() && jump && boost) {
             drainIgnoreLimit(stack, 4000, false);
         }
         if (player.isOnGround() != wasOnGround) {
             nbt.putBoolean(NBT_WAS_ON_GROUND, player.isOnGround());
         }
+    }
 
-        if (canUse(stack, 4000) && player.isOnGround()) {
-            nbt.putFloat(NBT_JUMP_CHARGE, 1.0f);
+    public static void tickClientPlayer(PlayerEntity player, boolean jump, boolean boost) {
+        if (player == null) return;
+        ItemStack stack = player.getEquippedStack(EquipmentSlot.FEET);
+        if (!(stack.getItem() instanceof QuantumBootsItem boots)) {
+            CLIENT_JUMP_CHARGE.remove(player.getUuid());
+            return;
         }
 
-        float jumpCharge = nbt.getFloat(NBT_JUMP_CHARGE);
+        float jumpCharge = CLIENT_JUMP_CHARGE.getOrDefault(player.getUuid(), 0.0f);
+        if (boots.canUse(stack, 4000) && player.isOnGround()) {
+            jumpCharge = 1.0f;
+        }
+
         if (player.getVelocity().y >= 0.0 && jumpCharge > 0.0f && !player.isTouchingWater()) {
             if (jump && boost) {
                 if (jumpCharge == 1.0f) {
@@ -49,11 +65,15 @@ public final class QuantumBootsItem extends QuantumArmorItem {
                 }
                 player.setVelocity(player.getVelocity().x, player.getVelocity().y + jumpCharge * 0.3f, player.getVelocity().z);
                 jumpCharge *= 0.75f;
-                nbt.putFloat(NBT_JUMP_CHARGE, jumpCharge);
-                player.velocityModified = true;
             } else if (jumpCharge < 1.0f) {
-                nbt.putFloat(NBT_JUMP_CHARGE, 0.0f);
+                jumpCharge = 0.0f;
             }
+        }
+
+        if (jumpCharge <= 0.0f) {
+            CLIENT_JUMP_CHARGE.remove(player.getUuid());
+        } else {
+            CLIENT_JUMP_CHARGE.put(player.getUuid(), jumpCharge);
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.shipovskijkorp.industriallegacy.item.armor;
 
+import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.recipe.Ingredient;
@@ -9,26 +10,27 @@ import net.minecraft.sound.SoundEvents;
 import java.util.Map;
 
 /**
- * Quantum armor uses EU instead of vanilla durability/armor values.
+ * Quantum armor keeps diamond-like base armor stats, while EU absorption is handled separately.
  */
 public final class QuantumArmorMaterial implements ArmorMaterial {
     public static final QuantumArmorMaterial INSTANCE = new QuantumArmorMaterial();
 
     private static final Map<ArmorItem.Type, Integer> PROTECTION = Map.of(
-            ArmorItem.Type.HELMET, 0,
-            ArmorItem.Type.CHESTPLATE, 0,
-            ArmorItem.Type.LEGGINGS, 0,
-            ArmorItem.Type.BOOTS, 0
+            ArmorItem.Type.HELMET, 3,
+            ArmorItem.Type.CHESTPLATE, 8,
+            ArmorItem.Type.LEGGINGS, 6,
+            ArmorItem.Type.BOOTS, 3
     );
 
     private static final Map<ArmorItem.Type, Integer> DURABILITY = Map.of(
-            ArmorItem.Type.HELMET, 0,
-            ArmorItem.Type.CHESTPLATE, 0,
-            ArmorItem.Type.LEGGINGS, 0,
-            ArmorItem.Type.BOOTS, 0
+            ArmorItem.Type.HELMET, 363,
+            ArmorItem.Type.CHESTPLATE, 528,
+            ArmorItem.Type.LEGGINGS, 495,
+            ArmorItem.Type.BOOTS, 429
     );
 
-    private QuantumArmorMaterial() {}
+    private QuantumArmorMaterial() {
+    }
 
     @Override
     public int getDurability(ArmorItem.Type type) {
@@ -57,12 +59,12 @@ public final class QuantumArmorMaterial implements ArmorMaterial {
 
     @Override
     public String getName() {
-        return "quantum";
+        return IndustrialLegacy.MOD_ID + ":quantum";
     }
 
     @Override
     public float getToughness() {
-        return 0.0f;
+        return 2.0f;
     }
 
     @Override

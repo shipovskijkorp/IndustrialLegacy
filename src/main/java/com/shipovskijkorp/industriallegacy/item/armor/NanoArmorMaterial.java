@@ -1,5 +1,6 @@
 package com.shipovskijkorp.industriallegacy.item.armor;
 
+import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.recipe.Ingredient;
@@ -9,32 +10,27 @@ import net.minecraft.sound.SoundEvents;
 import java.util.Map;
 
 /**
- * Nano armor uses EU instead of durability. Vanilla protection is handled by our damage mixin (IC2-like),
- * so this material has 0 protection values and no durability/repair.
- *
- * Armor textures are resolved by {@link #getName()}:
- *  assets/industrial_legacy/textures/models/armor/nano_layer_1.png
- *  assets/industrial_legacy/textures/models/armor/nano_layer_2.png
+ * Nano armor should have diamond-like base armor stats, while EU absorption is handled separately.
  */
 public final class NanoArmorMaterial implements ArmorMaterial {
-
     public static final NanoArmorMaterial INSTANCE = new NanoArmorMaterial();
 
     private static final Map<ArmorItem.Type, Integer> PROTECTION = Map.of(
-            ArmorItem.Type.HELMET, 0,
-            ArmorItem.Type.CHESTPLATE, 0,
-            ArmorItem.Type.LEGGINGS, 0,
-            ArmorItem.Type.BOOTS, 0
+            ArmorItem.Type.HELMET, 3,
+            ArmorItem.Type.CHESTPLATE, 8,
+            ArmorItem.Type.LEGGINGS, 6,
+            ArmorItem.Type.BOOTS, 3
     );
 
     private static final Map<ArmorItem.Type, Integer> DURABILITY = Map.of(
-            ArmorItem.Type.HELMET, 0,
-            ArmorItem.Type.CHESTPLATE, 0,
-            ArmorItem.Type.LEGGINGS, 0,
-            ArmorItem.Type.BOOTS, 0
+            ArmorItem.Type.HELMET, 363,
+            ArmorItem.Type.CHESTPLATE, 528,
+            ArmorItem.Type.LEGGINGS, 495,
+            ArmorItem.Type.BOOTS, 429
     );
 
-    private NanoArmorMaterial() {}
+    private NanoArmorMaterial() {
+    }
 
     @Override
     public int getDurability(ArmorItem.Type type) {
@@ -63,12 +59,12 @@ public final class NanoArmorMaterial implements ArmorMaterial {
 
     @Override
     public String getName() {
-        return "nano";
+        return IndustrialLegacy.MOD_ID + ":nano";
     }
 
     @Override
     public float getToughness() {
-        return 0.0f;
+        return 2.0f;
     }
 
     @Override

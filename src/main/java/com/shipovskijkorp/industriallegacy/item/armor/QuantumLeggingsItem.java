@@ -1,7 +1,9 @@
 package com.shipovskijkorp.industriallegacy.item.armor;
 
+import com.shipovskijkorp.industriallegacy.config.ILConfig;
 import com.shipovskijkorp.industriallegacy.util.PlayerInputStateManager;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -9,7 +11,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
- * Quantum leggings speed boost.
+ * Quantum leggings speed boost, following IC2 logic closely.
  */
 public final class QuantumLeggingsItem extends QuantumArmorItem {
     private static final String NBT_SPEED_TICKER = "speedTicker";
@@ -25,9 +27,11 @@ public final class QuantumLeggingsItem extends QuantumArmorItem {
         if (!(entity instanceof ServerPlayerEntity player)) return;
         if (player.getEquippedStack(EquipmentSlot.LEGS) != stack) return;
 
+        boolean jump = PlayerInputStateManager.isJump(player);
         boolean forward = PlayerInputStateManager.isForward(player);
-        boolean boost = PlayerInputStateManager.isBoost(player) || player.isSprinting();
-        if (!canUse(stack, 1000) || !(player.isOnGround() || player.isTouchingWater()) || !forward || !boost) {
+        boolean enableQuantumSpeedOnSprint = ILConfig.getBool("misc/quantumSpeedOnSprint", true);
+        boolean boostActive = enableQuantumSpeedOnSprint ? player.isSprinting() : PlayerInputStateManager.isBoost(player);
+        if (!canUse(stack, 1000) || !(player.isOnGround() || player.isTouchingWater()) || !forward || !boostActive) {
             return;
         }
 
@@ -40,14 +44,35 @@ public final class QuantumLeggingsItem extends QuantumArmorItem {
         }
         nbt.putByte(NBT_SPEED_TICKER, (byte) speedTicker);
 
+        applySpeed(player, jump);
+        player.velocityModified = true;
+    }
+
+    public static void tickClientPlayer(PlayerEntity player, boolean jump, boolean forward, boolean boostKey) {
+        if (player == null) return;
+        ItemStack stack = player.getEquippedStack(EquipmentSlot.LEGS);
+        if (!(stack.getItem() instanceof QuantumLeggingsItem leggings)) return;
+
+        boolean enableQuantumSpeedOnSprint = ILConfig.getBool("misc/quantumSpeedOnSprint", true);
+        boolean boostActive = enableQuantumSpeedOnSprint ? player.isSprinting() : boostKey;
+        if (!leggings.canUse(stack, 1000) || !(player.isOnGround() || player.isTouchingWater()) || !forward || !boostActive) {
+            return;
+        }
+
+        applySpeed(player, jump);
+    }
+
+    private static void applySpeed(PlayerEntity player, boolean jump) {
         float speed = 0.22f;
         if (player.isTouchingWater()) {
             speed = 0.1f;
-            if (PlayerInputStateManager.isJump(player)) {
+            if (jump) {
                 player.setVelocity(player.getVelocity().x, player.getVelocity().y + 0.10000000149011612, player.getVelocity().z);
             }
         }
-        player.updateVelocity(speed, new Vec3d(0.0, 0.0, 1.0));
-        player.velocityModified = true;
+
+        if (speed > 0.0f) {
+            player.updateVelocity(speed, new Vec3d(0.0, 0.0, 1.0));
+        }
     }
 }

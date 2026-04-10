@@ -17,8 +17,6 @@ public final class QuantumChestplateItem extends QuantumArmorItem implements IFl
     private static final float HOVER_UP = 0.1f;
     private static final float HOVER_DOWN = 0.1f;
     private static final float WORLD_HEIGHT_DIVISOR = 0.9f;
-    private static final long EU_HOVER = 7L;
-    private static final long EU_NORMAL = 8L;
 
     public QuantumChestplateItem(Settings settings) {
         super(Type.CHESTPLATE, settings);
@@ -42,13 +40,15 @@ public final class QuantumChestplateItem extends QuantumArmorItem implements IFl
     public void tickFlightServer(ServerPlayerEntity player, ItemStack stack, boolean jump, boolean sneak, boolean forward) {
         boolean hoverMode = isHoverModeActive(stack);
         boolean used = false;
+
         if (jump || hoverMode) {
-            used = useQuantumFlight(player, hoverMode, stack, jump, sneak, forward, true);
+            used = useQuantumFlight(player, stack, hoverMode, jump, sneak, forward, true);
             if (player.isOnGround() && hoverMode) {
                 setHoverModeActive(stack, false);
                 onGroundHoverDisabled(player, stack);
             }
         }
+
         if (used) {
             player.currentScreenHandler.sendContentUpdates();
         }
@@ -58,16 +58,18 @@ public final class QuantumChestplateItem extends QuantumArmorItem implements IFl
     public void tickFlightClient(PlayerEntity player, ItemStack stack, boolean jump, boolean sneak, boolean forward) {
         boolean hoverMode = isHoverModeActive(stack);
         if (jump || hoverMode) {
-            useQuantumFlight(player, hoverMode, stack, jump, sneak, forward, false);
+            useQuantumFlight(player, stack, hoverMode, jump, sneak, forward, false);
             if (player.isOnGround() && hoverMode) {
                 setHoverModeActive(stack, false);
             }
         }
     }
 
-    private boolean useQuantumFlight(PlayerEntity player, boolean hoverMode, ItemStack stack, boolean jump, boolean sneak, boolean forward, boolean consumeEnergy) {
+    private boolean useQuantumFlight(PlayerEntity player, ItemStack stack, boolean hoverMode, boolean jump, boolean sneak, boolean forward, boolean consumeEnergy) {
         double chargeLevel = (double) getEnergy(stack) / (double) CAPACITY_EU;
-        if (chargeLevel <= 0.0) return false;
+        if (chargeLevel <= 0.0D) {
+            return false;
+        }
 
         float power = POWER;
         if (chargeLevel <= DROP_PERCENTAGE) {
@@ -76,9 +78,10 @@ public final class QuantumChestplateItem extends QuantumArmorItem implements IFl
 
         if (forward) {
             float retruster = hoverMode ? 1.0f : 0.15f;
+            float boost = 0.0f;
             float forwardPower = power * retruster * 2.0f;
             if (forwardPower > 0.0f) {
-                player.updateVelocity(0.02f, new Vec3d(0.0, 0.0, 0.4f * forwardPower));
+                player.updateVelocity(0.02f + boost, new Vec3d(0.0D, 0.0D, 0.4f * forwardPower + boost));
             }
         }
 
@@ -86,30 +89,45 @@ public final class QuantumChestplateItem extends QuantumArmorItem implements IFl
         int maxFlightHeight = (int) (worldHeight / WORLD_HEIGHT_DIVISOR);
         double y = player.getY();
         if (y > maxFlightHeight - 25) {
-            if (y > maxFlightHeight) y = maxFlightHeight;
-            power *= (float) ((maxFlightHeight - y) / 25.0);
+            if (y > maxFlightHeight) {
+                y = maxFlightHeight;
+            }
+            power *= (float) ((maxFlightHeight - y) / 25.0D);
         }
 
         double prevMotionY = player.getVelocity().y;
         double motionY = Math.min(player.getVelocity().y + power * 0.2f, 0.6000000238418579D);
         if (hoverMode) {
             float maxHoverY = 0.0f;
-            if (jump) maxHoverY += HOVER_UP;
-            if (sneak) maxHoverY -= HOVER_DOWN;
+            if (jump) {
+                maxHoverY += HOVER_UP;
+            }
+            if (sneak) {
+                maxHoverY += -HOVER_DOWN;
+            }
             if (motionY > maxHoverY) {
                 motionY = maxHoverY;
-                if (prevMotionY > motionY) motionY = prevMotionY;
+                if (prevMotionY > motionY) {
+                    motionY = prevMotionY;
+                }
             }
         }
 
         if (consumeEnergy && !player.isOnGround()) {
-            long cost = hoverMode ? EU_HOVER : EU_NORMAL;
-            if (drainIgnoreLimit(stack, cost, true) < cost) return false;
-            drainIgnoreLimit(stack, cost, false);
+            int consume = hoverMode ? 1 : 2;
+            if (drainJetpackEnergy(stack, consume, true) < consume + 6L) {
+                return false;
+            }
+            drainJetpackEnergy(stack, consume, false);
         }
 
         player.setVelocity(player.getVelocity().x, motionY, player.getVelocity().z);
         player.fallDistance = 0.0f;
         return true;
+    }
+
+    private static long drainJetpackEnergy(ItemStack stack, int amount, boolean simulate) {
+        long total = amount + 6L;
+        return drainIgnoreLimit(stack, total, simulate);
     }
 }

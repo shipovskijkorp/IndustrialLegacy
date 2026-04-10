@@ -17,6 +17,8 @@ import com.shipovskijkorp.industriallegacy.energy.item.ElectricItemManager;
 import com.shipovskijkorp.industriallegacy.item.CableItem;
 import com.shipovskijkorp.industriallegacy.item.CableKind;
 import com.shipovskijkorp.industriallegacy.item.CableVariants;
+import com.shipovskijkorp.industriallegacy.item.armor.QuantumLeggingsItem;
+import com.shipovskijkorp.industriallegacy.item.armor.QuantumBootsItem;
 import com.shipovskijkorp.industriallegacy.item.flight.ChestFlightManager;
 import com.shipovskijkorp.industriallegacy.item.flight.IFlightChestItem;
 import com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem;
@@ -201,6 +203,12 @@ public class IndustrialLegacyClient implements ClientModInitializer {
 
                 if (client.player.getEquippedStack(net.minecraft.entity.EquipmentSlot.CHEST).getItem() instanceof IFlightChestItem) {
                     ChestFlightManager.tickClientPlayer(client.player, jump, sneak, forward);
+                }
+                if (client.player.getEquippedStack(net.minecraft.entity.EquipmentSlot.LEGS).getItem() instanceof QuantumLeggingsItem) {
+                    QuantumLeggingsItem.tickClientPlayer(client.player, jump, forward, boost);
+                }
+                if (client.player.getEquippedStack(net.minecraft.entity.EquipmentSlot.FEET).getItem() instanceof QuantumBootsItem) {
+                    QuantumBootsItem.tickClientPlayer(client.player, jump, boost);
                 }
             }
         });
