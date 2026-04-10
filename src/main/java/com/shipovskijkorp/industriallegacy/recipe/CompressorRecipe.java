@@ -1,5 +1,6 @@
 package com.shipovskijkorp.industriallegacy.recipe;
 
+import com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem;
 import com.shipovskijkorp.industriallegacy.registry.ModRecipes;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
@@ -25,23 +26,31 @@ public class CompressorRecipe implements Recipe<Inventory> {
     private final int ingredientCount;
     private final ItemStack output;
     private final int ticks;
+    private final String requiredFluid;
 
-    public CompressorRecipe(Identifier id, Ingredient ingredient, int ingredientCount, ItemStack output, int ticks) {
+    public CompressorRecipe(Identifier id, Ingredient ingredient, int ingredientCount, ItemStack output, int ticks, String requiredFluid) {
         this.id = id;
         this.ingredient = ingredient;
         this.ingredientCount = Math.max(1, ingredientCount);
         this.output = output;
         this.ticks = ticks;
+        this.requiredFluid = requiredFluid;
     }
 
     public Ingredient getIngredient() { return ingredient; }
     public int getIngredientCount() { return ingredientCount; }
     public int getTicks() { return ticks; }
+    public String getRequiredFluid() { return requiredFluid; }
 
     @Override
     public boolean matches(Inventory inv, World world) {
         ItemStack in = inv.getStack(0);
-        return !in.isEmpty() && in.getCount() >= ingredientCount && ingredient.test(in);
+        if (in.isEmpty() || in.getCount() < ingredientCount || !ingredient.test(in)) return false;
+        if (requiredFluid != null) {
+            if (!(in.getItem() instanceof UniversalFluidCellItem)) return false;
+            return UniversalFluidCellItem.matchesRequiredFluid(in, requiredFluid);
+        }
+        return true;
     }
 
     @Override

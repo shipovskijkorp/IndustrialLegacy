@@ -5,6 +5,7 @@ import com.shipovskijkorp.industriallegacy.item.CableItem;
 import com.shipovskijkorp.industriallegacy.item.CableKind;
 import com.shipovskijkorp.industriallegacy.item.CableVariants;
 import com.shipovskijkorp.industriallegacy.item.EnergyMachineBlockItem;
+import com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem;
 import com.shipovskijkorp.industriallegacy.energy.item.ElectricItemManager;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.ItemConvertible;
@@ -124,6 +125,10 @@ public final class ModItemGroups {
                         add.accept(ModItems.ADVANCED_RE_BATTERY);
                         add.accept(ModItems.ENERGY_CRYSTAL);
                         add.accept(ModItems.LAPOTRON_CRYSTAL);
+                        add.accept(ModItems.FLUID_CELL);
+                        entries.add(UniversalFluidCellItem.createStack(UniversalFluidCellItem.CellFluid.WATER));
+                        entries.add(UniversalFluidCellItem.createStack(UniversalFluidCellItem.CellFluid.LAVA));
+                        entries.add(UniversalFluidCellItem.createStack(UniversalFluidCellItem.CellFluid.AIR));
                         add.accept(ModItems.JETPACK_ELECTRIC);
                         addCharged.accept(ModItems.RE_BATTERY);
                         addCharged.accept(ModItems.ADVANCED_RE_BATTERY);
@@ -136,6 +141,12 @@ public final class ModItemGroups {
                         add.accept(ModItems.NANO_SABER);
                         addCharged.accept(ModItems.NIGHTVISION_GOGGLES);
                         addCharged.accept(ModItems.NANO_SABER);
+
+                        // Hazmat / utility armor
+                        add.accept(ModItems.HAZMAT_HELMET);
+                        add.accept(ModItems.HAZMAT_CHESTPLATE);
+                        add.accept(ModItems.HAZMAT_LEGGINGS);
+                        add.accept(ModItems.RUBBER_BOOTS);
 
                         // NanoSuit armor
                         add.accept(ModItems.NANO_HELMET);

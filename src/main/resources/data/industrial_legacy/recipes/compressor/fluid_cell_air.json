@@ -1,0 +1,13 @@
+{
+  "type": "industrial_legacy:compressor",
+  "ingredient": {
+    "item": "industrial_legacy:fluid_cell"
+  },
+  "required_fluid": "empty",
+  "result": {
+    "item": "industrial_legacy:fluid_cell",
+    "count": 1,
+    "nbt": "{Fluid:"industrial_legacy:air"}"
+  },
+  "ticks": 300
+}

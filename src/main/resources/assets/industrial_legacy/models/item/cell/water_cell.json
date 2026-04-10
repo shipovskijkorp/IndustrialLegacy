@@ -1,6 +1,4 @@
 {
-	"parent": "ic2:item/default",
-	"textures": {
-		"layer0": "ic2:items/cell/water_cell"
-	}
+  "parent": "minecraft:item/generated",
+  "textures": { "layer0": "industrial_legacy:item/cell/water_cell" }
 }

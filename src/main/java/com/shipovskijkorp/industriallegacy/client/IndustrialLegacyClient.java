@@ -19,6 +19,7 @@ import com.shipovskijkorp.industriallegacy.item.CableKind;
 import com.shipovskijkorp.industriallegacy.item.CableVariants;
 import com.shipovskijkorp.industriallegacy.item.flight.ChestFlightManager;
 import com.shipovskijkorp.industriallegacy.item.flight.IFlightChestItem;
+import com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem;
 import com.shipovskijkorp.industriallegacy.item.tool.NanoSaberItem;
 import com.shipovskijkorp.industriallegacy.net.ModPackets;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
@@ -80,6 +81,9 @@ public class IndustrialLegacyClient implements ClientModInitializer {
         registerChargePredicate(ModItems.LAPOTRON_CRYSTAL);
         registerChargePredicate(ModItems.JETPACK_ELECTRIC);
         registerChargePredicate(ModItems.NANO_SABER);
+
+        registerModelPredicate(ModItems.FLUID_CELL, "cell",
+                (stack, world, entity, seed) -> UniversalFluidCellItem.getModelPredicate(stack));
 
         registerModelPredicate(ModItems.NANO_SABER, "active",
                 (stack, world, entity, seed) -> NanoSaberItem.isActive(stack) ? 1.0f : 0.0f);

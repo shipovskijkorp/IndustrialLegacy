@@ -256,5 +256,17 @@
   "message.industrial_legacy.flight.hover_enabled": "Hover Mode enabled.",
   "message.industrial_legacy.flight.hover_disabled": "Hover Mode disabled.",
   "message.industrial_legacy.flight.state_hover_on": "Hover Mode: ON",
-  "message.industrial_legacy.flight.state_hover_off": "Hover Mode: OFF"
+  "message.industrial_legacy.flight.state_hover_off": "Hover Mode: OFF",
+  "item.industrial_legacy.fluid_cell": "Universal Fluid Cell",
+  "item.industrial_legacy.cell.empty": "Empty Cell",
+  "item.industrial_legacy.cell.water": "Water Cell",
+  "item.industrial_legacy.cell.lava": "Lava Cell",
+  "item.industrial_legacy.cell.air": "Compressed Air Cell",
+  "item.industrial_legacy.hazmat_helmet": "Scuba Helmet",
+  "item.industrial_legacy.hazmat_chestplate": "Hazmat Suit",
+  "item.industrial_legacy.hazmat_leggings": "Hazmat Suit Leggings",
+  "item.industrial_legacy.rubber_boots": "Rubber Boots",
+  "tooltip.industrial_legacy.fluid_cell.amount": "%s mB",
+  "tooltip.industrial_legacy.hazmat.air_refill": "Automatically refills air from compressed air cells",
+  "tooltip.industrial_legacy.hazmat.fall_protection": "Provides IC2-style fall protection"
 }

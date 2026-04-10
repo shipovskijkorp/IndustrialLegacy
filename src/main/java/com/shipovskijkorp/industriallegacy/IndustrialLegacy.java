@@ -7,6 +7,7 @@ import com.shipovskijkorp.industriallegacy.net.ModPackets;
 import com.shipovskijkorp.industriallegacy.item.flight.ChestFlightManager;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
 import com.shipovskijkorp.industriallegacy.registry.ModBlocks;
+import com.shipovskijkorp.industriallegacy.registry.ModFluids;
 import com.shipovskijkorp.industriallegacy.registry.ModItemGroups;
 import com.shipovskijkorp.industriallegacy.registry.ModItems;
 import com.shipovskijkorp.industriallegacy.registry.ModRecipes;
@@ -29,6 +30,7 @@ public class IndustrialLegacy implements ModInitializer {
     public void onInitialize() {
         ModBlocks.register();
         ModBlockEntities.register();
+        ModFluids.register();
         ModItems.register();
         ModRecipes.register();
         ModScreenHandlers.register();

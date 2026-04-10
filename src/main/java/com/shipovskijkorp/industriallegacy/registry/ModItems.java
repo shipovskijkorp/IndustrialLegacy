@@ -3,6 +3,7 @@ package com.shipovskijkorp.industriallegacy.registry;
 import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
 import com.shipovskijkorp.industriallegacy.item.*;
 import com.shipovskijkorp.industriallegacy.item.armor.ElectricJetpackItem;
+import com.shipovskijkorp.industriallegacy.item.armor.HazmatArmorItem;
 import com.shipovskijkorp.industriallegacy.item.armor.NanoArmorItem;
 import com.shipovskijkorp.industriallegacy.item.armor.NanoHelmetItem;
 import com.shipovskijkorp.industriallegacy.item.armor.NightVisionGogglesItem;
@@ -168,9 +169,14 @@ public final class ModItems {
     // Batteries (electric items)
     public static final Item ENERGY_CRYSTAL = register("energy_crystal", new com.shipovskijkorp.industriallegacy.item.EnergyCrystalItem(new Item.Settings().maxCount(1)));
     public static final Item LAPOTRON_CRYSTAL = register("lapotron_crystal", new com.shipovskijkorp.industriallegacy.item.LapotronCrystalItem(new Item.Settings().maxCount(1)));
+    public static final Item FLUID_CELL = register("fluid_cell", new UniversalFluidCellItem(new Item.Settings().maxCount(64)));
     // Armor / utility
     public static final Item NIGHTVISION_GOGGLES = register("nightvision_goggles", new NightVisionGogglesItem(new Item.Settings().maxCount(1)));
     public static final Item JETPACK_ELECTRIC = register("jetpack_electric", new ElectricJetpackItem(new Item.Settings().maxCount(1)));
+    public static final Item HAZMAT_HELMET = register("hazmat_helmet", new HazmatArmorItem(net.minecraft.item.ArmorItem.Type.HELMET, new Item.Settings().maxCount(1)));
+    public static final Item HAZMAT_CHESTPLATE = register("hazmat_chestplate", new HazmatArmorItem(net.minecraft.item.ArmorItem.Type.CHESTPLATE, new Item.Settings().maxCount(1)));
+    public static final Item HAZMAT_LEGGINGS = register("hazmat_leggings", new HazmatArmorItem(net.minecraft.item.ArmorItem.Type.LEGGINGS, new Item.Settings().maxCount(1)));
+    public static final Item RUBBER_BOOTS = register("rubber_boots", new HazmatArmorItem(net.minecraft.item.ArmorItem.Type.BOOTS, new Item.Settings().maxCount(1)));
 
     // NanoSuit armor (IC2 Exp)
     public static final Item NANO_HELMET = register("nano_helmet", new NanoHelmetItem(new Item.Settings().maxCount(1)));

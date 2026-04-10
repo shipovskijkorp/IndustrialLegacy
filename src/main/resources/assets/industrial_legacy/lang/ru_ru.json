@@ -256,5 +256,17 @@
   "message.industrial_legacy.flight.hover_enabled": "Hover Mode включён.",
   "message.industrial_legacy.flight.hover_disabled": "Hover Mode выключен.",
   "message.industrial_legacy.flight.state_hover_on": "Hover Mode: ВКЛ",
-  "message.industrial_legacy.flight.state_hover_off": "Hover Mode: ВЫКЛ"
+  "message.industrial_legacy.flight.state_hover_off": "Hover Mode: ВЫКЛ",
+  "item.industrial_legacy.fluid_cell": "Универсальная жидкостная капсула",
+  "item.industrial_legacy.cell.empty": "Пустая капсула",
+  "item.industrial_legacy.cell.water": "Капсула воды",
+  "item.industrial_legacy.cell.lava": "Капсула лавы",
+  "item.industrial_legacy.cell.air": "Капсула сжатого воздуха",
+  "item.industrial_legacy.hazmat_helmet": "Шлем-акваланг",
+  "item.industrial_legacy.hazmat_chestplate": "Защитная куртка",
+  "item.industrial_legacy.hazmat_leggings": "Защитные поножи",
+  "item.industrial_legacy.rubber_boots": "Резиновые ботинки",
+  "tooltip.industrial_legacy.fluid_cell.amount": "%s мБ",
+  "tooltip.industrial_legacy.hazmat.air_refill": "Автоматически пополняет воздух из капсул сжатого воздуха",
+  "tooltip.industrial_legacy.hazmat.fall_protection": "Обеспечивает защиту от падения в стиле IC2"
 }
