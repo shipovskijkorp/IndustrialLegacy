@@ -123,9 +123,13 @@ public final class ModItemGroups {
                         add.accept(ModItems.RE_BATTERY);
                         add.accept(ModItems.ADVANCED_RE_BATTERY);
                         add.accept(ModItems.ENERGY_CRYSTAL);
+                        add.accept(ModItems.LAPOTRON_CRYSTAL);
+                        add.accept(ModItems.JETPACK_ELECTRIC);
                         addCharged.accept(ModItems.RE_BATTERY);
                         addCharged.accept(ModItems.ADVANCED_RE_BATTERY);
                         addCharged.accept(ModItems.ENERGY_CRYSTAL);
+                        addCharged.accept(ModItems.LAPOTRON_CRYSTAL);
+                        addCharged.accept(ModItems.JETPACK_ELECTRIC);
 
                         // Night Vision
                         add.accept(ModItems.NIGHTVISION_GOGGLES);

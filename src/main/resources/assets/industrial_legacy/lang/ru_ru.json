@@ -231,7 +231,7 @@
   "gui.industrial_legacy.transformer.switch.mode3": "фиксир. повыш.",
   "gui.industrial_legacy.transformer.output": "Выход:",
   "gui.industrial_legacy.transformer.input": "Вход:",
-  "block.industrial_legacy.metal_former": "Формовщик металла",
+  "block.industrial_legacy.metal_former": "Металлоформовочная машина",
   "block.industrial_legacy.iron_fence": "Железный забор",
   "item.industrial_legacy.iron_rod": "Железный стержень",
   "item.industrial_legacy.bronze_rod": "Бронзовый стержень",
@@ -242,5 +242,14 @@
   "gui.industrial_legacy.metal_former.mode.cutting": "Резка",
   "gui.industrial_legacy.metal_former.switch.extruding": "Сменить режим: Экструзия",
   "gui.industrial_legacy.metal_former.switch.rolling": "Сменить режим: Прокатка",
-  "gui.industrial_legacy.metal_former.switch.cutting": "Сменить режим: Резка"
+  "gui.industrial_legacy.metal_former.switch.cutting": "Сменить режим: Резка",
+  "item.industrial_legacy.jetpack_electric": "Электрический реактивный ранец",
+  "key.industrial_legacy.jetpack_hover_toggle": "Джетпак: режим зависания",
+  "message.industrial_legacy.jetpack.no_module": "Джетпак не найден.",
+  "message.industrial_legacy.jetpack.no_power": "Режим зависания отключён (нет энергии).",
+  "message.industrial_legacy.jetpack.hover_enabled": "Режим зависания включён.",
+  "message.industrial_legacy.jetpack.hover_disabled": "Режим зависания выключен.",
+  "message.industrial_legacy.jetpack.state_hover_on": "Режим зависания: ВКЛ",
+  "message.industrial_legacy.jetpack.state_hover_off": "Режим зависания: ВЫКЛ",
+  "item.industrial_legacy.lapotron_crystal": "Лазутроновый кристалл"
 }

@@ -17,6 +17,7 @@ import com.shipovskijkorp.industriallegacy.energy.item.ElectricItemManager;
 import com.shipovskijkorp.industriallegacy.item.CableItem;
 import com.shipovskijkorp.industriallegacy.item.CableKind;
 import com.shipovskijkorp.industriallegacy.item.CableVariants;
+import com.shipovskijkorp.industriallegacy.item.armor.ElectricJetpackItem;
 import com.shipovskijkorp.industriallegacy.item.tool.NanoSaberItem;
 import com.shipovskijkorp.industriallegacy.net.ModPackets;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
@@ -75,6 +76,8 @@ public class IndustrialLegacyClient implements ClientModInitializer {
         registerChargePredicate(ModItems.RE_BATTERY);
         registerChargePredicate(ModItems.ADVANCED_RE_BATTERY);
         registerChargePredicate(ModItems.ENERGY_CRYSTAL);
+        registerChargePredicate(ModItems.LAPOTRON_CRYSTAL);
+        registerChargePredicate(ModItems.JETPACK_ELECTRIC);
         registerChargePredicate(ModItems.NANO_SABER);
 
         registerModelPredicate(ModItems.NANO_SABER, "active",
@@ -135,6 +138,15 @@ public class IndustrialLegacyClient implements ClientModInitializer {
                 "key.categories.industrial_legacy"
         ));
 
+        KeyBinding jetpackHoverToggle = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key.industrial_legacy.jetpack_hover_toggle",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_H,
+                "key.categories.industrial_legacy"
+        ));
+
+        final boolean[] hoverWasDown = {false};
+
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (nightVisionToggle.wasPressed()) {
                 if (client.player == null) {
@@ -142,6 +154,24 @@ public class IndustrialLegacyClient implements ClientModInitializer {
                 }
                 ClientPlayNetworking.send(ModPackets.TOGGLE_NIGHTVISION,
                         net.fabricmc.fabric.api.networking.v1.PacketByteBufs.empty());
+            }
+
+            boolean hoverDown = jetpackHoverToggle.isPressed();
+            if (hoverDown && !hoverWasDown[0]) {
+                if (client.player == null) {
+                    return;
+                }
+                ClientPlayNetworking.send(ModPackets.TOGGLE_JETPACK_HOVER,
+                        net.fabricmc.fabric.api.networking.v1.PacketByteBufs.empty());
+            }
+            hoverWasDown[0] = hoverDown;
+
+            if (client.player != null && client.player.getEquippedStack(net.minecraft.entity.EquipmentSlot.CHEST).getItem() instanceof ElectricJetpackItem) {
+                var buf = net.fabricmc.fabric.api.networking.v1.PacketByteBufs.create();
+                buf.writeBoolean(client.options.jumpKey.isPressed());
+                buf.writeBoolean(client.options.sneakKey.isPressed());
+                buf.writeBoolean(client.options.forwardKey.isPressed());
+                ClientPlayNetworking.send(ModPackets.JETPACK_INPUT, buf);
             }
         });
     }

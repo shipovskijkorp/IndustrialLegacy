@@ -2,6 +2,7 @@ package com.shipovskijkorp.industriallegacy.registry;
 
 import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
 import com.shipovskijkorp.industriallegacy.item.*;
+import com.shipovskijkorp.industriallegacy.item.armor.ElectricJetpackItem;
 import com.shipovskijkorp.industriallegacy.item.armor.NanoArmorItem;
 import com.shipovskijkorp.industriallegacy.item.armor.NanoHelmetItem;
 import com.shipovskijkorp.industriallegacy.item.armor.NightVisionGogglesItem;
@@ -166,8 +167,10 @@ public final class ModItems {
 
     // Batteries (electric items)
     public static final Item ENERGY_CRYSTAL = register("energy_crystal", new com.shipovskijkorp.industriallegacy.item.EnergyCrystalItem(new Item.Settings().maxCount(1)));
+    public static final Item LAPOTRON_CRYSTAL = register("lapotron_crystal", new com.shipovskijkorp.industriallegacy.item.LapotronCrystalItem(new Item.Settings().maxCount(1)));
     // Armor / utility
     public static final Item NIGHTVISION_GOGGLES = register("nightvision_goggles", new NightVisionGogglesItem(new Item.Settings().maxCount(1)));
+    public static final Item JETPACK_ELECTRIC = register("jetpack_electric", new ElectricJetpackItem(new Item.Settings().maxCount(1)));
 
     // NanoSuit armor (IC2 Exp)
     public static final Item NANO_HELMET = register("nano_helmet", new NanoHelmetItem(new Item.Settings().maxCount(1)));

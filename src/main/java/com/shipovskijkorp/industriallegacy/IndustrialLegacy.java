@@ -4,6 +4,7 @@ import com.shipovskijkorp.industriallegacy.energy.grid.EnergyNetLocal;
 import com.shipovskijkorp.industriallegacy.block.entity.CableBlockEntity;
 import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
 import com.shipovskijkorp.industriallegacy.net.ModPackets;
+import com.shipovskijkorp.industriallegacy.item.armor.ElectricJetpackItem;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
 import com.shipovskijkorp.industriallegacy.registry.ModBlocks;
 import com.shipovskijkorp.industriallegacy.registry.ModItemGroups;
@@ -35,7 +36,12 @@ public class IndustrialLegacy implements ModInitializer {
         ModItemGroups.register();
         ModPackets.registerServerReceivers();
 
-        ServerTickEvents.END_WORLD_TICK.register(world -> EnergyNetLocal.get(world).onWorldTickEnd(world));
+        ServerTickEvents.END_WORLD_TICK.register(world -> {
+            for (var player : world.getPlayers()) {
+                ElectricJetpackItem.tickPlayer(player);
+            }
+            EnergyNetLocal.get(world).onWorldTickEnd(world);
+        });
 
         ServerChunkEvents.CHUNK_LOAD.register((world, chunk) -> {
             if (chunk.getBlockEntities().values().stream().anyMatch(be -> be instanceof CableBlockEntity || be instanceof IEuEnergyStorage)) {

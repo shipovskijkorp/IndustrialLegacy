@@ -2,62 +2,60 @@ package com.shipovskijkorp.industriallegacy.item.armor;
 
 import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
 import net.minecraft.item.ArmorMaterial;
-import net.minecraft.item.ArmorMaterials;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.Identifier;
-
-import java.util.function.Supplier;
 
 /**
  * Minimal armor materials for utility gear.
- * Nightvision goggles have no protection; material exists mainly to point to the armor texture.
  */
 public final class ModArmorMaterials {
     private ModArmorMaterials() {}
 
-    public static final ArmorMaterial NIGHTVISION = new ArmorMaterial() {
-        @Override
-        public int getDurability(net.minecraft.item.ArmorItem.Type type) {
-            // IC2 goggles are fragile; keep small.
-            return 27;
-        }
+    public static final ArmorMaterial NIGHTVISION = utilityMaterial("nightvision", 27, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER);
+    public static final ArmorMaterial JETPACK = utilityMaterial("jetpack", 27, SoundEvents.ITEM_ARMOR_EQUIP_IRON);
 
-        @Override
-        public int getProtection(net.minecraft.item.ArmorItem.Type type) {
-            return 0;
-        }
+    private static ArmorMaterial utilityMaterial(String name, int durability, SoundEvent equipSound) {
+        return new ArmorMaterial() {
+            @Override
+            public int getDurability(net.minecraft.item.ArmorItem.Type type) {
+                return durability;
+            }
 
-        @Override
-        public int getEnchantability() {
-            return 0;
-        }
+            @Override
+            public int getProtection(net.minecraft.item.ArmorItem.Type type) {
+                return 0;
+            }
 
-        @Override
-        public SoundEvent getEquipSound() {
-            return SoundEvents.ITEM_ARMOR_EQUIP_LEATHER;
-        }
+            @Override
+            public int getEnchantability() {
+                return 0;
+            }
 
-        @Override
-        public Ingredient getRepairIngredient() {
-            return Ingredient.EMPTY;
-        }
+            @Override
+            public SoundEvent getEquipSound() {
+                return equipSound;
+            }
 
-        @Override
-        public String getName() {
-            return IndustrialLegacy.MOD_ID + ":nightvision";
-        }
+            @Override
+            public Ingredient getRepairIngredient() {
+                return Ingredient.EMPTY;
+            }
 
-        @Override
-        public float getToughness() {
-            return 0.0F;
-        }
+            @Override
+            public String getName() {
+                return IndustrialLegacy.MOD_ID + ":" + name;
+            }
 
-        @Override
-        public float getKnockbackResistance() {
-            return 0.0F;
-        }
-    };
+            @Override
+            public float getToughness() {
+                return 0.0F;
+            }
+
+            @Override
+            public float getKnockbackResistance() {
+                return 0.0F;
+            }
+        };
+    }
 }
