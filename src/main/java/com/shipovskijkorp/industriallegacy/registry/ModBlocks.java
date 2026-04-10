@@ -147,6 +147,12 @@ public final class ModBlocks {
             new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).requiresTool())
     );
 
+    /** IC2-like Advanced Machine Block used for higher tier machine recipes. */
+    public static final Block ADVANCED_MACHINE = register(
+            "advanced_machine",
+            new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).requiresTool())
+    );
+
     /** Reinforced glass (IC2-like): explosion resistant glass. */
     public static final Block REINFORCED_GLASS =
             register("reinforced_glass", new ReinforcedGlassBlock());
