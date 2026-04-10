@@ -147,7 +147,7 @@ public class IndustrialLegacyClient implements ClientModInitializer {
 
         final boolean[] hoverWasDown = {false};
 
-        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+        ClientTickEvents.START_CLIENT_TICK.register(client -> {
             while (nightVisionToggle.wasPressed()) {
                 if (client.player == null) {
                     return;
@@ -167,11 +167,17 @@ public class IndustrialLegacyClient implements ClientModInitializer {
             hoverWasDown[0] = hoverDown;
 
             if (client.player != null && client.player.getEquippedStack(net.minecraft.entity.EquipmentSlot.CHEST).getItem() instanceof ElectricJetpackItem) {
+                boolean jump = client.options.jumpKey.isPressed();
+                boolean sneak = client.options.sneakKey.isPressed();
+                boolean forward = client.options.forwardKey.isPressed();
+
                 var buf = net.fabricmc.fabric.api.networking.v1.PacketByteBufs.create();
-                buf.writeBoolean(client.options.jumpKey.isPressed());
-                buf.writeBoolean(client.options.sneakKey.isPressed());
-                buf.writeBoolean(client.options.forwardKey.isPressed());
+                buf.writeBoolean(jump);
+                buf.writeBoolean(sneak);
+                buf.writeBoolean(forward);
                 ClientPlayNetworking.send(ModPackets.JETPACK_INPUT, buf);
+
+                ElectricJetpackItem.tickClientPlayer(client.player, jump, sneak, forward);
             }
         });
     }

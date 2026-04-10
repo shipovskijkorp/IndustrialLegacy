@@ -36,12 +36,13 @@ public class IndustrialLegacy implements ModInitializer {
         ModItemGroups.register();
         ModPackets.registerServerReceivers();
 
-        ServerTickEvents.END_WORLD_TICK.register(world -> {
-            for (var player : world.getPlayers()) {
-                ElectricJetpackItem.tickPlayer(player);
+        ServerTickEvents.START_SERVER_TICK.register(server -> {
+            for (var player : server.getPlayerManager().getPlayerList()) {
+                ElectricJetpackItem.tickServerPlayer(player);
             }
-            EnergyNetLocal.get(world).onWorldTickEnd(world);
         });
+
+        ServerTickEvents.END_WORLD_TICK.register(world -> EnergyNetLocal.get(world).onWorldTickEnd(world));
 
         ServerChunkEvents.CHUNK_LOAD.register((world, chunk) -> {
             if (chunk.getBlockEntities().values().stream().anyMatch(be -> be instanceof CableBlockEntity || be instanceof IEuEnergyStorage)) {
