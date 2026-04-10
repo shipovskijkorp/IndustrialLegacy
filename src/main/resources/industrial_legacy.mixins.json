@@ -11,7 +11,9 @@
     "LivingEntityQuantumArmorMixin",
     "LivingEntityQuantumBootsFallMixin"
   ],
-  "client": [],
+  "client": [
+    "client.HandledScreenCoordinateDebugMixin"
+  ],
   "server": [],
   "injectors": {
     "defaultRequire": 1

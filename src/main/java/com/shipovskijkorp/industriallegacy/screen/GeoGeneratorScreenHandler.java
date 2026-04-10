@@ -42,14 +42,14 @@ public class GeoGeneratorScreenHandler extends ScreenHandler {
         this.inv = inv;
         this.props = props;
 
-        this.addSlot(new Slot(inv, GeoGeneratorBlockEntity.SLOT_FLUID, 27, 17));
-        this.addSlot(new Slot(inv, GeoGeneratorBlockEntity.SLOT_OUTPUT, 27, 53) {
+        this.addSlot(new Slot(inv, GeoGeneratorBlockEntity.SLOT_FLUID, 27, 21));
+        this.addSlot(new Slot(inv, GeoGeneratorBlockEntity.SLOT_OUTPUT, 27, 54) {
             @Override
             public boolean canInsert(net.minecraft.item.ItemStack stack) {
                 return false;
             }
         });
-        this.addSlot(new Slot(inv, GeoGeneratorBlockEntity.SLOT_CHARGE, 115, 49));
+        this.addSlot(new Slot(inv, GeoGeneratorBlockEntity.SLOT_CHARGE, 117, 49));
 
         int startX = 8;
         int startY = 84;
