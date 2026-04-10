@@ -268,5 +268,11 @@
   "item.industrial_legacy.rubber_boots": "Rubber Boots",
   "tooltip.industrial_legacy.fluid_cell.amount": "%s mB",
   "tooltip.industrial_legacy.hazmat.air_refill": "Automatically refills air from compressed air cells",
-  "tooltip.industrial_legacy.hazmat.fall_protection": "Provides IC2-style fall protection"
+  "tooltip.industrial_legacy.hazmat.fall_protection": "Provides IC2-style fall protection",
+  "item.industrial_legacy.filled_tin_can": "(Filled) Tin Can",
+  "item.industrial_legacy.quantum_helmet": "Quantum Helmet",
+  "item.industrial_legacy.quantum_chestplate": "Quantum Chestplate",
+  "item.industrial_legacy.quantum_leggings": "Quantum Leggings",
+  "item.industrial_legacy.quantum_boots": "Quantum Boots",
+  "key.industrial_legacy.boost": "Boost"
 }

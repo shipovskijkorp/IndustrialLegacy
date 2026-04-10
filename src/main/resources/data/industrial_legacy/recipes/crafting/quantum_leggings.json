@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "MLM",
+    "I I",
+    "G G"
+  ],
+  "key": {
+    "M": { "item": "industrial_legacy:machine_casing" },
+    "L": { "item": "industrial_legacy:lapotron_crystal" },
+    "I": { "item": "industrial_legacy:iridium_plate" },
+    "G": { "item": "minecraft:glowstone_dust" }
+  },
+  "result": {
+    "item": "industrial_legacy:quantum_leggings",
+    "count": 1
+  }
+}

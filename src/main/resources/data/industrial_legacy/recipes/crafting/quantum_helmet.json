@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "G G",
+    "ILI",
+    "CNC"
+  ],
+  "key": {
+    "G": { "item": "industrial_legacy:reinforced_glass" },
+    "I": { "item": "industrial_legacy:iridium_plate" },
+    "L": { "item": "industrial_legacy:lapotron_crystal" },
+    "C": { "item": "industrial_legacy:advanced_circuit" },
+    "N": { "item": "industrial_legacy:nano_helmet" }
+  },
+  "result": {
+    "item": "industrial_legacy:quantum_helmet",
+    "count": 1
+  }
+}

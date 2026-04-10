@@ -71,7 +71,7 @@
 				},
 				{
 					"type": "item",
-					"name": "ic2:filled_tin_can",
+					"name": "industrial_legacy:filled_tin_can",
 					"weight": 8,
 					"functions": [
 						{

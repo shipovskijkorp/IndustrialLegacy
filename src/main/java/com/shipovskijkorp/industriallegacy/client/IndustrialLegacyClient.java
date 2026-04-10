@@ -80,6 +80,14 @@ public class IndustrialLegacyClient implements ClientModInitializer {
         registerChargePredicate(ModItems.ENERGY_CRYSTAL);
         registerChargePredicate(ModItems.LAPOTRON_CRYSTAL);
         registerChargePredicate(ModItems.JETPACK_ELECTRIC);
+        registerChargePredicate(ModItems.NANO_HELMET);
+        registerChargePredicate(ModItems.NANO_CHESTPLATE);
+        registerChargePredicate(ModItems.NANO_LEGGINGS);
+        registerChargePredicate(ModItems.NANO_BOOTS);
+        registerChargePredicate(ModItems.QUANTUM_HELMET);
+        registerChargePredicate(ModItems.QUANTUM_CHESTPLATE);
+        registerChargePredicate(ModItems.QUANTUM_LEGGINGS);
+        registerChargePredicate(ModItems.QUANTUM_BOOTS);
         registerChargePredicate(ModItems.NANO_SABER);
 
         registerModelPredicate(ModItems.FLUID_CELL, "cell",
@@ -150,6 +158,13 @@ public class IndustrialLegacyClient implements ClientModInitializer {
                 "key.categories.industrial_legacy"
         ));
 
+        KeyBinding boostKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key.industrial_legacy.boost",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_LEFT_CONTROL,
+                "key.categories.industrial_legacy"
+        ));
+
         final boolean[] hoverWasDown = {false};
 
         ClientTickEvents.START_CLIENT_TICK.register(client -> {
@@ -171,18 +186,22 @@ public class IndustrialLegacyClient implements ClientModInitializer {
             }
             hoverWasDown[0] = hoverDown;
 
-            if (client.player != null && client.player.getEquippedStack(net.minecraft.entity.EquipmentSlot.CHEST).getItem() instanceof IFlightChestItem) {
+            if (client.player != null) {
                 boolean jump = client.options.jumpKey.isPressed();
                 boolean sneak = client.options.sneakKey.isPressed();
                 boolean forward = client.options.forwardKey.isPressed();
+                boolean boost = boostKey.isPressed();
 
                 var buf = net.fabricmc.fabric.api.networking.v1.PacketByteBufs.create();
                 buf.writeBoolean(jump);
                 buf.writeBoolean(sneak);
                 buf.writeBoolean(forward);
-                ClientPlayNetworking.send(ModPackets.CHEST_FLIGHT_INPUT, buf);
+                buf.writeBoolean(boost);
+                ClientPlayNetworking.send(ModPackets.PLAYER_CONTROL_INPUT, buf);
 
-                ChestFlightManager.tickClientPlayer(client.player, jump, sneak, forward);
+                if (client.player.getEquippedStack(net.minecraft.entity.EquipmentSlot.CHEST).getItem() instanceof IFlightChestItem) {
+                    ChestFlightManager.tickClientPlayer(client.player, jump, sneak, forward);
+                }
             }
         });
     }

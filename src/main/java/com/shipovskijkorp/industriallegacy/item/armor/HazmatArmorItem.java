@@ -35,7 +35,7 @@ public class HazmatArmorItem extends ArmorItem {
     }
 
     public static boolean isHazmatPiece(ItemStack stack) {
-        return !stack.isEmpty() && stack.getItem() instanceof HazmatArmorItem;
+        return !stack.isEmpty() && (stack.getItem() instanceof HazmatArmorItem || stack.getItem() instanceof QuantumArmorItem);
     }
 
     public static boolean hasCompleteHazmat(LivingEntity living) {

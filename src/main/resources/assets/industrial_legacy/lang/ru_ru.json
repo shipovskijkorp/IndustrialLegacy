@@ -268,5 +268,11 @@
   "item.industrial_legacy.rubber_boots": "Резиновые ботинки",
   "tooltip.industrial_legacy.fluid_cell.amount": "%s мБ",
   "tooltip.industrial_legacy.hazmat.air_refill": "Автоматически пополняет воздух из капсул сжатого воздуха",
-  "tooltip.industrial_legacy.hazmat.fall_protection": "Обеспечивает защиту от падения в стиле IC2"
+  "tooltip.industrial_legacy.hazmat.fall_protection": "Обеспечивает защиту от падения в стиле IC2",
+  "item.industrial_legacy.filled_tin_can": "Заполненная консервная банка",
+  "item.industrial_legacy.quantum_helmet": "Квантовый шлем",
+  "item.industrial_legacy.quantum_chestplate": "Квантовый бронежилет",
+  "item.industrial_legacy.quantum_leggings": "Квантовые штаны",
+  "item.industrial_legacy.quantum_boots": "Квантовые ботинки",
+  "key.industrial_legacy.boost": "Ускорение"
 }

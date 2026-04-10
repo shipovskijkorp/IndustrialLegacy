@@ -158,6 +158,16 @@ public final class ModItemGroups {
                         addCharged.accept(ModItems.NANO_LEGGINGS);
                         addCharged.accept(ModItems.NANO_BOOTS);
 
+                        // QuantumSuit armor
+                        add.accept(ModItems.QUANTUM_HELMET);
+                        add.accept(ModItems.QUANTUM_CHESTPLATE);
+                        add.accept(ModItems.QUANTUM_LEGGINGS);
+                        add.accept(ModItems.QUANTUM_BOOTS);
+                        addCharged.accept(ModItems.QUANTUM_HELMET);
+                        addCharged.accept(ModItems.QUANTUM_CHESTPLATE);
+                        addCharged.accept(ModItems.QUANTUM_LEGGINGS);
+                        addCharged.accept(ModItems.QUANTUM_BOOTS);
+
                         // ------------------------------
                         // Components / crafting items
                         // ------------------------------
@@ -177,6 +187,7 @@ public final class ModItemGroups {
 
                         add.accept(ModItems.PLANT_BALL);
                         add.accept(ModItems.TIN_CAN);
+                        add.accept(ModItems.FILLED_TIN_CAN);
 
                         // Carbon chain (if present)
                         add.accept(ModItems.CARBON_FIBRE);

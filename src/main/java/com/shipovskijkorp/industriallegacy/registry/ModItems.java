@@ -7,6 +7,10 @@ import com.shipovskijkorp.industriallegacy.item.armor.HazmatArmorItem;
 import com.shipovskijkorp.industriallegacy.item.armor.NanoArmorItem;
 import com.shipovskijkorp.industriallegacy.item.armor.NanoHelmetItem;
 import com.shipovskijkorp.industriallegacy.item.armor.NightVisionGogglesItem;
+import com.shipovskijkorp.industriallegacy.item.armor.QuantumBootsItem;
+import com.shipovskijkorp.industriallegacy.item.armor.QuantumChestplateItem;
+import com.shipovskijkorp.industriallegacy.item.armor.QuantumHelmetItem;
+import com.shipovskijkorp.industriallegacy.item.armor.QuantumLeggingsItem;
 import com.shipovskijkorp.industriallegacy.item.reactor.HeatExchangerItem;
 import com.shipovskijkorp.industriallegacy.item.tool.NanoSaberItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -136,6 +140,7 @@ public final class ModItems {
     public static final Item CARBON_MESH = register("carbon_mesh", new Item(new Item.Settings()));
     public static final Item CARBON_PLATE = register("carbon_plate", new Item(new Item.Settings()));
     public static final Item TIN_CAN = register("tin_can", new Item(new Item.Settings()));
+    public static final Item FILLED_TIN_CAN = register("filled_tin_can", new FilledTinCanItem(new Item.Settings().maxCount(64)));
     public static final Item IRON_ROD = register("iron_rod", new Item(new Item.Settings()));
     public static final Item BRONZE_ROD = register("bronze_rod", new Item(new Item.Settings()));
     public static final Item STEEL_ROD = register("steel_rod", new Item(new Item.Settings()));
@@ -183,6 +188,12 @@ public final class ModItems {
     public static final Item NANO_CHESTPLATE = register("nano_chestplate", new NanoArmorItem(net.minecraft.item.ArmorItem.Type.CHESTPLATE, new Item.Settings().maxCount(1)));
     public static final Item NANO_LEGGINGS = register("nano_leggings", new NanoArmorItem(net.minecraft.item.ArmorItem.Type.LEGGINGS, new Item.Settings().maxCount(1)));
     public static final Item NANO_BOOTS = register("nano_boots", new NanoArmorItem(net.minecraft.item.ArmorItem.Type.BOOTS, new Item.Settings().maxCount(1)));
+
+    // QuantumSuit armor (IC2 Exp)
+    public static final Item QUANTUM_HELMET = register("quantum_helmet", new QuantumHelmetItem(new Item.Settings().maxCount(1)));
+    public static final Item QUANTUM_CHESTPLATE = register("quantum_chestplate", new QuantumChestplateItem(new Item.Settings().maxCount(1)));
+    public static final Item QUANTUM_LEGGINGS = register("quantum_leggings", new QuantumLeggingsItem(new Item.Settings().maxCount(1)));
+    public static final Item QUANTUM_BOOTS = register("quantum_boots", new QuantumBootsItem(new Item.Settings().maxCount(1)));
 
     /** IC2: Nano Saber (electric sword). */
     public static final Item NANO_SABER = register("nano_saber", new NanoSaberItem(new Item.Settings().maxCount(1)));

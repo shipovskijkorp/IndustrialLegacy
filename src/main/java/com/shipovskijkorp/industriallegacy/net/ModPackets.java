@@ -8,6 +8,7 @@ import com.shipovskijkorp.industriallegacy.block.entity.MvTransformerBlockEntity
 import com.shipovskijkorp.industriallegacy.block.entity.MetalFormerBlockEntity;
 import com.shipovskijkorp.industriallegacy.block.entity.RedstoneModeCycleTarget;
 import com.shipovskijkorp.industriallegacy.item.flight.ChestFlightManager;
+import com.shipovskijkorp.industriallegacy.util.PlayerInputStateManager;
 import com.shipovskijkorp.industriallegacy.item.nvg.INightVisionModule;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.EquipmentSlot;
@@ -35,8 +36,8 @@ public final class ModPackets {
     public static final Identifier TOGGLE_CHEST_FLIGHT_HOVER =
             new Identifier(IndustrialLegacy.MOD_ID, "toggle_chest_flight_hover");
 
-    public static final Identifier CHEST_FLIGHT_INPUT =
-            new Identifier(IndustrialLegacy.MOD_ID, "chest_flight_input");
+    public static final Identifier PLAYER_CONTROL_INPUT =
+            new Identifier(IndustrialLegacy.MOD_ID, "player_control_input");
 
     public static final Identifier METAL_FORMER_CYCLE_MODE =
             new Identifier(IndustrialLegacy.MOD_ID, "metal_former_cycle_mode");
@@ -61,12 +62,13 @@ public final class ModPackets {
         ServerPlayNetworking.registerGlobalReceiver(TOGGLE_CHEST_FLIGHT_HOVER,
                 (server, player, handler, buf, responseSender) -> server.execute(() -> ChestFlightManager.toggleHoverMode(player)));
 
-        ServerPlayNetworking.registerGlobalReceiver(CHEST_FLIGHT_INPUT,
+        ServerPlayNetworking.registerGlobalReceiver(PLAYER_CONTROL_INPUT,
                 (server, player, handler, buf, responseSender) -> {
                     boolean jump = buf.readBoolean();
                     boolean sneak = buf.readBoolean();
                     boolean forward = buf.readBoolean();
-                    server.execute(() -> ChestFlightManager.handleInput(player, jump, sneak, forward));
+                    boolean boost = buf.readBoolean();
+                    server.execute(() -> PlayerInputStateManager.update(player, jump, sneak, forward, boost));
                 });
 
         ServerPlayNetworking.registerGlobalReceiver(METAL_FORMER_CYCLE_MODE,

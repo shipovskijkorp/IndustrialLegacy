@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "A A",
+    "ILI",
+    "IJI"
+  ],
+  "key": {
+    "A": { "item": "industrial_legacy:advanced_alloy" },
+    "I": { "item": "industrial_legacy:iridium_plate" },
+    "L": { "item": "industrial_legacy:lapotron_crystal" },
+    "J": { "item": "industrial_legacy:jetpack_electric" }
+  },
+  "result": {
+    "item": "industrial_legacy:quantum_chestplate",
+    "count": 1
+  }
+}

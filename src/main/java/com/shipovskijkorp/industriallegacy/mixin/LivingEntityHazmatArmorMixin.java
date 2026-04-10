@@ -24,7 +24,6 @@ public abstract class LivingEntityHazmatArmorMixin {
 
         LivingEntity self = (LivingEntity) (Object) this;
         int pieceCount = countHazmatPieces(self);
-        if (pieceCount <= 0) return amount;
 
         boolean hazardSource = isHazmatAbsorbSource(self, source);
         boolean fullSuit = HazmatArmorItem.hasCompleteHazmat(self);
@@ -35,6 +34,8 @@ public abstract class LivingEntityHazmatArmorMixin {
             }
             return 0.0f;
         }
+
+        if (pieceCount <= 0) return amount;
 
         if (!hazardSource && source.isIn(DamageTypeTags.BYPASSES_ARMOR)) {
             return amount;

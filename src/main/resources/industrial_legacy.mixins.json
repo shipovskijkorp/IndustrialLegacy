@@ -7,7 +7,9 @@
     "AbstractFurnaceBlockEntityMixin",
     "LivingEntityHazmatArmorMixin",
     "LivingEntityNanoArmorMixin",
-    "LivingEntityNanoBootsFallMixin"
+    "LivingEntityNanoBootsFallMixin",
+    "LivingEntityQuantumArmorMixin",
+    "LivingEntityQuantumBootsFallMixin"
   ],
   "client": [],
   "server": [],
