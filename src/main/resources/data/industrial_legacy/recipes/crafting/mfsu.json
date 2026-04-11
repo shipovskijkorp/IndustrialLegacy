@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "LCL",
+    "LML",
+    "LAL"
+  ],
+  "key": {
+    "L": { "item": "industrial_legacy:lapotron_crystal" },
+    "C": { "item": "industrial_legacy:advanced_circuit" },
+    "M": { "item": "industrial_legacy:mfe" },
+    "A": { "item": "industrial_legacy:advanced_machine" }
+  },
+  "result": {
+    "item": "industrial_legacy:mfsu"
+  }
+}

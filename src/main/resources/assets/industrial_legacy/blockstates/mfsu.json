@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "facing=down":  { "model": "industrial_legacy:block/mfsu", "x": 90 },
+    "facing=up":    { "model": "industrial_legacy:block/mfsu", "x": 270 },
+    "facing=north": { "model": "industrial_legacy:block/mfsu" },
+    "facing=east":  { "model": "industrial_legacy:block/mfsu", "y": 90 },
+    "facing=south": { "model": "industrial_legacy:block/mfsu", "y": 180 },
+    "facing=west":  { "model": "industrial_legacy:block/mfsu", "y": 270 }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "B B",
+    "BBB",
+    " B "
+  ],
+  "key": {
+    "B": { "item": "industrial_legacy:bronze_ingot" }
+  },
+  "result": {
+    "item": "industrial_legacy:wrench"
+  }
+}
