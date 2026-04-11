@@ -280,5 +280,8 @@
   "container.industrial_legacy.geo_generator": "Geothermal Generator",
   "block.industrial_legacy.electric_furnace": "Electric Furnace",
   "container.industrial_legacy.electric_furnace": "Electric Furnace",
-  "gui.industrial_legacy.electric_furnace.take_xp": "Collect XP: %s"
+  "gui.industrial_legacy.electric_furnace.take_xp": "Collect XP: %s",
+  "block.industrial_legacy.mfsu": "MFSU",
+  "item.industrial_legacy.wrench": "Wrench",
+  "item.industrial_legacy.mfsu_upgrade_kit": "MFE to MFSU Upgrade Kit"
 }

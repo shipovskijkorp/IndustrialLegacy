@@ -170,6 +170,9 @@ public final class ModItems {
     /** IC2: Advanced Circuit. */
     public static final Item ADVANCED_CIRCUIT = register("advanced_circuit", new Item(new Item.Settings()));
 
+    public static final Item MFSU_UPGRADE_KIT = register("mfsu_upgrade_kit", new MfsuUpgradeKitItem(new Item.Settings().maxCount(16)));
+    public static final Item WRENCH = register("wrench", new WrenchItem(new Item.Settings()));
+
 
     // Batteries (electric items)
     public static final Item ENERGY_CRYSTAL = register("energy_crystal", new com.shipovskijkorp.industriallegacy.item.EnergyCrystalItem(new Item.Settings().maxCount(1)));

@@ -4,7 +4,27 @@
     {
       "rolls": 1,
       "entries": [
-        { "type": "minecraft:item", "name": "industrial_legacy:batbox" }
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "name": "industrial_legacy:batbox",
+              "conditions": [
+                {
+                  "condition": "minecraft:match_tool",
+                  "predicate": {
+                    "items": ["industrial_legacy:wrench"]
+                  }
+                }
+              ]
+            },
+            {
+              "type": "minecraft:item",
+              "name": "industrial_legacy:machine_casing"
+            }
+          ]
+        }
       ],
       "conditions": [
         { "condition": "minecraft:survives_explosion" }

@@ -69,10 +69,12 @@ public final class ModItemGroups {
                         add.accept(ModBlocks.BATBOX);
                         add.accept(ModBlocks.CESU);
                         add.accept(ModBlocks.MFE);
+                        add.accept(ModBlocks.MFSU);
                         add.accept(ModBlocks.LV_TRANSFORMER);
                         addChargedBlock.accept(ModBlocks.BATBOX);
                         addChargedBlock.accept(ModBlocks.CESU);
                         addChargedBlock.accept(ModBlocks.MFE);
+                        addChargedBlock.accept(ModBlocks.MFSU);
                         add.accept(ModBlocks.IRON_FURNACE);
                         add.accept(ModBlocks.ELECTRIC_FURNACE);
                         add.accept(ModBlocks.MACERATOR);
@@ -122,6 +124,7 @@ public final class ModItemGroups {
                         add.accept(ModItems.TREETAP);
                         add.accept(ModItems.FORGE_HAMMER);
                         add.accept(ModItems.CUTTER);
+                        add.accept(ModItems.WRENCH);
 
                         add.accept(ModItems.RE_BATTERY);
                         add.accept(ModItems.ADVANCED_RE_BATTERY);
@@ -180,6 +183,7 @@ public final class ModItemGroups {
 
                         // Circuits
                         add.accept(ModItems.ADVANCED_CIRCUIT);
+                        add.accept(ModItems.MFSU_UPGRADE_KIT);
 
                         // Reactor components
                         add.accept(ModItems.HEAT_EXCHANGER);

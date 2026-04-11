@@ -17,6 +17,7 @@ public final class ModScreenHandlers {
     public static final Identifier ELECTRIC_FURNACE_ID = new Identifier(IndustrialLegacy.MOD_ID, "electric_furnace");
     public static final Identifier CESU_ID = new Identifier(IndustrialLegacy.MOD_ID, "cesu");
     public static final Identifier MFE_ID = new Identifier(IndustrialLegacy.MOD_ID, "mfe");
+    public static final Identifier MFSU_ID = new Identifier(IndustrialLegacy.MOD_ID, "mfsu");
     public static final Identifier MV_TRANSFORMER_ID = new Identifier(IndustrialLegacy.MOD_ID, "mv_transformer");
     public static final Identifier HV_TRANSFORMER_ID = new Identifier(IndustrialLegacy.MOD_ID, "hv_transformer");
     public static final Identifier EV_TRANSFORMER_ID = new Identifier(IndustrialLegacy.MOD_ID, "ev_transformer");
@@ -61,6 +62,7 @@ public final class ModScreenHandlers {
     public static ScreenHandlerType<BatBoxScreenHandler> BATBOX;
     public static ScreenHandlerType<CesuScreenHandler> CESU;
     public static ScreenHandlerType<MfeScreenHandler> MFE;
+    public static ScreenHandlerType<MfsuScreenHandler> MFSU;
 
 
     private ModScreenHandlers() {}
@@ -70,5 +72,6 @@ public final class ModScreenHandlers {
         BATBOX = ScreenHandlerRegistry.registerExtended(BATBOX_ID, BatBoxScreenHandler::new);
         CESU = ScreenHandlerRegistry.registerExtended(CESU_ID, CesuScreenHandler::new);
         MFE = ScreenHandlerRegistry.registerExtended(MFE_ID, MfeScreenHandler::new);
+        MFSU = ScreenHandlerRegistry.registerExtended(MFSU_ID, MfsuScreenHandler::new);
     }
 }

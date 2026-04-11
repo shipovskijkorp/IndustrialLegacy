@@ -60,6 +60,12 @@ public final class ModBlockEntities {
             new Identifier(IndustrialLegacy.MOD_ID, "cesu"),
             FabricBlockEntityTypeBuilder.create(CesuBlockEntity::new, ModBlocks.CESU).build()
     );
+    public static final BlockEntityType<MfsuBlockEntity> MFSU = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE,
+            new Identifier(IndustrialLegacy.MOD_ID, "mfsu"),
+            FabricBlockEntityTypeBuilder.create(MfsuBlockEntity::new, ModBlocks.MFSU).build()
+    );
+
     public static final BlockEntityType<MfeBlockEntity> MFE = Registry.register(
             Registries.BLOCK_ENTITY_TYPE,
             new Identifier(IndustrialLegacy.MOD_ID, "mfe"),

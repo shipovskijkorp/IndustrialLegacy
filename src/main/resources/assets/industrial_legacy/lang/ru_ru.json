@@ -280,5 +280,8 @@
   "container.industrial_legacy.geo_generator": "Геотермальный генератор",
   "block.industrial_legacy.electric_furnace": "Электрическая печь",
   "container.industrial_legacy.electric_furnace": "Электрическая печь",
-  "gui.industrial_legacy.electric_furnace.take_xp": "Забрать опыт: %s"
+  "gui.industrial_legacy.electric_furnace.take_xp": "Забрать опыт: %s",
+  "block.industrial_legacy.mfsu": "МФСУ",
+  "item.industrial_legacy.wrench": "Гаечный ключ",
+  "item.industrial_legacy.mfsu_upgrade_kit": "Набор улучшения МФЭ в МФСУ"
 }

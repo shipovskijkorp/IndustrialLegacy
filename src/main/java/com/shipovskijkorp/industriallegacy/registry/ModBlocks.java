@@ -58,6 +58,15 @@ public final class ModBlocks {
             b -> new EnergyMachineBlockItem(b, new Item.Settings(), 2, 300_000L, true)
     );
 
+    public static final Block MFSU = register(
+            "mfsu",
+            new MfsuBlock(FabricBlockSettings.create()
+                    .strength(2.0f)
+                    .sounds(BlockSoundGroup.METAL)
+                    .requiresTool()),
+            b -> new EnergyMachineBlockItem(b, new Item.Settings(), 4, 40_000_000L, true)
+    );
+
     public static final Block MFE = register(
             "mfe",
             new MfeBlock(FabricBlockSettings.create()
