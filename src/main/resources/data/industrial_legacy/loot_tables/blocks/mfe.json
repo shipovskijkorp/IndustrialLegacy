@@ -14,8 +14,23 @@
                 {
                   "condition": "minecraft:match_tool",
                   "predicate": {
-                    "items": ["industrial_legacy:wrench"]
+                    "items": [
+                      "industrial_legacy:wrench"
+                    ]
                   }
+                }
+              ],
+              "functions": [
+                {
+                  "function": "minecraft:copy_nbt",
+                  "source": "block_entity",
+                  "ops": [
+                    {
+                      "source": "energy",
+                      "target": "energy",
+                      "op": "replace"
+                    }
+                  ]
                 }
               ]
             },
@@ -27,7 +42,9 @@
         }
       ],
       "conditions": [
-        { "condition": "minecraft:survives_explosion" }
+        {
+          "condition": "minecraft:survives_explosion"
+        }
       ]
     }
   ]
