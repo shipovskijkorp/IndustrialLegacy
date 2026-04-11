@@ -1,6 +1,6 @@
 package com.shipovskijkorp.industriallegacy.item;
 
-import com.shipovskijkorp.industriallegacy.energy.EuUtil;
+import com.shipovskijkorp.industriallegacy.energy.util.EuUtil;
 
 import java.util.Locale;
 

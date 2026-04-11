@@ -1,7 +1,7 @@
 package com.shipovskijkorp.industriallegacy.block;
 
 import com.shipovskijkorp.industriallegacy.block.entity.CompressorBlockEntity;
-import com.shipovskijkorp.industriallegacy.energy.EuNetwork;
+import com.shipovskijkorp.industriallegacy.energy.net.EuNetwork;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;

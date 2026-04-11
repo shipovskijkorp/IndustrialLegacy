@@ -1,7 +1,7 @@
 package com.shipovskijkorp.industriallegacy.block;
 
 import com.shipovskijkorp.industriallegacy.block.entity.CableBlockEntity;
-import com.shipovskijkorp.industriallegacy.energy.EuNetwork;
+import com.shipovskijkorp.industriallegacy.energy.net.EuNetwork;
 import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
 import com.shipovskijkorp.industriallegacy.item.CableItem;
 import com.shipovskijkorp.industriallegacy.item.CableKind;
@@ -186,7 +186,7 @@ public class CableBlock extends BlockWithEntity {
         }
 
         cableBe.setOxidationLevel(currentOxidation + 1);
-        com.shipovskijkorp.industriallegacy.energy.EuNetwork.invalidate(world, pos);
+        com.shipovskijkorp.industriallegacy.energy.net.EuNetwork.invalidate(world, pos);
     }
 
     @Override

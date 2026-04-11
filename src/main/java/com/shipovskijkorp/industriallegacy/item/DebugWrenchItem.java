@@ -1,7 +1,7 @@
 package com.shipovskijkorp.industriallegacy.item;
 
 import com.shipovskijkorp.industriallegacy.block.entity.GeneratorBlockEntity;
-import com.shipovskijkorp.industriallegacy.energy.IEuEnergyStorage;
+import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

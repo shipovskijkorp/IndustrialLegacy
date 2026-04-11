@@ -2,10 +2,10 @@ package com.shipovskijkorp.industriallegacy.block.entity;
 
 import com.shipovskijkorp.industriallegacy.block.GeneratorBlock;
 import com.shipovskijkorp.industriallegacy.config.ILConfig;
-import com.shipovskijkorp.industriallegacy.energy.EuNetwork;
-import com.shipovskijkorp.industriallegacy.energy.EuUtil;
+import com.shipovskijkorp.industriallegacy.energy.net.EuNetwork;
+import com.shipovskijkorp.industriallegacy.energy.util.EuUtil;
 import com.shipovskijkorp.industriallegacy.energy.item.ElectricItemManager;
-import com.shipovskijkorp.industriallegacy.energy.IEuEnergyStorage;
+import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.minecraft.block.BlockState;

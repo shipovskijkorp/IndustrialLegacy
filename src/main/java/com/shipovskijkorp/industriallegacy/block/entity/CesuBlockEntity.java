@@ -2,9 +2,9 @@ package com.shipovskijkorp.industriallegacy.block.entity;
 
 import com.shipovskijkorp.industriallegacy.screen.CesuScreenHandler;
 import com.shipovskijkorp.industriallegacy.block.CesuBlock;
-import com.shipovskijkorp.industriallegacy.energy.EuNetwork;
-import com.shipovskijkorp.industriallegacy.energy.EuUtil;
-import com.shipovskijkorp.industriallegacy.energy.IEuEnergyStorage;
+import com.shipovskijkorp.industriallegacy.energy.net.EuNetwork;
+import com.shipovskijkorp.industriallegacy.energy.util.EuUtil;
+import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
 import com.shipovskijkorp.industriallegacy.energy.item.ElectricItemManager;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
 import net.minecraft.block.BlockState;

@@ -104,7 +104,7 @@ public class CableBlockEntity extends BlockEntity {
             if (cb.getKind() == CableKind.SPLITTER) {
                 boolean newActive = !world.isReceivingRedstonePower(pos);
                 if (setActiveInternal(newActive)) {
-                    com.shipovskijkorp.industriallegacy.energy.EuNetwork.invalidate(world, pos);
+                    com.shipovskijkorp.industriallegacy.energy.net.EuNetwork.invalidate(world, pos);
                     sync();
                 }
             }
