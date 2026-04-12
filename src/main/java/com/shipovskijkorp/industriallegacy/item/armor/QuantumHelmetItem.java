@@ -3,6 +3,7 @@ package com.shipovskijkorp.industriallegacy.item.armor;
 import com.shipovskijkorp.industriallegacy.item.FilledTinCanItem;
 import com.shipovskijkorp.industriallegacy.item.nvg.INightVisionModule;
 import com.shipovskijkorp.industriallegacy.registry.ModItems;
+import com.shipovskijkorp.industriallegacy.registry.ModStatusEffects;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -24,6 +25,7 @@ public final class QuantumHelmetItem extends QuantumArmorItem implements INightV
     static {
         POTION_REMOVAL_COST.put(StatusEffects.POISON, 10_000);
         POTION_REMOVAL_COST.put(StatusEffects.WITHER, 25_000);
+        POTION_REMOVAL_COST.put(ModStatusEffects.RADIATION, 20_000);
     }
 
     public QuantumHelmetItem(Settings settings) {
@@ -70,7 +72,13 @@ public final class QuantumHelmetItem extends QuantumArmorItem implements INightV
         for (var entry : POTION_REMOVAL_COST.entrySet()) {
             if (player.hasStatusEffect(entry.getKey())) {
                 StatusEffectInstance effect = player.getStatusEffect(entry.getKey());
-                int cost = entry.getValue() * (effect == null ? 1 : (effect.getAmplifier() + 1));
+                int cost;
+                if (entry.getKey() == ModStatusEffects.RADIATION) {
+                    int normalizedAmp = effect == null ? 0 : Math.max(0, effect.getAmplifier() / 100);
+                    cost = entry.getValue() * (normalizedAmp + 1);
+                } else {
+                    cost = entry.getValue() * (effect == null ? 1 : (effect.getAmplifier() + 1));
+                }
                 if (canUse(stack, cost)) {
                     drainIgnoreLimit(stack, cost, false);
                     player.removeStatusEffect(entry.getKey());

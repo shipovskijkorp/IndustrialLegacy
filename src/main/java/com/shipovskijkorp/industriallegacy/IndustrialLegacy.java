@@ -13,6 +13,7 @@ import com.shipovskijkorp.industriallegacy.registry.ModItemGroups;
 import com.shipovskijkorp.industriallegacy.registry.ModItems;
 import com.shipovskijkorp.industriallegacy.registry.ModRecipes;
 import com.shipovskijkorp.industriallegacy.registry.ModScreenHandlers;
+import com.shipovskijkorp.industriallegacy.registry.ModStatusEffects;
 import com.shipovskijkorp.industriallegacy.worldgen.ModWorldGen;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -33,6 +34,7 @@ public class IndustrialLegacy implements ModInitializer {
         ModBlockEntities.register();
         ModFluids.register();
         ModItems.register();
+        ModStatusEffects.register();
         ModRecipes.register();
         ModScreenHandlers.register();
         ModWorldGen.register();

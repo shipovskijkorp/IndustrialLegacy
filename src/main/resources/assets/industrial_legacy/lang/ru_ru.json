@@ -268,8 +268,6 @@
   "item.industrial_legacy.hazmat_leggings": "Защитные поножи",
   "item.industrial_legacy.rubber_boots": "Резиновые ботинки",
   "tooltip.industrial_legacy.fluid_cell.amount": "%s мБ",
-  "tooltip.industrial_legacy.hazmat.air_refill": "Автоматически пополняет воздух из капсул сжатого воздуха",
-  "tooltip.industrial_legacy.hazmat.fall_protection": "Обеспечивает защиту от падения в стиле IC2",
   "item.industrial_legacy.filled_tin_can": "Заполненная консервная банка",
   "item.industrial_legacy.quantum_helmet": "Квантовый шлем",
   "item.industrial_legacy.quantum_chestplate": "Квантовый бронежилет",
@@ -297,5 +295,12 @@
   "item.industrial_legacy.uranium_238": "Уран-238",
   "item.industrial_legacy.small_uranium_235": "Кусочек урана-235",
   "item.industrial_legacy.uranium": "Обогащённое урановое ядерное топливо",
-  "item.industrial_legacy.uranium_235": "Уран-235"
+  "item.industrial_legacy.uranium_235": "Уран-235",
+  "item.industrial_legacy.uranium_fuel_rod": "Топливный стержень (Уран)",
+  "item.industrial_legacy.dual_uranium_fuel_rod": "Спаренный топливный стержень (Уран)",
+  "item.industrial_legacy.quad_uranium_fuel_rod": "Счетверённый топливный стержень (Уран)",
+  "item.industrial_legacy.depleted_uranium_fuel_rod": "Топливный стержень (Обеднённый уран)",
+  "item.industrial_legacy.depleted_dual_uranium_fuel_rod": "Спаренный топливный стержень (Обеднённый уран)",
+  "item.industrial_legacy.depleted_quad_uranium_fuel_rod": "Счетверённый топливный стержень (Обеднённый уран)",
+  "effect.industrial_legacy.radiation": "Радиация"
 }

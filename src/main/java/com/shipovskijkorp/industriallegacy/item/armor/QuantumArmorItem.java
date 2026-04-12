@@ -2,7 +2,10 @@ package com.shipovskijkorp.industriallegacy.item.armor;
 
 import com.shipovskijkorp.industriallegacy.energy.item.IElectricItem;
 import com.shipovskijkorp.industriallegacy.util.EnergyDisplayUtil;
+import com.shipovskijkorp.industriallegacy.util.RadiationUtil;
 import net.minecraft.client.item.TooltipContext;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -100,6 +103,25 @@ public class QuantumArmorItem extends ArmorItem implements IElectricItem {
 
     protected static boolean canUse(ItemStack stack, long amount) {
         return drainIgnoreLimit(stack, amount, true) >= amount;
+    }
+
+
+    @Override
+    public void inventoryTick(ItemStack stack, World world, net.minecraft.entity.Entity entity, int slot, boolean selected) {
+        super.inventoryTick(stack, world, entity, slot, selected);
+        if (world.isClient) return;
+        if (!(entity instanceof LivingEntity living)) return;
+        if (!isEquippedInCorrectSlot(living, stack)) return;
+        RadiationUtil.clearIfProtected(living);
+    }
+
+    protected boolean isEquippedInCorrectSlot(LivingEntity living, ItemStack stack) {
+        return switch (this.getType()) {
+            case HELMET -> living.getEquippedStack(EquipmentSlot.HEAD) == stack;
+            case CHESTPLATE -> living.getEquippedStack(EquipmentSlot.CHEST) == stack;
+            case LEGGINGS -> living.getEquippedStack(EquipmentSlot.LEGS) == stack;
+            case BOOTS -> living.getEquippedStack(EquipmentSlot.FEET) == stack;
+        };
     }
 
     @Override

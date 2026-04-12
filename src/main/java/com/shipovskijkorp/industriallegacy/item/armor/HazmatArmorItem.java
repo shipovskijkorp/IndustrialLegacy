@@ -1,7 +1,8 @@
 package com.shipovskijkorp.industriallegacy.item.armor;
 
 import com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem;
-import net.minecraft.client.item.TooltipContext;
+import com.shipovskijkorp.industriallegacy.registry.ModStatusEffects;
+import com.shipovskijkorp.industriallegacy.util.RadiationUtil;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -10,9 +11,6 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
 
 /**
  * IC2 Experimental hazmat armor port.
@@ -54,6 +52,8 @@ public class HazmatArmorItem extends ArmorItem {
         if (this.getType() != Type.HELMET) return;
         if (player.getEquippedStack(EquipmentSlot.HEAD) != stack) return;
 
+        RadiationUtil.clearIfProtected(player);
+
         if (player.isOnFire() && hasCompleteHazmat(player)) {
             if (player.isInLava()) {
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 20, 0, true, true));
@@ -69,4 +69,5 @@ public class HazmatArmorItem extends ArmorItem {
             }
         }
     }
+
 }

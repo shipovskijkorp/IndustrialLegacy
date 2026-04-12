@@ -268,8 +268,6 @@
   "item.industrial_legacy.hazmat_leggings": "Hazmat Suit Leggings",
   "item.industrial_legacy.rubber_boots": "Rubber Boots",
   "tooltip.industrial_legacy.fluid_cell.amount": "%s mB",
-  "tooltip.industrial_legacy.hazmat.air_refill": "Automatically refills air from compressed air cells",
-  "tooltip.industrial_legacy.hazmat.fall_protection": "Provides IC2-style fall protection",
   "item.industrial_legacy.filled_tin_can": "(Filled) Tin Can",
   "item.industrial_legacy.quantum_helmet": "Quantum Helmet",
   "item.industrial_legacy.quantum_chestplate": "Quantum Chestplate",
@@ -297,5 +295,12 @@
   "item.industrial_legacy.uranium_238": "Uranium 238",
   "item.industrial_legacy.small_uranium_235": "Tiny Pile of Uranium 235",
   "item.industrial_legacy.uranium": "Enriched Uranium Nuclear Fuel",
-  "item.industrial_legacy.uranium_235": "Uranium 235"
+  "item.industrial_legacy.uranium_235": "Uranium 235",
+  "item.industrial_legacy.uranium_fuel_rod": "Fuel Rod (Uranium)",
+  "item.industrial_legacy.dual_uranium_fuel_rod": "Dual Fuel Rod (Uranium)",
+  "item.industrial_legacy.quad_uranium_fuel_rod": "Quad Fuel Rod (Uranium)",
+  "item.industrial_legacy.depleted_uranium_fuel_rod": "Fuel Rod (Depleted Uranium)",
+  "item.industrial_legacy.depleted_dual_uranium_fuel_rod": "Dual Fuel Rod (Depleted Uranium)",
+  "item.industrial_legacy.depleted_quad_uranium_fuel_rod": "Quad Fuel Rod (Depleted Uranium)",
+  "effect.industrial_legacy.radiation": "Radiation"
 }

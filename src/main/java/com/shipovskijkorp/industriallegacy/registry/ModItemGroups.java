@@ -208,6 +208,12 @@ public final class ModItemGroups {
                         add.accept(ModItems.BRONZE_ROD);
                         add.accept(ModItems.STEEL_ROD);
                         add.accept(ModItems.FUEL_ROD);
+                        add.accept(ModItems.URANIUM_FUEL_ROD);
+                        add.accept(ModItems.DUAL_URANIUM_FUEL_ROD);
+                        add.accept(ModItems.QUAD_URANIUM_FUEL_ROD);
+                        add.accept(ModItems.DEPLETED_URANIUM_FUEL_ROD);
+                        add.accept(ModItems.DEPLETED_DUAL_URANIUM_FUEL_ROD);
+                        add.accept(ModItems.DEPLETED_QUAD_URANIUM_FUEL_ROD);
 
                         // ------------------------------
                         // Ingots
@@ -270,6 +276,11 @@ public final class ModItemGroups {
                         add.accept(ModItems.CRUSHED_IRON_ORE);
                         add.accept(ModItems.CRUSHED_GOLD_ORE);
                         add.accept(ModItems.CRUSHED_URANIUM_ORE);
+                        add.accept(ModItems.PURIFIED_URANIUM_ORE);
+                        add.accept(ModItems.URANIUM_238);
+                        add.accept(ModItems.SMALL_URANIUM_235);
+                        add.accept(ModItems.URANIUM_235);
+                        add.accept(ModItems.URANIUM);
 
                         // ------------------------------
                         // Plates
