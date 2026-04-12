@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:shapeless",
+  "ingredients": [
+    {
+      "item": "industrial_legacy:uranium_block"
+    }
+  ],
+  "result": {
+    "item": "industrial_legacy:uranium_238",
+    "count": 9
+  }
+}

@@ -192,6 +192,12 @@ public final class ModBlocks {
             new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).requiresTool())
     );
 
+    /** Compact storage block for uranium-238. */
+    public static final Block URANIUM_BLOCK = register(
+            "uranium_block",
+            new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).requiresTool())
+    );
+
     /** Reinforced glass (IC2-like): explosion resistant glass. */
     public static final Block REINFORCED_GLASS =
             register("reinforced_glass", new ReinforcedGlassBlock());

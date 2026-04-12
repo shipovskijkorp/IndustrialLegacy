@@ -291,5 +291,11 @@
   "item.industrial_legacy.electric_motor": "Электромотор",
   "container.industrial_legacy.solid_canner": "Наполнитель",
   "container.industrial_legacy.canner": "Консервирующая машина",
-  "container.industrial_legacy.thermal_centrifuge": "Тепловая центрифуга"
+  "container.industrial_legacy.thermal_centrifuge": "Тепловая центрифуга",
+  "block.industrial_legacy.uranium_block": "Урановый блок",
+  "item.industrial_legacy.purified_uranium_ore": "Очищенная дроблёная урановая руда",
+  "item.industrial_legacy.uranium_238": "Уран-238",
+  "item.industrial_legacy.small_uranium_235": "Кусочек урана-235",
+  "item.industrial_legacy.uranium": "Обогащённое урановое ядерное топливо",
+  "item.industrial_legacy.uranium_235": "Уран-235"
 }

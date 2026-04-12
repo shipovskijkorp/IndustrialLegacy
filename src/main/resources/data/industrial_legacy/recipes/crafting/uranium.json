@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "UUU",
+    "UXU",
+    "UUU"
+  ],
+  "key": {
+    "U": {
+      "item": "industrial_legacy:uranium_238"
+    },
+    "X": {
+      "item": "industrial_legacy:small_uranium_235"
+    }
+  },
+  "result": {
+    "item": "industrial_legacy:uranium",
+    "count": 1
+  }
+}

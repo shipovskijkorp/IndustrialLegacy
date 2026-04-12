@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:shapeless",
+  "ingredients": [
+    {
+      "item": "industrial_legacy:crushed_uranium_ore"
+    },
+    {
+      "item": "minecraft:water_bucket"
+    }
+  ],
+  "result": {
+    "item": "industrial_legacy:purified_uranium_ore",
+    "count": 1
+  }
+}

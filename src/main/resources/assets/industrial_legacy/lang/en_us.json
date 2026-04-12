@@ -291,5 +291,11 @@
   "item.industrial_legacy.electric_motor": "Electric Motor",
   "container.industrial_legacy.solid_canner": "Solid Canner",
   "container.industrial_legacy.canner": "Canning Machine",
-  "container.industrial_legacy.thermal_centrifuge": "Thermal Centrifuge"
+  "container.industrial_legacy.thermal_centrifuge": "Thermal Centrifuge",
+  "block.industrial_legacy.uranium_block": "Uranium Block",
+  "item.industrial_legacy.purified_uranium_ore": "Purified Crushed Uranium Ore",
+  "item.industrial_legacy.uranium_238": "Uranium 238",
+  "item.industrial_legacy.small_uranium_235": "Tiny Pile of Uranium 235",
+  "item.industrial_legacy.uranium": "Enriched Uranium Nuclear Fuel",
+  "item.industrial_legacy.uranium_235": "Uranium 235"
 }

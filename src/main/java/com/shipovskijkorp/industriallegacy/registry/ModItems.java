@@ -145,6 +145,11 @@ public final class ModItems {
     public static final Item BRONZE_ROD = register("bronze_rod", new Item(new Item.Settings()));
     public static final Item STEEL_ROD = register("steel_rod", new Item(new Item.Settings()));
     public static final Item FUEL_ROD = register("fuel_rod", new Item(new Item.Settings()));
+    public static final Item PURIFIED_URANIUM_ORE = register("purified_uranium_ore", new Item(new Item.Settings()));
+    public static final Item URANIUM_238 = register("uranium_238", new Item(new Item.Settings()));
+    public static final Item SMALL_URANIUM_235 = register("small_uranium_235", new Item(new Item.Settings()));
+    public static final Item URANIUM = register("uranium", new Item(new Item.Settings()));
+    public static final Item URANIUM_235 = register("uranium_235", new Item(new Item.Settings()));
     public static final Item COIL = register("coil", new Item(new Item.Settings()));
     public static final Item ELECTRIC_MOTOR = register("electric_motor", new Item(new Item.Settings()));
 
