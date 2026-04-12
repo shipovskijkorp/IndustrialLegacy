@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TCT",
+    "TMT",
+    "TTT"
+  ],
+  "key": {
+    "T": {
+      "item": "industrial_legacy:tin_casing"
+    },
+    "C": {
+      "item": "industrial_legacy:electronic_circuit"
+    },
+    "M": {
+      "item": "industrial_legacy:machine_casing"
+    }
+  },
+  "result": {
+    "item": "industrial_legacy:canner"
+  }
+}

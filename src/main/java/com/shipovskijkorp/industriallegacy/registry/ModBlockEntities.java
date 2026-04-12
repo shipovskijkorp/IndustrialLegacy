@@ -103,6 +103,24 @@ public final class ModBlockEntities {
             BlockEntityType.Builder.create(MetalFormerBlockEntity::new, ModBlocks.METAL_FORMER).build(null)
     );
 
+    public static final BlockEntityType<SolidCannerBlockEntity> SOLID_CANNER = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE,
+            new Identifier(IndustrialLegacy.MOD_ID, "solid_canner"),
+            BlockEntityType.Builder.create(SolidCannerBlockEntity::new, ModBlocks.SOLID_CANNER).build(null)
+    );
+
+    public static final BlockEntityType<CannerBlockEntity> CANNER = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE,
+            new Identifier(IndustrialLegacy.MOD_ID, "canner"),
+            BlockEntityType.Builder.create(CannerBlockEntity::new, ModBlocks.CANNER).build(null)
+    );
+
+    public static final BlockEntityType<ThermalCentrifugeBlockEntity> THERMAL_CENTRIFUGE = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE,
+            new Identifier(IndustrialLegacy.MOD_ID, "thermal_centrifuge"),
+            BlockEntityType.Builder.create(ThermalCentrifugeBlockEntity::new, ModBlocks.THERMAL_CENTRIFUGE).build(null)
+    );
+
     /** Cable BE used for thin cable rendering + detector/splitter behavior and EU-net bookkeeping. */
     public static final BlockEntityType<CableBlockEntity> CABLE = Registry.register(
             Registries.BLOCK_ENTITY_TYPE,

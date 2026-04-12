@@ -1,0 +1,16 @@
+{
+  "type": "industrial_legacy:canning",
+  "container": {
+    "item": "industrial_legacy:tin_can",
+    "count": 12
+  },
+  "fill": {
+    "item": "minecraft:cake",
+    "count": 1
+  },
+  "result": {
+    "item": "industrial_legacy:filled_tin_can",
+    "count": 12
+  },
+  "ticks": 600
+}

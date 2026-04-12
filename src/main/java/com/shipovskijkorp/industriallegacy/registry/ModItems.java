@@ -145,6 +145,8 @@ public final class ModItems {
     public static final Item BRONZE_ROD = register("bronze_rod", new Item(new Item.Settings()));
     public static final Item STEEL_ROD = register("steel_rod", new Item(new Item.Settings()));
     public static final Item FUEL_ROD = register("fuel_rod", new Item(new Item.Settings()));
+    public static final Item COIL = register("coil", new Item(new Item.Settings()));
+    public static final Item ELECTRIC_MOTOR = register("electric_motor", new Item(new Item.Settings()));
 
     // Crop-ish / misc (often referenced in IC2 experimental configs)
     public static final Item COFFEE_BEANS = register("coffee_beans", new Item(new Item.Settings()));

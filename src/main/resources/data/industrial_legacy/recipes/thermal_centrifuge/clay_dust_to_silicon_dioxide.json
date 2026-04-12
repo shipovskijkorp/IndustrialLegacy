@@ -1,0 +1,15 @@
+{
+  "type": "industrial_legacy:thermal_centrifuge",
+  "ingredient": {
+    "item": "industrial_legacy:clay_dust"
+  },
+  "input_count": 4,
+  "results": [
+    {
+      "item": "industrial_legacy:silicon_dioxide",
+      "count": 1
+    }
+  ],
+  "ticks": 500,
+  "heat": 250
+}

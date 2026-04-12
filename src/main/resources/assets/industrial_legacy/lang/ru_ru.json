@@ -283,5 +283,13 @@
   "gui.industrial_legacy.electric_furnace.take_xp": "Забрать опыт: %s",
   "block.industrial_legacy.mfsu": "МФСУ",
   "item.industrial_legacy.wrench": "Гаечный ключ",
-  "item.industrial_legacy.mfsu_upgrade_kit": "Набор улучшения МФЭ в МФСУ"
+  "item.industrial_legacy.mfsu_upgrade_kit": "Набор улучшения МФЭ в МФСУ",
+  "block.industrial_legacy.solid_canner": "Наполнитель",
+  "block.industrial_legacy.canner": "Консервирующая машина",
+  "block.industrial_legacy.thermal_centrifuge": "Тепловая центрифуга",
+  "item.industrial_legacy.coil": "Катушка",
+  "item.industrial_legacy.electric_motor": "Электромотор",
+  "container.industrial_legacy.solid_canner": "Наполнитель",
+  "container.industrial_legacy.canner": "Консервирующая машина",
+  "container.industrial_legacy.thermal_centrifuge": "Тепловая центрифуга"
 }

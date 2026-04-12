@@ -283,5 +283,13 @@
   "gui.industrial_legacy.electric_furnace.take_xp": "Collect XP: %s",
   "block.industrial_legacy.mfsu": "MFSU",
   "item.industrial_legacy.wrench": "Wrench",
-  "item.industrial_legacy.mfsu_upgrade_kit": "MFE to MFSU Upgrade Kit"
+  "item.industrial_legacy.mfsu_upgrade_kit": "MFE to MFSU Upgrade Kit",
+  "block.industrial_legacy.solid_canner": "Solid Canner",
+  "block.industrial_legacy.canner": "Canning Machine",
+  "block.industrial_legacy.thermal_centrifuge": "Thermal Centrifuge",
+  "item.industrial_legacy.coil": "Coil",
+  "item.industrial_legacy.electric_motor": "Electric Motor",
+  "container.industrial_legacy.solid_canner": "Solid Canner",
+  "container.industrial_legacy.canner": "Canning Machine",
+  "container.industrial_legacy.thermal_centrifuge": "Thermal Centrifuge"
 }

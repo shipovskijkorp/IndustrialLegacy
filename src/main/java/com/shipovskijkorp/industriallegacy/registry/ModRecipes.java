@@ -48,6 +48,18 @@ public final class ModRecipes {
             new ElectronicCircuitRecipeSerializer()
     );
 
+    public static final RecipeSerializer<CoilRecipe> COIL_SERIALIZER = Registry.register(
+            Registries.RECIPE_SERIALIZER,
+            new Identifier(IndustrialLegacy.MOD_ID, "coil"),
+            new CoilRecipeSerializer()
+    );
+
+    public static final RecipeSerializer<ElectricMotorRecipe> ELECTRIC_MOTOR_SERIALIZER = Registry.register(
+            Registries.RECIPE_SERIALIZER,
+            new Identifier(IndustrialLegacy.MOD_ID, "electric_motor"),
+            new ElectricMotorRecipeSerializer()
+    );
+
     public static final RecipeSerializer<InsulateCableRecipe> INSULATE_CABLE_SERIALIZER = Registry.register(
             Registries.RECIPE_SERIALIZER,
             new Identifier(IndustrialLegacy.MOD_ID, "insulate_cable"),
@@ -143,6 +155,40 @@ public static final RecipeType<MaceratorRecipe> MACERATOR_TYPE = Registry.regist
             new CompressorRecipeSerializer()
     );
 
+
+    public static final RecipeType<CanningRecipe> CANNING_TYPE = Registry.register(
+            Registries.RECIPE_TYPE,
+            new Identifier(IndustrialLegacy.MOD_ID, "canning"),
+            new RecipeType<>() {
+                @Override
+                public String toString() {
+                    return IndustrialLegacy.MOD_ID + ":canning";
+                }
+            }
+    );
+
+    public static final RecipeSerializer<CanningRecipe> CANNING_SERIALIZER = Registry.register(
+            Registries.RECIPE_SERIALIZER,
+            new Identifier(IndustrialLegacy.MOD_ID, "canning"),
+            new CanningRecipeSerializer()
+    );
+
+    public static final RecipeType<ThermalCentrifugeRecipe> THERMAL_CENTRIFUGE_TYPE = Registry.register(
+            Registries.RECIPE_TYPE,
+            new Identifier(IndustrialLegacy.MOD_ID, "thermal_centrifuge"),
+            new RecipeType<>() {
+                @Override
+                public String toString() {
+                    return IndustrialLegacy.MOD_ID + ":thermal_centrifuge";
+                }
+            }
+    );
+
+    public static final RecipeSerializer<ThermalCentrifugeRecipe> THERMAL_CENTRIFUGE_SERIALIZER = Registry.register(
+            Registries.RECIPE_SERIALIZER,
+            new Identifier(IndustrialLegacy.MOD_ID, "thermal_centrifuge"),
+            new ThermalCentrifugeRecipeSerializer()
+    );
 
     public static final RecipeType<MetalFormerRecipe> METAL_FORMER_EXTRUDING_TYPE = Registry.register(
             Registries.RECIPE_TYPE,

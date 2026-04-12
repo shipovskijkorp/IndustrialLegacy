@@ -117,6 +117,36 @@ public final class ModBlocks {
             b -> new EnergyMachineBlockItem(b, new Item.Settings(), 1)
     );
 
+    public static final Block SOLID_CANNER = register(
+            "solid_canner",
+            new SolidCannerBlock(FabricBlockSettings.create()
+                    .strength(2.0f)
+                    .sounds(BlockSoundGroup.METAL)
+                    .requiresTool()
+                    .luminance(state -> state.get(SolidCannerBlock.LIT) ? 13 : 0)),
+            b -> new EnergyMachineBlockItem(b, new Item.Settings(), 1)
+    );
+
+    public static final Block CANNER = register(
+            "canner",
+            new CannerBlock(FabricBlockSettings.create()
+                    .strength(2.0f)
+                    .sounds(BlockSoundGroup.METAL)
+                    .requiresTool()
+                    .luminance(state -> state.get(CannerBlock.LIT) ? 13 : 0)),
+            b -> new EnergyMachineBlockItem(b, new Item.Settings(), 1)
+    );
+
+    public static final Block THERMAL_CENTRIFUGE = register(
+            "thermal_centrifuge",
+            new ThermalCentrifugeBlock(FabricBlockSettings.create()
+                    .strength(2.0f)
+                    .sounds(BlockSoundGroup.METAL)
+                    .requiresTool()
+                    .luminance(state -> state.get(ThermalCentrifugeBlock.LIT) ? 13 : 0)),
+            b -> new EnergyMachineBlockItem(b, new Item.Settings(), 2)
+    );
+
     public static final Block LV_TRANSFORMER = register("lv_transformer",
             new LvTransformerBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).strength(2.0f).nonOpaque()),
             b -> new EnergyMachineBlockItem(b, new Item.Settings(), 1));

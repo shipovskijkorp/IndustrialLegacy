@@ -1,0 +1,15 @@
+{
+  "type": "industrial_legacy:thermal_centrifuge",
+  "ingredient": {
+    "item": "minecraft:quartz"
+  },
+  "input_count": 2,
+  "results": [
+    {
+      "item": "industrial_legacy:small_lithium_dust",
+      "count": 1
+    }
+  ],
+  "ticks": 500,
+  "heat": 500
+}

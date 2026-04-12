@@ -80,6 +80,9 @@ public final class ModItemGroups {
                         add.accept(ModBlocks.MACERATOR);
                         add.accept(ModBlocks.COMPRESSOR);
                         add.accept(ModBlocks.METAL_FORMER);
+                        add.accept(ModBlocks.SOLID_CANNER);
+                        add.accept(ModBlocks.CANNER);
+                        add.accept(ModBlocks.THERMAL_CENTRIFUGE);
                         add.accept(ModBlocks.MACHINE_CASING);
                         add.accept(ModBlocks.IRON_FENCE);
 
@@ -194,6 +197,8 @@ public final class ModItemGroups {
                         add.accept(ModItems.PLANT_BALL);
                         add.accept(ModItems.TIN_CAN);
                         add.accept(ModItems.FILLED_TIN_CAN);
+                        add.accept(ModItems.COIL);
+                        add.accept(ModItems.ELECTRIC_MOTOR);
 
                         // Carbon chain (if present)
                         add.accept(ModItems.CARBON_FIBRE);

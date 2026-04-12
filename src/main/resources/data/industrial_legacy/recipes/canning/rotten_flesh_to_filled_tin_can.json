@@ -1,0 +1,16 @@
+{
+  "type": "industrial_legacy:canning",
+  "container": {
+    "item": "industrial_legacy:tin_can",
+    "count": 1
+  },
+  "fill": {
+    "item": "minecraft:rotten_flesh",
+    "count": 2
+  },
+  "result": {
+    "item": "industrial_legacy:filled_tin_can",
+    "count": 1
+  },
+  "ticks": 50
+}

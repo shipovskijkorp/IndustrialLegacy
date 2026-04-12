@@ -58,6 +58,24 @@ public final class ModScreenHandlers {
             new ExtendedScreenHandlerType<>(MetalFormerScreenHandler::new)
     );
 
+    public static final ScreenHandlerType<SolidCannerScreenHandler> SOLID_CANNER = Registry.register(
+            Registries.SCREEN_HANDLER,
+            new Identifier(IndustrialLegacy.MOD_ID, "solid_canner"),
+            new ExtendedScreenHandlerType<>(SolidCannerScreenHandler::new)
+    );
+
+    public static final ScreenHandlerType<CannerScreenHandler> CANNER = Registry.register(
+            Registries.SCREEN_HANDLER,
+            new Identifier(IndustrialLegacy.MOD_ID, "canner"),
+            new ExtendedScreenHandlerType<>(CannerScreenHandler::new)
+    );
+
+    public static final ScreenHandlerType<ThermalCentrifugeScreenHandler> THERMAL_CENTRIFUGE = Registry.register(
+            Registries.SCREEN_HANDLER,
+            new Identifier(IndustrialLegacy.MOD_ID, "thermal_centrifuge"),
+            new ExtendedScreenHandlerType<>(ThermalCentrifugeScreenHandler::new)
+    );
+
     public static ScreenHandlerType<GeneratorScreenHandler> GENERATOR;
     public static ScreenHandlerType<BatBoxScreenHandler> BATBOX;
     public static ScreenHandlerType<CesuScreenHandler> CESU;

@@ -1,0 +1,22 @@
+{
+  "type": "industrial_legacy:thermal_centrifuge",
+  "ingredient": {
+    "item": "industrial_legacy:crushed_copper_ore"
+  },
+  "results": [
+    {
+      "item": "industrial_legacy:small_tin_dust",
+      "count": 1
+    },
+    {
+      "item": "industrial_legacy:copper_dust",
+      "count": 1
+    },
+    {
+      "item": "industrial_legacy:stone_dust",
+      "count": 1
+    }
+  ],
+  "ticks": 500,
+  "heat": 500
+}
