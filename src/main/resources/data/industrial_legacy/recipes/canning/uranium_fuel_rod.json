@@ -1,0 +1,16 @@
+{
+  "type": "industrial_legacy:canning",
+  "container": {
+    "item": "industrial_legacy:fuel_rod",
+    "count": 1
+  },
+  "fill": {
+    "item": "industrial_legacy:uranium",
+    "count": 1
+  },
+  "result": {
+    "item": "industrial_legacy:uranium_fuel_rod",
+    "count": 1
+  },
+  "ticks": 200
+}
