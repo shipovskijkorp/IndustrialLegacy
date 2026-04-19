@@ -318,5 +318,8 @@
   "item.industrial_legacy.heat_plating": "Heat-Capacity Reactor Plating",
   "item.industrial_legacy.containment_plating": "Containment Reactor Plating",
   "item.industrial_legacy.neutron_reflector": "Neutron Reflector",
-  "item.industrial_legacy.thick_neutron_reflector": "Thick Neutron Reflector"
+  "item.industrial_legacy.thick_neutron_reflector": "Thick Neutron Reflector",
+  "gui.industrial_legacy.nuclear_reactor.output_eu": "Output: %s EU/t",
+  "gui.industrial_legacy.nuclear_reactor.temp": "Temperature: %s HU",
+  "gui.industrial_legacy.nuclear_reactor.mode.electric": "Electric mode"
 }

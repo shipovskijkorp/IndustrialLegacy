@@ -37,7 +37,6 @@ public class NuclearReactorScreenHandler extends ScreenHandler {
         for (int y = 0; y < NuclearReactorBlockEntity.ROWS; y++) {
             for (int x = 0; x < NuclearReactorBlockEntity.COLUMNS; x++) {
                 final int slotIndex = y * NuclearReactorBlockEntity.COLUMNS + x;
-                final int sx = x;
                 this.addSlot(new Slot(this.inventory, slotIndex, startX + x * 18, startY + y * 18) {
                     @Override
                     public boolean canInsert(net.minecraft.item.ItemStack stack) {
@@ -52,8 +51,8 @@ public class NuclearReactorScreenHandler extends ScreenHandler {
             }
         }
 
-        int invX = 26;
-        int invY = 161;
+        final int invX = 26;
+        final int invY = 161;
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 9; col++) {
                 this.addSlot(new Slot(playerInv, col + row * 9 + 9, invX + col * 18, invY + row * 18));
