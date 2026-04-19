@@ -4,9 +4,7 @@ import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Minimal IC2-like reactor interface used by reactor components.
- *
- * NOTE: This is intentionally small; it will be expanded when the reactor is ported.
+ * IC2-like reactor core interface used by reactor components.
  */
 public interface IReactor {
     @Nullable ItemStack getItemAt(int x, int y);
@@ -17,5 +15,23 @@ public interface IReactor {
 
     void setHeat(int heat);
 
+    int addHeat(int heat);
+
     int getMaxHeat();
+
+    void setMaxHeat(int heat);
+
+    int addEmitHeat(int heat);
+
+    float getHeatEffectModifier();
+
+    void setHeatEffectModifier(float modifier);
+
+    float getReactorEnergyOutput();
+
+    float addOutput(float amount);
+
+    void explode();
+
+    boolean produceEnergy();
 }

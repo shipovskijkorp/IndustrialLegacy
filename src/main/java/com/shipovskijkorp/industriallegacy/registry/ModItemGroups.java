@@ -76,6 +76,8 @@ public final class ModItemGroups {
                         addChargedBlock.accept(ModBlocks.MFE);
                         addChargedBlock.accept(ModBlocks.MFSU);
                         add.accept(ModBlocks.IRON_FURNACE);
+                        add.accept(ModBlocks.NUCLEAR_REACTOR);
+                        add.accept(ModBlocks.REACTOR_CHAMBER);
                         add.accept(ModBlocks.ELECTRIC_FURNACE);
                         add.accept(ModBlocks.MACERATOR);
                         add.accept(ModBlocks.COMPRESSOR);
@@ -193,6 +195,19 @@ public final class ModItemGroups {
                         add.accept(ModItems.REACTOR_HEAT_EXCHANGER);
                         add.accept(ModItems.COMPONENT_HEAT_EXCHANGER);
                         add.accept(ModItems.ADVANCED_HEAT_EXCHANGER);
+add.accept(ModItems.HEAT_VENT);
+add.accept(ModItems.REACTOR_HEAT_VENT);
+add.accept(ModItems.COMPONENT_HEAT_VENT);
+add.accept(ModItems.ADVANCED_HEAT_VENT);
+add.accept(ModItems.OVERCLOCKED_HEAT_VENT);
+add.accept(ModItems.HEAT_STORAGE);
+add.accept(ModItems.TRI_HEAT_STORAGE);
+add.accept(ModItems.HEX_HEAT_STORAGE);
+add.accept(ModItems.REACTOR_PLATING);
+add.accept(ModItems.HEAT_PLATING);
+add.accept(ModItems.CONTAINMENT_PLATING);
+add.accept(ModItems.NEUTRON_REFLECTOR);
+add.accept(ModItems.THICK_NEUTRON_REFLECTOR);
 
                         add.accept(ModItems.PLANT_BALL);
                         add.accept(ModItems.TIN_CAN);

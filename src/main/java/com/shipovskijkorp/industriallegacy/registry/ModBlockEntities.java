@@ -121,6 +121,12 @@ public final class ModBlockEntities {
             BlockEntityType.Builder.create(ThermalCentrifugeBlockEntity::new, ModBlocks.THERMAL_CENTRIFUGE).build(null)
     );
 
+    public static final BlockEntityType<NuclearReactorBlockEntity> NUCLEAR_REACTOR = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE,
+            new Identifier(IndustrialLegacy.MOD_ID, "nuclear_reactor"),
+            BlockEntityType.Builder.create(NuclearReactorBlockEntity::new, ModBlocks.NUCLEAR_REACTOR).build(null)
+    );
+
     /** Cable BE used for thin cable rendering + detector/splitter behavior and EU-net bookkeeping. */
     public static final BlockEntityType<CableBlockEntity> CABLE = Registry.register(
             Registries.BLOCK_ENTITY_TYPE,

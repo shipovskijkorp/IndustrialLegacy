@@ -302,5 +302,21 @@
   "item.industrial_legacy.depleted_uranium_fuel_rod": "Топливный стержень (Обеднённый уран)",
   "item.industrial_legacy.depleted_dual_uranium_fuel_rod": "Спаренный топливный стержень (Обеднённый уран)",
   "item.industrial_legacy.depleted_quad_uranium_fuel_rod": "Счетверённый топливный стержень (Обеднённый уран)",
-  "effect.industrial_legacy.radiation": "Радиация"
+  "effect.industrial_legacy.radiation": "Радиация",
+  "block.industrial_legacy.nuclear_reactor": "Ядерный реактор",
+  "block.industrial_legacy.reactor_chamber": "Реакторная камера",
+  "container.industrial_legacy.nuclear_reactor": "Ядерный реактор",
+  "item.industrial_legacy.heat_vent": "Теплоотвод",
+  "item.industrial_legacy.reactor_heat_vent": "Реакторный теплоотвод",
+  "item.industrial_legacy.component_heat_vent": "Компонентный теплоотвод",
+  "item.industrial_legacy.advanced_heat_vent": "Продвинутый теплоотвод",
+  "item.industrial_legacy.overclocked_heat_vent": "Разогнанный теплоотвод",
+  "item.industrial_legacy.heat_storage": "Теплоёмкость 10k",
+  "item.industrial_legacy.tri_heat_storage": "Теплоёмкость 30k",
+  "item.industrial_legacy.hex_heat_storage": "Теплоёмкость 60k",
+  "item.industrial_legacy.reactor_plating": "Реакторная обшивка",
+  "item.industrial_legacy.heat_plating": "Теплоёмкая реакторная обшивка",
+  "item.industrial_legacy.containment_plating": "Сдерживающая реакторная обшивка",
+  "item.industrial_legacy.neutron_reflector": "Нейтронный отражатель",
+  "item.industrial_legacy.thick_neutron_reflector": "Утолщённый нейтронный отражатель"
 }

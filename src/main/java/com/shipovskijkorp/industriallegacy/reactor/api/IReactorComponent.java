@@ -3,13 +3,17 @@ package com.shipovskijkorp.industriallegacy.reactor.api;
 import net.minecraft.item.ItemStack;
 
 /**
- * Minimal IC2-like reactor component interface.
- * Ported behavior should follow IC2 1.12.2 Experimental semantics 1:1.
+ * Minimal-but-useful IC2-like reactor component interface.
  */
 public interface IReactorComponent {
 
     default void processChamber(ItemStack stack, IReactor reactor, int x, int y, boolean heatRun) {
         // default no-op
+    }
+
+    default boolean acceptUraniumPulse(ItemStack stack, IReactor reactor, ItemStack pulsingStack,
+                                       int youX, int youY, int pulseX, int pulseY, boolean heatRun) {
+        return false;
     }
 
     default boolean canStoreHeat(ItemStack stack, IReactor reactor, int x, int y) {
@@ -29,5 +33,9 @@ public interface IReactorComponent {
      */
     default int alterHeat(ItemStack stack, IReactor reactor, int x, int y, int heat) {
         return heat;
+    }
+
+    default float influenceExplosion(ItemStack stack, IReactor reactor) {
+        return 0.0f;
     }
 }

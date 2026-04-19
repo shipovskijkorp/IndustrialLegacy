@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": { "model": "industrial_legacy:block/generator/reactor/reactor_chamber_fixed" }
+  }
+}

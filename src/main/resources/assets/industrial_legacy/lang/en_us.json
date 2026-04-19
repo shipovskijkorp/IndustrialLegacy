@@ -302,5 +302,21 @@
   "item.industrial_legacy.depleted_uranium_fuel_rod": "Fuel Rod (Depleted Uranium)",
   "item.industrial_legacy.depleted_dual_uranium_fuel_rod": "Dual Fuel Rod (Depleted Uranium)",
   "item.industrial_legacy.depleted_quad_uranium_fuel_rod": "Quad Fuel Rod (Depleted Uranium)",
-  "effect.industrial_legacy.radiation": "Radiation"
+  "effect.industrial_legacy.radiation": "Radiation",
+  "block.industrial_legacy.nuclear_reactor": "Nuclear Reactor",
+  "block.industrial_legacy.reactor_chamber": "Reactor Chamber",
+  "container.industrial_legacy.nuclear_reactor": "Nuclear Reactor",
+  "item.industrial_legacy.heat_vent": "Heat Vent",
+  "item.industrial_legacy.reactor_heat_vent": "Reactor Heat Vent",
+  "item.industrial_legacy.component_heat_vent": "Component Heat Vent",
+  "item.industrial_legacy.advanced_heat_vent": "Advanced Heat Vent",
+  "item.industrial_legacy.overclocked_heat_vent": "Overclocked Heat Vent",
+  "item.industrial_legacy.heat_storage": "10k Heat Storage",
+  "item.industrial_legacy.tri_heat_storage": "30k Heat Storage",
+  "item.industrial_legacy.hex_heat_storage": "60k Heat Storage",
+  "item.industrial_legacy.reactor_plating": "Reactor Plating",
+  "item.industrial_legacy.heat_plating": "Heat-Capacity Reactor Plating",
+  "item.industrial_legacy.containment_plating": "Containment Reactor Plating",
+  "item.industrial_legacy.neutron_reflector": "Neutron Reflector",
+  "item.industrial_legacy.thick_neutron_reflector": "Thick Neutron Reflector"
 }

@@ -1,0 +1,8 @@
+{
+  "parent": "block/cube_bottom_top",
+  "textures": {
+    "side": "industrial_legacy:block/generator/reactor/nuclear_reactor_front_active",
+    "bottom": "industrial_legacy:block/generator/reactor/nuclear_reactor_bottom",
+    "top": "industrial_legacy:block/generator/reactor/nuclear_reactor_top"
+  }
+}

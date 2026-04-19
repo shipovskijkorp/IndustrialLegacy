@@ -147,6 +147,24 @@ public final class ModBlocks {
             b -> new EnergyMachineBlockItem(b, new Item.Settings(), 2)
     );
 
+    public static final Block NUCLEAR_REACTOR = register(
+            "nuclear_reactor",
+            new NuclearReactorBlock(FabricBlockSettings.create()
+                    .strength(3.0f)
+                    .sounds(BlockSoundGroup.METAL)
+                    .requiresTool()
+                    .luminance(state -> state.get(NuclearReactorBlock.LIT) ? 13 : 0))
+    );
+
+    public static final Block REACTOR_CHAMBER = register(
+            "reactor_chamber",
+            new ReactorChamberBlock(FabricBlockSettings.create()
+                    .strength(3.0f)
+                    .sounds(BlockSoundGroup.METAL)
+                    .requiresTool())
+    );
+
+
     public static final Block LV_TRANSFORMER = register("lv_transformer",
             new LvTransformerBlock(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).strength(2.0f).nonOpaque()),
             b -> new EnergyMachineBlockItem(b, new Item.Settings(), 1));

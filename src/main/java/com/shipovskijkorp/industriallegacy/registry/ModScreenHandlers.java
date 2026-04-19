@@ -76,6 +76,12 @@ public final class ModScreenHandlers {
             new ExtendedScreenHandlerType<>(ThermalCentrifugeScreenHandler::new)
     );
 
+    public static final ScreenHandlerType<NuclearReactorScreenHandler> NUCLEAR_REACTOR = Registry.register(
+            Registries.SCREEN_HANDLER,
+            new Identifier(IndustrialLegacy.MOD_ID, "nuclear_reactor"),
+            new ExtendedScreenHandlerType<>(NuclearReactorScreenHandler::new)
+    );
+
     public static ScreenHandlerType<GeneratorScreenHandler> GENERATOR;
     public static ScreenHandlerType<BatBoxScreenHandler> BATBOX;
     public static ScreenHandlerType<CesuScreenHandler> CESU;

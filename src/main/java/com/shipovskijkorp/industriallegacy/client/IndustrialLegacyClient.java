@@ -17,6 +17,7 @@ import com.shipovskijkorp.industriallegacy.client.screen.MaceratorScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.MetalFormerScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.SolidCannerScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.ThermalCentrifugeScreen;
+import com.shipovskijkorp.industriallegacy.client.screen.NuclearReactorScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.MfeScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.MfsuScreen;
 import com.shipovskijkorp.industriallegacy.energy.item.ElectricItemManager;
@@ -128,6 +129,7 @@ public class IndustrialLegacyClient implements ClientModInitializer {
         HandledScreens.register(ModScreenHandlers.SOLID_CANNER, SolidCannerScreen::new);
         HandledScreens.register(ModScreenHandlers.CANNER, CannerScreen::new);
         HandledScreens.register(ModScreenHandlers.THERMAL_CENTRIFUGE, ThermalCentrifugeScreen::new);
+        HandledScreens.register(ModScreenHandlers.NUCLEAR_REACTOR, NuclearReactorScreen::new);
         HandledScreens.register(ModScreenHandlers.LV_TRANSFORMER, LvTransformerScreen::new);
         HandledScreens.register(ModScreenHandlers.MV_TRANSFORMER, MvTransformerScreen::new);
         HandledScreens.register(ModScreenHandlers.HV_TRANSFORMER, HvTransformerScreen::new);

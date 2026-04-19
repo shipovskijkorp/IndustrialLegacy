@@ -11,7 +11,7 @@ import com.shipovskijkorp.industriallegacy.item.armor.QuantumBootsItem;
 import com.shipovskijkorp.industriallegacy.item.armor.QuantumChestplateItem;
 import com.shipovskijkorp.industriallegacy.item.armor.QuantumHelmetItem;
 import com.shipovskijkorp.industriallegacy.item.armor.QuantumLeggingsItem;
-import com.shipovskijkorp.industriallegacy.item.reactor.HeatExchangerItem;
+import com.shipovskijkorp.industriallegacy.item.reactor.*;
 import com.shipovskijkorp.industriallegacy.item.tool.NanoSaberItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.Item;
@@ -150,12 +150,12 @@ public final class ModItems {
     public static final Item SMALL_URANIUM_235 = register("small_uranium_235", new RadioactiveItem(new Item.Settings(), 150 * 20, 100));
     public static final Item URANIUM = register("uranium", new RadioactiveItem(new Item.Settings(), 60 * 20, 100));
     public static final Item URANIUM_235 = register("uranium_235", new RadioactiveItem(new Item.Settings(), 150 * 20, 100));
-    public static final Item URANIUM_FUEL_ROD = register("uranium_fuel_rod", new RadioactiveItem(new Item.Settings(), 10 * 20, 100));
-    public static final Item DUAL_URANIUM_FUEL_ROD = register("dual_uranium_fuel_rod", new RadioactiveItem(new Item.Settings(), 10 * 20, 100));
-    public static final Item QUAD_URANIUM_FUEL_ROD = register("quad_uranium_fuel_rod", new RadioactiveItem(new Item.Settings(), 10 * 20, 100));
     public static final Item DEPLETED_URANIUM_FUEL_ROD = register("depleted_uranium_fuel_rod", new RadioactiveItem(new Item.Settings(), 10 * 20, 100));
     public static final Item DEPLETED_DUAL_URANIUM_FUEL_ROD = register("depleted_dual_uranium_fuel_rod", new RadioactiveItem(new Item.Settings(), 10 * 20, 100));
     public static final Item DEPLETED_QUAD_URANIUM_FUEL_ROD = register("depleted_quad_uranium_fuel_rod", new RadioactiveItem(new Item.Settings(), 10 * 20, 100));
+    public static final Item URANIUM_FUEL_ROD = register("uranium_fuel_rod", new UraniumFuelRodItem(new Item.Settings(), 1, 20000, DEPLETED_URANIUM_FUEL_ROD));
+    public static final Item DUAL_URANIUM_FUEL_ROD = register("dual_uranium_fuel_rod", new UraniumFuelRodItem(new Item.Settings(), 2, 20000, DEPLETED_DUAL_URANIUM_FUEL_ROD));
+    public static final Item QUAD_URANIUM_FUEL_ROD = register("quad_uranium_fuel_rod", new UraniumFuelRodItem(new Item.Settings(), 4, 20000, DEPLETED_QUAD_URANIUM_FUEL_ROD));
     public static final Item COIL = register("coil", new Item(new Item.Settings()));
     public static final Item ELECTRIC_MOTOR = register("electric_motor", new Item(new Item.Settings()));
 
@@ -173,6 +173,20 @@ public final class ModItems {
     public static final Item REACTOR_HEAT_EXCHANGER = register("reactor_heat_exchanger", new HeatExchangerItem(new Item.Settings(), 5000, 0, 72));
     public static final Item COMPONENT_HEAT_EXCHANGER = register("component_heat_exchanger", new HeatExchangerItem(new Item.Settings(), 5000, 36, 0));
     public static final Item ADVANCED_HEAT_EXCHANGER = register("advanced_heat_exchanger", new HeatExchangerItem(new Item.Settings(), 10000, 24, 8));
+
+    public static final Item HEAT_VENT = register("heat_vent", new ReactorVentItem(new Item.Settings(), 1000, 6, 0));
+    public static final Item REACTOR_HEAT_VENT = register("reactor_heat_vent", new ReactorVentItem(new Item.Settings(), 1000, 5, 5));
+    public static final Item COMPONENT_HEAT_VENT = register("component_heat_vent", new ReactorVentSpreadItem(new Item.Settings(), 4));
+    public static final Item ADVANCED_HEAT_VENT = register("advanced_heat_vent", new ReactorVentItem(new Item.Settings(), 1000, 12, 0));
+    public static final Item OVERCLOCKED_HEAT_VENT = register("overclocked_heat_vent", new ReactorVentItem(new Item.Settings(), 1000, 20, 36));
+    public static final Item HEAT_STORAGE = register("heat_storage", new ReactorHeatStorageItem(new Item.Settings(), 10000));
+    public static final Item TRI_HEAT_STORAGE = register("tri_heat_storage", new ReactorHeatStorageItem(new Item.Settings(), 30000));
+    public static final Item HEX_HEAT_STORAGE = register("hex_heat_storage", new ReactorHeatStorageItem(new Item.Settings(), 60000));
+    public static final Item REACTOR_PLATING = register("reactor_plating", new ReactorPlatingItem(new Item.Settings(), 1000, 0.95f));
+    public static final Item HEAT_PLATING = register("heat_plating", new ReactorPlatingItem(new Item.Settings(), 1700, 0.99f));
+    public static final Item CONTAINMENT_PLATING = register("containment_plating", new ReactorPlatingItem(new Item.Settings(), 500, 0.9f));
+    public static final Item NEUTRON_REFLECTOR = register("neutron_reflector", new ReactorReflectorItem(new Item.Settings(), 30000));
+    public static final Item THICK_NEUTRON_REFLECTOR = register("thick_neutron_reflector", new ReactorReflectorItem(new Item.Settings(), 120000));
 
 
     public static final Item IRIDIUM = register("iridium", new Item(new Item.Settings()));
