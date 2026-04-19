@@ -320,6 +320,7 @@
   "item.industrial_legacy.neutron_reflector": "Нейтронный отражатель",
   "item.industrial_legacy.thick_neutron_reflector": "Утолщённый нейтронный отражатель",
   "gui.industrial_legacy.nuclear_reactor.output_eu": "Выход: %s EU/t",
-  "gui.industrial_legacy.nuclear_reactor.temp": "Температура: %s HU",
-  "gui.industrial_legacy.nuclear_reactor.mode.electric": "Электрический режим"
+  "gui.industrial_legacy.nuclear_reactor.temp": "Температура ядра: %1$.2f%%",
+  "gui.industrial_legacy.nuclear_reactor.mode.electric": "Ядерный реактор работает в энергетическом режиме: Выход регулируется на 50%",
+  "gui.industrial_legacy.nuclear_reactor.mode.fluid": "Ядерный реактор работает в охлаждающем режиме: Вывод на 100%"
 }

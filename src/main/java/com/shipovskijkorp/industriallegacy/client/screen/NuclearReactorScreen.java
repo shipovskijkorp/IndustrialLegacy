@@ -66,8 +66,9 @@ public class NuclearReactorScreen extends HandledScreen<NuclearReactorScreenHand
         super.drawMouseoverTooltip(context, mouseX, mouseY);
 
         if (this.isPointWithinBounds(6, 135, 102, 15, mouseX, mouseY)) {
+            double heatPercent = handler.getMaxHeat() <= 0 ? 0.0 : (handler.getHeat() * 100.0) / handler.getMaxHeat();
             context.drawTooltip(this.textRenderer,
-                    Text.translatable("gui.industrial_legacy.nuclear_reactor.temp", handler.getHeat() * 100),
+                    Text.translatable("gui.industrial_legacy.nuclear_reactor.temp", heatPercent),
                     mouseX, mouseY);
         } else if (this.isPointWithinBounds(5, 160, 18, 18, mouseX, mouseY)) {
             context.drawTooltip(this.textRenderer,
