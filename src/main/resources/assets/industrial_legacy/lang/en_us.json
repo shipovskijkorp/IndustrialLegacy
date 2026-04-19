@@ -321,6 +321,5 @@
   "item.industrial_legacy.thick_neutron_reflector": "Thick Neutron Reflector",
   "gui.industrial_legacy.nuclear_reactor.output_eu": "Output: %s EU/t",
   "gui.industrial_legacy.nuclear_reactor.temp": "Core Temperature: %1$.2f%%",
-  "gui.industrial_legacy.nuclear_reactor.mode.electric": "Nuclear Reactor in EU mode: Output throttled by 50%",
-  "gui.industrial_legacy.nuclear_reactor.mode.fluid": "Nuclear Reactor in Fluid Cooling mode: Outputting at 100%"
+  "gui.industrial_legacy.nuclear_reactor.mode.electric": "Nuclear Reactor in EU mode: Output throttled by 50%"
 }
