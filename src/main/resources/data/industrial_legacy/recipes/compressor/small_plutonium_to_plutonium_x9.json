@@ -1,0 +1,12 @@
+{
+  "type": "industrial_legacy:compressor",
+  "ingredient": {
+    "item": "industrial_legacy:small_plutonium"
+  },
+  "input_count": 9,
+  "result": {
+    "item": "industrial_legacy:plutonium",
+    "count": 1
+  },
+  "ticks": 300
+}

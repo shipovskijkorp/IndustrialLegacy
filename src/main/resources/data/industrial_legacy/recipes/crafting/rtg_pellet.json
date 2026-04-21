@@ -1,20 +1,20 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "UUU",
-    "PPP",
-    "UUU"
+    "RAR",
+    "RAR",
+    "RAR"
   ],
   "key": {
-    "U": {
-      "item": "industrial_legacy:uranium_238"
+    "R": {
+      "item": "industrial_legacy:dense_iron_plate"
     },
-    "P": {
+    "A": {
       "item": "industrial_legacy:plutonium"
     }
   },
   "result": {
-    "item": "industrial_legacy:mox",
+    "item": "industrial_legacy:rtg_pellet",
     "count": 1
   }
 }

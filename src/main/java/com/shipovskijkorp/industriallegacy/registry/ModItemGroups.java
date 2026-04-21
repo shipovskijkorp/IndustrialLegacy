@@ -229,6 +229,9 @@ add.accept(ModItems.THICK_NEUTRON_REFLECTOR);
                         add.accept(ModItems.MOX_FUEL_ROD);
                         add.accept(ModItems.DUAL_MOX_FUEL_ROD);
                         add.accept(ModItems.QUAD_MOX_FUEL_ROD);
+                        add.accept(ModItems.LITHIUM_FUEL_ROD);
+                        add.accept(ModItems.TRITIUM_FUEL_ROD);
+                        add.accept(ModItems.DEPLETED_ISOTOPE_FUEL_ROD);
                         add.accept(ModItems.DEPLETED_URANIUM_FUEL_ROD);
                         add.accept(ModItems.DEPLETED_DUAL_URANIUM_FUEL_ROD);
                         add.accept(ModItems.DEPLETED_QUAD_URANIUM_FUEL_ROD);
@@ -300,11 +303,17 @@ add.accept(ModItems.THICK_NEUTRON_REFLECTOR);
                         add.accept(ModItems.PURIFIED_URANIUM_ORE);
                         add.accept(ModItems.URANIUM_238);
                         add.accept(ModItems.SMALL_URANIUM_235);
+                        add.accept(ModItems.SMALL_URANIUM_238);
                         add.accept(ModItems.SMALL_PLUTONIUM);
                         add.accept(ModItems.URANIUM_235);
-                        add.accept(ModItems.URANIUM);
                         add.accept(ModItems.PLUTONIUM);
+                        add.accept(ModItems.URANIUM);
                         add.accept(ModItems.MOX);
+                        add.accept(ModItems.URANIUM_PELLET);
+                        add.accept(ModItems.MOX_PELLET);
+                        add.accept(ModItems.RTG_PELLET);
+                        add.accept(ModItems.NEAR_DEPLETED_URANIUM);
+                        add.accept(ModItems.RE_ENRICHED_URANIUM);
 
                         // ------------------------------
                         // Plates

@@ -1,0 +1,22 @@
+{
+  "type": "industrial_legacy:thermal_centrifuge",
+  "ingredient": {
+    "item": "industrial_legacy:depleted_mox_fuel_rod"
+  },
+  "results": [
+    {
+      "item": "industrial_legacy:small_plutonium",
+      "count": 1
+    },
+    {
+      "item": "industrial_legacy:plutonium",
+      "count": 3
+    },
+    {
+      "item": "industrial_legacy:iron_dust",
+      "count": 1
+    }
+  ],
+  "ticks": 500,
+  "heat": 5000
+}

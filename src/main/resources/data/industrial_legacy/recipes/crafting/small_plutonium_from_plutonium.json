@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:shapeless",
+  "ingredients": [
+    {
+      "item": "industrial_legacy:plutonium"
+    }
+  ],
+  "result": {
+    "item": "industrial_legacy:small_plutonium",
+    "count": 9
+  }
+}

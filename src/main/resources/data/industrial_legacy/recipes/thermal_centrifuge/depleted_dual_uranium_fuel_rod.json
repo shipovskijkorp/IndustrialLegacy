@@ -1,0 +1,22 @@
+{
+  "type": "industrial_legacy:thermal_centrifuge",
+  "ingredient": {
+    "item": "industrial_legacy:depleted_dual_uranium_fuel_rod"
+  },
+  "results": [
+    {
+      "item": "industrial_legacy:small_plutonium",
+      "count": 2
+    },
+    {
+      "item": "industrial_legacy:uranium_238",
+      "count": 8
+    },
+    {
+      "item": "industrial_legacy:iron_dust",
+      "count": 3
+    }
+  ],
+  "ticks": 500,
+  "heat": 4000
+}

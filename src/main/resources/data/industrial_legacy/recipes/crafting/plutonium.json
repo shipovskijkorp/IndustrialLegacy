@@ -1,12 +1,12 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "UUU",
-    "UUU",
-    "UUU"
+    "XXX",
+    "XXX",
+    "XXX"
   ],
   "key": {
-    "U": {
+    "X": {
       "item": "industrial_legacy:small_plutonium"
     }
   },

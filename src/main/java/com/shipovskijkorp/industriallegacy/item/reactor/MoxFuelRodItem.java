@@ -5,20 +5,18 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
-/**
- * IC2 Experimental MOX rod semantics for the electric reactor path used in IL.
- *
- * In classic electric operation, MOX heat generation matches uranium rods.
- * Their special behavior is higher EU output based on current reactor hull heat.
- */
 public class MoxFuelRodItem extends UraniumFuelRodItem {
     public MoxFuelRodItem(Settings settings, int numberOfCells, int duration, @Nullable Item depletedItem) {
         super(settings, numberOfCells, duration, depletedItem);
     }
 
     @Override
-    protected float getPulseEnergy(ItemStack stack, IReactor reactor, int x, int y) {
-        float breederEffectiveness = reactor.getHeat() / (float) Math.max(1, reactor.getMaxHeat());
-        return 4.0f * breederEffectiveness + 1.0f;
+    public boolean acceptUraniumPulse(ItemStack stack, IReactor reactor, ItemStack pulsingStack,
+                                      int youX, int youY, int pulseX, int pulseY, boolean heatRun) {
+        if (!heatRun) {
+            float heatRatio = reactor.getHeat() / (float) Math.max(1, reactor.getMaxHeat());
+            reactor.addOutput(1.0f + 4.0f * heatRatio);
+        }
+        return true;
     }
 }
