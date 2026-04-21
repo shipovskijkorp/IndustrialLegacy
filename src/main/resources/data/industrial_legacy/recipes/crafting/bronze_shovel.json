@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "B",
+    "S",
+    "S"
+  ],
+  "key": {
+    "B": { "item": "industrial_legacy:bronze_ingot" },
+    "S": { "item": "minecraft:stick" }
+  },
+  "result": { "item": "industrial_legacy:bronze_shovel", "count": 1 }
+}

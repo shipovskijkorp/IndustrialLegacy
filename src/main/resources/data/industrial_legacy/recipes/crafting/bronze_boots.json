@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "B B",
+    "B B"
+  ],
+  "key": {
+    "B": { "item": "industrial_legacy:bronze_ingot" }
+  },
+  "result": { "item": "industrial_legacy:bronze_boots", "count": 1 }
+}

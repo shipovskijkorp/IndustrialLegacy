@@ -157,6 +157,16 @@ public final class ModItemGroups {
                         add.accept(ModItems.HAZMAT_CHESTPLATE);
                         add.accept(ModItems.HAZMAT_LEGGINGS);
                         add.accept(ModItems.RUBBER_BOOTS);
+                        add.accept(ModItems.BRONZE_HELMET);
+                        add.accept(ModItems.BRONZE_CHESTPLATE);
+                        add.accept(ModItems.BRONZE_LEGGINGS);
+                        add.accept(ModItems.BRONZE_BOOTS);
+                        add.accept(ModItems.ALLOY_CHESTPLATE);
+                        add.accept(ModItems.BRONZE_SWORD);
+                        add.accept(ModItems.BRONZE_PICKAXE);
+                        add.accept(ModItems.BRONZE_SHOVEL);
+                        add.accept(ModItems.BRONZE_HOE);
+                        add.accept(ModItems.BRONZE_AXE);
 
                         // NanoSuit armor
                         add.accept(ModItems.NANO_HELMET);

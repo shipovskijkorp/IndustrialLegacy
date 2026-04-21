@@ -340,5 +340,15 @@
   "item.industrial_legacy.lithium_fuel_rod": "Топливный стержень (Литий)",
   "item.industrial_legacy.tritium_fuel_rod": "Топливный стержень (Тритий)",
   "item.industrial_legacy.depleted_isotope_fuel_rod": "Топливный стержень (Обеднённый изотоп)",
-  "tooltip.industrial_legacy.reactor_progress": "Прогресс: %s/%s"
+  "tooltip.industrial_legacy.reactor_progress": "Прогресс: %s/%s",
+  "item.industrial_legacy.bronze_helmet": "Бронзовый шлем",
+  "item.industrial_legacy.bronze_chestplate": "Бронзовая кираса",
+  "item.industrial_legacy.bronze_leggings": "Бронзовые поножи",
+  "item.industrial_legacy.bronze_boots": "Бронзовые ботинки",
+  "item.industrial_legacy.alloy_chestplate": "Композитный жилет",
+  "item.industrial_legacy.bronze_sword": "Бронзовый меч",
+  "item.industrial_legacy.bronze_pickaxe": "Бронзовая кирка",
+  "item.industrial_legacy.bronze_shovel": "Бронзовая лопата",
+  "item.industrial_legacy.bronze_hoe": "Бронзовая мотыга",
+  "item.industrial_legacy.bronze_axe": "Бронзовый топор"
 }

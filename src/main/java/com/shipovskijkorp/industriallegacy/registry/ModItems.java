@@ -4,6 +4,7 @@ import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
 import com.shipovskijkorp.industriallegacy.item.*;
 import com.shipovskijkorp.industriallegacy.item.armor.ElectricJetpackItem;
 import com.shipovskijkorp.industriallegacy.item.armor.HazmatArmorItem;
+import com.shipovskijkorp.industriallegacy.item.armor.ModArmorMaterials;
 import com.shipovskijkorp.industriallegacy.item.armor.NanoArmorItem;
 import com.shipovskijkorp.industriallegacy.item.armor.NanoHelmetItem;
 import com.shipovskijkorp.industriallegacy.item.armor.NightVisionGogglesItem;
@@ -12,9 +13,16 @@ import com.shipovskijkorp.industriallegacy.item.armor.QuantumChestplateItem;
 import com.shipovskijkorp.industriallegacy.item.armor.QuantumHelmetItem;
 import com.shipovskijkorp.industriallegacy.item.armor.QuantumLeggingsItem;
 import com.shipovskijkorp.industriallegacy.item.reactor.*;
+import com.shipovskijkorp.industriallegacy.item.tool.BronzeToolMaterial;
 import com.shipovskijkorp.industriallegacy.item.tool.NanoSaberItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.minecraft.item.ArmorItem;
+import net.minecraft.item.AxeItem;
+import net.minecraft.item.HoeItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.PickaxeItem;
+import net.minecraft.item.ShovelItem;
+import net.minecraft.item.SwordItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
@@ -231,6 +239,15 @@ public final class ModItems {
     public static final Item HAZMAT_LEGGINGS = register("hazmat_leggings", new HazmatArmorItem(net.minecraft.item.ArmorItem.Type.LEGGINGS, new Item.Settings().maxCount(1)));
     public static final Item RUBBER_BOOTS = register("rubber_boots", new HazmatArmorItem(net.minecraft.item.ArmorItem.Type.BOOTS, new Item.Settings().maxCount(1)));
 
+    // IC2 bronze armor
+    public static final Item BRONZE_HELMET = register("bronze_helmet", new ArmorItem(ModArmorMaterials.BRONZE, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1)));
+    public static final Item BRONZE_CHESTPLATE = register("bronze_chestplate", new ArmorItem(ModArmorMaterials.BRONZE, ArmorItem.Type.CHESTPLATE, new Item.Settings().maxCount(1)));
+    public static final Item BRONZE_LEGGINGS = register("bronze_leggings", new ArmorItem(ModArmorMaterials.BRONZE, ArmorItem.Type.LEGGINGS, new Item.Settings().maxCount(1)));
+    public static final Item BRONZE_BOOTS = register("bronze_boots", new ArmorItem(ModArmorMaterials.BRONZE, ArmorItem.Type.BOOTS, new Item.Settings().maxCount(1)));
+
+    // IC2 Composite Vest
+    public static final Item ALLOY_CHESTPLATE = register("alloy_chestplate", new ArmorItem(ModArmorMaterials.ALLOY, ArmorItem.Type.CHESTPLATE, new Item.Settings().maxCount(1)));
+
     // NanoSuit armor (IC2 Exp)
     public static final Item NANO_HELMET = register("nano_helmet", new NanoHelmetItem(new Item.Settings().maxCount(1)));
     public static final Item NANO_CHESTPLATE = register("nano_chestplate", new NanoArmorItem(net.minecraft.item.ArmorItem.Type.CHESTPLATE, new Item.Settings().maxCount(1)));
@@ -245,6 +262,12 @@ public final class ModItems {
 
     /** IC2: Nano Saber (electric sword). */
     public static final Item NANO_SABER = register("nano_saber", new NanoSaberItem(new Item.Settings().maxCount(1)));
+    // IC2 bronze tools
+    public static final Item BRONZE_SWORD = register("bronze_sword", new SwordItem(BronzeToolMaterial.INSTANCE, 5, -2.4f, new Item.Settings()));
+    public static final Item BRONZE_PICKAXE = register("bronze_pickaxe", new PickaxeItem(BronzeToolMaterial.INSTANCE, 1, -2.8f, new Item.Settings()));
+    public static final Item BRONZE_SHOVEL = register("bronze_shovel", new ShovelItem(BronzeToolMaterial.INSTANCE, 1.5f, -3.0f, new Item.Settings()));
+    public static final Item BRONZE_HOE = register("bronze_hoe", new HoeItem(BronzeToolMaterial.INSTANCE, 0, -3.0f, new Item.Settings()));
+    public static final Item BRONZE_AXE = register("bronze_axe", new AxeItem(BronzeToolMaterial.INSTANCE, 8.0f, -3.1f, new Item.Settings()));
     // Plates (normal)
     public static final Item BRONZE_PLATE = register("bronze_plate", new Item(new Item.Settings()));
     public static final Item COPPER_PLATE = register("copper_plate", new Item(new Item.Settings()));

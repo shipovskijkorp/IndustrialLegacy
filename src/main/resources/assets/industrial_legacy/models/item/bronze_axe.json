@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "industrial_legacy:item/tool/bronze_axe"
+  }
+}

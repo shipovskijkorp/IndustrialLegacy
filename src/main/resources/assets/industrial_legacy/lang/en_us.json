@@ -340,5 +340,15 @@
   "item.industrial_legacy.lithium_fuel_rod": "Fuel Rod (Lithium)",
   "item.industrial_legacy.tritium_fuel_rod": "Fuel Rod (Tritium)",
   "item.industrial_legacy.depleted_isotope_fuel_rod": "Fuel Rod (Depleted Isotope)",
-  "tooltip.industrial_legacy.reactor_progress": "Progress: %s/%s"
+  "tooltip.industrial_legacy.reactor_progress": "Progress: %s/%s",
+  "item.industrial_legacy.bronze_helmet": "Bronze Helmet",
+  "item.industrial_legacy.bronze_chestplate": "Bronze Chestplate",
+  "item.industrial_legacy.bronze_leggings": "Bronze Leggings",
+  "item.industrial_legacy.bronze_boots": "Bronze Boots",
+  "item.industrial_legacy.alloy_chestplate": "Composite Vest",
+  "item.industrial_legacy.bronze_sword": "Bronze Sword",
+  "item.industrial_legacy.bronze_pickaxe": "Bronze Pickaxe",
+  "item.industrial_legacy.bronze_shovel": "Bronze Shovel",
+  "item.industrial_legacy.bronze_hoe": "Bronze Hoe",
+  "item.industrial_legacy.bronze_axe": "Bronze Axe"
 }
