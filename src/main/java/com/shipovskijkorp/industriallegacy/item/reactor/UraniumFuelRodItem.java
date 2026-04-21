@@ -2,21 +2,26 @@ package com.shipovskijkorp.industriallegacy.item.reactor;
 
 import com.shipovskijkorp.industriallegacy.reactor.api.IReactor;
 import com.shipovskijkorp.industriallegacy.reactor.api.IReactorComponent;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayDeque;
+import java.util.List;
 import java.util.Queue;
 
 public class UraniumFuelRodItem extends Item implements IReactorComponent {
     private static final String NBT_DAMAGE = "il_reactor_rod_damage";
 
-    private final int numberOfCells;
-    private final int duration;
+    protected final int numberOfCells;
+    protected final int duration;
     @Nullable
-    private final Item depletedItem;
+    protected final Item depletedItem;
 
     public UraniumFuelRodItem(Settings settings, int numberOfCells, int duration, @Nullable Item depletedItem) {
         super(settings.maxCount(1));
@@ -25,12 +30,12 @@ public class UraniumFuelRodItem extends Item implements IReactorComponent {
         this.depletedItem = depletedItem;
     }
 
-    private int getDamage(ItemStack stack) {
+    protected int getDamage(ItemStack stack) {
         NbtCompound nbt = stack.getNbt();
         return nbt == null ? 0 : nbt.getInt(NBT_DAMAGE);
     }
 
-    private void setDamage(ItemStack stack, int value) {
+    protected void setDamage(ItemStack stack, int value) {
         value = Math.max(0, Math.min(duration, value));
         if (value <= 0) {
             NbtCompound nbt = stack.getNbt();
@@ -41,6 +46,19 @@ public class UraniumFuelRodItem extends Item implements IReactorComponent {
         } else {
             stack.getOrCreateNbt().putInt(NBT_DAMAGE, value);
         }
+    }
+
+    protected float getPulseEnergy(ItemStack stack, IReactor reactor, int x, int y) {
+        return 1.0f;
+    }
+
+    protected int getFinalHeat(ItemStack stack, IReactor reactor, int x, int y, int heat) {
+        return heat;
+    }
+
+    @Nullable
+    protected ItemStack getDepletedStack(ItemStack stack, IReactor reactor) {
+        return depletedItem == null ? ItemStack.EMPTY : new ItemStack(depletedItem);
     }
 
     @Override
@@ -56,6 +74,15 @@ public class UraniumFuelRodItem extends Item implements IReactorComponent {
     @Override
     public int getItemBarColor(ItemStack stack) {
         return 0x75d63a;
+    }
+
+    @Override
+    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+        int damage = getDamage(stack);
+        if (damage > 0) {
+            tooltip.add(Text.translatable("industrial_legacy.reactoritem.durability", duration - damage, duration)
+                    .formatted(Formatting.GRAY));
+        }
     }
 
     @Override
@@ -83,6 +110,7 @@ public class UraniumFuelRodItem extends Item implements IReactorComponent {
                 pulses += checkPulseable(reactor, x, y + 1, stack, x, y, true);
 
                 int heat = triangularNumber(pulses) * 4;
+                heat = getFinalHeat(stack, reactor, x, y, heat);
                 Queue<ItemStackCoord> acceptors = new ArrayDeque<>();
                 checkHeatAcceptor(reactor, x - 1, y, acceptors);
                 checkHeatAcceptor(reactor, x + 1, y, acceptors);
@@ -106,7 +134,8 @@ public class UraniumFuelRodItem extends Item implements IReactorComponent {
 
         if (!heatRun) {
             if (getDamage(stack) >= duration - 1) {
-                reactor.setItemAt(x, y, depletedItem == null ? ItemStack.EMPTY : new ItemStack(depletedItem));
+                ItemStack depleted = getDepletedStack(stack, reactor);
+                reactor.setItemAt(x, y, depleted == null || depleted.isEmpty() ? ItemStack.EMPTY : depleted);
             } else {
                 setDamage(stack, getDamage(stack) + 1);
             }
@@ -117,7 +146,7 @@ public class UraniumFuelRodItem extends Item implements IReactorComponent {
     public boolean acceptUraniumPulse(ItemStack stack, IReactor reactor, ItemStack pulsingStack,
                                       int youX, int youY, int pulseX, int pulseY, boolean heatRun) {
         if (!heatRun) {
-            reactor.addOutput(1.0f);
+            reactor.addOutput(getPulseEnergy(stack, reactor, youX, youY));
         }
         return true;
     }

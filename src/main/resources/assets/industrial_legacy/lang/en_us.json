@@ -321,5 +321,15 @@
   "item.industrial_legacy.thick_neutron_reflector": "Thick Neutron Reflector",
   "gui.industrial_legacy.nuclear_reactor.output_eu": "Output: %s EU/t",
   "gui.industrial_legacy.nuclear_reactor.temp": "Core Temperature: %1$.2f%%",
-  "gui.industrial_legacy.nuclear_reactor.mode.electric": "Nuclear Reactor in EU mode: Output throttled by 50%"
+  "gui.industrial_legacy.nuclear_reactor.mode.electric": "Nuclear Reactor in EU mode: Output throttled by 50%",
+  "industrial_legacy.reactoritem.durability": "Durability: %1$s/%2$s",
+  "item.industrial_legacy.small_plutonium": "Tiny Pile of Plutonium",
+  "item.industrial_legacy.plutonium": "Plutonium",
+  "item.industrial_legacy.mox": "MOX Nuclear Fuel",
+  "item.industrial_legacy.mox_fuel_rod": "Fuel Rod (MOX)",
+  "item.industrial_legacy.dual_mox_fuel_rod": "Dual Fuel Rod (MOX)",
+  "item.industrial_legacy.quad_mox_fuel_rod": "Quad Fuel Rod (MOX)",
+  "item.industrial_legacy.depleted_mox_fuel_rod": "Fuel Rod (Depleted MOX)",
+  "item.industrial_legacy.depleted_dual_mox_fuel_rod": "Dual Fuel Rod (Depleted MOX)",
+  "item.industrial_legacy.depleted_quad_mox_fuel_rod": "Quad Fuel Rod (Depleted MOX)"
 }

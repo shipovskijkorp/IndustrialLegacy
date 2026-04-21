@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "UIU"
+  ],
+  "key": {
+    "U": {
+      "item": "industrial_legacy:mox_fuel_rod"
+    },
+    "I": {
+      "item": "industrial_legacy:iron_plate"
+    }
+  },
+  "result": {
+    "item": "industrial_legacy:dual_mox_fuel_rod",
+    "count": 1
+  }
+}

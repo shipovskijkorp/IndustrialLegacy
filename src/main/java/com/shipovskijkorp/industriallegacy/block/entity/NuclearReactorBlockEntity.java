@@ -190,9 +190,17 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
 
     @Override
     public void setStack(int slot, ItemStack stack) {
-        items.set(slot, stack);
-        if (stack.getCount() > getMaxCountPerStack()) stack.setCount(getMaxCountPerStack());
+        if (stack != null && !stack.isEmpty() && stack.getCount() > getMaxCountPerStack()) {
+            stack = stack.copy();
+            stack.setCount(getMaxCountPerStack());
+        }
+        items.set(slot, stack == null ? ItemStack.EMPTY : stack);
         markDirty();
+    }
+
+    @Override
+    public int getMaxCountPerStack() {
+        return 1;
     }
 
     @Override
@@ -250,6 +258,10 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
     @Override
     public void setItemAt(int x, int y, @Nullable ItemStack stack) {
         if (x < 0 || y < 0 || x >= COLUMNS || y >= ROWS) return;
+        if (stack != null && !stack.isEmpty() && stack.getCount() > 1) {
+            stack = stack.copy();
+            stack.setCount(1);
+        }
         items.set(index(x, y), stack == null || stack.isEmpty() ? ItemStack.EMPTY : stack);
         markDirty();
     }

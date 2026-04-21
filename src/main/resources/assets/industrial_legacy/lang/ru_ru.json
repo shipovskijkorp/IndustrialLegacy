@@ -321,5 +321,15 @@
   "item.industrial_legacy.thick_neutron_reflector": "Утолщённый нейтронный отражатель",
   "gui.industrial_legacy.nuclear_reactor.output_eu": "Выход: %s EU/t",
   "gui.industrial_legacy.nuclear_reactor.temp": "Температура ядра: %1$.2f%%",
-  "gui.industrial_legacy.nuclear_reactor.mode.electric": "Реактор в энергетическом режиме работает на 50%"
+  "gui.industrial_legacy.nuclear_reactor.mode.electric": "Реактор в энергетическом режиме работает на 50%",
+  "industrial_legacy.reactoritem.durability": "Прочность: %1$s/%2$s",
+  "item.industrial_legacy.small_plutonium": "Кусочек плутония",
+  "item.industrial_legacy.plutonium": "Плутоний",
+  "item.industrial_legacy.mox": "MOX-ядерное топливо",
+  "item.industrial_legacy.mox_fuel_rod": "Топливный стержень (MOX)",
+  "item.industrial_legacy.dual_mox_fuel_rod": "Спаренный топливный стержень (MOX)",
+  "item.industrial_legacy.quad_mox_fuel_rod": "Счетверённый топливный стержень (MOX)",
+  "item.industrial_legacy.depleted_mox_fuel_rod": "Топливный стержень (Обеднённый MOX)",
+  "item.industrial_legacy.depleted_dual_mox_fuel_rod": "Спаренный топливный стержень (Обеднённый MOX)",
+  "item.industrial_legacy.depleted_quad_mox_fuel_rod": "Счетверённый топливный стержень (Обеднённый MOX)"
 }

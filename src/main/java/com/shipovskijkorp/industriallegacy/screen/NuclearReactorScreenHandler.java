@@ -44,6 +44,16 @@ public class NuclearReactorScreenHandler extends ScreenHandler {
                     }
 
                     @Override
+                    public int getMaxItemCount() {
+                        return 1;
+                    }
+
+                    @Override
+                    public int getMaxItemCount(net.minecraft.item.ItemStack stack) {
+                        return 1;
+                    }
+
+                    @Override
                     public boolean isEnabled() {
                         return isSlotEnabled(slotIndex);
                     }

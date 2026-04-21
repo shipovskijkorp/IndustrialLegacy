@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "UUU",
+    "UUU",
+    "UUU"
+  ],
+  "key": {
+    "U": {
+      "item": "industrial_legacy:small_plutonium"
+    }
+  },
+  "result": {
+    "item": "industrial_legacy:plutonium",
+    "count": 1
+  }
+}

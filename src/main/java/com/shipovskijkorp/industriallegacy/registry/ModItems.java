@@ -148,14 +148,23 @@ public final class ModItems {
     public static final Item PURIFIED_URANIUM_ORE = register("purified_uranium_ore", new Item(new Item.Settings()));
     public static final Item URANIUM_238 = register("uranium_238", new RadioactiveItem(new Item.Settings(), 10 * 20, 90));
     public static final Item SMALL_URANIUM_235 = register("small_uranium_235", new RadioactiveItem(new Item.Settings(), 150 * 20, 100));
+    public static final Item SMALL_PLUTONIUM = register("small_plutonium", new RadioactiveItem(new Item.Settings(), 150 * 20, 100));
     public static final Item URANIUM = register("uranium", new RadioactiveItem(new Item.Settings(), 60 * 20, 100));
     public static final Item URANIUM_235 = register("uranium_235", new RadioactiveItem(new Item.Settings(), 150 * 20, 100));
+    public static final Item PLUTONIUM = register("plutonium", new RadioactiveItem(new Item.Settings(), 150 * 20, 100));
+    public static final Item MOX = register("mox", new RadioactiveItem(new Item.Settings(), 300 * 20, 100));
     public static final Item DEPLETED_URANIUM_FUEL_ROD = register("depleted_uranium_fuel_rod", new RadioactiveItem(new Item.Settings(), 10 * 20, 100));
     public static final Item DEPLETED_DUAL_URANIUM_FUEL_ROD = register("depleted_dual_uranium_fuel_rod", new RadioactiveItem(new Item.Settings(), 10 * 20, 100));
     public static final Item DEPLETED_QUAD_URANIUM_FUEL_ROD = register("depleted_quad_uranium_fuel_rod", new RadioactiveItem(new Item.Settings(), 10 * 20, 100));
+    public static final Item DEPLETED_MOX_FUEL_ROD = register("depleted_mox_fuel_rod", new RadioactiveItem(new Item.Settings(), 10 * 20, 100));
+    public static final Item DEPLETED_DUAL_MOX_FUEL_ROD = register("depleted_dual_mox_fuel_rod", new RadioactiveItem(new Item.Settings(), 10 * 20, 100));
+    public static final Item DEPLETED_QUAD_MOX_FUEL_ROD = register("depleted_quad_mox_fuel_rod", new RadioactiveItem(new Item.Settings(), 10 * 20, 100));
     public static final Item URANIUM_FUEL_ROD = register("uranium_fuel_rod", new UraniumFuelRodItem(new Item.Settings(), 1, 20000, DEPLETED_URANIUM_FUEL_ROD));
     public static final Item DUAL_URANIUM_FUEL_ROD = register("dual_uranium_fuel_rod", new UraniumFuelRodItem(new Item.Settings(), 2, 20000, DEPLETED_DUAL_URANIUM_FUEL_ROD));
     public static final Item QUAD_URANIUM_FUEL_ROD = register("quad_uranium_fuel_rod", new UraniumFuelRodItem(new Item.Settings(), 4, 20000, DEPLETED_QUAD_URANIUM_FUEL_ROD));
+    public static final Item MOX_FUEL_ROD = register("mox_fuel_rod", new MoxFuelRodItem(new Item.Settings(), 1, 10000, DEPLETED_MOX_FUEL_ROD));
+    public static final Item DUAL_MOX_FUEL_ROD = register("dual_mox_fuel_rod", new MoxFuelRodItem(new Item.Settings(), 2, 10000, DEPLETED_DUAL_MOX_FUEL_ROD));
+    public static final Item QUAD_MOX_FUEL_ROD = register("quad_mox_fuel_rod", new MoxFuelRodItem(new Item.Settings(), 4, 10000, DEPLETED_QUAD_MOX_FUEL_ROD));
     public static final Item COIL = register("coil", new Item(new Item.Settings()));
     public static final Item ELECTRIC_MOTOR = register("electric_motor", new Item(new Item.Settings()));
 
