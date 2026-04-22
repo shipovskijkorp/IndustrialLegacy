@@ -141,6 +141,7 @@ public final class ModItems {
 
     // --- IC2 crafting materials (needed for experimental recipes) ---
     public static final Item BIO_CHAFF = register("bio_chaff", new Item(new Item.Settings()));
+    public static final Item CF_POWDER = register("cf_powder", new Item(new Item.Settings()));
     public static final Item PLANT_BALL = register("plant_ball", new Item(new Item.Settings()));
     public static final Item COAL_BALL = register("coal_ball", new Item(new Item.Settings()));
     public static final Item COAL_BLOCK = register("coal_block", new Item(new Item.Settings()));

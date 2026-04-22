@@ -231,6 +231,7 @@ add.accept(ModItems.IRIDIUM_REFLECTOR);
 add.accept(ModItems.RSH_CONDENSATOR);
 add.accept(ModItems.LZH_CONDENSATOR);
 
+                        add.accept(ModItems.CF_POWDER);
                         add.accept(ModItems.PLANT_BALL);
                         add.accept(ModItems.TIN_CAN);
                         add.accept(ModItems.FILLED_TIN_CAN);

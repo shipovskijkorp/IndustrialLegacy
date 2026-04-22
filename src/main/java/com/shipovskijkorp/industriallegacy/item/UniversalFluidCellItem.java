@@ -31,7 +31,12 @@ public class UniversalFluidCellItem extends Item {
         EMPTY("empty", 0.0f, null),
         WATER("minecraft:water", 0.1f, Blocks.WATER),
         LAVA("minecraft:lava", 0.2f, Blocks.LAVA),
-        AIR(ModFluids.AIR_ID.toString(), 0.3f, null);
+        AIR(ModFluids.AIR_ID.toString(), 0.3f, null),
+        DISTILLED_WATER("industrial_legacy:distilled_water", 0.4f, null),
+        COOLANT("industrial_legacy:coolant", 0.5f, null),
+        BIOMASS("industrial_legacy:biomass", 0.6f, null),
+        CONSTRUCTION_FOAM("industrial_legacy:construction_foam", 0.7f, null),
+        HOT_WATER("industrial_legacy:hot_water", 0.8f, null);
 
         public final String id;
         public final float predicate;
@@ -122,6 +127,11 @@ public class UniversalFluidCellItem extends Item {
             case WATER -> Text.translatable("item.industrial_legacy.cell.water");
             case LAVA -> Text.translatable("item.industrial_legacy.cell.lava");
             case AIR -> Text.translatable("item.industrial_legacy.cell.air");
+            case DISTILLED_WATER -> Text.translatable("item.industrial_legacy.cell.distilled_water");
+            case COOLANT -> Text.translatable("item.industrial_legacy.cell.coolant");
+            case BIOMASS -> Text.translatable("item.industrial_legacy.cell.biomass");
+            case CONSTRUCTION_FOAM -> Text.translatable("item.industrial_legacy.cell.construction_foam");
+            case HOT_WATER -> Text.translatable("item.industrial_legacy.cell.hot_water");
             default -> Text.translatable("item.industrial_legacy.cell.empty");
         };
     }

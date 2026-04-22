@@ -5,6 +5,7 @@ import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
 import com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem;
 import com.shipovskijkorp.industriallegacy.recipe.CanningRecipe;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
+import com.shipovskijkorp.industriallegacy.registry.ModItems;
 import com.shipovskijkorp.industriallegacy.registry.ModRecipes;
 import com.shipovskijkorp.industriallegacy.screen.CannerScreenHandler;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
@@ -17,6 +18,7 @@ import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.recipe.Ingredient;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -29,6 +31,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Method;
 import java.util.Optional;
+import java.util.List;
 
 public class CannerBlockEntity extends BlockEntity implements SidedInventory, IEuEnergyStorage, ExtendedScreenHandlerFactory {
     public enum Mode {
@@ -62,6 +65,14 @@ public class CannerBlockEntity extends BlockEntity implements SidedInventory, IE
     private static final int BASE_TICKS = 200;
     private static final int TANK_CAPACITY = 8000;
     private static final int CELL_MB = 1000;
+
+    private static final List<EnrichRecipe> ENRICH_RECIPES = List.of(
+            new EnrichRecipe(UniversalFluidCellItem.CellFluid.WATER, 1000, Ingredient.ofItems(ModItems.CF_POWDER), 1, UniversalFluidCellItem.CellFluid.CONSTRUCTION_FOAM, 1000),
+            new EnrichRecipe(UniversalFluidCellItem.CellFluid.WATER, 1000, Ingredient.ofItems(ModItems.LAPIS_DUST), 8, UniversalFluidCellItem.CellFluid.COOLANT, 1000),
+            new EnrichRecipe(UniversalFluidCellItem.CellFluid.DISTILLED_WATER, 1000, Ingredient.ofItems(ModItems.LAPIS_DUST), 1, UniversalFluidCellItem.CellFluid.COOLANT, 1000),
+            new EnrichRecipe(UniversalFluidCellItem.CellFluid.WATER, 1000, Ingredient.ofItems(ModItems.BIO_CHAFF), 1, UniversalFluidCellItem.CellFluid.BIOMASS, 1000),
+            new EnrichRecipe(UniversalFluidCellItem.CellFluid.WATER, 6000, Ingredient.ofItems(net.minecraft.item.Items.STICK), 1, UniversalFluidCellItem.CellFluid.HOT_WATER, 1000)
+    );
 
     private final DefaultedList<ItemStack> items = DefaultedList.ofSize(INV_SIZE, ItemStack.EMPTY);
     private long energy = 0L;
@@ -254,9 +265,55 @@ public class CannerBlockEntity extends BlockEntity implements SidedInventory, IE
     }
 
     private boolean processEnrichLiquid() {
-        // UI/slot layout is restored to IC2, but enrich recipes are not yet ported in this branch.
-        progress = 0;
-        return false;
+        EnrichRecipe recipe = findEnrichRecipe();
+        if (recipe == null) {
+            progress = 0;
+            return false;
+        }
+
+        ItemStack containerStack = items.get(SLOT_CONTAINER);
+        boolean bottleToCell = !containerStack.isEmpty()
+                && containerStack.getItem() instanceof UniversalFluidCellItem
+                && UniversalFluidCellItem.getFluid(containerStack) == UniversalFluidCellItem.CellFluid.EMPTY;
+
+        ItemStack bottledOutput = bottleToCell ? UniversalFluidCellItem.createStack(recipe.outputFluid()) : ItemStack.EMPTY;
+        if (bottleToCell && !canOutput(bottledOutput)) {
+            progress = 0;
+            return false;
+        }
+
+        int fluidToTank = bottleToCell ? Math.max(0, recipe.outputAmount() - CELL_MB) : recipe.outputAmount();
+        if (fluidToTank > 0 && !canAcceptOutputFluid(recipe.outputFluid(), fluidToTank)) {
+            progress = 0;
+            return false;
+        }
+
+        if (energy < EU_PER_TICK) return false;
+
+        energy -= EU_PER_TICK;
+        maxProgress = BASE_TICKS;
+        progress++;
+
+        if (progress >= maxProgress) {
+            inputTankAmount -= recipe.inputAmount();
+            if (inputTankAmount < 0) inputTankAmount = 0;
+            sanitizeTanks();
+
+            items.get(SLOT_FILL).decrement(recipe.additiveCount());
+
+            if (bottleToCell) {
+                items.get(SLOT_CONTAINER).decrement(1);
+                insertOutput(bottledOutput);
+            }
+
+            if (fluidToTank > 0) {
+                addToOutputTank(recipe.outputFluid(), fluidToTank);
+            }
+
+            progress = 0;
+        }
+
+        return true;
     }
 
     private boolean canAcceptInputFluid(UniversalFluidCellItem.CellFluid fluid, int amount) {
@@ -286,6 +343,40 @@ public class CannerBlockEntity extends BlockEntity implements SidedInventory, IE
             outputTankFluid = UniversalFluidCellItem.CellFluid.EMPTY;
         }
     }
+
+    private EnrichRecipe findEnrichRecipe() {
+        ItemStack additive = items.get(SLOT_FILL);
+        if (additive.isEmpty()) return null;
+        for (EnrichRecipe recipe : ENRICH_RECIPES) {
+            if (inputTankFluid != recipe.inputFluid()) continue;
+            if (inputTankAmount < recipe.inputAmount()) continue;
+            if (!recipe.additive().test(additive)) continue;
+            if (additive.getCount() < recipe.additiveCount()) continue;
+            return recipe;
+        }
+        return null;
+    }
+
+    private boolean canAcceptOutputFluid(UniversalFluidCellItem.CellFluid fluid, int amount) {
+        if (fluid == UniversalFluidCellItem.CellFluid.EMPTY || amount <= 0) return false;
+        if (outputTankAmount <= 0 || outputTankFluid == UniversalFluidCellItem.CellFluid.EMPTY) {
+            return amount <= TANK_CAPACITY;
+        }
+        return outputTankFluid == fluid && outputTankAmount + amount <= TANK_CAPACITY;
+    }
+
+    private void addToOutputTank(UniversalFluidCellItem.CellFluid fluid, int amount) {
+        if (outputTankAmount <= 0 || outputTankFluid == UniversalFluidCellItem.CellFluid.EMPTY) {
+            outputTankFluid = fluid;
+            outputTankAmount = 0;
+        }
+        outputTankAmount = Math.min(TANK_CAPACITY, outputTankAmount + amount);
+        sanitizeTanks();
+    }
+
+    private record EnrichRecipe(UniversalFluidCellItem.CellFluid inputFluid, int inputAmount,
+                                Ingredient additive, int additiveCount,
+                                UniversalFluidCellItem.CellFluid outputFluid, int outputAmount) {}
 
     private Optional<CanningRecipe> findRecipe(World world) {
         Optional<?> opt = world.getRecipeManager().getFirstMatch(ModRecipes.CANNING_TYPE, this, world);

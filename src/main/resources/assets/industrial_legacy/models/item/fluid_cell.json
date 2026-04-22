@@ -6,6 +6,11 @@
   "overrides": [
     { "predicate": { "industrial_legacy:cell": 0.1 }, "model": "industrial_legacy:item/cell/water_cell" },
     { "predicate": { "industrial_legacy:cell": 0.2 }, "model": "industrial_legacy:item/cell/lava_cell" },
-    { "predicate": { "industrial_legacy:cell": 0.3 }, "model": "industrial_legacy:item/cell/air_cell" }
+    { "predicate": { "industrial_legacy:cell": 0.3 }, "model": "industrial_legacy:item/cell/air_cell" },
+    { "predicate": { "industrial_legacy:cell": 0.4 }, "model": "industrial_legacy:item/cell/distilled_water_cell" },
+    { "predicate": { "industrial_legacy:cell": 0.5 }, "model": "industrial_legacy:item/cell/coolant_cell" },
+    { "predicate": { "industrial_legacy:cell": 0.6 }, "model": "industrial_legacy:item/cell/biomass_cell" },
+    { "predicate": { "industrial_legacy:cell": 0.7 }, "model": "industrial_legacy:item/cell/cf_cell" },
+    { "predicate": { "industrial_legacy:cell": 0.8 }, "model": "industrial_legacy:item/cell/hot_water_cell" }
   ]
 }
