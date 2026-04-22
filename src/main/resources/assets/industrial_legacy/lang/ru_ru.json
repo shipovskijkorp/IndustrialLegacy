@@ -371,5 +371,10 @@
   "gui.industrial_legacy.canner.mode.empty_liquid": "Перелить из капсулы в бак",
   "gui.industrial_legacy.canner.mode.bottle_liquid": "Заполнить капсулу из бака",
   "gui.industrial_legacy.canner.mode.enrich_liquid": "Обогатить жидкость",
-  "gui.industrial_legacy.canner.switch_tanks": "Переключить баки"
+  "gui.industrial_legacy.canner.switch_tanks": "Переключить баки",
+  "item.industrial_legacy.mining_laser": "Шахтёрский лазер",
+  "tooltip.industrial_legacy.mode": "Режим: %s",
+  "tooltip.industrial_legacy.mode.mining": "Добыча",
+  "key.industrial_legacy.mode_switch": "Смена режима предмета в руке",
+  "message.industrial_legacy.mode": "Режим: %s"
 }

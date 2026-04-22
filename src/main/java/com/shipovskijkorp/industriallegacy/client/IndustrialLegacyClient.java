@@ -3,6 +3,7 @@ package com.shipovskijkorp.industriallegacy.client;
 import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
 import com.shipovskijkorp.industriallegacy.client.particle.ChargepadParticle;
 import com.shipovskijkorp.industriallegacy.client.render.CableBlockEntityRenderer;
+import com.shipovskijkorp.industriallegacy.client.render.MiningLaserEntityRenderer;
 import com.shipovskijkorp.industriallegacy.client.screen.BatBoxScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.CesuScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.ChargepadBatBoxScreen;
@@ -38,6 +39,7 @@ import com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem;
 import com.shipovskijkorp.industriallegacy.item.tool.NanoSaberItem;
 import com.shipovskijkorp.industriallegacy.net.ModPackets;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
+import com.shipovskijkorp.industriallegacy.registry.ModEntities;
 import com.shipovskijkorp.industriallegacy.registry.ModBlocks;
 import com.shipovskijkorp.industriallegacy.registry.ModItems;
 import com.shipovskijkorp.industriallegacy.registry.ModParticles;
@@ -49,6 +51,7 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.client.color.world.FoliageColors;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
@@ -107,6 +110,7 @@ public class IndustrialLegacyClient implements ClientModInitializer {
         registerChargePredicate(ModItems.QUANTUM_LEGGINGS);
         registerChargePredicate(ModItems.QUANTUM_BOOTS);
         registerChargePredicate(ModItems.NANO_SABER);
+        registerChargePredicate(ModItems.MINING_LASER);
 
         registerModelPredicate(ModItems.FLUID_CELL, "cell",
                 (stack, world, entity, seed) -> UniversalFluidCellItem.getModelPredicate(stack));
@@ -156,6 +160,7 @@ public class IndustrialLegacyClient implements ClientModInitializer {
 
     private static void registerRenderers() {
         BlockEntityRendererFactories.register(ModBlockEntities.CABLE, CableBlockEntityRenderer::new);
+        EntityRendererRegistry.register(ModEntities.MINING_LASER, MiningLaserEntityRenderer::new);
     }
 
     private static void registerBlockRenderLayers() {
@@ -199,6 +204,13 @@ public class IndustrialLegacyClient implements ClientModInitializer {
                 "key.categories.industrial_legacy"
         ));
 
+        KeyBinding modeSwitchKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key.industrial_legacy.mode_switch",
+                InputUtil.Type.KEYSYM,
+                GLFW.GLFW_KEY_M,
+                "key.categories.industrial_legacy"
+        ));
+
         final boolean[] hoverWasDown = {false};
 
         ClientTickEvents.START_CLIENT_TICK.register(client -> {
@@ -207,6 +219,14 @@ public class IndustrialLegacyClient implements ClientModInitializer {
                     return;
                 }
                 ClientPlayNetworking.send(ModPackets.TOGGLE_NIGHTVISION,
+                        net.fabricmc.fabric.api.networking.v1.PacketByteBufs.empty());
+            }
+
+            while (modeSwitchKey.wasPressed()) {
+                if (client.player == null || client.currentScreen != null) {
+                    continue;
+                }
+                ClientPlayNetworking.send(ModPackets.CYCLE_HELD_ITEM_MODE,
                         net.fabricmc.fabric.api.networking.v1.PacketByteBufs.empty());
             }
 

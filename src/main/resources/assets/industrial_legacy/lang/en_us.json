@@ -371,5 +371,10 @@
   "gui.industrial_legacy.canner.mode.empty_liquid": "Empty liquid container into tank",
   "gui.industrial_legacy.canner.mode.bottle_liquid": "Fill liquid container from tank",
   "gui.industrial_legacy.canner.mode.enrich_liquid": "Enrich liquid",
-  "gui.industrial_legacy.canner.switch_tanks": "Switch tanks"
+  "gui.industrial_legacy.canner.switch_tanks": "Switch tanks",
+  "item.industrial_legacy.mining_laser": "Mining Laser",
+  "tooltip.industrial_legacy.mode": "Mode: %s",
+  "tooltip.industrial_legacy.mode.mining": "Mining",
+  "key.industrial_legacy.mode_switch": "Switch held item mode",
+  "message.industrial_legacy.mode": "Mode: %s"
 }

@@ -11,6 +11,7 @@ import com.shipovskijkorp.industriallegacy.block.entity.RedstoneModeCycleTarget;
 import com.shipovskijkorp.industriallegacy.item.flight.ChestFlightManager;
 import com.shipovskijkorp.industriallegacy.util.PlayerInputStateManager;
 import com.shipovskijkorp.industriallegacy.item.nvg.INightVisionModule;
+import com.shipovskijkorp.industriallegacy.item.tool.IModeSwitchableItem;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -45,6 +46,9 @@ public final class ModPackets {
 
     public static final Identifier ELECTRIC_FURNACE_TAKE_XP =
             new Identifier(IndustrialLegacy.MOD_ID, "electric_furnace_take_xp");
+
+    public static final Identifier CYCLE_HELD_ITEM_MODE =
+            new Identifier(IndustrialLegacy.MOD_ID, "cycle_held_item_mode");
 
     public static void registerServerReceivers() {
         ServerPlayNetworking.registerGlobalReceiver(BATBOX_CYCLE_REDSTONE_MODE,
@@ -86,6 +90,9 @@ public final class ModPackets {
                     BlockPos pos = buf.readBlockPos();
                     server.execute(() -> handleElectricFurnaceTakeXp(player, pos));
                 });
+
+        ServerPlayNetworking.registerGlobalReceiver(CYCLE_HELD_ITEM_MODE,
+                (server, player, handler, buf, responseSender) -> server.execute(() -> handleCycleHeldItemMode(player)));
     }
 
     private static void handleRedstoneModeCycle(net.minecraft.server.network.ServerPlayerEntity player, BlockPos pos) {
@@ -133,6 +140,21 @@ public final class ModPackets {
         }
         if (player.getWorld().getBlockEntity(pos) instanceof ElectricFurnaceBlockEntity be) {
             be.collectXp(player);
+        }
+    }
+
+    private static void handleCycleHeldItemMode(net.minecraft.server.network.ServerPlayerEntity player) {
+        ItemStack mainHand = player.getMainHandStack();
+        if (mainHand.getItem() instanceof IModeSwitchableItem switchable) {
+            switchable.cycleMode(mainHand, player);
+            player.sendMessage(Text.translatable("message.industrial_legacy.mode", switchable.getModeName(mainHand)), true);
+            return;
+        }
+
+        ItemStack offHand = player.getOffHandStack();
+        if (offHand.getItem() instanceof IModeSwitchableItem switchable) {
+            switchable.cycleMode(offHand, player);
+            player.sendMessage(Text.translatable("message.industrial_legacy.mode", switchable.getModeName(offHand)), true);
         }
     }
 

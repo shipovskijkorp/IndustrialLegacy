@@ -15,6 +15,7 @@ import com.shipovskijkorp.industriallegacy.item.armor.QuantumLeggingsItem;
 import com.shipovskijkorp.industriallegacy.item.reactor.*;
 import com.shipovskijkorp.industriallegacy.item.tool.BronzeToolMaterial;
 import com.shipovskijkorp.industriallegacy.item.tool.ContainmentBoxItem;
+import com.shipovskijkorp.industriallegacy.item.tool.MiningLaserItem;
 import com.shipovskijkorp.industriallegacy.item.tool.NanoSaberItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.ArmorItem;
@@ -268,6 +269,8 @@ public final class ModItems {
 
     /** IC2: Nano Saber (electric sword). */
     public static final Item NANO_SABER = register("nano_saber", new NanoSaberItem(new Item.Settings().maxCount(1)));
+    /** IC2: Mining Laser (electric mining tool). */
+    public static final Item MINING_LASER = register("mining_laser", new MiningLaserItem(new Item.Settings().maxCount(1)));
     // IC2 bronze tools
     public static final Item BRONZE_SWORD = register("bronze_sword", new SwordItem(BronzeToolMaterial.INSTANCE, 5, -2.4f, new Item.Settings()));
     public static final Item BRONZE_PICKAXE = register("bronze_pickaxe", new PickaxeItem(BronzeToolMaterial.INSTANCE, 1, -2.8f, new Item.Settings()));

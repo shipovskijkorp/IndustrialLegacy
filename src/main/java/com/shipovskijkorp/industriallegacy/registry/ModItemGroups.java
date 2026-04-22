@@ -158,8 +158,10 @@ public final class ModItemGroups {
                         // Night Vision
                         add.accept(ModItems.NIGHTVISION_GOGGLES);
                         add.accept(ModItems.NANO_SABER);
+                        add.accept(ModItems.MINING_LASER);
                         addCharged.accept(ModItems.NIGHTVISION_GOGGLES);
                         addCharged.accept(ModItems.NANO_SABER);
+                        addCharged.accept(ModItems.MINING_LASER);
 
                         // Hazmat / utility armor
                         add.accept(ModItems.HAZMAT_HELMET);
