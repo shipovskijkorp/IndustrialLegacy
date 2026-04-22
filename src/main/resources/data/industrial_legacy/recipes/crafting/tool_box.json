@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ICI",
+    "III"
+  ],
+  "key": {
+    "C": {
+      "item": "minecraft:chest"
+    },
+    "I": {
+      "item": "industrial_legacy:bronze_casing"
+    }
+  },
+  "result": {
+    "item": "industrial_legacy:tool_box"
+  }
+}

@@ -139,6 +139,7 @@ public final class ModItemGroups {
                         add.accept(ModItems.CUTTER);
                         add.accept(ModItems.WRENCH);
                         add.accept(ModItems.CONTAINMENT_BOX);
+                        add.accept(ModItems.TOOL_BOX);
 
                         add.accept(ModItems.RE_BATTERY);
                         add.accept(ModItems.ADVANCED_RE_BATTERY);

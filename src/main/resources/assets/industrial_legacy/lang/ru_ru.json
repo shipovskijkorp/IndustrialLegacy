@@ -384,5 +384,7 @@
   "tooltip.industrial_legacy.mode.scatter": "Разброс",
   "tooltip.industrial_legacy.mode.explosive": "Взрывоопасный",
   "tooltip.industrial_legacy.mode.three_by_three": "3x3",
-  "message.industrial_legacy.mining_laser.angle_too_steep": "Угол наведения шахтёрского лазера слишком крутой"
+  "message.industrial_legacy.mining_laser.angle_too_steep": "Угол наведения шахтёрского лазера слишком крутой",
+  "item.industrial_legacy.tool_box": "Ящик для инструментов",
+  "container.industrial_legacy.tool_box": "Ящик для инструментов"
 }

@@ -4,29 +4,7 @@ import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
 import com.shipovskijkorp.industriallegacy.client.particle.ChargepadParticle;
 import com.shipovskijkorp.industriallegacy.client.render.CableBlockEntityRenderer;
 import com.shipovskijkorp.industriallegacy.client.render.MiningLaserEntityRenderer;
-import com.shipovskijkorp.industriallegacy.client.screen.BatBoxScreen;
-import com.shipovskijkorp.industriallegacy.client.screen.CesuScreen;
-import com.shipovskijkorp.industriallegacy.client.screen.ChargepadBatBoxScreen;
-import com.shipovskijkorp.industriallegacy.client.screen.ChargepadCesuScreen;
-import com.shipovskijkorp.industriallegacy.client.screen.ChargepadMfeScreen;
-import com.shipovskijkorp.industriallegacy.client.screen.ChargepadMfsuScreen;
-import com.shipovskijkorp.industriallegacy.client.screen.CannerScreen;
-import com.shipovskijkorp.industriallegacy.client.screen.CompressorScreen;
-import com.shipovskijkorp.industriallegacy.client.screen.ContainmentBoxScreen;
-import com.shipovskijkorp.industriallegacy.client.screen.ElectricFurnaceScreen;
-import com.shipovskijkorp.industriallegacy.client.screen.GeoGeneratorScreen;
-import com.shipovskijkorp.industriallegacy.client.screen.GeneratorScreen;
-import com.shipovskijkorp.industriallegacy.client.screen.LvTransformerScreen;
-import com.shipovskijkorp.industriallegacy.client.screen.MvTransformerScreen;
-import com.shipovskijkorp.industriallegacy.client.screen.HvTransformerScreen;
-import com.shipovskijkorp.industriallegacy.client.screen.EvTransformerScreen;
-import com.shipovskijkorp.industriallegacy.client.screen.MaceratorScreen;
-import com.shipovskijkorp.industriallegacy.client.screen.MetalFormerScreen;
-import com.shipovskijkorp.industriallegacy.client.screen.SolidCannerScreen;
-import com.shipovskijkorp.industriallegacy.client.screen.ThermalCentrifugeScreen;
-import com.shipovskijkorp.industriallegacy.client.screen.NuclearReactorScreen;
-import com.shipovskijkorp.industriallegacy.client.screen.MfeScreen;
-import com.shipovskijkorp.industriallegacy.client.screen.MfsuScreen;
+import com.shipovskijkorp.industriallegacy.client.screen.*;
 import com.shipovskijkorp.industriallegacy.energy.item.ElectricItemManager;
 import com.shipovskijkorp.industriallegacy.item.CableItem;
 import com.shipovskijkorp.industriallegacy.item.CableKind;
@@ -152,6 +130,7 @@ public class IndustrialLegacyClient implements ClientModInitializer {
         HandledScreens.register(ModScreenHandlers.HV_TRANSFORMER, HvTransformerScreen::new);
         HandledScreens.register(ModScreenHandlers.EV_TRANSFORMER, EvTransformerScreen::new);
         HandledScreens.register(ModScreenHandlers.CONTAINMENT_BOX, ContainmentBoxScreen::new);
+        HandledScreens.register(ModScreenHandlers.TOOL_BOX, ToolboxScreen::new);
     }
 
     private static void registerParticles() {

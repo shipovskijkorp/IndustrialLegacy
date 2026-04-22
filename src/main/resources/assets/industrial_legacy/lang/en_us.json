@@ -384,5 +384,7 @@
   "tooltip.industrial_legacy.mode.scatter": "Scatter",
   "tooltip.industrial_legacy.mode.explosive": "Explosive",
   "tooltip.industrial_legacy.mode.three_by_three": "3x3",
-  "message.industrial_legacy.mining_laser.angle_too_steep": "Mining laser aiming angle too steep"
+  "message.industrial_legacy.mining_laser.angle_too_steep": "Mining laser aiming angle too steep",
+  "item.industrial_legacy.tool_box": "Tool Box",
+  "container.industrial_legacy.tool_box": "Tool Box"
 }

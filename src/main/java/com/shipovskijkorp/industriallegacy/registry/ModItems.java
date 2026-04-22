@@ -17,6 +17,7 @@ import com.shipovskijkorp.industriallegacy.item.tool.BronzeToolMaterial;
 import com.shipovskijkorp.industriallegacy.item.tool.ContainmentBoxItem;
 import com.shipovskijkorp.industriallegacy.item.tool.MiningLaserItem;
 import com.shipovskijkorp.industriallegacy.item.tool.NanoSaberItem;
+import com.shipovskijkorp.industriallegacy.item.tool.ToolboxItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.AxeItem;
@@ -220,6 +221,7 @@ public final class ModItems {
     public static final Item RSH_CONDENSATOR = register("rsh_condensator", new ReactorCondensatorItem(new Item.Settings(), 20000));
     public static final Item LZH_CONDENSATOR = register("lzh_condensator", new ReactorCondensatorItem(new Item.Settings(), 100000));
     public static final Item CONTAINMENT_BOX = register("containment_box", new ContainmentBoxItem(new Item.Settings()));
+    public static final Item TOOL_BOX = register("tool_box", new ToolboxItem(new Item.Settings()));
 
 
     public static final Item IRIDIUM = register("iridium", new Item(new Item.Settings()));

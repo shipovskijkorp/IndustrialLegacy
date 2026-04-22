@@ -1,6 +1,6 @@
 {
-	"parent": "ic2:item/default",
-	"textures": {
-		"layer0": "ic2:items/tool/tool_box_open"
-	}
+  "parent": "industrial_legacy:item/default",
+  "textures": {
+    "layer0": "industrial_legacy:item/tool/tool_box_open"
+  }
 }
