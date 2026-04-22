@@ -354,5 +354,11 @@
   "item.industrial_legacy.iridium_reflector": "Иридиевый отражатель нейтронов",
   "item.industrial_legacy.rsh_condensator": "Красный конденсатор",
   "item.industrial_legacy.lzh_condensator": "Лазуритовый конденсатор",
-  "item.industrial_legacy.containment_box": "Герметичный ящик для радиоактивных материалов"
+  "item.industrial_legacy.containment_box": "Герметичный ящик для радиоактивных материалов",
+  "block.industrial_legacy.chargepad_batbox": "Заряжающая плита (Энергохранитель)",
+  "block.industrial_legacy.chargepad_cesu": "Заряжающая плита (МЭСН)",
+  "block.industrial_legacy.chargepad_mfe": "Заряжающая плита (МФЭ)",
+  "block.industrial_legacy.chargepad_mfsu": "Заряжающая плита (МФСУ)",
+  "il.chargepad.gui.mod.redstone0": "Красный сигнал: Излучать, если активен",
+  "il.chargepad.gui.mod.redstone1": "Красный сигнал: Излучать, если не активен"
 }

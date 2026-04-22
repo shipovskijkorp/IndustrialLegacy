@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "facing=north,active=false": { "model": "industrial_legacy:block/chargepad_mfsu" },
+    "facing=east,active=false": { "model": "industrial_legacy:block/chargepad_mfsu", "y": 90 },
+    "facing=south,active=false": { "model": "industrial_legacy:block/chargepad_mfsu", "y": 180 },
+    "facing=west,active=false": { "model": "industrial_legacy:block/chargepad_mfsu", "y": 270 },
+    "facing=north,active=true": { "model": "industrial_legacy:block/chargepad_mfsu_active" },
+    "facing=east,active=true": { "model": "industrial_legacy:block/chargepad_mfsu_active", "y": 90 },
+    "facing=south,active=true": { "model": "industrial_legacy:block/chargepad_mfsu_active", "y": 180 },
+    "facing=west,active=true": { "model": "industrial_legacy:block/chargepad_mfsu_active", "y": 270 }
+  }
+}

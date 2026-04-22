@@ -1,12 +1,12 @@
 {
-	"parent": "ic2:block/wiring/chargepad/chargepad_base",
+	"parent": "industrial_legacy:block/wiring/chargepad/chargepad_base",
 	"textures": {
-		"particle": "ic2:blocks/wiring/chargepad/chargepad_batbox_left",
-		"down": "ic2:blocks/wiring/chargepad/chargepad_batbox_bottom",
-		"up": "ic2:blocks/wiring/chargepad/chargepad_batbox_top",
-		"north": "ic2:blocks/wiring/chargepad/chargepad_batbox_front",
-		"east": "ic2:blocks/wiring/chargepad/chargepad_batbox_left",
-		"south": "ic2:blocks/wiring/chargepad/chargepad_batbox_back",
-		"west": "ic2:blocks/wiring/chargepad/chargepad_batbox_right"
+		"particle": "industrial_legacy:block/wiring/chargepad/chargepad_batbox_left",
+		"down": "industrial_legacy:block/wiring/chargepad/chargepad_batbox_bottom",
+		"up": "industrial_legacy:block/wiring/chargepad/chargepad_batbox_top",
+		"north": "industrial_legacy:block/wiring/chargepad/chargepad_batbox_front",
+		"east": "industrial_legacy:block/wiring/chargepad/chargepad_batbox_left",
+		"south": "industrial_legacy:block/wiring/chargepad/chargepad_batbox_back",
+		"west": "industrial_legacy:block/wiring/chargepad/chargepad_batbox_right"
 	}
 }

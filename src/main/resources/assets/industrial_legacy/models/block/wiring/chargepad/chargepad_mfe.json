@@ -1,12 +1,12 @@
 {
-	"parent": "ic2:block/wiring/chargepad/chargepad_base",
+	"parent": "industrial_legacy:block/wiring/chargepad/chargepad_base",
 	"textures": {
-		"particle": "ic2:blocks/wiring/chargepad/chargepad_mfe_leftright",
-		"down": "ic2:blocks/wiring/chargepad/chargepad_mfe_bottom",
-		"up": "ic2:blocks/wiring/chargepad/chargepad_mfe_top",
-		"north": "ic2:blocks/wiring/chargepad/chargepad_mfe_front",
-		"east": "ic2:blocks/wiring/chargepad/chargepad_mfe_leftright",
-		"south": "ic2:blocks/wiring/chargepad/chargepad_mfe_back",
-		"west": "ic2:blocks/wiring/chargepad/chargepad_mfe_leftright"
+		"particle": "industrial_legacy:block/wiring/chargepad/chargepad_mfe_leftright",
+		"down": "industrial_legacy:block/wiring/chargepad/chargepad_mfe_bottom",
+		"up": "industrial_legacy:block/wiring/chargepad/chargepad_mfe_top",
+		"north": "industrial_legacy:block/wiring/chargepad/chargepad_mfe_front",
+		"east": "industrial_legacy:block/wiring/chargepad/chargepad_mfe_leftright",
+		"south": "industrial_legacy:block/wiring/chargepad/chargepad_mfe_back",
+		"west": "industrial_legacy:block/wiring/chargepad/chargepad_mfe_leftright"
 	}
 }

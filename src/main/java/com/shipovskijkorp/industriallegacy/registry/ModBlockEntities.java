@@ -73,6 +73,31 @@ public final class ModBlockEntities {
     );
 
 
+    public static final BlockEntityType<ChargepadBatBoxBlockEntity> CHARGEPAD_BATBOX = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE,
+            new Identifier(IndustrialLegacy.MOD_ID, "chargepad_batbox"),
+            FabricBlockEntityTypeBuilder.create(ChargepadBatBoxBlockEntity::new, ModBlocks.CHARGEPAD_BATBOX).build()
+    );
+
+    public static final BlockEntityType<ChargepadCesuBlockEntity> CHARGEPAD_CESU = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE,
+            new Identifier(IndustrialLegacy.MOD_ID, "chargepad_cesu"),
+            FabricBlockEntityTypeBuilder.create(ChargepadCesuBlockEntity::new, ModBlocks.CHARGEPAD_CESU).build()
+    );
+
+    public static final BlockEntityType<ChargepadMfeBlockEntity> CHARGEPAD_MFE = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE,
+            new Identifier(IndustrialLegacy.MOD_ID, "chargepad_mfe"),
+            FabricBlockEntityTypeBuilder.create(ChargepadMfeBlockEntity::new, ModBlocks.CHARGEPAD_MFE).build()
+    );
+
+    public static final BlockEntityType<ChargepadMfsuBlockEntity> CHARGEPAD_MFSU = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE,
+            new Identifier(IndustrialLegacy.MOD_ID, "chargepad_mfsu"),
+            FabricBlockEntityTypeBuilder.create(ChargepadMfsuBlockEntity::new, ModBlocks.CHARGEPAD_MFSU).build()
+    );
+
+
     public static final BlockEntityType<IronFurnaceBlockEntity> IRON_FURNACE = Registry.register(
             Registries.BLOCK_ENTITY_TYPE,
             new Identifier(IndustrialLegacy.MOD_ID, "iron_furnace"),

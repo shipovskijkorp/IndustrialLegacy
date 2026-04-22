@@ -11,6 +11,7 @@ import com.shipovskijkorp.industriallegacy.registry.ModBlocks;
 import com.shipovskijkorp.industriallegacy.registry.ModFluids;
 import com.shipovskijkorp.industriallegacy.registry.ModItemGroups;
 import com.shipovskijkorp.industriallegacy.registry.ModItems;
+import com.shipovskijkorp.industriallegacy.registry.ModParticles;
 import com.shipovskijkorp.industriallegacy.registry.ModRecipes;
 import com.shipovskijkorp.industriallegacy.registry.ModScreenHandlers;
 import com.shipovskijkorp.industriallegacy.registry.ModStatusEffects;
@@ -34,6 +35,7 @@ public class IndustrialLegacy implements ModInitializer {
         ModBlockEntities.register();
         ModFluids.register();
         ModItems.register();
+        ModParticles.register();
         ModStatusEffects.register();
         ModRecipes.register();
         ModScreenHandlers.register();

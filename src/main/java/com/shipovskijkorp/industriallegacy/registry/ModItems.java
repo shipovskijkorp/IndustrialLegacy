@@ -14,6 +14,7 @@ import com.shipovskijkorp.industriallegacy.item.armor.QuantumHelmetItem;
 import com.shipovskijkorp.industriallegacy.item.armor.QuantumLeggingsItem;
 import com.shipovskijkorp.industriallegacy.item.reactor.*;
 import com.shipovskijkorp.industriallegacy.item.tool.BronzeToolMaterial;
+import com.shipovskijkorp.industriallegacy.item.tool.ContainmentBoxItem;
 import com.shipovskijkorp.industriallegacy.item.tool.NanoSaberItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.ArmorItem;
@@ -216,7 +217,7 @@ public final class ModItems {
     public static final Item IRIDIUM_REFLECTOR = register("iridium_reflector", new IridiumReflectorItem(new Item.Settings()));
     public static final Item RSH_CONDENSATOR = register("rsh_condensator", new ReactorCondensatorItem(new Item.Settings(), 20000));
     public static final Item LZH_CONDENSATOR = register("lzh_condensator", new ReactorCondensatorItem(new Item.Settings(), 100000));
-    public static final Item CONTAINMENT_BOX = register("containment_box", new Item(new Item.Settings().maxCount(1)));
+    public static final Item CONTAINMENT_BOX = register("containment_box", new ContainmentBoxItem(new Item.Settings()));
 
 
     public static final Item IRIDIUM = register("iridium", new Item(new Item.Settings()));

@@ -18,6 +18,11 @@ public final class ModScreenHandlers {
     public static final Identifier CESU_ID = new Identifier(IndustrialLegacy.MOD_ID, "cesu");
     public static final Identifier MFE_ID = new Identifier(IndustrialLegacy.MOD_ID, "mfe");
     public static final Identifier MFSU_ID = new Identifier(IndustrialLegacy.MOD_ID, "mfsu");
+    public static final Identifier CHARGEPAD_BATBOX_ID = new Identifier(IndustrialLegacy.MOD_ID, "chargepad_batbox");
+    public static final Identifier CHARGEPAD_CESU_ID = new Identifier(IndustrialLegacy.MOD_ID, "chargepad_cesu");
+    public static final Identifier CHARGEPAD_MFE_ID = new Identifier(IndustrialLegacy.MOD_ID, "chargepad_mfe");
+    public static final Identifier CHARGEPAD_MFSU_ID = new Identifier(IndustrialLegacy.MOD_ID, "chargepad_mfsu");
+    public static final Identifier CONTAINMENT_BOX_ID = new Identifier(IndustrialLegacy.MOD_ID, "containment_box");
     public static final Identifier MV_TRANSFORMER_ID = new Identifier(IndustrialLegacy.MOD_ID, "mv_transformer");
     public static final Identifier HV_TRANSFORMER_ID = new Identifier(IndustrialLegacy.MOD_ID, "hv_transformer");
     public static final Identifier EV_TRANSFORMER_ID = new Identifier(IndustrialLegacy.MOD_ID, "ev_transformer");
@@ -87,6 +92,11 @@ public final class ModScreenHandlers {
     public static ScreenHandlerType<CesuScreenHandler> CESU;
     public static ScreenHandlerType<MfeScreenHandler> MFE;
     public static ScreenHandlerType<MfsuScreenHandler> MFSU;
+    public static ScreenHandlerType<ChargepadBatBoxScreenHandler> CHARGEPAD_BATBOX;
+    public static ScreenHandlerType<ChargepadCesuScreenHandler> CHARGEPAD_CESU;
+    public static ScreenHandlerType<ChargepadMfeScreenHandler> CHARGEPAD_MFE;
+    public static ScreenHandlerType<ChargepadMfsuScreenHandler> CHARGEPAD_MFSU;
+    public static ScreenHandlerType<ContainmentBoxScreenHandler> CONTAINMENT_BOX;
 
 
     private ModScreenHandlers() {}
@@ -97,5 +107,10 @@ public final class ModScreenHandlers {
         CESU = ScreenHandlerRegistry.registerExtended(CESU_ID, CesuScreenHandler::new);
         MFE = ScreenHandlerRegistry.registerExtended(MFE_ID, MfeScreenHandler::new);
         MFSU = ScreenHandlerRegistry.registerExtended(MFSU_ID, MfsuScreenHandler::new);
+        CHARGEPAD_BATBOX = ScreenHandlerRegistry.registerExtended(CHARGEPAD_BATBOX_ID, ChargepadBatBoxScreenHandler::new);
+        CHARGEPAD_CESU = ScreenHandlerRegistry.registerExtended(CHARGEPAD_CESU_ID, ChargepadCesuScreenHandler::new);
+        CHARGEPAD_MFE = ScreenHandlerRegistry.registerExtended(CHARGEPAD_MFE_ID, ChargepadMfeScreenHandler::new);
+        CHARGEPAD_MFSU = ScreenHandlerRegistry.registerExtended(CHARGEPAD_MFSU_ID, ChargepadMfsuScreenHandler::new);
+        CONTAINMENT_BOX = ScreenHandlerRegistry.registerExtended(CONTAINMENT_BOX_ID, ContainmentBoxScreenHandler::new);
     }
 }

@@ -354,5 +354,11 @@
   "item.industrial_legacy.iridium_reflector": "Iridium Neutron Reflector",
   "item.industrial_legacy.rsh_condensator": "RSH-Condensator",
   "item.industrial_legacy.lzh_condensator": "LZH-Condensator",
-  "item.industrial_legacy.containment_box": "Containment Box"
+  "item.industrial_legacy.containment_box": "Containment Box",
+  "block.industrial_legacy.chargepad_batbox": "Charge Pad (BatBox)",
+  "block.industrial_legacy.chargepad_cesu": "Charge Pad (CESU)",
+  "block.industrial_legacy.chargepad_mfe": "Charge Pad (MFE)",
+  "block.industrial_legacy.chargepad_mfsu": "Charge Pad (MFSU)",
+  "il.chargepad.gui.mod.redstone0": "Redstone Behavior: Emit if active",
+  "il.chargepad.gui.mod.redstone1": "Redstone Behavior: Emit if inactive"
 }

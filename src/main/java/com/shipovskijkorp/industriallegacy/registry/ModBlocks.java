@@ -76,6 +76,50 @@ public final class ModBlocks {
             b -> new EnergyMachineBlockItem(b, new Item.Settings(), 3, 4_000_000L, true)
     );
 
+    public static final Block CHARGEPAD_BATBOX = register(
+            "chargepad_batbox",
+            new ChargepadBlock(FabricBlockSettings.create()
+                    .strength(2.0f)
+                    .sounds(BlockSoundGroup.METAL)
+                    .requiresTool(),
+                    () -> ModBlockEntities.CHARGEPAD_BATBOX,
+                    com.shipovskijkorp.industriallegacy.block.entity.ChargepadBatBoxBlockEntity::new),
+            b -> new EnergyMachineBlockItem(b, new Item.Settings(), 1, 40_000L, true)
+    );
+
+    public static final Block CHARGEPAD_CESU = register(
+            "chargepad_cesu",
+            new ChargepadBlock(FabricBlockSettings.create()
+                    .strength(2.0f)
+                    .sounds(BlockSoundGroup.METAL)
+                    .requiresTool(),
+                    () -> ModBlockEntities.CHARGEPAD_CESU,
+                    com.shipovskijkorp.industriallegacy.block.entity.ChargepadCesuBlockEntity::new),
+            b -> new EnergyMachineBlockItem(b, new Item.Settings(), 2, 300_000L, true)
+    );
+
+    public static final Block CHARGEPAD_MFE = register(
+            "chargepad_mfe",
+            new ChargepadBlock(FabricBlockSettings.create()
+                    .strength(2.0f)
+                    .sounds(BlockSoundGroup.METAL)
+                    .requiresTool(),
+                    () -> ModBlockEntities.CHARGEPAD_MFE,
+                    com.shipovskijkorp.industriallegacy.block.entity.ChargepadMfeBlockEntity::new),
+            b -> new EnergyMachineBlockItem(b, new Item.Settings(), 3, 4_000_000L, true)
+    );
+
+    public static final Block CHARGEPAD_MFSU = register(
+            "chargepad_mfsu",
+            new ChargepadBlock(FabricBlockSettings.create()
+                    .strength(2.0f)
+                    .sounds(BlockSoundGroup.METAL)
+                    .requiresTool(),
+                    () -> ModBlockEntities.CHARGEPAD_MFSU,
+                    com.shipovskijkorp.industriallegacy.block.entity.ChargepadMfsuBlockEntity::new),
+            b -> new EnergyMachineBlockItem(b, new Item.Settings(), 4, 40_000_000L, true)
+    );
+
     public static final Block MACERATOR = register(
             "macerator",
             new MaceratorBlock(FabricBlockSettings.create()

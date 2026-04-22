@@ -1,11 +1,17 @@
 package com.shipovskijkorp.industriallegacy.client;
 
 import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
+import com.shipovskijkorp.industriallegacy.client.particle.ChargepadParticle;
 import com.shipovskijkorp.industriallegacy.client.render.CableBlockEntityRenderer;
 import com.shipovskijkorp.industriallegacy.client.screen.BatBoxScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.CesuScreen;
+import com.shipovskijkorp.industriallegacy.client.screen.ChargepadBatBoxScreen;
+import com.shipovskijkorp.industriallegacy.client.screen.ChargepadCesuScreen;
+import com.shipovskijkorp.industriallegacy.client.screen.ChargepadMfeScreen;
+import com.shipovskijkorp.industriallegacy.client.screen.ChargepadMfsuScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.CannerScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.CompressorScreen;
+import com.shipovskijkorp.industriallegacy.client.screen.ContainmentBoxScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.ElectricFurnaceScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.GeoGeneratorScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.GeneratorScreen;
@@ -34,12 +40,14 @@ import com.shipovskijkorp.industriallegacy.net.ModPackets;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
 import com.shipovskijkorp.industriallegacy.registry.ModBlocks;
 import com.shipovskijkorp.industriallegacy.registry.ModItems;
+import com.shipovskijkorp.industriallegacy.registry.ModParticles;
 import com.shipovskijkorp.industriallegacy.registry.ModScreenHandlers;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.client.color.world.FoliageColors;
@@ -64,6 +72,7 @@ public class IndustrialLegacyClient implements ClientModInitializer {
         registerItemModelPredicates();
         registerScreens();
         registerRenderers();
+        registerParticles();
         registerBlockRenderLayers();
         registerBlockColors();
         registerKeyBindings();
@@ -123,6 +132,10 @@ public class IndustrialLegacyClient implements ClientModInitializer {
         HandledScreens.register(ModScreenHandlers.CESU, CesuScreen::new);
         HandledScreens.register(ModScreenHandlers.MFE, MfeScreen::new);
         HandledScreens.register(ModScreenHandlers.MFSU, MfsuScreen::new);
+        HandledScreens.register(ModScreenHandlers.CHARGEPAD_BATBOX, ChargepadBatBoxScreen::new);
+        HandledScreens.register(ModScreenHandlers.CHARGEPAD_CESU, ChargepadCesuScreen::new);
+        HandledScreens.register(ModScreenHandlers.CHARGEPAD_MFE, ChargepadMfeScreen::new);
+        HandledScreens.register(ModScreenHandlers.CHARGEPAD_MFSU, ChargepadMfsuScreen::new);
         HandledScreens.register(ModScreenHandlers.MACERATOR, MaceratorScreen::new);
         HandledScreens.register(ModScreenHandlers.COMPRESSOR, CompressorScreen::new);
         HandledScreens.register(ModScreenHandlers.METAL_FORMER, MetalFormerScreen::new);
@@ -134,6 +147,11 @@ public class IndustrialLegacyClient implements ClientModInitializer {
         HandledScreens.register(ModScreenHandlers.MV_TRANSFORMER, MvTransformerScreen::new);
         HandledScreens.register(ModScreenHandlers.HV_TRANSFORMER, HvTransformerScreen::new);
         HandledScreens.register(ModScreenHandlers.EV_TRANSFORMER, EvTransformerScreen::new);
+        HandledScreens.register(ModScreenHandlers.CONTAINMENT_BOX, ContainmentBoxScreen::new);
+    }
+
+    private static void registerParticles() {
+        ParticleFactoryRegistry.getInstance().register(ModParticles.CHARGEPAD, ChargepadParticle.Factory::new);
     }
 
     private static void registerRenderers() {
