@@ -44,7 +44,7 @@ public abstract class AbstractChargepadScreen<T extends AbstractChargepadScreenH
     @Override
     protected void init() {
         super.init();
-        this.titleX = (this.backgroundWidth - this.textRenderer.getWidth(this.title)) / 2;
+        this.titleX = (this.backgroundWidth - this.textRenderer.getWidth(this.title)) / 2 - 3;
         this.titleY = 6;
         this.playerInventoryTitleX = 8;
         this.playerInventoryTitleY = 67;
@@ -101,6 +101,9 @@ public abstract class AbstractChargepadScreen<T extends AbstractChargepadScreenH
     @Override
     protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
         context.drawTexture(BACKGROUND, x, y, 0, 0, backgroundWidth, backgroundHeight, 256, 256);
+
+        boolean redstoneHovered = isMouseOverRedstoneButton(mouseX, mouseY);
+        IlGuiDraw.drawButton(context, x + REDSTONE_BTN_X, y + REDSTONE_BTN_Y, redstoneHovered);
         context.drawTexture(REDSTONE_SLOT_ICON, x + REDSTONE_BTN_X + 2, y + REDSTONE_BTN_Y + 2,
                 0, 0, 16, 16, 16, 16);
 

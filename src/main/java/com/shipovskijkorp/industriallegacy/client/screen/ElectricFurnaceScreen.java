@@ -1,6 +1,5 @@
 package com.shipovskijkorp.industriallegacy.client.screen;
 
-import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
 import com.shipovskijkorp.industriallegacy.client.IlGuiDraw;
 import com.shipovskijkorp.industriallegacy.net.ModPackets;
 import com.shipovskijkorp.industriallegacy.screen.ElectricFurnaceScreenHandler;
@@ -12,11 +11,8 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Items;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 
 public class ElectricFurnaceScreen extends HandledScreen<ElectricFurnaceScreenHandler> {
-    private static final Identifier XP_BUTTON_BG = new Identifier(IndustrialLegacy.MOD_ID, "textures/gui/button_enabled.png");
-
     private static final int SLOT_IN_X = 55;
     private static final int SLOT_IN_Y = 16;
     private static final int SLOT_BAT_X = 55;
@@ -89,7 +85,8 @@ public class ElectricFurnaceScreen extends HandledScreen<ElectricFurnaceScreenHa
         float pRatio = handler.getMaxProgress() <= 0 ? 0f : (handler.getProgress() / (float) handler.getMaxProgress());
         IlGuiDraw.drawProgressTriangle(ctx, x + PROGRESS_X, y + PROGRESS_Y, pRatio);
 
-        ctx.drawTexture(XP_BUTTON_BG, x + XP_BUTTON_X, y + XP_BUTTON_Y, 0, 0, XP_BUTTON_W, XP_BUTTON_H, XP_BUTTON_W, XP_BUTTON_H);
+        boolean xpHovered = this.isPointWithinBounds(XP_BUTTON_X, XP_BUTTON_Y, XP_BUTTON_W, XP_BUTTON_H, mouseX, mouseY);
+        IlGuiDraw.drawButton(ctx, x + XP_BUTTON_X, y + XP_BUTTON_Y, xpHovered);
 
         int invX = x + 7;
         int invY = y + 83;

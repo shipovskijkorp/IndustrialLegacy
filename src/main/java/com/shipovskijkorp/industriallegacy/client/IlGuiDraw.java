@@ -12,6 +12,8 @@ import net.minecraft.util.Identifier;
 public final class IlGuiDraw {
     public static final Identifier COMMON = new Identifier(IndustrialLegacy.MOD_ID, "textures/gui/common.png");
     public static final Identifier INFO_BUTTON = new Identifier(IndustrialLegacy.MOD_ID, "textures/gui/infobutton.png");
+    public static final Identifier BUTTON = new Identifier(IndustrialLegacy.MOD_ID, "textures/gui/button.png");
+    public static final Identifier BUTTON_ACTIVE = new Identifier(IndustrialLegacy.MOD_ID, "textures/gui/button_enabled.png");
 
     // common.png atlas size
     private static final int TEX_W = 256;
@@ -96,6 +98,12 @@ public final class IlGuiDraw {
     public static void drawInfoButton(DrawContext ctx, int x, int y) {
         // Use dedicated texture if present; if missing, it'll just show missing texture (small).
         ctx.drawTexture(INFO_BUTTON, x, y, 0, 0, 10, 10, 10, 10);
+    }
+
+    /** Standard 20x20 GUI button. Uses the active texture while hovered. */
+    public static void drawButton(DrawContext ctx, int x, int y, boolean hovered) {
+        Identifier texture = hovered ? BUTTON_ACTIVE : BUTTON;
+        ctx.drawTexture(texture, x, y, 0, 0, 20, 20, 20, 20);
     }
 
     // --- Energy gauges ---

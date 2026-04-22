@@ -20,8 +20,6 @@ import net.minecraft.util.Identifier;
 public class MetalFormerScreen extends HandledScreen<MetalFormerScreenHandler> {
     private static final Identifier BACKGROUND = new Identifier(IndustrialLegacy.MOD_ID, "textures/gui/guimetalformer.png");
     private static final Identifier COMMON = new Identifier(IndustrialLegacy.MOD_ID, "textures/gui/common.png");
-    private static final Identifier MODE_BUTTON = new Identifier(IndustrialLegacy.MOD_ID, "textures/gui/button_enabled.png");
-
     private static final int ENERGY_BOLT_X = 20;
     private static final int ENERGY_BOLT_Y = 37;
 
@@ -105,7 +103,8 @@ public class MetalFormerScreen extends HandledScreen<MetalFormerScreenHandler> {
             ctx.drawTexture(COMMON, x + PROGRESS_X, y + PROGRESS_Y, PROGRESS_U, PROGRESS_V, pw, PROGRESS_H, 256, 256);
         }
 
-        ctx.drawTexture(MODE_BUTTON, x + MODE_BUTTON_X, y + MODE_BUTTON_Y, 0, 0, MODE_BUTTON_W, MODE_BUTTON_H, MODE_BUTTON_W, MODE_BUTTON_H);
+        boolean modeHovered = this.isPointWithinBounds(MODE_BUTTON_X, MODE_BUTTON_Y, MODE_BUTTON_W, MODE_BUTTON_H, mouseX, mouseY);
+        IlGuiDraw.drawButton(ctx, x + MODE_BUTTON_X, y + MODE_BUTTON_Y, modeHovered);
     }
 
     @Override
