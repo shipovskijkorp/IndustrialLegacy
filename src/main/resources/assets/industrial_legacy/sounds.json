@@ -1,0 +1,17 @@
+{
+  "item.mining_laser.mining": {
+    "sounds": ["industrial_legacy:item/mining_laser/mining"]
+  },
+  "item.mining_laser.low_focus": {
+    "sounds": ["industrial_legacy:item/mining_laser/low_focus"]
+  },
+  "item.mining_laser.long_range": {
+    "sounds": ["industrial_legacy:item/mining_laser/long_range"]
+  },
+  "item.mining_laser.scatter": {
+    "sounds": ["industrial_legacy:item/mining_laser/scatter"]
+  },
+  "item.mining_laser.explosive": {
+    "sounds": ["industrial_legacy:item/mining_laser/explosive"]
+  }
+}

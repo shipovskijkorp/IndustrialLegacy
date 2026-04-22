@@ -376,5 +376,13 @@
   "tooltip.industrial_legacy.mode": "Режим: %s",
   "tooltip.industrial_legacy.mode.mining": "Добыча",
   "key.industrial_legacy.mode_switch": "Смена режима предмета в руке",
-  "message.industrial_legacy.mode": "Режим: %s"
+  "message.industrial_legacy.mode": "Режим: %s",
+  "tooltip.industrial_legacy.mode.low_focus": "Короткого фокуса",
+  "tooltip.industrial_legacy.mode.long_range": "Дальнего действия",
+  "tooltip.industrial_legacy.mode.horizontal": "Горизонтальный",
+  "tooltip.industrial_legacy.mode.super_heat": "Перегревающий",
+  "tooltip.industrial_legacy.mode.scatter": "Разброс",
+  "tooltip.industrial_legacy.mode.explosive": "Взрывоопасный",
+  "tooltip.industrial_legacy.mode.three_by_three": "3x3",
+  "message.industrial_legacy.mining_laser.angle_too_steep": "Угол наведения шахтёрского лазера слишком крутой"
 }

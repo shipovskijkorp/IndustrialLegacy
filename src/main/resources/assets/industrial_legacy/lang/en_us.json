@@ -376,5 +376,13 @@
   "tooltip.industrial_legacy.mode": "Mode: %s",
   "tooltip.industrial_legacy.mode.mining": "Mining",
   "key.industrial_legacy.mode_switch": "Switch held item mode",
-  "message.industrial_legacy.mode": "Mode: %s"
+  "message.industrial_legacy.mode": "Mode: %s",
+  "tooltip.industrial_legacy.mode.low_focus": "Low-Focus",
+  "tooltip.industrial_legacy.mode.long_range": "Long-Range",
+  "tooltip.industrial_legacy.mode.horizontal": "Horizontal",
+  "tooltip.industrial_legacy.mode.super_heat": "Super-Heat",
+  "tooltip.industrial_legacy.mode.scatter": "Scatter",
+  "tooltip.industrial_legacy.mode.explosive": "Explosive",
+  "tooltip.industrial_legacy.mode.three_by_three": "3x3",
+  "message.industrial_legacy.mining_laser.angle_too_steep": "Mining laser aiming angle too steep"
 }

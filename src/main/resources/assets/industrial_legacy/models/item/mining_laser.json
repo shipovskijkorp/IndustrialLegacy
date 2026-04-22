@@ -1,6 +1,3 @@
 {
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "industrial_legacy:item/tool/electric/mining_laser"
-  }
+  "parent": "industrial_legacy:item/tool/electric/mining_laser"
 }
