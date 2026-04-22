@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#V#",
+    "#D#",
+    "#V#"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:iron_bars"
+    },
+    "V": {
+      "item": "industrial_legacy:heat_vent"
+    },
+    "D": {
+      "item": "minecraft:diamond"
+    }
+  },
+  "result": {
+    "item": "industrial_legacy:advanced_heat_vent",
+    "count": 1
+  }
+}

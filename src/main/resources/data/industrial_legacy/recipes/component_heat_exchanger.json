@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " G ",
+    "GSG",
+    " G "
+  ],
+  "key": {
+    "S": {
+      "item": "industrial_legacy:heat_exchanger"
+    },
+    "G": {
+      "item": "industrial_legacy:gold_plate"
+    }
+  },
+  "result": {
+    "item": "industrial_legacy:component_heat_exchanger",
+    "count": 1
+  }
+}

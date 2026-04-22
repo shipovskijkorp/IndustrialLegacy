@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "industrial_legacy:reactor_plating"
+    },
+    {
+      "item": "industrial_legacy:advanced_alloy"
+    },
+    {
+      "item": "industrial_legacy:advanced_alloy"
+    }
+  ],
+  "result": {
+    "item": "industrial_legacy:containment_plating",
+    "count": 1
+  }
+}

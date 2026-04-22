@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#I#",
+    "IMI",
+    "#I#"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:iron_bars"
+    },
+    "I": {
+      "item": "industrial_legacy:iron_plate"
+    },
+    "M": {
+      "item": "industrial_legacy:electric_motor"
+    }
+  },
+  "result": {
+    "item": "industrial_legacy:heat_vent",
+    "count": 1
+  }
+}

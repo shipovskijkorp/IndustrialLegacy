@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GcG",
+    "SCS",
+    "GcG"
+  ],
+  "key": {
+    "S": {
+      "item": "industrial_legacy:heat_exchanger"
+    },
+    "C": {
+      "item": "industrial_legacy:copper_plate"
+    },
+    "G": {
+      "item": "industrial_legacy:lapis_plate"
+    },
+    "c": {
+      "item": "industrial_legacy:electronic_circuit"
+    }
+  },
+  "result": {
+    "item": "industrial_legacy:advanced_heat_exchanger",
+    "count": 1
+  }
+}

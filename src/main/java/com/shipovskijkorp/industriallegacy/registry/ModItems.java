@@ -209,10 +209,14 @@ public final class ModItems {
     public static final Item TRI_HEAT_STORAGE = register("tri_heat_storage", new ReactorHeatStorageItem(new Item.Settings(), 30000));
     public static final Item HEX_HEAT_STORAGE = register("hex_heat_storage", new ReactorHeatStorageItem(new Item.Settings(), 60000));
     public static final Item REACTOR_PLATING = register("reactor_plating", new ReactorPlatingItem(new Item.Settings(), 1000, 0.95f));
-    public static final Item HEAT_PLATING = register("heat_plating", new ReactorPlatingItem(new Item.Settings(), 1700, 0.99f));
+    public static final Item HEAT_PLATING = register("heat_plating", new ReactorPlatingItem(new Item.Settings(), 2000, 0.99f));
     public static final Item CONTAINMENT_PLATING = register("containment_plating", new ReactorPlatingItem(new Item.Settings(), 500, 0.9f));
     public static final Item NEUTRON_REFLECTOR = register("neutron_reflector", new ReactorReflectorItem(new Item.Settings(), 30000));
     public static final Item THICK_NEUTRON_REFLECTOR = register("thick_neutron_reflector", new ReactorReflectorItem(new Item.Settings(), 120000));
+    public static final Item IRIDIUM_REFLECTOR = register("iridium_reflector", new IridiumReflectorItem(new Item.Settings()));
+    public static final Item RSH_CONDENSATOR = register("rsh_condensator", new ReactorCondensatorItem(new Item.Settings(), 20000));
+    public static final Item LZH_CONDENSATOR = register("lzh_condensator", new ReactorCondensatorItem(new Item.Settings(), 100000));
+    public static final Item CONTAINMENT_BOX = register("containment_box", new Item(new Item.Settings().maxCount(1)));
 
 
     public static final Item IRIDIUM = register("iridium", new Item(new Item.Settings()));

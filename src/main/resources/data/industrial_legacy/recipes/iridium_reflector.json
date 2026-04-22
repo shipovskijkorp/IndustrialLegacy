@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RRR",
+    "CIC",
+    "RRR"
+  ],
+  "key": {
+    "C": {
+      "item": "industrial_legacy:dense_copper_plate"
+    },
+    "R": {
+      "item": "industrial_legacy:thick_neutron_reflector"
+    },
+    "I": {
+      "item": "industrial_legacy:iridium"
+    }
+  },
+  "result": {
+    "item": "industrial_legacy:iridium_reflector",
+    "count": 1
+  }
+}

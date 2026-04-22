@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CRC",
+    "RCR",
+    "CRC"
+  ],
+  "key": {
+    "C": {
+      "item": "industrial_legacy:copper_plate"
+    },
+    "R": {
+      "item": "industrial_legacy:neutron_reflector"
+    }
+  },
+  "result": {
+    "item": "industrial_legacy:thick_neutron_reflector",
+    "count": 1
+  }
+}

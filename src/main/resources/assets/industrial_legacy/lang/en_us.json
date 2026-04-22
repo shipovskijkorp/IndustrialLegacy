@@ -311,9 +311,9 @@
   "item.industrial_legacy.component_heat_vent": "Component Heat Vent",
   "item.industrial_legacy.advanced_heat_vent": "Advanced Heat Vent",
   "item.industrial_legacy.overclocked_heat_vent": "Overclocked Heat Vent",
-  "item.industrial_legacy.heat_storage": "10k Heat Storage",
-  "item.industrial_legacy.tri_heat_storage": "30k Heat Storage",
-  "item.industrial_legacy.hex_heat_storage": "60k Heat Storage",
+  "item.industrial_legacy.heat_storage": "10k Coolant Cell",
+  "item.industrial_legacy.tri_heat_storage": "30k Coolant Cell",
+  "item.industrial_legacy.hex_heat_storage": "60k Coolant Cell",
   "item.industrial_legacy.reactor_plating": "Reactor Plating",
   "item.industrial_legacy.heat_plating": "Heat-Capacity Reactor Plating",
   "item.industrial_legacy.containment_plating": "Containment Reactor Plating",
@@ -350,5 +350,9 @@
   "item.industrial_legacy.bronze_pickaxe": "Bronze Pickaxe",
   "item.industrial_legacy.bronze_shovel": "Bronze Shovel",
   "item.industrial_legacy.bronze_hoe": "Bronze Hoe",
-  "item.industrial_legacy.bronze_axe": "Bronze Axe"
+  "item.industrial_legacy.bronze_axe": "Bronze Axe",
+  "item.industrial_legacy.iridium_reflector": "Iridium Neutron Reflector",
+  "item.industrial_legacy.rsh_condensator": "RSH-Condensator",
+  "item.industrial_legacy.lzh_condensator": "LZH-Condensator",
+  "item.industrial_legacy.containment_box": "Containment Box"
 }

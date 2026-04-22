@@ -130,6 +130,7 @@ public final class ModItemGroups {
                         add.accept(ModItems.FORGE_HAMMER);
                         add.accept(ModItems.CUTTER);
                         add.accept(ModItems.WRENCH);
+                        add.accept(ModItems.CONTAINMENT_BOX);
 
                         add.accept(ModItems.RE_BATTERY);
                         add.accept(ModItems.ADVANCED_RE_BATTERY);
@@ -218,6 +219,9 @@ add.accept(ModItems.HEAT_PLATING);
 add.accept(ModItems.CONTAINMENT_PLATING);
 add.accept(ModItems.NEUTRON_REFLECTOR);
 add.accept(ModItems.THICK_NEUTRON_REFLECTOR);
+add.accept(ModItems.IRIDIUM_REFLECTOR);
+add.accept(ModItems.RSH_CONDENSATOR);
+add.accept(ModItems.LZH_CONDENSATOR);
 
                         add.accept(ModItems.PLANT_BALL);
                         add.accept(ModItems.TIN_CAN);
