@@ -2,9 +2,9 @@ package com.shipovskijkorp.industriallegacy.block.entity;
 
 import com.shipovskijkorp.industriallegacy.block.CannerBlock;
 import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
+import com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem;
 import com.shipovskijkorp.industriallegacy.recipe.CanningRecipe;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
-import com.shipovskijkorp.industriallegacy.registry.ModItems;
 import com.shipovskijkorp.industriallegacy.registry.ModRecipes;
 import com.shipovskijkorp.industriallegacy.screen.CannerScreenHandler;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
@@ -31,6 +31,19 @@ import java.lang.reflect.Method;
 import java.util.Optional;
 
 public class CannerBlockEntity extends BlockEntity implements SidedInventory, IEuEnergyStorage, ExtendedScreenHandlerFactory {
+    public enum Mode {
+        BOTTLE_SOLID,
+        EMPTY_LIQUID,
+        BOTTLE_LIQUID,
+        ENRICH_LIQUID;
+
+        public static final Mode[] VALUES = values();
+
+        public Mode next() {
+            return VALUES[(ordinal() + 1) % VALUES.length];
+        }
+    }
+
     public static final int SLOT_CONTAINER = 0;
     public static final int SLOT_FILL = 1;
     public static final int SLOT_OUTPUT = 2;
@@ -47,20 +60,33 @@ public class CannerBlockEntity extends BlockEntity implements SidedInventory, IE
     private static final long CAPACITY = 600L;
     private static final int EU_PER_TICK = 1;
     private static final int BASE_TICKS = 200;
+    private static final int TANK_CAPACITY = 8000;
+    private static final int CELL_MB = 1000;
 
     private final DefaultedList<ItemStack> items = DefaultedList.ofSize(INV_SIZE, ItemStack.EMPTY);
     private long energy = 0L;
     private int progress = 0;
     private int maxProgress = BASE_TICKS;
+    private Mode mode = Mode.BOTTLE_SOLID;
+
+    private UniversalFluidCellItem.CellFluid inputTankFluid = UniversalFluidCellItem.CellFluid.EMPTY;
+    private int inputTankAmount = 0;
+    private UniversalFluidCellItem.CellFluid outputTankFluid = UniversalFluidCellItem.CellFluid.EMPTY;
+    private int outputTankAmount = 0;
 
     private final PropertyDelegate props = new PropertyDelegate() {
-        @Override public int size() { return 4; }
+        @Override public int size() { return 9; }
         @Override public int get(int i) {
             return switch (i) {
                 case 0 -> (int) Math.min(Integer.MAX_VALUE, energy);
                 case 1 -> (int) Math.min(Integer.MAX_VALUE, CAPACITY);
                 case 2 -> progress;
                 case 3 -> maxProgress;
+                case 4 -> mode.ordinal();
+                case 5 -> inputTankAmount;
+                case 6 -> outputTankAmount;
+                case 7 -> inputTankFluid.ordinal();
+                case 8 -> outputTankFluid.ordinal();
                 default -> 0;
             };
         }
@@ -69,6 +95,11 @@ public class CannerBlockEntity extends BlockEntity implements SidedInventory, IE
                 case 0 -> energy = Math.max(0L, Math.min(CAPACITY, value));
                 case 2 -> progress = Math.max(0, value);
                 case 3 -> maxProgress = Math.max(1, value);
+                case 4 -> mode = Mode.VALUES[Math.max(0, Math.min(Mode.VALUES.length - 1, value))];
+                case 5 -> inputTankAmount = Math.max(0, Math.min(TANK_CAPACITY, value));
+                case 6 -> outputTankAmount = Math.max(0, Math.min(TANK_CAPACITY, value));
+                case 7 -> inputTankFluid = UniversalFluidCellItem.CellFluid.values()[Math.max(0, Math.min(UniversalFluidCellItem.CellFluid.values().length - 1, value))];
+                case 8 -> outputTankFluid = UniversalFluidCellItem.CellFluid.values()[Math.max(0, Math.min(UniversalFluidCellItem.CellFluid.values().length - 1, value))];
                 default -> { }
             }
         }
@@ -76,10 +107,6 @@ public class CannerBlockEntity extends BlockEntity implements SidedInventory, IE
 
     public CannerBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.CANNER, pos, state);
-    }
-
-    public static boolean isValidContainer(ItemStack stack) {
-        return stack.isOf(ModItems.TIN_CAN);
     }
 
     public static void tick(World world, BlockPos pos, BlockState state, CannerBlockEntity be) {
@@ -91,7 +118,47 @@ public class CannerBlockEntity extends BlockEntity implements SidedInventory, IE
         if (active) be.markDirty();
     }
 
+    public static boolean isValidContainer(ItemStack stack) {
+        return !stack.isEmpty();
+    }
+
+    public Mode getMode() {
+        return mode;
+    }
+
+    public void setMode(Mode mode) {
+        if (mode == null || this.mode == mode) return;
+        this.mode = mode;
+        this.progress = 0;
+        this.maxProgress = BASE_TICKS;
+        markDirty();
+    }
+
+    public void cycleMode() {
+        setMode(mode.next());
+    }
+
+    public void swapTanks() {
+        UniversalFluidCellItem.CellFluid fluid = inputTankFluid;
+        int amount = inputTankAmount;
+        inputTankFluid = outputTankFluid;
+        inputTankAmount = outputTankAmount;
+        outputTankFluid = fluid;
+        outputTankAmount = amount;
+        sanitizeTanks();
+        markDirty();
+    }
+
     private boolean processTick(World world) {
+        return switch (mode) {
+            case BOTTLE_SOLID -> processBottleSolid(world);
+            case EMPTY_LIQUID -> processEmptyLiquid();
+            case BOTTLE_LIQUID -> processBottleLiquid();
+            case ENRICH_LIQUID -> processEnrichLiquid();
+        };
+    }
+
+    private boolean processBottleSolid(World world) {
         CanningRecipe recipe = findRecipe(world).orElse(null);
         if (recipe == null) {
             if (progress != 0) progress = 0;
@@ -114,6 +181,110 @@ public class CannerBlockEntity extends BlockEntity implements SidedInventory, IE
         }
 
         return true;
+    }
+
+    private boolean processEmptyLiquid() {
+        ItemStack stack = items.get(SLOT_CONTAINER);
+        if (stack.isEmpty() || !(stack.getItem() instanceof UniversalFluidCellItem)) {
+            progress = 0;
+            return false;
+        }
+
+        UniversalFluidCellItem.CellFluid fluid = UniversalFluidCellItem.getFluid(stack);
+        if (fluid == UniversalFluidCellItem.CellFluid.EMPTY) {
+            progress = 0;
+            return false;
+        }
+        if (!canAcceptInputFluid(fluid, CELL_MB)) {
+            progress = 0;
+            return false;
+        }
+        if (!canOutput(UniversalFluidCellItem.createStack(UniversalFluidCellItem.CellFluid.EMPTY))) {
+            progress = 0;
+            return false;
+        }
+        if (energy < EU_PER_TICK) return false;
+
+        energy -= EU_PER_TICK;
+        maxProgress = BASE_TICKS;
+        progress++;
+        if (progress >= maxProgress) {
+            items.get(SLOT_CONTAINER).decrement(1);
+            insertOutput(UniversalFluidCellItem.createStack(UniversalFluidCellItem.CellFluid.EMPTY));
+            addToInputTank(fluid, CELL_MB);
+            progress = 0;
+        }
+        return true;
+    }
+
+    private boolean processBottleLiquid() {
+        ItemStack stack = items.get(SLOT_CONTAINER);
+        if (stack.isEmpty() || !(stack.getItem() instanceof UniversalFluidCellItem)) {
+            progress = 0;
+            return false;
+        }
+
+        if (UniversalFluidCellItem.getFluid(stack) != UniversalFluidCellItem.CellFluid.EMPTY) {
+            progress = 0;
+            return false;
+        }
+        if (inputTankAmount < CELL_MB || inputTankFluid == UniversalFluidCellItem.CellFluid.EMPTY) {
+            progress = 0;
+            return false;
+        }
+
+        ItemStack out = UniversalFluidCellItem.createStack(inputTankFluid);
+        if (!canOutput(out)) {
+            progress = 0;
+            return false;
+        }
+        if (energy < EU_PER_TICK) return false;
+
+        energy -= EU_PER_TICK;
+        maxProgress = BASE_TICKS;
+        progress++;
+        if (progress >= maxProgress) {
+            items.get(SLOT_CONTAINER).decrement(1);
+            insertOutput(out);
+            inputTankAmount -= CELL_MB;
+            sanitizeTanks();
+            progress = 0;
+        }
+        return true;
+    }
+
+    private boolean processEnrichLiquid() {
+        // UI/slot layout is restored to IC2, but enrich recipes are not yet ported in this branch.
+        progress = 0;
+        return false;
+    }
+
+    private boolean canAcceptInputFluid(UniversalFluidCellItem.CellFluid fluid, int amount) {
+        if (fluid == UniversalFluidCellItem.CellFluid.EMPTY || amount <= 0) return false;
+        if (inputTankAmount <= 0 || inputTankFluid == UniversalFluidCellItem.CellFluid.EMPTY) {
+            return amount <= TANK_CAPACITY;
+        }
+        return inputTankFluid == fluid && inputTankAmount + amount <= TANK_CAPACITY;
+    }
+
+    private void addToInputTank(UniversalFluidCellItem.CellFluid fluid, int amount) {
+        if (inputTankAmount <= 0 || inputTankFluid == UniversalFluidCellItem.CellFluid.EMPTY) {
+            inputTankFluid = fluid;
+            inputTankAmount = 0;
+        }
+        inputTankAmount = Math.min(TANK_CAPACITY, inputTankAmount + amount);
+        sanitizeTanks();
+    }
+
+    private void sanitizeTanks() {
+        if (inputTankAmount <= 0) {
+            inputTankAmount = 0;
+            inputTankFluid = UniversalFluidCellItem.CellFluid.EMPTY;
+        }
+        if (outputTankAmount <= 0) {
+            outputTankAmount = 0;
+            outputTankFluid = UniversalFluidCellItem.CellFluid.EMPTY;
+        }
     }
 
     private Optional<CanningRecipe> findRecipe(World world) {
@@ -147,6 +318,11 @@ public class CannerBlockEntity extends BlockEntity implements SidedInventory, IE
         nbt.putLong("energy", energy);
         nbt.putInt("progress", progress);
         nbt.putInt("maxProgress", maxProgress);
+        nbt.putInt("mode", mode.ordinal());
+        nbt.putString("inputTankFluid", inputTankFluid.id);
+        nbt.putInt("inputTankAmount", inputTankAmount);
+        nbt.putString("outputTankFluid", outputTankFluid.id);
+        nbt.putInt("outputTankAmount", outputTankAmount);
     }
 
     @Override public void readNbt(NbtCompound nbt) {
@@ -155,6 +331,12 @@ public class CannerBlockEntity extends BlockEntity implements SidedInventory, IE
         energy = Math.max(0L, Math.min(CAPACITY, nbt.getLong("energy")));
         progress = Math.max(0, nbt.getInt("progress"));
         maxProgress = Math.max(1, nbt.getInt("maxProgress"));
+        mode = Mode.VALUES[Math.max(0, Math.min(Mode.VALUES.length - 1, nbt.getInt("mode")))];
+        inputTankFluid = UniversalFluidCellItem.CellFluid.byId(nbt.getString("inputTankFluid"));
+        inputTankAmount = Math.max(0, Math.min(TANK_CAPACITY, nbt.getInt("inputTankAmount")));
+        outputTankFluid = UniversalFluidCellItem.CellFluid.byId(nbt.getString("outputTankFluid"));
+        outputTankAmount = Math.max(0, Math.min(TANK_CAPACITY, nbt.getInt("outputTankAmount")));
+        sanitizeTanks();
     }
 
     @Override public int size() { return items.size(); }
@@ -171,7 +353,7 @@ public class CannerBlockEntity extends BlockEntity implements SidedInventory, IE
     }
 
     @Override public int[] getAvailableSlots(Direction side) { return side == Direction.UP ? TOP_SLOTS : side == Direction.DOWN ? BOTTOM_SLOTS : SIDE_SLOTS; }
-    @Override public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) { return slot != SLOT_OUTPUT && (slot != SLOT_CONTAINER || isValidContainer(stack)); }
+    @Override public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) { return slot != SLOT_OUTPUT; }
     @Override public boolean canExtract(int slot, ItemStack stack, Direction dir) { return slot == SLOT_OUTPUT; }
 
     @Override public long getEuStored() { return energy; }
@@ -191,6 +373,10 @@ public class CannerBlockEntity extends BlockEntity implements SidedInventory, IE
     @Override public long extractEu(long amount, Direction to, boolean simulate) { return 0; }
 
     public PropertyDelegate getGuiProps() { return props; }
+    public int getInputTankAmount() { return inputTankAmount; }
+    public int getOutputTankAmount() { return outputTankAmount; }
+    public UniversalFluidCellItem.CellFluid getInputTankFluid() { return inputTankFluid; }
+    public UniversalFluidCellItem.CellFluid getOutputTankFluid() { return outputTankFluid; }
 
     @Override public Text getDisplayName() { return Text.translatable("container.industrial_legacy.canner"); }
     @Override public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) { buf.writeBlockPos(pos); }

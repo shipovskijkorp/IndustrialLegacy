@@ -24,8 +24,7 @@ public class SolidCannerScreen extends HandledScreen<SolidCannerScreenHandler> {
     protected void init() {
         super.init();
         this.titleX = (this.backgroundWidth - this.textRenderer.getWidth(this.title)) / 2;
-        this.playerInventoryTitleX = 8;
-        this.playerInventoryTitleY = 7200;
+        this.titleY = 6;
     }
 
     @Override
@@ -33,6 +32,11 @@ public class SolidCannerScreen extends HandledScreen<SolidCannerScreenHandler> {
         this.renderBackground(ctx);
         super.render(ctx, mouseX, mouseY, delta);
         this.drawMouseoverTooltip(ctx, mouseX, mouseY);
+    }
+
+    @Override
+    protected void drawForeground(DrawContext ctx, int mouseX, int mouseY) {
+        ctx.drawText(this.textRenderer, this.title, this.titleX, this.titleY, 0x404040, false);
     }
 
     @Override

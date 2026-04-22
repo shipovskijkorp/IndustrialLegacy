@@ -1,6 +1,7 @@
 package com.shipovskijkorp.industriallegacy.screen;
 
 import com.shipovskijkorp.industriallegacy.block.entity.CannerBlockEntity;
+import com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem;
 import com.shipovskijkorp.industriallegacy.registry.ModScreenHandlers;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -12,8 +13,12 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 
 public class CannerScreenHandler extends ScreenHandler {
+    public static final int BUTTON_MODE_BASE = 0;
+    public static final int BUTTON_SWAP_TANKS = 4;
+
     private final Inventory inventory;
     private final PropertyDelegate props;
+    private final CannerBlockEntity canner;
 
     public CannerScreenHandler(int syncId, PlayerInventory playerInv, PacketByteBuf buf) {
         this(syncId, playerInv, getBlockEntityInventory(playerInv, buf));
@@ -21,6 +26,7 @@ public class CannerScreenHandler extends ScreenHandler {
 
     public CannerScreenHandler(int syncId, PlayerInventory playerInv, Inventory inv) {
         super(ModScreenHandlers.CANNER, syncId);
+        this.canner = inv instanceof CannerBlockEntity be ? be : null;
         if (inv == null) {
             this.inventory = new SimpleInventory(CannerBlockEntity.INV_SIZE);
             this.props = emptyProps();
@@ -29,20 +35,18 @@ public class CannerScreenHandler extends ScreenHandler {
             this.props = inv instanceof CannerBlockEntity be ? be.getGuiProps() : emptyProps();
         }
 
-        this.addSlot(new Slot(this.inventory, CannerBlockEntity.SLOT_FILL, 69, 17));
-        this.addSlot(new Slot(this.inventory, CannerBlockEntity.SLOT_OUTPUT, 119, 35) {
+        this.addSlot(new Slot(this.inventory, CannerBlockEntity.SLOT_CONTAINER, 41, 17));
+        this.addSlot(new Slot(this.inventory, CannerBlockEntity.SLOT_FILL, 80, 44));
+        this.addSlot(new Slot(this.inventory, CannerBlockEntity.SLOT_OUTPUT, 119, 17) {
             @Override public boolean canInsert(net.minecraft.item.ItemStack stack) { return false; }
         });
-        this.addSlot(new Slot(this.inventory, CannerBlockEntity.SLOT_CONTAINER, 69, 53) {
-            @Override public boolean canInsert(net.minecraft.item.ItemStack stack) { return CannerBlockEntity.isValidContainer(stack); }
-        });
-        this.addSlot(new Slot(this.inventory, CannerBlockEntity.SLOT_DISCHARGE, 30, 45));
+        this.addSlot(new Slot(this.inventory, CannerBlockEntity.SLOT_DISCHARGE, 8, 80));
         for (int i = 0; i < CannerBlockEntity.UPGRADE_SLOTS; i++) {
-            this.addSlot(new Slot(this.inventory, CannerBlockEntity.SLOT_UPGRADE_0 + i, 152, 8 + i * 18));
+            this.addSlot(new Slot(this.inventory, CannerBlockEntity.SLOT_UPGRADE_0 + i, 152, 26 + i * 18));
         }
 
         int invX = 8;
-        int invY = 84;
+        int invY = 101;
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 9; col++) {
                 this.addSlot(new Slot(playerInv, col + row * 9 + 9, invX + col * 18, invY + row * 18));
@@ -57,7 +61,7 @@ public class CannerScreenHandler extends ScreenHandler {
 
     private static PropertyDelegate emptyProps() {
         return new PropertyDelegate() {
-            @Override public int size() { return 4; }
+            @Override public int size() { return 9; }
             @Override public int get(int index) { return 0; }
             @Override public void set(int index, int value) { }
         };
@@ -74,6 +78,26 @@ public class CannerScreenHandler extends ScreenHandler {
     public int getEnergyCap() { return props.get(1); }
     public int getProgress() { return props.get(2); }
     public int getMaxProgress() { return Math.max(1, props.get(3)); }
+    public CannerBlockEntity.Mode getMode() { return CannerBlockEntity.Mode.VALUES[Math.max(0, Math.min(CannerBlockEntity.Mode.VALUES.length - 1, props.get(4)))]; }
+    public int getInputTankAmount() { return props.get(5); }
+    public int getOutputTankAmount() { return props.get(6); }
+    public UniversalFluidCellItem.CellFluid getInputTankFluid() { return UniversalFluidCellItem.CellFluid.values()[Math.max(0, Math.min(UniversalFluidCellItem.CellFluid.values().length - 1, props.get(7)))]; }
+    public UniversalFluidCellItem.CellFluid getOutputTankFluid() { return UniversalFluidCellItem.CellFluid.values()[Math.max(0, Math.min(UniversalFluidCellItem.CellFluid.values().length - 1, props.get(8)))]; }
+    public int getTankCapacity() { return 8000; }
+
+    @Override
+    public boolean onButtonClick(PlayerEntity player, int id) {
+        if (canner == null) return false;
+        if (id >= BUTTON_MODE_BASE && id < BUTTON_MODE_BASE + CannerBlockEntity.Mode.VALUES.length) {
+            canner.setMode(CannerBlockEntity.Mode.VALUES[id]);
+            return true;
+        }
+        if (id == BUTTON_SWAP_TANKS) {
+            canner.swapTanks();
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public net.minecraft.item.ItemStack quickMove(PlayerEntity player, int index) {
