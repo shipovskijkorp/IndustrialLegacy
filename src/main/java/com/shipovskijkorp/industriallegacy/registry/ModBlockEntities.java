@@ -97,6 +97,12 @@ public final class ModBlockEntities {
             FabricBlockEntityTypeBuilder.create(ChargepadMfsuBlockEntity::new, ModBlocks.CHARGEPAD_MFSU).build()
     );
 
+    public static final BlockEntityType<LuminatorBlockEntity> LUMINATOR = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE,
+            new Identifier(IndustrialLegacy.MOD_ID, "luminator"),
+            FabricBlockEntityTypeBuilder.create(LuminatorBlockEntity::new, ModBlocks.LUMINATOR).build()
+    );
+
 
     public static final BlockEntityType<IronFurnaceBlockEntity> IRON_FURNACE = Registry.register(
             Registries.BLOCK_ENTITY_TYPE,

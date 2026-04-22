@@ -269,9 +269,15 @@ public final class ModBlocks {
             new FenceBlock(FabricBlockSettings.copyOf(Blocks.IRON_BARS).sounds(BlockSoundGroup.METAL).requiresTool())
     );
 
-    /** IC2-like Luminator (simplified): always-on light block. */
-    public static final Block LUMINATOR =
-            register("luminator", new LuminatorBlock());
+    /** IC2-like Luminator: face-mounted electric lamp with internal 10k EU buffer. */
+    public static final Block LUMINATOR = register(
+            "luminator",
+            new LuminatorBlock(FabricBlockSettings.create()
+                    .strength(0.2f)
+                    .sounds(BlockSoundGroup.GLASS)
+                    .nonOpaque()
+                    .luminance(state -> state.get(LuminatorBlock.ACTIVE) ? 15 : 0))
+    );
 
     public static final Block LEAD_ORE =
             register("lead_ore", new Block(FabricBlockSettings.copyOf(Blocks.IRON_ORE).requiresTool()));

@@ -1,7 +1,17 @@
 {
   "variants": {
-    "": {
-      "model": "industrial_legacy:block/luminator"
-    }
+    "facing=north,active=false": { "model": "industrial_legacy:block/machine/misc/luminator_flat" },
+    "facing=east,active=false":  { "model": "industrial_legacy:block/machine/misc/luminator_flat", "y": 90 },
+    "facing=south,active=false": { "model": "industrial_legacy:block/machine/misc/luminator_flat", "y": 180 },
+    "facing=west,active=false":  { "model": "industrial_legacy:block/machine/misc/luminator_flat", "y": 270 },
+    "facing=up,active=false":    { "model": "industrial_legacy:block/machine/misc/luminator_flat", "x": 270 },
+    "facing=down,active=false":  { "model": "industrial_legacy:block/machine/misc/luminator_flat", "x": 90 },
+
+    "facing=north,active=true": { "model": "industrial_legacy:block/machine/misc/luminator_flat_active" },
+    "facing=east,active=true":  { "model": "industrial_legacy:block/machine/misc/luminator_flat_active", "y": 90 },
+    "facing=south,active=true": { "model": "industrial_legacy:block/machine/misc/luminator_flat_active", "y": 180 },
+    "facing=west,active=true":  { "model": "industrial_legacy:block/machine/misc/luminator_flat_active", "y": 270 },
+    "facing=up,active=true":    { "model": "industrial_legacy:block/machine/misc/luminator_flat_active", "x": 270 },
+    "facing=down,active=true":  { "model": "industrial_legacy:block/machine/misc/luminator_flat_active", "x": 90 }
   }
 }
