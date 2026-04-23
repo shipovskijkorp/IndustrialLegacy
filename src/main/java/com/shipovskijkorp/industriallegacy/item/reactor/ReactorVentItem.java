@@ -17,18 +17,25 @@ public class ReactorVentItem extends ReactorHeatStorageItem {
     public void processChamber(ItemStack stack, IReactor reactor, int x, int y, boolean heatRun) {
         if (!heatRun) return;
 
-        if (reactorVent > 0) {
-            int reactorDrain = Math.min(reactor.getHeat(), reactorVent);
-            int remaining = alterHeat(stack, reactor, x, y, reactorDrain);
-            if (remaining > 0) {
+        if (this.reactorVent > 0) {
+            int reactorDrain = reactor.getHeat();
+            int reactorHeat = reactorDrain;
+
+            if (reactorDrain > this.reactorVent) {
+                reactorDrain = this.reactorVent;
+            }
+
+            reactorHeat -= reactorDrain;
+            if ((reactorDrain = this.alterHeat(stack, reactor, x, y, reactorDrain)) > 0) {
                 return;
             }
-            reactor.setHeat(reactor.getHeat() - reactorDrain);
+
+            reactor.setHeat(reactorHeat);
         }
 
-        int vented = alterHeat(stack, reactor, x, y, -selfVent);
-        if (vented <= 0) {
-            reactor.addEmitHeat(vented + selfVent);
+        int self = this.alterHeat(stack, reactor, x, y, -this.selfVent);
+        if (self <= 0) {
+            reactor.addEmitHeat(self + this.selfVent);
         }
     }
 }

@@ -8,18 +8,19 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 /**
- * IC2-like reactor component which stores its internal heat as "custom damage" in NBT.
- * In IC2 this is implemented via AbstractDamageableReactorComponent.
+ * IC2-like reactor component which stores its internal heat as custom NBT damage.
  *
- * We keep semantics:
- * - heat stored in range [0..maxHeat]
- * - if heat exceeds maxHeat, the item is destroyed in reactor slot
+ * This mirrors IC2's AbstractDamageableReactorComponent / ItemGradualInt semantics:
+ * - durability bar is always visible
+ * - more stored heat means less remaining durability in the bar
+ * - tooltip always shows remaining durability
  */
 public abstract class AbstractDamageableReactorComponentItem extends Item implements IReactorComponent {
     private static final String NBT_HEAT = "il_reactor_heat";
@@ -55,65 +56,47 @@ public abstract class AbstractDamageableReactorComponentItem extends Item implem
 
     @Override
     public boolean isItemBarVisible(ItemStack stack) {
-        return getCustomDamage(stack) > 0;
-    }
-
-    @Override
-    public int getItemBarStep(ItemStack stack) {
-        double r = (double) getCustomDamage(stack) / (double) maxHeat;
-        return (int) Math.round(r * 13.0);
-    }
-
-    @Override
-    public int getItemBarColor(ItemStack stack) {
-        return 0xFF5555;
-    }
-
-    @Override
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        int heat = getCustomDamage(stack);
-        if (heat > 0) {
-            tooltip.add(Text.literal("Heat: " + heat + "/" + maxHeat).formatted(Formatting.GRAY));
-            tooltip.add(Text.translatable("industrial_legacy.reactoritem.heatwarning.line1").formatted(Formatting.RED));
-            tooltip.add(Text.translatable("industrial_legacy.reactoritem.heatwarning.line2").formatted(Formatting.RED));
-        }
-    }
-
-    // default impls for heat storage components
-    @Override
-    public boolean canStoreHeat(ItemStack stack, IReactor reactor, int x, int y) {
         return true;
     }
 
     @Override
+    public int getItemBarStep(ItemStack stack) {
+        float damageFraction = getCustomDamage(stack) / (float) maxHeat;
+        return Math.max(0, 13 - Math.round(damageFraction * 13.0f));
+    }
+
+    @Override
+    public int getItemBarColor(ItemStack stack) {
+        float damageFraction = getCustomDamage(stack) / (float) maxHeat;
+        return MathHelper.hsvToRgb(Math.max(0.0f, (1.0f - damageFraction) / 3.0f), 1.0f, 1.0f);
+    }
+
+    @Override
+    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+        tooltip.add(Text.translatable(
+                "industrial_legacy.reactoritem.durability",
+                getMaxCustomDamage(stack) - getCustomDamage(stack),
+                getMaxCustomDamage(stack)
+        ).formatted(Formatting.GRAY));
+    }
+
+    @Override
+    public boolean canStoreHeat(ItemStack stack, IReactor reactor, int x, int y) {
+        return false;
+    }
+
+    @Override
     public int getMaxHeat(ItemStack stack, IReactor reactor, int x, int y) {
-        return getMaxCustomDamage(stack);
+        return 0;
     }
 
     @Override
     public int getCurrentHeat(ItemStack stack, IReactor reactor, int x, int y) {
-        return getCustomDamage(stack);
+        return 0;
     }
 
     @Override
     public int alterHeat(ItemStack stack, IReactor reactor, int x, int y, int heat) {
-        int myHeat = getCurrentHeat(stack, reactor, x, y) + heat;
-        int max = getMaxHeat(stack, reactor, x, y);
-
-        if (myHeat > max) {
-            // destroy the item in the reactor slot, return leftover heat like IC2
-            reactor.setItemAt(x, y, null);
-            return max - myHeat + 1;
-        }
-
-        if (myHeat < 0) {
-            int leftover = myHeat;
-            myHeat = 0;
-            setCustomDamage(stack, myHeat);
-            return leftover;
-        }
-
-        setCustomDamage(stack, myHeat);
-        return 0;
+        return heat;
     }
 }
