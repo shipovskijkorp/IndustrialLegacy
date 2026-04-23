@@ -333,11 +333,41 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
             return false;
         }
 
-        return state.isIn(BlockTags.PICKAXE_MINEABLE)
-                || state.isIn(BlockTags.DIRT)
+        String namespace = Registries.BLOCK.getId(state.getBlock()).getNamespace();
+        String path = Registries.BLOCK.getId(state.getBlock()).getPath();
+        if (!"minecraft".equals(namespace)) {
+            return false;
+        }
+
+        if (state.isIn(BlockTags.DIRT)) {
+            return true;
+        }
+
+        return state.isOf(Blocks.GRASS_BLOCK)
+                || state.isOf(Blocks.MYCELIUM)
+                || state.isOf(Blocks.PODZOL)
+                || state.isOf(Blocks.ROOTED_DIRT)
+                || state.isOf(Blocks.COARSE_DIRT)
+                || state.isOf(Blocks.MUD)
                 || state.isOf(Blocks.CLAY)
-                || state.isOf(Blocks.TERRACOTTA)
-                || state.isOf(Blocks.MAGMA_BLOCK);
+                || state.isOf(Blocks.STONE)
+                || state.isOf(Blocks.COBBLESTONE)
+                || state.isOf(Blocks.MOSSY_COBBLESTONE)
+                || state.isOf(Blocks.SAND)
+                || state.isOf(Blocks.RED_SAND)
+                || path.contains("sandstone")
+                || path.contains("granite")
+                || path.contains("diorite")
+                || path.contains("andesite")
+                || path.contains("stone")
+                || path.contains("cobblestone")
+                || path.contains("gravel")
+                || path.contains("deepslate")
+                || path.contains("tuff")
+                || path.contains("calcite")
+                || path.contains("basalt")
+                || path.contains("blackstone")
+                || path.contains("netherrack");
     }
 
     private boolean isProtectedFromLavaMelt(BlockState state) {
