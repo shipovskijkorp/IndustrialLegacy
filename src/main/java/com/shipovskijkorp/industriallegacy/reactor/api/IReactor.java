@@ -34,4 +34,6 @@ public interface IReactor {
     void explode();
 
     boolean produceEnergy();
+
+    boolean isFluidCooled();
 }

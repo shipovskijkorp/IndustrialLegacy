@@ -85,7 +85,7 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
         be.processChambers(true);
         be.processChambers(false);
 
-        boolean active = be.output > 0.0f || be.heat > 0 || be.emittedHeat > 0;
+        boolean active = be.produceEnergy() && be.output > 0.0f;
         if (state.get(NuclearReactorBlock.LIT) != active) {
             world.setBlockState(pos, state.with(NuclearReactorBlock.LIT, active), 3);
         }
@@ -190,11 +190,14 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
 
     @Override
     public void setStack(int slot, ItemStack stack) {
-        if (stack != null && !stack.isEmpty() && stack.getCount() > getMaxCountPerStack()) {
-            stack = stack.copy();
-            stack.setCount(getMaxCountPerStack());
+        ItemStack toStore = ItemStack.EMPTY;
+        if (stack != null && !stack.isEmpty()) {
+            toStore = stack.copy();
+            if (toStore.getCount() > getMaxCountPerStack()) {
+                toStore.setCount(getMaxCountPerStack());
+            }
         }
-        items.set(slot, stack == null ? ItemStack.EMPTY : stack);
+        items.set(slot, toStore);
         markDirty();
     }
 
@@ -258,11 +261,14 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
     @Override
     public void setItemAt(int x, int y, @Nullable ItemStack stack) {
         if (x < 0 || y < 0 || x >= COLUMNS || y >= ROWS) return;
-        if (stack != null && !stack.isEmpty() && stack.getCount() > 1) {
-            stack = stack.copy();
-            stack.setCount(1);
+        ItemStack toStore = ItemStack.EMPTY;
+        if (stack != null && !stack.isEmpty()) {
+            toStore = stack.copy();
+            if (toStore.getCount() > 1) {
+                toStore.setCount(1);
+            }
         }
-        items.set(index(x, y), stack == null || stack.isEmpty() ? ItemStack.EMPTY : stack);
+        items.set(index(x, y), toStore);
         markDirty();
     }
 
@@ -310,26 +316,55 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
     @Override
     public void explode() {
         if (world == null || world.isClient) return;
+
+        float boomPower = 10.0f;
+        float boomMod = 1.0f;
+
         for (ItemStack stack : items) {
-            if (!stack.isEmpty()) {
-                ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(), stack.copy());
+            if (!stack.isEmpty() && stack.getItem() instanceof IReactorComponent comp) {
+                float influence = comp.influenceExplosion(stack, this);
+                if (influence > 0.0f && influence < 1.0f) {
+                    boomMod *= influence;
+                } else {
+                    boomPower += influence;
+                }
             }
         }
+
+        boomPower *= heatEffectModifier * boomMod;
+        boomPower = Math.max(1.0f, boomPower);
+
         clear();
 
         for (Direction dir : Direction.values()) {
             BlockPos chamberPos = pos.offset(dir);
             if (world.getBlockState(chamberPos).isOf(com.shipovskijkorp.industriallegacy.registry.ModBlocks.REACTOR_CHAMBER)) {
-                world.breakBlock(chamberPos, true);
-                world.setBlockState(chamberPos, Blocks.FIRE.getDefaultState(), 3);
+                world.removeBlock(chamberPos, false);
             }
         }
 
-        world.setBlockState(pos, Blocks.FIRE.getDefaultState(), 3);
+        world.removeBlock(pos, false);
+        world.createExplosion(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, boomPower, true, World.ExplosionSourceType.BLOCK);
     }
 
     @Override
     public boolean produceEnergy() {
-        return true;
+        if (world == null) return false;
+        if (world.isReceivingRedstonePower(pos)) return true;
+
+        for (Direction dir : Direction.values()) {
+            BlockPos adjacent = pos.offset(dir);
+            if (world.getBlockState(adjacent).isOf(com.shipovskijkorp.industriallegacy.registry.ModBlocks.REACTOR_CHAMBER)
+                    && world.isReceivingRedstonePower(adjacent)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean isFluidCooled() {
+        return false;
     }
 }

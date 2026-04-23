@@ -2,7 +2,10 @@ package com.shipovskijkorp.industriallegacy.item.reactor;
 
 import com.shipovskijkorp.industriallegacy.reactor.api.IReactor;
 import com.shipovskijkorp.industriallegacy.reactor.api.IReactorComponent;
+import com.shipovskijkorp.industriallegacy.util.RadiationUtil;
 import net.minecraft.client.item.TooltipContext;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -24,7 +27,7 @@ public class UraniumFuelRodItem extends Item implements IReactorComponent {
     protected final Item depletedItem;
 
     public UraniumFuelRodItem(Settings settings, int numberOfCells, int duration, @Nullable Item depletedItem) {
-        super(settings.maxCount(1));
+        super(settings.maxCount(64));
         this.numberOfCells = numberOfCells;
         this.duration = duration;
         this.depletedItem = depletedItem;
@@ -63,12 +66,12 @@ public class UraniumFuelRodItem extends Item implements IReactorComponent {
 
     @Override
     public boolean isItemBarVisible(ItemStack stack) {
-        return getDamage(stack) > 0;
+        return true;
     }
 
     @Override
     public int getItemBarStep(ItemStack stack) {
-        return Math.round(13.0f * getDamage(stack) / (float) duration);
+        return Math.max(0, 13 - Math.round(13.0f * getDamage(stack) / (float) duration));
     }
 
     @Override
@@ -78,10 +81,16 @@ public class UraniumFuelRodItem extends Item implements IReactorComponent {
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        int damage = getDamage(stack);
-        if (damage > 0) {
-            tooltip.add(Text.translatable("industrial_legacy.reactoritem.durability", duration - damage, duration)
-                    .formatted(Formatting.GRAY));
+        tooltip.add(Text.translatable("industrial_legacy.reactoritem.durability", duration - getDamage(stack), duration)
+                .formatted(Formatting.GRAY));
+    }
+
+    @Override
+    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+        super.inventoryTick(stack, world, entity, slot, selected);
+        if (world.isClient) return;
+        if (entity instanceof LivingEntity living) {
+            RadiationUtil.apply(living, 200, 100);
         }
     }
 

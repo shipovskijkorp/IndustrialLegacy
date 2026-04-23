@@ -67,6 +67,7 @@
   "il.EUStorage.gui.mod.redstone6": "Redstone Behavior: Do not output energy unless full",
   "industrial_legacy.reactoritem.heatwarning.line1": "Component is hot!",
   "industrial_legacy.reactoritem.heatwarning.line2": "Handle with care.",
+  "industrial_legacy.reactoritem.durability": "Durability: %s/%s",
   "item.industrial_legacy.advanced_alloy": "Advanced Alloy",
   "item.industrial_legacy.advanced_circuit": "Advanced Circuit",
   "item.industrial_legacy.advanced_heat_exchanger": "Advanced Heat Exchanger",

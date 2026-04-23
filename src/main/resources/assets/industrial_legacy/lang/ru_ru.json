@@ -67,6 +67,7 @@
   "il.EUStorage.gui.mod.redstone6": "Красный сигнал: Не подавать энергию, если не заполнено",
   "industrial_legacy.reactoritem.heatwarning.line1": "Компонент раскалён!",
   "industrial_legacy.reactoritem.heatwarning.line2": "Будь осторожен при обращении.",
+  "industrial_legacy.reactoritem.durability": "Прочность: %s/%s",
   "item.industrial_legacy.advanced_alloy": "Продвинутый сплав",
   "item.industrial_legacy.advanced_circuit": "Улучшенная электросхема",
   "item.industrial_legacy.advanced_heat_exchanger": "Улучшенный теплообменник",

@@ -1,6 +1,7 @@
 package com.shipovskijkorp.industriallegacy.item.reactor;
 
 import com.shipovskijkorp.industriallegacy.reactor.api.IReactor;
+import com.shipovskijkorp.industriallegacy.reactor.api.IReactorComponent;
 import com.shipovskijkorp.industriallegacy.registry.ModItems;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.Item;
@@ -13,12 +14,12 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class DepletedIsotopeFuelRodItem extends Item implements com.shipovskijkorp.industriallegacy.reactor.api.IReactorComponent {
+public class DepletedIsotopeFuelRodItem extends Item implements IReactorComponent {
     private static final String NBT_PROGRESS = "il_reactor_progress";
     private final int duration;
 
     public DepletedIsotopeFuelRodItem(Settings settings, int duration) {
-        super(settings.maxCount(1));
+        super(settings.maxCount(64));
         this.duration = Math.max(1, duration);
     }
 
@@ -42,7 +43,7 @@ public class DepletedIsotopeFuelRodItem extends Item implements com.shipovskijko
 
     @Override
     public boolean isItemBarVisible(ItemStack stack) {
-        return getProgress(stack) > 0;
+        return true;
     }
 
     @Override
@@ -57,10 +58,8 @@ public class DepletedIsotopeFuelRodItem extends Item implements com.shipovskijko
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        int progress = getProgress(stack);
-        if (progress > 0) {
-            tooltip.add(Text.translatable("tooltip.industrial_legacy.reactor_progress", progress, duration).formatted(Formatting.GRAY));
-        }
+        tooltip.add(Text.translatable("industrial_legacy.reactoritem.durability", duration - getProgress(stack), duration)
+                .formatted(Formatting.GRAY));
     }
 
     @Override

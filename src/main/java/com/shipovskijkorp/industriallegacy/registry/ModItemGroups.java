@@ -30,7 +30,11 @@ public final class ModItemGroups {
             new Identifier(IndustrialLegacy.MOD_ID, "main"),
             FabricItemGroup.builder()
                     // Icon: copper cable (uninsulated)
-                    .icon(() -> CableItem.createStack(ModItems.CABLE, CableKind.COPPER, 0))
+                    .icon(() -> {
+                        ItemStack stack = new ItemStack(ModItems.MINING_LASER);
+                        ElectricItemManager.setEnergy(stack, ElectricItemManager.getCapacity(stack));
+                        return stack;
+                    })
                     .displayName(Text.translatable("itemGroup.industrial_legacy.main"))
                     .entries((ctx, entries) -> {
                         // Single tab, but with a stable, readable order (no random registry ordering).
