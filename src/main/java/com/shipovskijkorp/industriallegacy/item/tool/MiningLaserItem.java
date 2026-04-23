@@ -15,6 +15,7 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
@@ -286,7 +287,8 @@ public final class MiningLaserItem extends Item implements IElectricItem, IModeS
 
     @Override
     public int getItemBarColor(ItemStack stack) {
-        return 0x55FF55;
+        float ratio = getItemBarStep(stack) / 13.0f;
+        return MathHelper.hsvToRgb(Math.max(0.0f, ratio / 3.0f), 1.0f, 1.0f);
     }
 
     @Override

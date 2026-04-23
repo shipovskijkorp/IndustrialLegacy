@@ -137,6 +137,11 @@ public class CableBlockEntityRenderer implements BlockEntityRenderer<CableBlockE
 
         if (nb instanceof CableBlock) return true;
 
+        if (ns.isOf(com.shipovskijkorp.industriallegacy.registry.ModBlocks.NUCLEAR_REACTOR)
+                || ns.isOf(com.shipovskijkorp.industriallegacy.registry.ModBlocks.REACTOR_CHAMBER)) {
+            return true;
+        }
+
         if (world.getBlockEntity(np) instanceof IEuEnergyStorage storage) {
             Direction face = dir.getOpposite();
             return storage.canInsert(face) || storage.canExtract(face);

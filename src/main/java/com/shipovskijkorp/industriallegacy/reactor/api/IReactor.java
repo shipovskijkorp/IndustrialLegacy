@@ -33,6 +33,10 @@ public interface IReactor {
 
     void explode();
 
+    default int getTickRate() {
+        return 20;
+    }
+
     boolean produceEnergy();
 
     boolean isFluidCooled();

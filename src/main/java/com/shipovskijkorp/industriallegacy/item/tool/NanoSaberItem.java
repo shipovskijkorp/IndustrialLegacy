@@ -16,6 +16,7 @@ import net.minecraft.item.ToolMaterials;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
@@ -208,7 +209,8 @@ public final class NanoSaberItem extends SwordItem implements IElectricItem {
 
     @Override
     public int getItemBarColor(ItemStack stack) {
-        return 0x55FF55;
+        float ratio = getItemBarStep(stack) / 13.0f;
+        return MathHelper.hsvToRgb(Math.max(0.0f, ratio / 3.0f), 1.0f, 1.0f);
     }
 
     // Stack-aware attribute modifiers (Fabric)

@@ -20,15 +20,23 @@ public class ReactorCondensatorItem extends AbstractDamageableReactorComponentIt
     }
 
     @Override
+    public int getMaxHeat(ItemStack stack, IReactor reactor, int x, int y) {
+        return getMaxCustomDamage(stack);
+    }
+
+    @Override
+    public int getCurrentHeat(ItemStack stack, IReactor reactor, int x, int y) {
+        return getCustomDamage(stack);
+    }
+
+    @Override
     public int alterHeat(ItemStack stack, IReactor reactor, int x, int y, int heat) {
         if (heat < 0) return heat;
 
         int current = getCurrentHeat(stack, reactor, x, y);
-        int max = getMaxHeat(stack, reactor, x, y);
-        int accepted = Math.min(heat, max - current);
-        if (accepted > 0) {
-            setCustomDamage(stack, current + accepted);
-        }
-        return heat - accepted;
+        int accepted = Math.min(heat, getMaxHeat(stack, reactor, x, y) - current);
+        heat -= accepted;
+        setCustomDamage(stack, current + accepted);
+        return heat;
     }
 }

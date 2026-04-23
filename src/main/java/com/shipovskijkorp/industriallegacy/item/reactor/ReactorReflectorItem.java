@@ -16,17 +16,12 @@ public class ReactorReflectorItem extends AbstractDamageableReactorComponentItem
             if (pulsingStack.getItem() instanceof IReactorComponent source) {
                 source.acceptUraniumPulse(pulsingStack, reactor, stack, pulseX, pulseY, youX, youY, false);
             }
-        } else if (getCurrentHeat(stack, reactor, youX, youY) + 1 >= getMaxHeat(stack, reactor, youX, youY)) {
+        } else if (getCustomDamage(stack) + 1 >= getMaxCustomDamage(stack)) {
             reactor.setItemAt(youX, youY, null);
         } else {
-            alterHeat(stack, reactor, youX, youY, 1);
+            setCustomDamage(stack, getCustomDamage(stack) + 1);
         }
         return true;
-    }
-
-    @Override
-    public boolean canStoreHeat(ItemStack stack, IReactor reactor, int x, int y) {
-        return false;
     }
 
     @Override

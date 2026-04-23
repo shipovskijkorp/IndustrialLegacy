@@ -27,7 +27,7 @@ public abstract class AbstractDamageableReactorComponentItem extends Item implem
     private final int maxHeat;
 
     protected AbstractDamageableReactorComponentItem(Settings settings, int maxHeat) {
-        super(settings.maxCount(1));
+        super(settings);
         this.maxHeat = maxHeat;
     }
 

@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 
 public abstract class AbstractReactorComponentItem extends Item implements IReactorComponent {
     protected AbstractReactorComponentItem(Settings settings) {
-        super(settings.maxCount(1));
+        super(settings);
     }
 
     @Override

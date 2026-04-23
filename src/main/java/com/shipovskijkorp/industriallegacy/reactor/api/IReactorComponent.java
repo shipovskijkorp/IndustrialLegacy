@@ -38,4 +38,8 @@ public interface IReactorComponent {
     default float influenceExplosion(ItemStack stack, IReactor reactor) {
         return 0.0f;
     }
+
+    default boolean canBePlacedIn(ItemStack stack, IReactor reactor) {
+        return true;
+    }
 }

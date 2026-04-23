@@ -1,6 +1,9 @@
 package com.shipovskijkorp.industriallegacy.block.entity;
 
 import com.shipovskijkorp.industriallegacy.block.NuclearReactorBlock;
+import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
+import com.shipovskijkorp.industriallegacy.energy.net.EuNetwork;
+import com.shipovskijkorp.industriallegacy.energy.util.EuUtil;
 import com.shipovskijkorp.industriallegacy.reactor.api.IReactor;
 import com.shipovskijkorp.industriallegacy.reactor.api.IReactorComponent;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
@@ -10,6 +13,7 @@ import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
@@ -17,25 +21,30 @@ import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
-import net.minecraft.world.World;
-import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.random.Random;
-
-import java.util.HashSet;
-import java.util.Set;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class NuclearReactorBlockEntity extends BlockEntity implements SidedInventory, ExtendedScreenHandlerFactory, IReactor {
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+public class NuclearReactorBlockEntity extends BlockEntity implements SidedInventory, ExtendedScreenHandlerFactory, IReactor, IEuEnergyStorage {
     public static final int COLUMNS = 9;
     public static final int ROWS = 6;
     public static final int INV_SIZE = COLUMNS * ROWS;
@@ -48,26 +57,33 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
     private int emittedHeat;
     private float output;
     private int cachedSize = 3;
+    private int updateTicker = -1;
+    private long emitBudgetEu;
+    private long emitBudgetTick = Long.MIN_VALUE;
 
     private final PropertyDelegate props = new PropertyDelegate() {
         @Override public int size() { return 5; }
-        @Override public int get(int index) {
+
+        @Override
+        public int get(int index) {
             return switch (index) {
                 case 0 -> heat;
                 case 1 -> maxHeat;
                 case 2 -> emittedHeat;
                 case 3 -> cachedSize;
-                case 4 -> Math.round(output * 10.0f);
+                case 4 -> Math.round(getOfferedEnergyEuPerTick() * 10.0f);
                 default -> 0;
             };
         }
-        @Override public void set(int index, int value) {
+
+        @Override
+        public void set(int index, int value) {
             switch (index) {
                 case 0 -> heat = value;
                 case 1 -> maxHeat = value;
                 case 2 -> emittedHeat = value;
                 case 3 -> cachedSize = value;
-                case 4 -> output = value / 10.0f;
+                case 4 -> output = value / 50.0f;
             }
         }
     };
@@ -79,36 +95,55 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
     public static void tick(World world, BlockPos pos, BlockState state, NuclearReactorBlockEntity be) {
         if (world.isClient) return;
 
-        int oldSize = be.cachedSize;
-        be.cachedSize = be.getReactorSize();
-        if (oldSize != be.cachedSize) {
-            be.dropUnfittingStuff();
-        }
-        be.sanitizeInventory();
-
-        be.maxHeat = 10000;
-        be.heatEffectModifier = 1.0f;
-        be.emittedHeat = 0;
-        be.output = 0.0f;
-
-        be.processChambers(true);
-        be.processChambers(false);
-
-        boolean active = be.produceEnergy() && be.output > 0.0f;
-        if (state.get(NuclearReactorBlock.LIT) != active) {
-            world.setBlockState(pos, state.with(NuclearReactorBlock.LIT, active), 3);
+        if (be.updateTicker < 0) {
+            be.updateTicker = world.random.nextInt(be.getTickRate());
         }
 
-        if (be.heat >= be.maxHeat) {
-            be.explode();
-            return;
+        boolean processCycle = be.updateTicker++ % be.getTickRate() == 0;
+        if (processCycle) {
+            int oldSize = be.cachedSize;
+            be.cachedSize = be.getReactorSize();
+            if (oldSize != be.cachedSize) {
+                be.dropUnfittingStuff();
+            }
+            be.sanitizeInventory();
+
+            be.output = 0.0f;
+            be.maxHeat = 10000;
+            be.heatEffectModifier = 1.0f;
+            be.emittedHeat = 0;
+
+            be.processChambers(true);
+            be.processChambers(false);
+
+            if (be.calculateHeatEffects()) {
+                return;
+            }
+
+            boolean active = be.heat >= 1000 || be.output > 0.0f;
+            if (state.get(NuclearReactorBlock.LIT) != active) {
+                world.setBlockState(pos, state.with(NuclearReactorBlock.LIT, active), 3);
+            }
+
+            if (be.heat >= be.maxHeat) {
+                be.explode();
+                return;
+            }
+
+            be.markDirty();
         }
 
-        be.markDirty();
+        be.emitToNeighbors();
     }
 
     public static boolean isAllowedReactorItem(ItemStack stack) {
         return !stack.isEmpty() && stack.getItem() instanceof IReactorComponent;
+    }
+
+    private boolean isUsefulItem(ItemStack stack) {
+        return isAllowedReactorItem(stack)
+                && stack.getItem() instanceof IReactorComponent component
+                && component.canBePlacedIn(stack, this);
     }
 
     private void processChambers(boolean heatRun) {
@@ -123,8 +158,44 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
         }
     }
 
+    private float getOfferedEnergyEuPerTick() {
+        return isFluidCooled() ? 0.0f : output * 5.0f;
+    }
+
+    private void resetEmitBudgetForCurrentTick() {
+        if (world == null) return;
+        long time = world.getTime();
+        if (emitBudgetTick != time) {
+            emitBudgetTick = time;
+            emitBudgetEu = Math.max(0L, (long) Math.floor(getOfferedEnergyEuPerTick()));
+        }
+    }
+
+    private void emitToNeighbors() {
+        if (world == null || world.isClient || isFluidCooled()) return;
+
+        resetEmitBudgetForCurrentTick();
+        if (emitBudgetEu <= 0L) return;
+
+        emitFromPosition(pos);
+
+        for (Direction chamberDir : Direction.values()) {
+            BlockPos chamberPos = pos.offset(chamberDir);
+            if (world.getBlockState(chamberPos).isOf(ModBlocks.REACTOR_CHAMBER)) {
+                emitFromPosition(chamberPos);
+            }
+        }
+    }
+
+    private void emitFromPosition(BlockPos sourcePos) {
+        for (Direction dir : Direction.values()) {
+            if (emitBudgetEu <= 0L) break;
+            EuNetwork.route(world, sourcePos, this, dir, emitBudgetEu);
+        }
+    }
+
     public int getReactorSize() {
-        if (world == null) return 3;
+        if (world == null) return COLUMNS;
         int cols = 3;
         for (Direction dir : Direction.values()) {
             if (world.getBlockState(pos.offset(dir)).isOf(ModBlocks.REACTOR_CHAMBER)) {
@@ -160,7 +231,7 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
             if (stack.isEmpty()) continue;
 
             int x = slot % COLUMNS;
-            if (x >= activeSize || !isAllowedReactorItem(stack)) {
+            if (x >= activeSize || !isUsefulItem(stack)) {
                 ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(), stack.copy());
                 items.set(slot, ItemStack.EMPTY);
                 changed = true;
@@ -179,6 +250,131 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
         if (changed) {
             markDirty();
         }
+    }
+
+    private boolean calculateHeatEffects() {
+        if (!(world instanceof ServerWorld serverWorld) || heat < 4000) {
+            return false;
+        }
+
+        float power = heat / (float) Math.max(1, maxHeat);
+        if (power >= 1.0f) {
+            explode();
+            return true;
+        }
+
+        if (power >= 0.85f && serverWorld.random.nextFloat() <= 0.2f * heatEffectModifier) {
+            BlockPos target = getRandomNearbyPos(serverWorld, 2);
+            if (target != null) {
+                BlockState state = serverWorld.getBlockState(target);
+                if (state.isAir()) {
+                    serverWorld.setBlockState(target, Blocks.FIRE.getDefaultState());
+                } else if (state.getHardness(serverWorld, target) >= 0.0f && serverWorld.getBlockEntity(target) == null) {
+                    if (shouldMeltToLava(state)) {
+                        serverWorld.setBlockState(target, Blocks.LAVA.getDefaultState());
+                    } else {
+                        serverWorld.setBlockState(target, Blocks.FIRE.getDefaultState());
+                    }
+                }
+            }
+        }
+
+        if (power >= 0.7f) {
+            List<LivingEntity> nearby = serverWorld.getEntitiesByClass(
+                    LivingEntity.class,
+                    new Box(pos).expand(3.0),
+                    entity -> true
+            );
+            for (LivingEntity entity : nearby) {
+                float damage = serverWorld.random.nextInt(4) * heatEffectModifier;
+                if (damage > 0.0f) {
+                    entity.damage(entity.getDamageSources().magic(), damage);
+                }
+            }
+        }
+
+        if (power >= 0.5f && serverWorld.random.nextFloat() <= heatEffectModifier) {
+            BlockPos target = getRandomNearbyPos(serverWorld, 2);
+            if (target != null && serverWorld.getBlockState(target).getFluidState().isIn(FluidTags.WATER)) {
+                serverWorld.removeBlock(target, false);
+            }
+        }
+
+        if (power >= 0.4f && serverWorld.random.nextFloat() <= heatEffectModifier) {
+            BlockPos target = getRandomNearbyPos(serverWorld, 2);
+            if (target != null && serverWorld.getBlockEntity(target) == null) {
+                BlockState state = serverWorld.getBlockState(target);
+                if (state.isBurnable()) {
+                    serverWorld.setBlockState(target, Blocks.FIRE.getDefaultState());
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private @Nullable BlockPos getRandomNearbyPos(ServerWorld serverWorld, int radius) {
+        if (radius <= 0) return null;
+
+        BlockPos target;
+        do {
+            target = pos.add(
+                    serverWorld.random.nextBetween(-radius, radius),
+                    serverWorld.random.nextBetween(-radius, radius),
+                    serverWorld.random.nextBetween(-radius, radius)
+            );
+        } while (target.equals(pos));
+
+        return target;
+    }
+
+    private boolean shouldMeltToLava(BlockState state) {
+        if (isProtectedFromLavaMelt(state)) {
+            return false;
+        }
+
+        return state.isIn(BlockTags.PICKAXE_MINEABLE)
+                || state.isIn(BlockTags.DIRT)
+                || state.isOf(Blocks.CLAY)
+                || state.isOf(Blocks.TERRACOTTA)
+                || state.isOf(Blocks.MAGMA_BLOCK);
+    }
+
+    private boolean isProtectedFromLavaMelt(BlockState state) {
+        String namespace = Registries.BLOCK.getId(state.getBlock()).getNamespace();
+        if ("industrial_legacy".equals(namespace)) {
+            return true;
+        }
+
+        if (state.isOf(Blocks.REDSTONE_WIRE)
+                || state.isOf(Blocks.REDSTONE_TORCH)
+                || state.isOf(Blocks.REDSTONE_WALL_TORCH)
+                || state.isOf(Blocks.REPEATER)
+                || state.isOf(Blocks.COMPARATOR)
+                || state.isOf(Blocks.REDSTONE_BLOCK)
+                || state.isOf(Blocks.REDSTONE_LAMP)
+                || state.isOf(Blocks.OBSERVER)
+                || state.isOf(Blocks.TARGET)
+                || state.isOf(Blocks.DAYLIGHT_DETECTOR)
+                || state.isOf(Blocks.SCULK_SENSOR)
+                || state.isOf(Blocks.CALIBRATED_SCULK_SENSOR)
+                || state.isOf(Blocks.TRIPWIRE)
+                || state.isOf(Blocks.TRIPWIRE_HOOK)
+                || state.isOf(Blocks.DISPENSER)
+                || state.isOf(Blocks.DROPPER)
+                || state.isOf(Blocks.PISTON)
+                || state.isOf(Blocks.STICKY_PISTON)
+                || state.isOf(Blocks.MOVING_PISTON)
+                || state.isOf(Blocks.LECTERN)
+                || state.isOf(Blocks.NOTE_BLOCK)
+                || state.isIn(BlockTags.BUTTONS)
+                || state.isIn(BlockTags.PRESSURE_PLATES)) {
+            return true;
+        }
+
+        return state.contains(Properties.POWERED)
+                || state.contains(Properties.LIT)
+                || state.emitsRedstonePower();
     }
 
     private static int index(int x, int y) {
@@ -271,7 +467,7 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
 
     @Override
     public boolean isValid(int slot, ItemStack stack) {
-        return isSlotEnabled(slot) && isAllowedReactorItem(stack);
+        return isSlotEnabled(slot) && isUsefulItem(stack);
     }
 
     @Override
@@ -282,6 +478,7 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
         maxHeat = nbt.getInt("MaxHeat");
         emittedHeat = nbt.getInt("EmitHeat");
         cachedSize = Math.max(3, nbt.getInt("Size"));
+        updateTicker = nbt.contains("UpdateTicker") ? nbt.getInt("UpdateTicker") : -1;
         for (int i = 0; i < items.size(); i++) {
             ItemStack stack = items.get(i);
             if (!stack.isEmpty() && stack.getCount() > 1) {
@@ -298,6 +495,7 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
         nbt.putInt("MaxHeat", maxHeat);
         nbt.putInt("EmitHeat", emittedHeat);
         nbt.putInt("Size", cachedSize);
+        nbt.putInt("UpdateTicker", updateTicker);
     }
 
     @Override
@@ -311,7 +509,7 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
     public void setItemAt(int x, int y, @Nullable ItemStack stack) {
         if (x < 0 || y < 0 || x >= COLUMNS || y >= ROWS) return;
         ItemStack toStore = ItemStack.EMPTY;
-        if (stack != null && !stack.isEmpty() && isAllowedReactorItem(stack)) {
+        if (stack != null && !stack.isEmpty() && isUsefulItem(stack)) {
             toStore = stack.copy();
             toStore.setCount(1);
         }
@@ -489,6 +687,78 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
 
         ret += (resistance + 4.0f) * 0.3;
         return ret;
+    }
+
+    @Override
+    public long getEuStored() {
+        resetEmitBudgetForCurrentTick();
+        return emitBudgetEu;
+    }
+
+    @Override
+    public long getEuCapacity() {
+        return Math.max(0L, (long) Math.ceil(getOfferedEnergyEuPerTick()));
+    }
+
+    @Override
+    public int getSinkTier() {
+        return 0;
+    }
+
+    @Override
+    public int getSourceTier() {
+        return 5;
+    }
+
+    @Override
+    public long insertEu(long amount, Direction from, boolean simulate) {
+        return 0L;
+    }
+
+    @Override
+    public long extractEu(long amount, Direction to, boolean simulate) {
+        if (amount <= 0L || !canExtract(to)) return 0L;
+
+        resetEmitBudgetForCurrentTick();
+        long extracted = Math.min(amount, emitBudgetEu);
+        if (!simulate) {
+            emitBudgetEu -= extracted;
+        }
+        return extracted;
+    }
+
+    @Override
+    public boolean canInsert(Direction from) {
+        return false;
+    }
+
+    @Override
+    public boolean canExtract(Direction to) {
+        return !isFluidCooled() && getOfferedEnergyEuPerTick() > 0.0f;
+    }
+
+    @Override
+    public boolean sendMultipleEnergyPackets() {
+        return true;
+    }
+
+    @Override
+    public int getMaxEnergyPacketCount() {
+        long offered = Math.max(0L, (long) Math.floor(getOfferedEnergyEuPerTick()));
+        long packet = EuUtil.powerFromTier(getSourceTier());
+        if (packet <= 0L) return 1;
+        long count = (offered + packet - 1L) / packet;
+        return (int) Math.max(1L, Math.min(Integer.MAX_VALUE, count));
+    }
+
+    @Override
+    public double getOfferedEnergy() {
+        return Math.max(0.0f, getOfferedEnergyEuPerTick());
+    }
+
+    @Override
+    public int getTickRate() {
+        return 20;
     }
 
     @Override

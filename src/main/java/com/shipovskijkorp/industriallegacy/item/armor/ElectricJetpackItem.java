@@ -11,6 +11,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -207,7 +208,8 @@ public final class ElectricJetpackItem extends ArmorItem implements IElectricIte
 
     @Override
     public int getItemBarColor(ItemStack stack) {
-        return 0x55FF55;
+        float ratio = getItemBarStep(stack) / 13.0f;
+        return MathHelper.hsvToRgb(Math.max(0.0f, ratio / 3.0f), 1.0f, 1.0f);
     }
 
     @Override
