@@ -6,6 +6,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
@@ -37,27 +38,7 @@ public class NuclearReactorScreenHandler extends ScreenHandler {
         for (int y = 0; y < NuclearReactorBlockEntity.ROWS; y++) {
             for (int x = 0; x < NuclearReactorBlockEntity.COLUMNS; x++) {
                 final int slotIndex = y * NuclearReactorBlockEntity.COLUMNS + x;
-                this.addSlot(new Slot(this.inventory, slotIndex, startX + x * 18, startY + y * 18) {
-                    @Override
-                    public boolean canInsert(net.minecraft.item.ItemStack stack) {
-                        return isSlotEnabled(slotIndex) && inventory.isValid(slotIndex, stack);
-                    }
-
-                    @Override
-                    public int getMaxItemCount() {
-                        return 1;
-                    }
-
-                    @Override
-                    public int getMaxItemCount(net.minecraft.item.ItemStack stack) {
-                        return 1;
-                    }
-
-                    @Override
-                    public boolean isEnabled() {
-                        return isSlotEnabled(slotIndex);
-                    }
-                });
+                this.addSlot(new ReactorSlot(this.inventory, slotIndex, startX + x * 18, startY + y * 18));
             }
         }
 
@@ -106,12 +87,12 @@ public class NuclearReactorScreenHandler extends ScreenHandler {
     public float getOutput() { return props.get(4) / 10.0f; }
 
     @Override
-    public net.minecraft.item.ItemStack quickMove(PlayerEntity player, int index) {
-        net.minecraft.item.ItemStack newStack = net.minecraft.item.ItemStack.EMPTY;
+    public ItemStack quickMove(PlayerEntity player, int index) {
+        ItemStack newStack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
-        if (slot == null || !slot.hasStack()) return net.minecraft.item.ItemStack.EMPTY;
+        if (slot == null || !slot.hasStack()) return ItemStack.EMPTY;
 
-        net.minecraft.item.ItemStack original = slot.getStack();
+        ItemStack original = slot.getStack();
         newStack = original.copy();
 
         final int machineSlots = NuclearReactorBlockEntity.INV_SIZE;
@@ -119,7 +100,7 @@ public class NuclearReactorScreenHandler extends ScreenHandler {
         final int playerEnd = this.slots.size();
 
         if (index < machineSlots) {
-            if (!this.insertItem(original, playerStart, playerEnd, true)) return net.minecraft.item.ItemStack.EMPTY;
+            if (!this.insertItem(original, playerStart, playerEnd, true)) return ItemStack.EMPTY;
         } else {
             List<Integer> enabledSlots = new ArrayList<>();
             for (int y = 0; y < NuclearReactorBlockEntity.ROWS; y++) {
@@ -134,12 +115,40 @@ public class NuclearReactorScreenHandler extends ScreenHandler {
                     if (original.isEmpty()) break;
                 }
             }
-            if (!moved) return net.minecraft.item.ItemStack.EMPTY;
+            if (!moved) return ItemStack.EMPTY;
         }
 
-        if (original.isEmpty()) slot.setStack(net.minecraft.item.ItemStack.EMPTY); else slot.markDirty();
-        if (original.getCount() == newStack.getCount()) return net.minecraft.item.ItemStack.EMPTY;
+        if (original.isEmpty()) slot.setStack(ItemStack.EMPTY); else slot.markDirty();
+        if (original.getCount() == newStack.getCount()) return ItemStack.EMPTY;
         slot.onTakeItem(player, original);
         return newStack;
+    }
+
+    private final class ReactorSlot extends Slot {
+        private ReactorSlot(Inventory inventory, int index, int x, int y) {
+            super(inventory, index, x, y);
+        }
+
+        @Override
+        public boolean canInsert(ItemStack stack) {
+            return this.getStack().isEmpty()
+                    && isSlotEnabled(this.getIndex())
+                    && NuclearReactorBlockEntity.isAllowedReactorItem(stack);
+        }
+
+        @Override
+        public int getMaxItemCount() {
+            return 1;
+        }
+
+        @Override
+        public int getMaxItemCount(ItemStack stack) {
+            return 1;
+        }
+
+        @Override
+        public boolean isEnabled() {
+            return isSlotEnabled(this.getIndex());
+        }
     }
 }

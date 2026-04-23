@@ -4,6 +4,7 @@ import com.shipovskijkorp.industriallegacy.block.NuclearReactorBlock;
 import com.shipovskijkorp.industriallegacy.reactor.api.IReactor;
 import com.shipovskijkorp.industriallegacy.reactor.api.IReactorComponent;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
+import com.shipovskijkorp.industriallegacy.registry.ModBlocks;
 import com.shipovskijkorp.industriallegacy.screen.NuclearReactorScreenHandler;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
@@ -13,18 +14,25 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
-import net.minecraft.util.ItemScatterer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
+import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+import net.minecraft.registry.tag.FluidTags;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.random.Random;
+
+import java.util.HashSet;
+import java.util.Set;
 import org.jetbrains.annotations.Nullable;
 
 public class NuclearReactorBlockEntity extends BlockEntity implements SidedInventory, ExtendedScreenHandlerFactory, IReactor {
@@ -76,6 +84,7 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
         if (oldSize != be.cachedSize) {
             be.dropUnfittingStuff();
         }
+        be.sanitizeInventory();
 
         be.maxHeat = 10000;
         be.heatEffectModifier = 1.0f;
@@ -98,6 +107,10 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
         be.markDirty();
     }
 
+    public static boolean isAllowedReactorItem(ItemStack stack) {
+        return !stack.isEmpty() && stack.getItem() instanceof IReactorComponent;
+    }
+
     private void processChambers(boolean heatRun) {
         int size = getReactorSize();
         for (int y = 0; y < ROWS; y++) {
@@ -114,7 +127,7 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
         if (world == null) return 3;
         int cols = 3;
         for (Direction dir : Direction.values()) {
-            if (world.getBlockState(pos.offset(dir)).isOf(com.shipovskijkorp.industriallegacy.registry.ModBlocks.REACTOR_CHAMBER)) {
+            if (world.getBlockState(pos.offset(dir)).isOf(ModBlocks.REACTOR_CHAMBER)) {
                 cols++;
             }
         }
@@ -133,6 +146,38 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
                     items.set(idx, ItemStack.EMPTY);
                 }
             }
+        }
+    }
+
+    private void sanitizeInventory() {
+        if (world == null || world.isClient) return;
+
+        boolean changed = false;
+        int activeSize = getReactorSize();
+
+        for (int slot = 0; slot < items.size(); slot++) {
+            ItemStack stack = items.get(slot);
+            if (stack.isEmpty()) continue;
+
+            int x = slot % COLUMNS;
+            if (x >= activeSize || !isAllowedReactorItem(stack)) {
+                ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(), stack.copy());
+                items.set(slot, ItemStack.EMPTY);
+                changed = true;
+                continue;
+            }
+
+            if (stack.getCount() > 1) {
+                ItemStack extra = stack.copy();
+                extra.setCount(stack.getCount() - 1);
+                stack.setCount(1);
+                ItemScatterer.spawn(world, pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5, extra);
+                changed = true;
+            }
+        }
+
+        if (changed) {
+            markDirty();
         }
     }
 
@@ -191,11 +236,9 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
     @Override
     public void setStack(int slot, ItemStack stack) {
         ItemStack toStore = ItemStack.EMPTY;
-        if (stack != null && !stack.isEmpty()) {
+        if (stack != null && !stack.isEmpty() && isValid(slot, stack)) {
             toStore = stack.copy();
-            if (toStore.getCount() > getMaxCountPerStack()) {
-                toStore.setCount(getMaxCountPerStack());
-            }
+            toStore.setCount(1);
         }
         items.set(slot, toStore);
         markDirty();
@@ -220,7 +263,7 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
 
     @Override
     public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
-        return isValid(slot, stack);
+        return items.get(slot).isEmpty() && isValid(slot, stack);
     }
 
     @Override
@@ -228,7 +271,7 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
 
     @Override
     public boolean isValid(int slot, ItemStack stack) {
-        return isSlotEnabled(slot) && !stack.isEmpty() && stack.getItem() instanceof IReactorComponent;
+        return isSlotEnabled(slot) && isAllowedReactorItem(stack);
     }
 
     @Override
@@ -239,6 +282,12 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
         maxHeat = nbt.getInt("MaxHeat");
         emittedHeat = nbt.getInt("EmitHeat");
         cachedSize = Math.max(3, nbt.getInt("Size"));
+        for (int i = 0; i < items.size(); i++) {
+            ItemStack stack = items.get(i);
+            if (!stack.isEmpty() && stack.getCount() > 1) {
+                stack.setCount(1);
+            }
+        }
     }
 
     @Override
@@ -262,11 +311,9 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
     public void setItemAt(int x, int y, @Nullable ItemStack stack) {
         if (x < 0 || y < 0 || x >= COLUMNS || y >= ROWS) return;
         ItemStack toStore = ItemStack.EMPTY;
-        if (stack != null && !stack.isEmpty()) {
+        if (stack != null && !stack.isEmpty() && isAllowedReactorItem(stack)) {
             toStore = stack.copy();
-            if (toStore.getCount() > 1) {
-                toStore.setCount(1);
-            }
+            toStore.setCount(1);
         }
         items.set(index(x, y), toStore);
         markDirty();
@@ -315,12 +362,13 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
 
     @Override
     public void explode() {
-        if (world == null || world.isClient) return;
+        if (!(world instanceof ServerWorld serverWorld)) return;
 
         float boomPower = 10.0f;
         float boomMod = 1.0f;
 
-        for (ItemStack stack : items) {
+        for (int i = 0; i < items.size(); i++) {
+            ItemStack stack = items.get(i);
             if (!stack.isEmpty() && stack.getItem() instanceof IReactorComponent comp) {
                 float influence = comp.influenceExplosion(stack, this);
                 if (influence > 0.0f && influence < 1.0f) {
@@ -329,22 +377,118 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
                     boomPower += influence;
                 }
             }
+            items.set(i, ItemStack.EMPTY);
         }
 
         boomPower *= heatEffectModifier * boomMod;
+        boomPower = Math.min(boomPower, 45.0f);
         boomPower = Math.max(1.0f, boomPower);
-
-        clear();
 
         for (Direction dir : Direction.values()) {
             BlockPos chamberPos = pos.offset(dir);
-            if (world.getBlockState(chamberPos).isOf(com.shipovskijkorp.industriallegacy.registry.ModBlocks.REACTOR_CHAMBER)) {
-                world.removeBlock(chamberPos, false);
+            if (serverWorld.getBlockState(chamberPos).isOf(ModBlocks.REACTOR_CHAMBER)) {
+                serverWorld.removeBlock(chamberPos, false);
             }
         }
 
-        world.removeBlock(pos, false);
-        world.createExplosion(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, boomPower, true, World.ExplosionSourceType.BLOCK);
+        serverWorld.removeBlock(pos, false);
+        doIc2StyleNuclearExplosion(serverWorld, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, boomPower);
+    }
+
+    private void doIc2StyleNuclearExplosion(ServerWorld serverWorld, double centerX, double centerY, double centerZ, float power) {
+        if (power <= 0.0f) return;
+
+        double maxDistance = power / 0.4;
+        int steps = (int) Math.ceil(Math.PI / Math.atan(1.0 / maxDistance));
+        Set<BlockPos> destroyed = new HashSet<>();
+        Random random = serverWorld.random;
+
+        for (int phiN = 0; phiN < 2 * steps; phiN++) {
+            for (int thetaN = 0; thetaN < steps; thetaN++) {
+                double phi = (Math.PI * 2.0 / steps) * phiN;
+                double theta = (Math.PI / steps) * thetaN;
+                shootExplosionRay(serverWorld, centerX, centerY, centerZ, phi, theta, power, destroyed, random, 0);
+            }
+        }
+
+        for (BlockPos targetPos : destroyed) {
+            BlockState state = serverWorld.getBlockState(targetPos);
+            if (!state.isAir()) {
+                serverWorld.breakBlock(targetPos, false);
+            }
+        }
+    }
+
+    private void shootExplosionRay(ServerWorld world, double x, double y, double z, double phi, double theta,
+                                   double powerLeft, Set<BlockPos> destroyed, Random random, int depth) {
+        double deltaX = Math.sin(theta) * Math.cos(phi);
+        double deltaY = Math.cos(theta);
+        double deltaZ = Math.sin(theta) * Math.sin(phi);
+        BlockPos.Mutable mutablePos = new BlockPos.Mutable();
+
+        while (powerLeft > 0.0) {
+            int blockY = MathHelper.floor(y);
+            if (blockY < world.getBottomY() || blockY >= world.getTopY()) {
+                break;
+            }
+
+            int blockX = MathHelper.floor(x);
+            int blockZ = MathHelper.floor(z);
+            mutablePos.set(blockX, blockY, blockZ);
+
+            BlockState state = world.getBlockState(mutablePos);
+            double absorption = getIc2ExplosionAbsorption(state, world, mutablePos);
+            if (absorption < 0.0) {
+                break;
+            }
+
+            if (absorption > 1000.0) {
+                absorption = 0.5;
+            } else {
+                if (absorption > powerLeft) {
+                    break;
+                }
+                if (!state.isAir() && !state.isOf(Blocks.BEDROCK)) {
+                    destroyed.add(mutablePos.toImmutable());
+                }
+            }
+
+            if (absorption > 10.0 && depth < 3) {
+                for (int i = 0; i < 5; i++) {
+                    shootExplosionRay(world, x, y, z,
+                            random.nextDouble() * Math.PI * 2.0,
+                            random.nextDouble() * Math.PI,
+                            absorption * 0.4,
+                            destroyed,
+                            random,
+                            depth + 1);
+                }
+            }
+
+            powerLeft -= absorption;
+            x += deltaX;
+            y += deltaY;
+            z += deltaZ;
+        }
+    }
+
+    private double getIc2ExplosionAbsorption(BlockState state, World world, BlockPos pos) {
+        double ret = 0.5;
+        if (state.isAir()) {
+            return ret;
+        }
+
+        if (state.getFluidState().isIn(FluidTags.WATER)) {
+            return ret + 1.0;
+        }
+
+        float resistance = state.getBlock().getBlastResistance();
+        if (resistance < 0.0f) {
+            return resistance;
+        }
+
+        ret += (resistance + 4.0f) * 0.3;
+        return ret;
     }
 
     @Override
@@ -354,7 +498,7 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
 
         for (Direction dir : Direction.values()) {
             BlockPos adjacent = pos.offset(dir);
-            if (world.getBlockState(adjacent).isOf(com.shipovskijkorp.industriallegacy.registry.ModBlocks.REACTOR_CHAMBER)
+            if (world.getBlockState(adjacent).isOf(ModBlocks.REACTOR_CHAMBER)
                     && world.isReceivingRedstonePower(adjacent)) {
                 return true;
             }
