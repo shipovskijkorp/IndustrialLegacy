@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    " II",
+    "III",
+    "BI "
+  ],
+  "key": {
+    "I": { "item": "industrial_legacy:iron_plate" },
+    "B": { "item": "industrial_legacy:power_unit" }
+  },
+  "result": {
+    "item": "industrial_legacy:chainsaw"
+  }
+}

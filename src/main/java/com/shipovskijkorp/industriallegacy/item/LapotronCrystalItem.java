@@ -102,6 +102,5 @@ public final class LapotronCrystalItem extends Item implements IElectricItem {
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         long e = getEnergy(stack);
         tooltip.add(Text.literal(EnergyDisplayUtil.formatEuStorage(e, CAPACITY_EU, 4)).formatted(Formatting.GRAY));
-        tooltip.add(Text.translatable("tooltip.industrial_legacy.power_tier", TIER).formatted(Formatting.DARK_GRAY));
     }
 }

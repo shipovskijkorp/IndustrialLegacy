@@ -39,7 +39,7 @@ public final class EnergyDisplayUtil {
     }
 
     public static String formatEuStorage(double stored, double capacity, int digits) {
-        return toSiString(stored, digits) + " / " + toSiString(capacity, digits) + " EU";
+        return toSiString(stored, digits) + "/" + toSiString(capacity, digits) + " EU";
     }
 
     public static String formatEuStorage(long stored, long capacity, int digits) {

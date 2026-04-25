@@ -1,6 +1,6 @@
 {
-	"parent": "ic2:item/tool/default",
-	"textures": {
-		"layer0": "ic2:items/tool/electric/diamond_drill"
-	}
+  "parent": "industrial_legacy:item/tool/default",
+  "textures": {
+    "layer0": "industrial_legacy:item/tool/electric/diamond_drill"
+  }
 }

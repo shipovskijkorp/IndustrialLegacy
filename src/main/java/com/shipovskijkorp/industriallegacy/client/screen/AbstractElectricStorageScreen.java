@@ -59,21 +59,20 @@ public abstract class AbstractElectricStorageScreen<T extends AbstractElectricSt
     protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
         super.drawForeground(context, mouseX, mouseY);
 
-        context.drawText(this.textRenderer, Text.translatable("il.EUStorage.gui.info.armor"),
+        context.drawText(this.textRenderer, Text.translatable("ic2.EUStorage.gui.info.armor"),
                 8, this.backgroundHeight - 126 + 3, TEXT_COLOR, false);
 
-        context.drawText(this.textRenderer, Text.translatable("il.EUStorage.gui.info.level"),
+        context.drawText(this.textRenderer, Text.translatable("ic2.EUStorage.gui.info.level"),
                 79, 25, TEXT_COLOR, false);
 
         int capacity = handler.getEuCap();
         int stored = handler.getEuStored();
         int clamped = Math.min(stored, capacity);
 
-        context.drawText(this.textRenderer, Text.literal(" " + EnergyDisplayUtil.toSiString(clamped, 4)), 110, 35, TEXT_COLOR, false);
-        context.drawText(this.textRenderer, Text.literal("/" + EnergyDisplayUtil.toSiString(capacity, 4)), 110, 45, TEXT_COLOR, false);
+        context.drawText(this.textRenderer, Text.literal(" " + clamped), 110, 35, TEXT_COLOR, false);
+        context.drawText(this.textRenderer, Text.literal("/" + capacity), 110, 45, TEXT_COLOR, false);
 
-        String outputText = EnergyDisplayUtil.toSiString((double) handler.getOutputEUt(), 4);
-        context.drawText(this.textRenderer, Text.translatable("il.EUStorage.gui.info.output", outputText),
+        context.drawText(this.textRenderer, Text.translatable("ic2.EUStorage.gui.info.output", handler.getOutputEUt()),
                 85, 60, TEXT_COLOR, false);
     }
 
@@ -88,7 +87,7 @@ public abstract class AbstractElectricStorageScreen<T extends AbstractElectricSt
 
         if (isMouseOverRedstoneButton(mouseX, mouseY)) {
             context.drawTooltip(this.textRenderer,
-                    Text.translatable("il.EUStorage.gui.mod.redstone" + handler.getRedstoneMode()),
+                    Text.translatable("ic2.EUStorage.gui.mod.redstone" + handler.getRedstoneMode()),
                     mouseX, mouseY);
         } else if (isMouseOver(ENERGY_HOVER_X, ENERGY_HOVER_Y, ENERGY_HOVER_W, ENERGY_HOVER_H, mouseX, mouseY)) {
             context.drawTooltip(this.textRenderer,

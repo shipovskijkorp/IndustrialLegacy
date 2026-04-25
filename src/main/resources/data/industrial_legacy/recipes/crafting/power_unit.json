@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "BAC",
+    "BIM",
+    "BAC"
+  ],
+  "key": {
+    "B": { "item": "industrial_legacy:re_battery" },
+    "A": { "item": "industrial_legacy:cable" },
+    "C": { "item": "industrial_legacy:iron_casing" },
+    "I": { "item": "industrial_legacy:electronic_circuit" },
+    "M": { "item": "industrial_legacy:electric_motor" }
+  },
+  "result": {
+    "item": "industrial_legacy:power_unit"
+  }
+}

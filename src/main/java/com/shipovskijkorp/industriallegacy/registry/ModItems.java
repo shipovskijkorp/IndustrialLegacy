@@ -15,6 +15,9 @@ import com.shipovskijkorp.industriallegacy.item.armor.QuantumLeggingsItem;
 import com.shipovskijkorp.industriallegacy.item.reactor.*;
 import com.shipovskijkorp.industriallegacy.item.tool.BronzeToolMaterial;
 import com.shipovskijkorp.industriallegacy.item.tool.ContainmentBoxItem;
+import com.shipovskijkorp.industriallegacy.item.tool.ElectricChainsawItem;
+import com.shipovskijkorp.industriallegacy.item.tool.ElectricDrillItem;
+import com.shipovskijkorp.industriallegacy.item.tool.IridiumDrillItem;
 import com.shipovskijkorp.industriallegacy.item.tool.MiningLaserItem;
 import com.shipovskijkorp.industriallegacy.item.tool.NanoSaberItem;
 import com.shipovskijkorp.industriallegacy.item.tool.ToolboxItem;
@@ -47,6 +50,15 @@ public final class ModItems {
     public static final Item TREETAP = register("treetap", new TreetapItem(new FabricItemSettings().maxDamage(64)));
     public static final Item FORGE_HAMMER = register("forge_hammer", new Item(new FabricItemSettings().maxCount(1).maxDamage(79)));
     public static final Item CUTTER = register("cutter", new Item(new FabricItemSettings().maxCount(1).maxDamage(60)));
+
+    // IC2 electric tools
+    public static final Item POWER_UNIT = register("power_unit", new Item(new Item.Settings()));
+    public static final Item DRILL = register("drill", new ElectricDrillItem(new Item.Settings(), 50L, 2, 30_000L, 100L, 1, 8.0f));
+    /** Alias for clarity: IC2 registry id is drill. */
+    public static final Item MINING_DRILL = DRILL;
+    public static final Item DIAMOND_DRILL = register("diamond_drill", new ElectricDrillItem(new Item.Settings(), 80L, 3, 30_000L, 100L, 1, 16.0f));
+    public static final Item IRIDIUM_DRILL = register("iridium_drill", new IridiumDrillItem(new Item.Settings()));
+    public static final Item CHAINSAW = register("chainsaw", new ElectricChainsawItem(new Item.Settings()));
 
     // Electric items
     public static final Item RE_BATTERY = register("re_battery", new ReBatteryItem(new FabricItemSettings().maxCount(16)));

@@ -142,6 +142,7 @@ public final class ModItemGroups {
                         add.accept(ModItems.FORGE_HAMMER);
                         add.accept(ModItems.CUTTER);
                         add.accept(ModItems.WRENCH);
+                        add.accept(ModItems.POWER_UNIT);
                         add.accept(ModItems.CONTAINMENT_BOX);
                         add.accept(ModItems.TOOL_BOX);
 
@@ -163,9 +164,17 @@ public final class ModItemGroups {
                         // Night Vision
                         add.accept(ModItems.NIGHTVISION_GOGGLES);
                         add.accept(ModItems.NANO_SABER);
+                        add.accept(ModItems.DRILL);
+                        add.accept(ModItems.DIAMOND_DRILL);
+                        add.accept(ModItems.IRIDIUM_DRILL);
+                        add.accept(ModItems.CHAINSAW);
                         add.accept(ModItems.MINING_LASER);
                         addCharged.accept(ModItems.NIGHTVISION_GOGGLES);
                         addCharged.accept(ModItems.NANO_SABER);
+                        addCharged.accept(ModItems.DRILL);
+                        addCharged.accept(ModItems.DIAMOND_DRILL);
+                        addCharged.accept(ModItems.IRIDIUM_DRILL);
+                        addCharged.accept(ModItems.CHAINSAW);
                         addCharged.accept(ModItems.MINING_LASER);
 
                         // Hazmat / utility armor
