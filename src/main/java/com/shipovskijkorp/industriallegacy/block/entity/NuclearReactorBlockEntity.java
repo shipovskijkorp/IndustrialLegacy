@@ -28,7 +28,6 @@ import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.collection.DefaultedList;
@@ -63,9 +62,7 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
 
     private final PropertyDelegate props = new PropertyDelegate() {
         @Override public int size() { return 5; }
-
-        @Override
-        public int get(int index) {
+        @Override public int get(int index) {
             return switch (index) {
                 case 0 -> heat;
                 case 1 -> maxHeat;
@@ -75,9 +72,7 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
                 default -> 0;
             };
         }
-
-        @Override
-        public void set(int index, int value) {
+        @Override public void set(int index, int value) {
             switch (index) {
                 case 0 -> heat = value;
                 case 1 -> maxHeat = value;
@@ -108,10 +103,10 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
             }
             be.sanitizeInventory();
 
-            be.output = 0.0f;
             be.maxHeat = 10000;
             be.heatEffectModifier = 1.0f;
             be.emittedHeat = 0;
+            be.output = 0.0f;
 
             be.processChambers(true);
             be.processChambers(false);
@@ -272,7 +267,7 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
                 } else if (state.getHardness(serverWorld, target) >= 0.0f && serverWorld.getBlockEntity(target) == null) {
                     if (shouldMeltToLava(state)) {
                         serverWorld.setBlockState(target, Blocks.LAVA.getDefaultState());
-                    } else {
+                    } else if (!isProtectedFromLavaMelt(state)) {
                         serverWorld.setBlockState(target, Blocks.FIRE.getDefaultState());
                     }
                 }
@@ -304,7 +299,8 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
             BlockPos target = getRandomNearbyPos(serverWorld, 2);
             if (target != null && serverWorld.getBlockEntity(target) == null) {
                 BlockState state = serverWorld.getBlockState(target);
-                if (state.isBurnable()) {
+                if (!isProtectedFromLavaMelt(state)
+                        && (state.isIn(BlockTags.LOGS) || state.isIn(BlockTags.LEAVES) || state.isIn(BlockTags.WOOL))) {
                     serverWorld.setBlockState(target, Blocks.FIRE.getDefaultState());
                 }
             }
@@ -355,56 +351,34 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
                 || state.isOf(Blocks.MOSSY_COBBLESTONE)
                 || state.isOf(Blocks.SAND)
                 || state.isOf(Blocks.RED_SAND)
-                || path.contains("sandstone")
-                || path.contains("granite")
-                || path.contains("diorite")
-                || path.contains("andesite")
-                || path.contains("stone")
-                || path.contains("cobblestone")
-                || path.contains("gravel")
-                || path.contains("deepslate")
-                || path.contains("tuff")
-                || path.contains("calcite")
-                || path.contains("basalt")
-                || path.contains("blackstone")
-                || path.contains("netherrack");
+                || path.equals("sandstone")
+                || path.endsWith("_sandstone")
+                || path.equals("granite")
+                || path.endsWith("_granite")
+                || path.equals("diorite")
+                || path.endsWith("_diorite")
+                || path.equals("andesite")
+                || path.endsWith("_andesite")
+                || path.equals("stone")
+                || path.endsWith("_stone")
+                || path.equals("cobblestone")
+                || path.endsWith("_cobblestone")
+                || path.equals("gravel")
+                || path.equals("deepslate")
+                || path.endsWith("_deepslate")
+                || path.equals("tuff")
+                || path.equals("calcite")
+                || path.equals("basalt")
+                || path.endsWith("_basalt")
+                || path.equals("blackstone")
+                || path.endsWith("_blackstone")
+                || path.equals("netherrack");
     }
 
     private boolean isProtectedFromLavaMelt(BlockState state) {
         String namespace = Registries.BLOCK.getId(state.getBlock()).getNamespace();
-        if ("industrial_legacy".equals(namespace)) {
-            return true;
-        }
-
-        if (state.isOf(Blocks.REDSTONE_WIRE)
-                || state.isOf(Blocks.REDSTONE_TORCH)
-                || state.isOf(Blocks.REDSTONE_WALL_TORCH)
-                || state.isOf(Blocks.REPEATER)
-                || state.isOf(Blocks.COMPARATOR)
-                || state.isOf(Blocks.REDSTONE_BLOCK)
-                || state.isOf(Blocks.REDSTONE_LAMP)
-                || state.isOf(Blocks.OBSERVER)
-                || state.isOf(Blocks.TARGET)
-                || state.isOf(Blocks.DAYLIGHT_DETECTOR)
-                || state.isOf(Blocks.SCULK_SENSOR)
-                || state.isOf(Blocks.CALIBRATED_SCULK_SENSOR)
-                || state.isOf(Blocks.TRIPWIRE)
-                || state.isOf(Blocks.TRIPWIRE_HOOK)
-                || state.isOf(Blocks.DISPENSER)
-                || state.isOf(Blocks.DROPPER)
-                || state.isOf(Blocks.PISTON)
-                || state.isOf(Blocks.STICKY_PISTON)
-                || state.isOf(Blocks.MOVING_PISTON)
-                || state.isOf(Blocks.LECTERN)
-                || state.isOf(Blocks.NOTE_BLOCK)
-                || state.isIn(BlockTags.BUTTONS)
-                || state.isIn(BlockTags.PRESSURE_PLATES)) {
-            return true;
-        }
-
-        return state.contains(Properties.POWERED)
-                || state.contains(Properties.LIT)
-                || state.emitsRedstonePower();
+        String path = Registries.BLOCK.getId(state.getBlock()).getPath();
+        return "industrial_legacy".equals(namespace) || path.contains("redstone");
     }
 
     private static int index(int x, int y) {
@@ -589,6 +563,73 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
     }
 
     @Override
+    public long getEuStored() {
+        resetEmitBudgetForCurrentTick();
+        return emitBudgetEu;
+    }
+
+    @Override
+    public long getEuCapacity() {
+        return Math.max(0L, (long) Math.ceil(getOfferedEnergyEuPerTick()));
+    }
+
+    @Override
+    public int getSinkTier() {
+        return 0;
+    }
+
+    @Override
+    public int getSourceTier() {
+        return 5;
+    }
+
+    @Override
+    public long insertEu(long amount, Direction from, boolean simulate) {
+        return 0L;
+    }
+
+    @Override
+    public long extractEu(long amount, Direction to, boolean simulate) {
+        if (amount <= 0L || !canExtract(to)) return 0L;
+
+        resetEmitBudgetForCurrentTick();
+        long extracted = Math.min(amount, emitBudgetEu);
+        if (!simulate) {
+            emitBudgetEu -= extracted;
+        }
+        return extracted;
+    }
+
+    @Override
+    public boolean canInsert(Direction from) {
+        return false;
+    }
+
+    @Override
+    public boolean canExtract(Direction to) {
+        return !isFluidCooled() && getOfferedEnergyEuPerTick() > 0.0f;
+    }
+
+    @Override
+    public boolean sendMultipleEnergyPackets() {
+        return true;
+    }
+
+    @Override
+    public int getMaxEnergyPacketCount() {
+        long offered = Math.max(0L, (long) Math.floor(getOfferedEnergyEuPerTick()));
+        long packet = EuUtil.powerFromTier(getSourceTier());
+        if (packet <= 0L) return 1;
+        long count = (offered + packet - 1L) / packet;
+        return (int) Math.max(1L, Math.min(Integer.MAX_VALUE, count));
+    }
+
+    @Override
+    public double getOfferedEnergy() {
+        return Math.max(0.0f, getOfferedEnergyEuPerTick());
+    }
+
+    @Override
     public void explode() {
         if (!(world instanceof ServerWorld serverWorld)) return;
 
@@ -717,73 +758,6 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
 
         ret += (resistance + 4.0f) * 0.3;
         return ret;
-    }
-
-    @Override
-    public long getEuStored() {
-        resetEmitBudgetForCurrentTick();
-        return emitBudgetEu;
-    }
-
-    @Override
-    public long getEuCapacity() {
-        return Math.max(0L, (long) Math.ceil(getOfferedEnergyEuPerTick()));
-    }
-
-    @Override
-    public int getSinkTier() {
-        return 0;
-    }
-
-    @Override
-    public int getSourceTier() {
-        return 5;
-    }
-
-    @Override
-    public long insertEu(long amount, Direction from, boolean simulate) {
-        return 0L;
-    }
-
-    @Override
-    public long extractEu(long amount, Direction to, boolean simulate) {
-        if (amount <= 0L || !canExtract(to)) return 0L;
-
-        resetEmitBudgetForCurrentTick();
-        long extracted = Math.min(amount, emitBudgetEu);
-        if (!simulate) {
-            emitBudgetEu -= extracted;
-        }
-        return extracted;
-    }
-
-    @Override
-    public boolean canInsert(Direction from) {
-        return false;
-    }
-
-    @Override
-    public boolean canExtract(Direction to) {
-        return !isFluidCooled() && getOfferedEnergyEuPerTick() > 0.0f;
-    }
-
-    @Override
-    public boolean sendMultipleEnergyPackets() {
-        return true;
-    }
-
-    @Override
-    public int getMaxEnergyPacketCount() {
-        long offered = Math.max(0L, (long) Math.floor(getOfferedEnergyEuPerTick()));
-        long packet = EuUtil.powerFromTier(getSourceTier());
-        if (packet <= 0L) return 1;
-        long count = (offered + packet - 1L) / packet;
-        return (int) Math.max(1L, Math.min(Integer.MAX_VALUE, count));
-    }
-
-    @Override
-    public double getOfferedEnergy() {
-        return Math.max(0.0f, getOfferedEnergyEuPerTick());
     }
 
     @Override

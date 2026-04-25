@@ -5,6 +5,7 @@ import com.shipovskijkorp.industriallegacy.block.CableBlock;
 import com.shipovskijkorp.industriallegacy.block.entity.CableBlockEntity;
 import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
 import com.shipovskijkorp.industriallegacy.item.CableKind;
+import com.shipovskijkorp.industriallegacy.registry.ModBlocks;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.Block;
@@ -137,10 +138,7 @@ public class CableBlockEntityRenderer implements BlockEntityRenderer<CableBlockE
 
         if (nb instanceof CableBlock) return true;
 
-        if (ns.isOf(com.shipovskijkorp.industriallegacy.registry.ModBlocks.NUCLEAR_REACTOR)
-                || ns.isOf(com.shipovskijkorp.industriallegacy.registry.ModBlocks.REACTOR_CHAMBER)) {
-            return true;
-        }
+        if (ns.isOf(ModBlocks.NUCLEAR_REACTOR) || ns.isOf(ModBlocks.REACTOR_CHAMBER)) return true;
 
         if (world.getBlockEntity(np) instanceof IEuEnergyStorage storage) {
             Direction face = dir.getOpposite();

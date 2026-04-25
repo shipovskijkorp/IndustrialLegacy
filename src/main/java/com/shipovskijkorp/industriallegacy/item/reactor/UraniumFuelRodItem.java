@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -76,7 +77,8 @@ public class UraniumFuelRodItem extends Item implements IReactorComponent {
 
     @Override
     public int getItemBarColor(ItemStack stack) {
-        return 0x75d63a;
+        float ratio = getItemBarStep(stack) / 13.0f;
+        return MathHelper.hsvToRgb(Math.max(0.0f, ratio / 3.0f), 1.0f, 1.0f);
     }
 
     @Override

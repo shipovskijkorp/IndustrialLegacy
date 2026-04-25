@@ -34,9 +34,11 @@ public class ReactorCondensatorItem extends AbstractDamageableReactorComponentIt
         if (heat < 0) return heat;
 
         int current = getCurrentHeat(stack, reactor, x, y);
-        int accepted = Math.min(heat, getMaxHeat(stack, reactor, x, y) - current);
-        heat -= accepted;
-        setCustomDamage(stack, current + accepted);
-        return heat;
+        int max = getMaxHeat(stack, reactor, x, y);
+        int accepted = Math.min(heat, max - current);
+        if (accepted > 0) {
+            setCustomDamage(stack, current + accepted);
+        }
+        return heat - accepted;
     }
 }

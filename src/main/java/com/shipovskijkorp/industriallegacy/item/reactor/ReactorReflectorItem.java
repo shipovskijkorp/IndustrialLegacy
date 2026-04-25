@@ -25,6 +25,11 @@ public class ReactorReflectorItem extends AbstractDamageableReactorComponentItem
     }
 
     @Override
+    public boolean canStoreHeat(ItemStack stack, IReactor reactor, int x, int y) {
+        return false;
+    }
+
+    @Override
     public float influenceExplosion(ItemStack stack, IReactor reactor) {
         return -1.0f;
     }
