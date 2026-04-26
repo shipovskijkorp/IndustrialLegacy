@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "lit=false": { "model": "industrial_legacy:block/generator/electric/rt_generator" },
+    "lit=true":  { "model": "industrial_legacy:block/generator/electric/rt_generator_active" }
+  }
+}

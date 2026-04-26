@@ -109,6 +109,8 @@ public class IndustrialLegacyClient implements ClientModInitializer {
     private static void registerScreens() {
         HandledScreens.register(ModScreenHandlers.GENERATOR, GeneratorScreen::new);
         HandledScreens.register(ModScreenHandlers.GEO_GENERATOR, GeoGeneratorScreen::new);
+        HandledScreens.register(ModScreenHandlers.SOLAR_PANEL, SolarPanelScreen::new);
+        HandledScreens.register(ModScreenHandlers.RT_GENERATOR, RTGeneratorScreen::new);
         HandledScreens.register(ModScreenHandlers.ELECTRIC_FURNACE, ElectricFurnaceScreen::new);
         HandledScreens.register(ModScreenHandlers.BATBOX, BatBoxScreen::new);
         HandledScreens.register(ModScreenHandlers.CESU, CesuScreen::new);

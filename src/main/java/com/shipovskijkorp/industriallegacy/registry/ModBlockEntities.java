@@ -28,6 +28,18 @@ public final class ModBlockEntities {
             FabricBlockEntityTypeBuilder.create(GeoGeneratorBlockEntity::new, ModBlocks.GEO_GENERATOR).build()
     );
 
+    public static final BlockEntityType<SolarPanelBlockEntity> SOLAR_PANEL = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE,
+            id("solar_panel"),
+            FabricBlockEntityTypeBuilder.create(SolarPanelBlockEntity::new, ModBlocks.SOLAR_PANEL).build()
+    );
+
+    public static final BlockEntityType<RTGeneratorBlockEntity> RT_GENERATOR = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE,
+            id("rt_generator"),
+            FabricBlockEntityTypeBuilder.create(RTGeneratorBlockEntity::new, ModBlocks.RT_GENERATOR).build()
+    );
+
     public static final BlockEntityType<LvTransformerBlockEntity> LV_TRANSFORMER =
             Registry.register(Registries.BLOCK_ENTITY_TYPE,
                     id("lv_transformer"),

@@ -14,6 +14,8 @@ public final class ModScreenHandlers {
     public static final Identifier GENERATOR_ID = new Identifier(IndustrialLegacy.MOD_ID, "generator");
     public static final Identifier BATBOX_ID = new Identifier(IndustrialLegacy.MOD_ID, "batbox");
     public static final Identifier GEO_GENERATOR_ID = new Identifier(IndustrialLegacy.MOD_ID, "geo_generator");
+    public static final Identifier SOLAR_PANEL_ID = new Identifier(IndustrialLegacy.MOD_ID, "solar_panel");
+    public static final Identifier RT_GENERATOR_ID = new Identifier(IndustrialLegacy.MOD_ID, "rt_generator");
     public static final Identifier ELECTRIC_FURNACE_ID = new Identifier(IndustrialLegacy.MOD_ID, "electric_furnace");
     public static final Identifier CESU_ID = new Identifier(IndustrialLegacy.MOD_ID, "cesu");
     public static final Identifier MFE_ID = new Identifier(IndustrialLegacy.MOD_ID, "mfe");
@@ -90,6 +92,8 @@ public final class ModScreenHandlers {
 
     public static ScreenHandlerType<GeneratorScreenHandler> GENERATOR;
     public static ScreenHandlerType<BatBoxScreenHandler> BATBOX;
+    public static ScreenHandlerType<SolarPanelScreenHandler> SOLAR_PANEL;
+    public static ScreenHandlerType<RTGeneratorScreenHandler> RT_GENERATOR;
     public static ScreenHandlerType<CesuScreenHandler> CESU;
     public static ScreenHandlerType<MfeScreenHandler> MFE;
     public static ScreenHandlerType<MfsuScreenHandler> MFSU;
@@ -105,6 +109,8 @@ public final class ModScreenHandlers {
 
     public static void register() {
         GENERATOR = ScreenHandlerRegistry.registerExtended(GENERATOR_ID, GeneratorScreenHandler::new);
+        SOLAR_PANEL = ScreenHandlerRegistry.registerExtended(SOLAR_PANEL_ID, SolarPanelScreenHandler::new);
+        RT_GENERATOR = ScreenHandlerRegistry.registerExtended(RT_GENERATOR_ID, RTGeneratorScreenHandler::new);
         BATBOX = ScreenHandlerRegistry.registerExtended(BATBOX_ID, BatBoxScreenHandler::new);
         CESU = ScreenHandlerRegistry.registerExtended(CESU_ID, CesuScreenHandler::new);
         MFE = ScreenHandlerRegistry.registerExtended(MFE_ID, MfeScreenHandler::new);

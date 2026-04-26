@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CgC",
+    "gCg",
+    "cGc"
+  ],
+  "key": {
+    "G": { "item": "industrial_legacy:generator" },
+    "C": { "item": "industrial_legacy:coal_dust" },
+    "g": { "item": "minecraft:glass" },
+    "c": { "item": "industrial_legacy:electronic_circuit" }
+  },
+  "result": {
+    "item": "industrial_legacy:solar_panel"
+  }
+}

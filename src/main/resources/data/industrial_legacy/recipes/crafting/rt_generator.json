@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "III",
+    "ICI",
+    "IGI"
+  ],
+  "key": {
+    "I": { "item": "industrial_legacy:iron_casing" },
+    "C": { "item": "industrial_legacy:reactor_chamber" },
+    "G": { "item": "industrial_legacy:generator" }
+  },
+  "result": {
+    "item": "industrial_legacy:rt_generator"
+  }
+}
