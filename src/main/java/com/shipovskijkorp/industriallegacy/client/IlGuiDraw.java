@@ -197,6 +197,22 @@ public final class IlGuiDraw {
         ctx.drawTexture(COMMON, x, y, 165, 52, w, 11, TEX_W, TEX_H);
     }
 
+    /**
+     * Recycler progress (IC2 progressrecycler). Uses:
+     * background common.png (128,64) 32x16 offset(-5,0),
+     * fill common.png (133,80) 18x15.
+     */
+    public static void drawProgressRecycler(DrawContext ctx, int x, int y, float ratio) {
+        ratio = clamp01(ratio);
+
+        drawTex(ctx, x - 5, y, 128, 64, 32, 16);
+
+        int w = (int) Math.floor(18.0f * ratio);
+        if (w <= 0) return;
+
+        drawTex(ctx, x, y, 133, 80, w, 15);
+    }
+
     public static void drawProgressTriangle(DrawContext ctx, int x, int y, float ratio) {
         ratio = clamp01(ratio);
 

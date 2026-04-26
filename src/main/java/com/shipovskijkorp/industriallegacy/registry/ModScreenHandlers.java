@@ -60,6 +60,12 @@ public final class ModScreenHandlers {
             new ExtendedScreenHandlerType<>(CompressorScreenHandler::new)
     );
 
+    public static final ScreenHandlerType<RecyclerScreenHandler> RECYCLER = Registry.register(
+            Registries.SCREEN_HANDLER,
+            new Identifier(IndustrialLegacy.MOD_ID, "recycler"),
+            new ExtendedScreenHandlerType<>(RecyclerScreenHandler::new)
+    );
+
     public static final ScreenHandlerType<MetalFormerScreenHandler> METAL_FORMER = Registry.register(
             Registries.SCREEN_HANDLER,
             new Identifier(IndustrialLegacy.MOD_ID, "metal_former"),

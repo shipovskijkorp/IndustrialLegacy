@@ -134,6 +134,12 @@ public final class ModBlockEntities {
             BlockEntityType.Builder.create(CompressorBlockEntity::new, ModBlocks.COMPRESSOR).build(null)
     );
 
+    public static final BlockEntityType<RecyclerBlockEntity> RECYCLER = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE,
+            new Identifier(IndustrialLegacy.MOD_ID, "recycler"),
+            BlockEntityType.Builder.create(RecyclerBlockEntity::new, ModBlocks.RECYCLER).build(null)
+    );
+
     public static final BlockEntityType<ElectricFurnaceBlockEntity> ELECTRIC_FURNACE = Registry.register(
             Registries.BLOCK_ENTITY_TYPE,
             new Identifier(IndustrialLegacy.MOD_ID, "electric_furnace"),

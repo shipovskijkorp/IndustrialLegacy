@@ -393,5 +393,10 @@
   "block.industrial_legacy.rt_generator": "Радиоизотопный термоэлектрический генератор",
   "container.industrial_legacy.rt_generator": "Радиоизотопный термоэлектрический генератор",
   "gui.industrial_legacy.solar_panel.sunlight": "Солнечный свет",
-  "gui.industrial_legacy.solar_panel.no_sunlight": "Нет солнечного света"
+  "gui.industrial_legacy.solar_panel.no_sunlight": "Нет солнечного света",
+  "block.industrial_legacy.recycler": "Утилизатор",
+  "container.industrial_legacy.recycler": "Утилизатор",
+  "item.industrial_legacy.scrap": "Утильсырьё",
+  "item.industrial_legacy.scrap_box": "Коробка с утильсырьём",
+  "item.industrial_legacy.fertilizer": "Удобрение"
 }

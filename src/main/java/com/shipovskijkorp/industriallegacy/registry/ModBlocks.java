@@ -160,6 +160,17 @@ public final class ModBlocks {
     );
 
 
+    public static final Block RECYCLER = register(
+            "recycler",
+            new RecyclerBlock(FabricBlockSettings.create()
+                    .strength(2.0f)
+                    .sounds(BlockSoundGroup.METAL)
+                    .requiresTool()
+                    .luminance(state -> state.get(RecyclerBlock.LIT) ? 13 : 0)),
+            b -> new EnergyMachineBlockItem(b, new Item.Settings(), 1)
+    );
+
+
     public static final Block ELECTRIC_FURNACE = register(
             "electric_furnace",
             new ElectricFurnaceBlock(FabricBlockSettings.create()

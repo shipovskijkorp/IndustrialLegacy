@@ -393,5 +393,10 @@
   "block.industrial_legacy.rt_generator": "Radioisotope Thermoelectric Generator",
   "container.industrial_legacy.rt_generator": "Radioisotope Thermoelectric Generator",
   "gui.industrial_legacy.solar_panel.sunlight": "Sunlight",
-  "gui.industrial_legacy.solar_panel.no_sunlight": "No sunlight"
+  "gui.industrial_legacy.solar_panel.no_sunlight": "No sunlight",
+  "block.industrial_legacy.recycler": "Recycler",
+  "container.industrial_legacy.recycler": "Recycler",
+  "item.industrial_legacy.scrap": "Scrap",
+  "item.industrial_legacy.scrap_box": "Scrap Box",
+  "item.industrial_legacy.fertilizer": "Fertilizer"
 }

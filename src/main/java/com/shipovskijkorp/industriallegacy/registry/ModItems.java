@@ -165,6 +165,9 @@ public final class ModItems {
     public static final Item CARBON_PLATE = register("carbon_plate", new Item(new Item.Settings()));
     public static final Item TIN_CAN = register("tin_can", new Item(new Item.Settings()));
     public static final Item FILLED_TIN_CAN = register("filled_tin_can", new FilledTinCanItem(new Item.Settings().maxCount(64)));
+    public static final Item SCRAP = register("scrap", new Item(new Item.Settings()));
+    public static final Item SCRAP_BOX = register("scrap_box", new ScrapBoxItem(new Item.Settings()));
+    public static final Item FERTILIZER = register("fertilizer", new Item(new Item.Settings()));
     public static final Item IRON_ROD = register("iron_rod", new Item(new Item.Settings()));
     public static final Item BRONZE_ROD = register("bronze_rod", new Item(new Item.Settings()));
     public static final Item STEEL_ROD = register("steel_rod", new Item(new Item.Settings()));

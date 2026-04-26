@@ -95,6 +95,7 @@ public final class ModItemGroups {
                         add.accept(ModBlocks.ELECTRIC_FURNACE);
                         add.accept(ModBlocks.MACERATOR);
                         add.accept(ModBlocks.COMPRESSOR);
+                        add.accept(ModBlocks.RECYCLER);
                         add.accept(ModBlocks.METAL_FORMER);
                         add.accept(ModBlocks.SOLID_CANNER);
                         add.accept(ModBlocks.CANNER);
@@ -244,6 +245,9 @@ add.accept(ModItems.LZH_CONDENSATOR);
                         add.accept(ModItems.PLANT_BALL);
                         add.accept(ModItems.TIN_CAN);
                         add.accept(ModItems.FILLED_TIN_CAN);
+                        add.accept(ModItems.SCRAP);
+                        add.accept(ModItems.SCRAP_BOX);
+                        add.accept(ModItems.FERTILIZER);
                         add.accept(ModItems.COIL);
                         add.accept(ModItems.ELECTRIC_MOTOR);
 
