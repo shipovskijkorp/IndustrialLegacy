@@ -290,6 +290,31 @@ public final class ModBlocks {
             new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).requiresTool())
     );
 
+    public static final Block LEAD_BLOCK = register(
+            "lead_block",
+            new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).requiresTool())
+    );
+
+    public static final Block BRONZE_BLOCK = register(
+            "bronze_block",
+            new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).requiresTool())
+    );
+
+    public static final Block TIN_BLOCK = register(
+            "tin_block",
+            new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).requiresTool())
+    );
+
+    public static final Block STEEL_BLOCK = register(
+            "steel_block",
+            new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).requiresTool())
+    );
+
+    public static final Block SILVER_BLOCK = register(
+            "silver_block",
+            new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).requiresTool())
+    );
+
     /** Reinforced glass (IC2-like): explosion resistant glass. */
     public static final Block REINFORCED_GLASS =
             register("reinforced_glass", new ReinforcedGlassBlock());

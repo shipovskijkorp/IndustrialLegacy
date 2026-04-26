@@ -9,6 +9,11 @@
     "industrial_legacy:deepslate_silver_ore",
     "industrial_legacy:metal_former",
     "industrial_legacy:iron_fence",
-    "industrial_legacy:uranium_block"
+    "industrial_legacy:uranium_block",
+    "industrial_legacy:lead_block",
+    "industrial_legacy:bronze_block",
+    "industrial_legacy:tin_block",
+    "industrial_legacy:steel_block",
+    "industrial_legacy:silver_block"
   ]
 }

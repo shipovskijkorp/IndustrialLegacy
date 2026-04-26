@@ -398,5 +398,10 @@
   "container.industrial_legacy.recycler": "Утилизатор",
   "item.industrial_legacy.scrap": "Утильсырьё",
   "item.industrial_legacy.scrap_box": "Коробка с утильсырьём",
-  "item.industrial_legacy.fertilizer": "Удобрение"
+  "item.industrial_legacy.fertilizer": "Удобрение",
+  "block.industrial_legacy.lead_block": "Свинцовый блок",
+  "block.industrial_legacy.bronze_block": "Бронзовый блок",
+  "block.industrial_legacy.tin_block": "Оловянный блок",
+  "block.industrial_legacy.steel_block": "Стальной блок",
+  "block.industrial_legacy.silver_block": "Серебряный блок"
 }

@@ -398,5 +398,10 @@
   "container.industrial_legacy.recycler": "Recycler",
   "item.industrial_legacy.scrap": "Scrap",
   "item.industrial_legacy.scrap_box": "Scrap Box",
-  "item.industrial_legacy.fertilizer": "Fertilizer"
+  "item.industrial_legacy.fertilizer": "Fertilizer",
+  "block.industrial_legacy.lead_block": "Lead Block",
+  "block.industrial_legacy.bronze_block": "Bronze Block",
+  "block.industrial_legacy.tin_block": "Tin Block",
+  "block.industrial_legacy.steel_block": "Steel Block",
+  "block.industrial_legacy.silver_block": "Silver Block"
 }

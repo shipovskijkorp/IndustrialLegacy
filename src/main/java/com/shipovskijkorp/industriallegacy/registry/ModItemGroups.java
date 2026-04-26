@@ -101,6 +101,11 @@ public final class ModItemGroups {
                         add.accept(ModBlocks.CANNER);
                         add.accept(ModBlocks.THERMAL_CENTRIFUGE);
                         add.accept(ModBlocks.MACHINE_CASING);
+                        add.accept(ModBlocks.LEAD_BLOCK);
+                        add.accept(ModBlocks.BRONZE_BLOCK);
+                        add.accept(ModBlocks.TIN_BLOCK);
+                        add.accept(ModBlocks.STEEL_BLOCK);
+                        add.accept(ModBlocks.SILVER_BLOCK);
                         add.accept(ModBlocks.IRON_FENCE);
 
                         // Reinforced building block
