@@ -55,7 +55,7 @@ public class WrenchItem extends Item {
         return true;
     }
 
-    private static boolean isWrenchMineable(BlockState state) {
+    public static boolean isWrenchMineable(BlockState state) {
         Block block = state.getBlock();
         return block instanceof GeneratorBlock
                 || block instanceof GeoGeneratorBlock

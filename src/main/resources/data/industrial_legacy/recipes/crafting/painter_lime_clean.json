@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "industrial_legacy:painter_lime" }
+  ],
+  "result": {
+    "item": "industrial_legacy:painter"
+  }
+}

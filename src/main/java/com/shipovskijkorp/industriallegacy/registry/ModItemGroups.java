@@ -151,6 +151,26 @@ public final class ModItemGroups {
                         add.accept(ModItems.CUTTER);
                         add.accept(ModItems.WRENCH);
                         add.accept(ModItems.POWER_UNIT);
+                        add.accept(ModItems.ELECTRIC_TREETAP);
+                        add.accept(ModItems.ELECTRIC_HOE);
+                        add.accept(ModItems.ELECTRIC_WRENCH);
+                        add.accept(ModItems.PAINTER);
+                        add.accept(ModItems.PAINTER_WHITE);
+                        add.accept(ModItems.PAINTER_ORANGE);
+                        add.accept(ModItems.PAINTER_MAGENTA);
+                        add.accept(ModItems.PAINTER_LIGHT_BLUE);
+                        add.accept(ModItems.PAINTER_YELLOW);
+                        add.accept(ModItems.PAINTER_LIME);
+                        add.accept(ModItems.PAINTER_PINK);
+                        add.accept(ModItems.PAINTER_GRAY);
+                        add.accept(ModItems.PAINTER_LIGHT_GRAY);
+                        add.accept(ModItems.PAINTER_CYAN);
+                        add.accept(ModItems.PAINTER_PURPLE);
+                        add.accept(ModItems.PAINTER_BLUE);
+                        add.accept(ModItems.PAINTER_BROWN);
+                        add.accept(ModItems.PAINTER_GREEN);
+                        add.accept(ModItems.PAINTER_RED);
+                        add.accept(ModItems.PAINTER_BLACK);
                         add.accept(ModItems.CONTAINMENT_BOX);
                         add.accept(ModItems.TOOL_BOX);
 
@@ -184,6 +204,9 @@ public final class ModItemGroups {
                         addCharged.accept(ModItems.DIAMOND_DRILL);
                         addCharged.accept(ModItems.IRIDIUM_DRILL);
                         addCharged.accept(ModItems.CHAINSAW);
+                        addCharged.accept(ModItems.ELECTRIC_TREETAP);
+                        addCharged.accept(ModItems.ELECTRIC_HOE);
+                        addCharged.accept(ModItems.ELECTRIC_WRENCH);
 
                         // Hazmat / utility armor
                         add.accept(ModItems.HAZMAT_HELMET);

@@ -17,6 +17,10 @@ import com.shipovskijkorp.industriallegacy.item.tool.BronzeToolMaterial;
 import com.shipovskijkorp.industriallegacy.item.tool.ContainmentBoxItem;
 import com.shipovskijkorp.industriallegacy.item.tool.ElectricChainsawItem;
 import com.shipovskijkorp.industriallegacy.item.tool.ElectricDrillItem;
+import com.shipovskijkorp.industriallegacy.item.tool.PainterItem;
+import com.shipovskijkorp.industriallegacy.item.tool.ElectricWrenchItem;
+import com.shipovskijkorp.industriallegacy.item.tool.ElectricTreetapItem;
+import com.shipovskijkorp.industriallegacy.item.tool.ElectricHoeItem;
 import com.shipovskijkorp.industriallegacy.item.tool.IridiumDrillItem;
 import com.shipovskijkorp.industriallegacy.item.tool.MiningLaserItem;
 import com.shipovskijkorp.industriallegacy.item.tool.NanoSaberItem;
@@ -59,6 +63,27 @@ public final class ModItems {
     public static final Item DIAMOND_DRILL = register("diamond_drill", new ElectricDrillItem(new Item.Settings(), 80L, 3, 30_000L, 100L, 1, 16.0f));
     public static final Item IRIDIUM_DRILL = register("iridium_drill", new IridiumDrillItem(new Item.Settings()));
     public static final Item CHAINSAW = register("chainsaw", new ElectricChainsawItem(new Item.Settings()));
+    public static final Item ELECTRIC_TREETAP = register("electric_treetap", new ElectricTreetapItem(new Item.Settings()));
+    public static final Item ELECTRIC_HOE = register("electric_hoe", new ElectricHoeItem(new Item.Settings()));
+    public static final Item ELECTRIC_WRENCH = register("electric_wrench", new ElectricWrenchItem(new Item.Settings()));
+
+    public static final Item PAINTER = register("painter", new PainterItem(new Item.Settings(), null));
+    public static final Item PAINTER_WHITE = register("painter_white", new PainterItem(new Item.Settings(), net.minecraft.util.DyeColor.WHITE));
+    public static final Item PAINTER_ORANGE = register("painter_orange", new PainterItem(new Item.Settings(), net.minecraft.util.DyeColor.ORANGE));
+    public static final Item PAINTER_MAGENTA = register("painter_magenta", new PainterItem(new Item.Settings(), net.minecraft.util.DyeColor.MAGENTA));
+    public static final Item PAINTER_LIGHT_BLUE = register("painter_light_blue", new PainterItem(new Item.Settings(), net.minecraft.util.DyeColor.LIGHT_BLUE));
+    public static final Item PAINTER_YELLOW = register("painter_yellow", new PainterItem(new Item.Settings(), net.minecraft.util.DyeColor.YELLOW));
+    public static final Item PAINTER_LIME = register("painter_lime", new PainterItem(new Item.Settings(), net.minecraft.util.DyeColor.LIME));
+    public static final Item PAINTER_PINK = register("painter_pink", new PainterItem(new Item.Settings(), net.minecraft.util.DyeColor.PINK));
+    public static final Item PAINTER_GRAY = register("painter_gray", new PainterItem(new Item.Settings(), net.minecraft.util.DyeColor.GRAY));
+    public static final Item PAINTER_LIGHT_GRAY = register("painter_light_gray", new PainterItem(new Item.Settings(), net.minecraft.util.DyeColor.LIGHT_GRAY));
+    public static final Item PAINTER_CYAN = register("painter_cyan", new PainterItem(new Item.Settings(), net.minecraft.util.DyeColor.CYAN));
+    public static final Item PAINTER_PURPLE = register("painter_purple", new PainterItem(new Item.Settings(), net.minecraft.util.DyeColor.PURPLE));
+    public static final Item PAINTER_BLUE = register("painter_blue", new PainterItem(new Item.Settings(), net.minecraft.util.DyeColor.BLUE));
+    public static final Item PAINTER_BROWN = register("painter_brown", new PainterItem(new Item.Settings(), net.minecraft.util.DyeColor.BROWN));
+    public static final Item PAINTER_GREEN = register("painter_green", new PainterItem(new Item.Settings(), net.minecraft.util.DyeColor.GREEN));
+    public static final Item PAINTER_RED = register("painter_red", new PainterItem(new Item.Settings(), net.minecraft.util.DyeColor.RED));
+    public static final Item PAINTER_BLACK = register("painter_black", new PainterItem(new Item.Settings(), net.minecraft.util.DyeColor.BLACK));
 
     // Electric items
     public static final Item RE_BATTERY = register("re_battery", new ReBatteryItem(new FabricItemSettings().maxCount(16)));

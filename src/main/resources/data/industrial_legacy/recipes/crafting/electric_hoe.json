@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "II ",
+    " I ",
+    " B "
+  ],
+  "key": {
+    "I": { "item": "industrial_legacy:iron_plate" },
+    "B": { "item": "industrial_legacy:power_unit" }
+  },
+  "result": {
+    "item": "industrial_legacy:electric_hoe"
+  }
+}
