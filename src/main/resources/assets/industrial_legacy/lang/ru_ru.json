@@ -403,5 +403,21 @@
   "block.industrial_legacy.bronze_block": "Бронзовый блок",
   "block.industrial_legacy.tin_block": "Оловянный блок",
   "block.industrial_legacy.steel_block": "Стальной блок",
-  "block.industrial_legacy.silver_block": "Серебряный блок"
+  "block.industrial_legacy.silver_block": "Серебряный блок",
+  "item.industrial_legacy.power_unit": "Энергоузел",
+  "item.industrial_legacy.drill": "Шахтёрский бур",
+  "item.industrial_legacy.diamond_drill": "Алмазный бур",
+  "item.industrial_legacy.iridium_drill": "Иридиевый бур",
+  "item.industrial_legacy.chainsaw": "Цепная пила",
+  "industrial_legacy.tooltip.power_tier": "Энергоуровень: %s",
+  "message.industrial_legacy.iridium_drill.normal": "Обычный",
+  "message.industrial_legacy.iridium_drill.silk_touch": "Шёлковое касание",
+  "message.industrial_legacy.chainsaw.normal": "Обычный",
+  "message.industrial_legacy.chainsaw.no_shear": "Без стрижки",
+  "ic2.tooltip.mode": "Режим: %s",
+  "ic2.tooltip.mode.normal": "Обычный",
+  "ic2.tooltip.mode.silkTouch": "Шёлковое касание",
+  "ic2.tooltip.mode.noShear": "Без стрижки",
+  "ic2.item.tooltip.PowerTier": "Энергоуровень: %s",
+  "ic2.generic.text.EU": "EU"
 }
