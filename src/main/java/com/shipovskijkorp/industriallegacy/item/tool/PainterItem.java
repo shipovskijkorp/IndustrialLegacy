@@ -1,11 +1,11 @@
 package com.shipovskijkorp.industriallegacy.item.tool;
 
 import com.shipovskijkorp.industriallegacy.registry.ModItems;
+import net.minecraft.block.BedBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.PaneBlock;
-import net.minecraft.block.StainedGlassBlock;
+import net.minecraft.block.enums.BedPart;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -13,11 +13,15 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.Registries;
+import net.minecraft.state.property.Property;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,6 +30,11 @@ import java.util.List;
 /** IC2-style painter/paint roller. The uncolored painter is colorless; colored painters have 32 uses. */
 public final class PainterItem extends Item implements IModeSwitchableItem {
     private static final String NBT_AUTO_REFILL = "autoRefill";
+    private static final String[] COLOR_PREFIXES = new String[] {
+            "white", "orange", "magenta", "light_blue", "yellow", "lime", "pink", "gray",
+            "light_gray", "cyan", "purple", "blue", "brown", "green", "red", "black"
+    };
+
     @Nullable
     private final net.minecraft.util.DyeColor color;
 
@@ -46,12 +55,21 @@ public final class PainterItem extends Item implements IModeSwitchableItem {
         World world = ctx.getWorld();
         BlockPos pos = ctx.getBlockPos();
         BlockState state = world.getBlockState(pos);
-        BlockState painted = colorBlock(state, color);
-        if (painted == null || painted == state) return ActionResult.PASS;
+        Block targetBlock = getColoredBlock(state.getBlock(), color);
+        if (targetBlock == null || targetBlock == state.getBlock()) return ActionResult.PASS;
 
         if (!world.isClient) {
-            world.setBlockState(pos, painted, Block.NOTIFY_ALL);
-            damagePainter(ctx.getPlayer(), ctx.getHand(), ctx.getStack());
+            boolean changed;
+            if (state.getBlock() instanceof BedBlock) {
+                changed = paintBed(world, pos, state, targetBlock);
+            } else {
+                BlockState painted = copySharedProperties(state, targetBlock.getDefaultState());
+                changed = painted != state && world.setBlockState(pos, painted, Block.NOTIFY_ALL);
+            }
+
+            if (changed) {
+                damagePainter(ctx.getPlayer(), ctx.getHand(), ctx.getStack());
+            }
         }
         return ActionResult.success(world.isClient);
     }
@@ -73,29 +91,98 @@ public final class PainterItem extends Item implements IModeSwitchableItem {
         return TypedActionResult.pass(user.getStackInHand(hand));
     }
 
+    /**
+     * BuildCraft-style suffix recoloring: white_wool -> red_wool, blue_bed -> lime_bed, etc.
+     * A suffix is accepted only if the registry contains the full 16-color family, which prevents
+     * false positives like brown_mushroom -> red_mushroom.
+     */
     @Nullable
-    private static BlockState colorBlock(BlockState state, net.minecraft.util.DyeColor newColor) {
+    private static Block getColoredBlock(Block block, net.minecraft.util.DyeColor color) {
+        Identifier id = Registries.BLOCK.getId(block);
+        String namespace = id.getNamespace();
+        String path = id.getPath();
+        String targetPrefix = color.asString();
 
-        Block block = state.getBlock();
-        Block target = null;
-
-        if (block == Blocks.GLASS || block instanceof StainedGlassBlock) {
-            target = stainedGlass(newColor);
-        } else if (block == Blocks.GLASS_PANE || block instanceof PaneBlock && isStainedGlassPane(block)) {
-            target = stainedGlassPane(newColor);
-        } else if (block == Blocks.TERRACOTTA || isColoredTerracotta(block)) {
-            target = terracotta(newColor);
-        } else if (isWool(block)) {
-            target = wool(newColor);
-        } else if (isCarpet(block)) {
-            target = carpet(newColor);
-        } else if (isConcrete(block)) {
-            target = concrete(newColor);
-        } else if (isConcretePowder(block)) {
-            target = concretePowder(newColor);
+        String specialSuffix = uncoloredSuffix(path);
+        if (specialSuffix != null) {
+            return findBlock(namespace, targetPrefix + "_" + specialSuffix);
         }
 
-        return target == null || target == block ? null : target.getDefaultState();
+        String suffix = stripColorPrefix(path);
+        if (suffix == null) return null;
+        if (!hasFullColorFamily(namespace, suffix)) return null;
+
+        return findBlock(namespace, targetPrefix + "_" + suffix);
+    }
+
+    @Nullable
+    private static String uncoloredSuffix(String path) {
+        return switch (path) {
+            case "glass" -> "stained_glass";
+            case "glass_pane" -> "stained_glass_pane";
+            case "terracotta" -> "terracotta";
+            case "shulker_box" -> "shulker_box";
+            case "candle" -> "candle";
+            default -> null;
+        };
+    }
+
+    @Nullable
+    private static String stripColorPrefix(String path) {
+        for (String prefix : COLOR_PREFIXES) {
+            String needle = prefix + "_";
+            if (path.startsWith(needle) && path.length() > needle.length()) {
+                return path.substring(needle.length());
+            }
+        }
+        return null;
+    }
+
+    private static boolean hasFullColorFamily(String namespace, String suffix) {
+        for (String prefix : COLOR_PREFIXES) {
+            if (findBlock(namespace, prefix + "_" + suffix) == null) return false;
+        }
+        return true;
+    }
+
+    @Nullable
+    private static Block findBlock(String namespace, String path) {
+        Identifier id = new Identifier(namespace, path);
+        Block block = Registries.BLOCK.get(id);
+        return Registries.BLOCK.getId(block).equals(id) ? block : null;
+    }
+
+    private static boolean paintBed(World world, BlockPos clickedPos, BlockState clickedState, Block targetBlock) {
+        Direction facing = clickedState.get(BedBlock.FACING);
+        BedPart clickedPart = clickedState.get(BedBlock.PART);
+        BlockPos footPos = clickedPart == BedPart.FOOT ? clickedPos : clickedPos.offset(facing.getOpposite());
+        BlockPos headPos = clickedPart == BedPart.FOOT ? clickedPos.offset(facing) : clickedPos;
+
+        BlockState footState = world.getBlockState(footPos);
+        BlockState headState = world.getBlockState(headPos);
+        if (!(footState.getBlock() instanceof BedBlock) || !(headState.getBlock() instanceof BedBlock)) return false;
+        if (footState.get(BedBlock.PART) != BedPart.FOOT || headState.get(BedBlock.PART) != BedPart.HEAD) return false;
+        if (footState.get(BedBlock.FACING) != facing || headState.get(BedBlock.FACING) != facing) return false;
+
+        BlockState newFoot = copySharedProperties(footState, targetBlock.getDefaultState()).with(BedBlock.PART, BedPart.FOOT);
+        BlockState newHead = copySharedProperties(headState, targetBlock.getDefaultState()).with(BedBlock.PART, BedPart.HEAD);
+        world.setBlockState(footPos, newFoot, Block.NOTIFY_LISTENERS | Block.FORCE_STATE);
+        world.setBlockState(headPos, newHead, Block.NOTIFY_LISTENERS | Block.FORCE_STATE);
+        return true;
+    }
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    private static BlockState copySharedProperties(BlockState from, BlockState to) {
+        BlockState result = to;
+        for (Property property : from.getProperties()) {
+            if (result.contains(property)) {
+                Comparable value = from.get(property);
+                if (property.getValues().contains(value)) {
+                    result = result.with(property, value);
+                }
+            }
+        }
+        return result;
     }
 
     private void damagePainter(@Nullable PlayerEntity player, Hand hand, ItemStack stack) {
@@ -172,19 +259,4 @@ public final class PainterItem extends Item implements IModeSwitchableItem {
             case BLACK -> net.minecraft.item.Items.BLACK_DYE;
         };
     }
-
-    private static boolean isWool(Block b) { return b == Blocks.WHITE_WOOL || b == Blocks.ORANGE_WOOL || b == Blocks.MAGENTA_WOOL || b == Blocks.LIGHT_BLUE_WOOL || b == Blocks.YELLOW_WOOL || b == Blocks.LIME_WOOL || b == Blocks.PINK_WOOL || b == Blocks.GRAY_WOOL || b == Blocks.LIGHT_GRAY_WOOL || b == Blocks.CYAN_WOOL || b == Blocks.PURPLE_WOOL || b == Blocks.BLUE_WOOL || b == Blocks.BROWN_WOOL || b == Blocks.GREEN_WOOL || b == Blocks.RED_WOOL || b == Blocks.BLACK_WOOL; }
-    private static boolean isCarpet(Block b) { return b == Blocks.WHITE_CARPET || b == Blocks.ORANGE_CARPET || b == Blocks.MAGENTA_CARPET || b == Blocks.LIGHT_BLUE_CARPET || b == Blocks.YELLOW_CARPET || b == Blocks.LIME_CARPET || b == Blocks.PINK_CARPET || b == Blocks.GRAY_CARPET || b == Blocks.LIGHT_GRAY_CARPET || b == Blocks.CYAN_CARPET || b == Blocks.PURPLE_CARPET || b == Blocks.BLUE_CARPET || b == Blocks.BROWN_CARPET || b == Blocks.GREEN_CARPET || b == Blocks.RED_CARPET || b == Blocks.BLACK_CARPET; }
-    private static boolean isColoredTerracotta(Block b) { return b == Blocks.WHITE_TERRACOTTA || b == Blocks.ORANGE_TERRACOTTA || b == Blocks.MAGENTA_TERRACOTTA || b == Blocks.LIGHT_BLUE_TERRACOTTA || b == Blocks.YELLOW_TERRACOTTA || b == Blocks.LIME_TERRACOTTA || b == Blocks.PINK_TERRACOTTA || b == Blocks.GRAY_TERRACOTTA || b == Blocks.LIGHT_GRAY_TERRACOTTA || b == Blocks.CYAN_TERRACOTTA || b == Blocks.PURPLE_TERRACOTTA || b == Blocks.BLUE_TERRACOTTA || b == Blocks.BROWN_TERRACOTTA || b == Blocks.GREEN_TERRACOTTA || b == Blocks.RED_TERRACOTTA || b == Blocks.BLACK_TERRACOTTA; }
-    private static boolean isConcrete(Block b) { return b == Blocks.WHITE_CONCRETE || b == Blocks.ORANGE_CONCRETE || b == Blocks.MAGENTA_CONCRETE || b == Blocks.LIGHT_BLUE_CONCRETE || b == Blocks.YELLOW_CONCRETE || b == Blocks.LIME_CONCRETE || b == Blocks.PINK_CONCRETE || b == Blocks.GRAY_CONCRETE || b == Blocks.LIGHT_GRAY_CONCRETE || b == Blocks.CYAN_CONCRETE || b == Blocks.PURPLE_CONCRETE || b == Blocks.BLUE_CONCRETE || b == Blocks.BROWN_CONCRETE || b == Blocks.GREEN_CONCRETE || b == Blocks.RED_CONCRETE || b == Blocks.BLACK_CONCRETE; }
-    private static boolean isConcretePowder(Block b) { return b == Blocks.WHITE_CONCRETE_POWDER || b == Blocks.ORANGE_CONCRETE_POWDER || b == Blocks.MAGENTA_CONCRETE_POWDER || b == Blocks.LIGHT_BLUE_CONCRETE_POWDER || b == Blocks.YELLOW_CONCRETE_POWDER || b == Blocks.LIME_CONCRETE_POWDER || b == Blocks.PINK_CONCRETE_POWDER || b == Blocks.GRAY_CONCRETE_POWDER || b == Blocks.LIGHT_GRAY_CONCRETE_POWDER || b == Blocks.CYAN_CONCRETE_POWDER || b == Blocks.PURPLE_CONCRETE_POWDER || b == Blocks.BLUE_CONCRETE_POWDER || b == Blocks.BROWN_CONCRETE_POWDER || b == Blocks.GREEN_CONCRETE_POWDER || b == Blocks.RED_CONCRETE_POWDER || b == Blocks.BLACK_CONCRETE_POWDER; }
-    private static boolean isStainedGlassPane(Block b) { return b == Blocks.WHITE_STAINED_GLASS_PANE || b == Blocks.ORANGE_STAINED_GLASS_PANE || b == Blocks.MAGENTA_STAINED_GLASS_PANE || b == Blocks.LIGHT_BLUE_STAINED_GLASS_PANE || b == Blocks.YELLOW_STAINED_GLASS_PANE || b == Blocks.LIME_STAINED_GLASS_PANE || b == Blocks.PINK_STAINED_GLASS_PANE || b == Blocks.GRAY_STAINED_GLASS_PANE || b == Blocks.LIGHT_GRAY_STAINED_GLASS_PANE || b == Blocks.CYAN_STAINED_GLASS_PANE || b == Blocks.PURPLE_STAINED_GLASS_PANE || b == Blocks.BLUE_STAINED_GLASS_PANE || b == Blocks.BROWN_STAINED_GLASS_PANE || b == Blocks.GREEN_STAINED_GLASS_PANE || b == Blocks.RED_STAINED_GLASS_PANE || b == Blocks.BLACK_STAINED_GLASS_PANE; }
-
-    private static Block wool(net.minecraft.util.DyeColor c) { return switch (c) { case WHITE -> Blocks.WHITE_WOOL; case ORANGE -> Blocks.ORANGE_WOOL; case MAGENTA -> Blocks.MAGENTA_WOOL; case LIGHT_BLUE -> Blocks.LIGHT_BLUE_WOOL; case YELLOW -> Blocks.YELLOW_WOOL; case LIME -> Blocks.LIME_WOOL; case PINK -> Blocks.PINK_WOOL; case GRAY -> Blocks.GRAY_WOOL; case LIGHT_GRAY -> Blocks.LIGHT_GRAY_WOOL; case CYAN -> Blocks.CYAN_WOOL; case PURPLE -> Blocks.PURPLE_WOOL; case BLUE -> Blocks.BLUE_WOOL; case BROWN -> Blocks.BROWN_WOOL; case GREEN -> Blocks.GREEN_WOOL; case RED -> Blocks.RED_WOOL; case BLACK -> Blocks.BLACK_WOOL; }; }
-    private static Block carpet(net.minecraft.util.DyeColor c) { return switch (c) { case WHITE -> Blocks.WHITE_CARPET; case ORANGE -> Blocks.ORANGE_CARPET; case MAGENTA -> Blocks.MAGENTA_CARPET; case LIGHT_BLUE -> Blocks.LIGHT_BLUE_CARPET; case YELLOW -> Blocks.YELLOW_CARPET; case LIME -> Blocks.LIME_CARPET; case PINK -> Blocks.PINK_CARPET; case GRAY -> Blocks.GRAY_CARPET; case LIGHT_GRAY -> Blocks.LIGHT_GRAY_CARPET; case CYAN -> Blocks.CYAN_CARPET; case PURPLE -> Blocks.PURPLE_CARPET; case BLUE -> Blocks.BLUE_CARPET; case BROWN -> Blocks.BROWN_CARPET; case GREEN -> Blocks.GREEN_CARPET; case RED -> Blocks.RED_CARPET; case BLACK -> Blocks.BLACK_CARPET; }; }
-    private static Block terracotta(net.minecraft.util.DyeColor c) { return switch (c) { case WHITE -> Blocks.WHITE_TERRACOTTA; case ORANGE -> Blocks.ORANGE_TERRACOTTA; case MAGENTA -> Blocks.MAGENTA_TERRACOTTA; case LIGHT_BLUE -> Blocks.LIGHT_BLUE_TERRACOTTA; case YELLOW -> Blocks.YELLOW_TERRACOTTA; case LIME -> Blocks.LIME_TERRACOTTA; case PINK -> Blocks.PINK_TERRACOTTA; case GRAY -> Blocks.GRAY_TERRACOTTA; case LIGHT_GRAY -> Blocks.LIGHT_GRAY_TERRACOTTA; case CYAN -> Blocks.CYAN_TERRACOTTA; case PURPLE -> Blocks.PURPLE_TERRACOTTA; case BLUE -> Blocks.BLUE_TERRACOTTA; case BROWN -> Blocks.BROWN_TERRACOTTA; case GREEN -> Blocks.GREEN_TERRACOTTA; case RED -> Blocks.RED_TERRACOTTA; case BLACK -> Blocks.BLACK_TERRACOTTA; }; }
-    private static Block stainedGlass(net.minecraft.util.DyeColor c) { return switch (c) { case WHITE -> Blocks.WHITE_STAINED_GLASS; case ORANGE -> Blocks.ORANGE_STAINED_GLASS; case MAGENTA -> Blocks.MAGENTA_STAINED_GLASS; case LIGHT_BLUE -> Blocks.LIGHT_BLUE_STAINED_GLASS; case YELLOW -> Blocks.YELLOW_STAINED_GLASS; case LIME -> Blocks.LIME_STAINED_GLASS; case PINK -> Blocks.PINK_STAINED_GLASS; case GRAY -> Blocks.GRAY_STAINED_GLASS; case LIGHT_GRAY -> Blocks.LIGHT_GRAY_STAINED_GLASS; case CYAN -> Blocks.CYAN_STAINED_GLASS; case PURPLE -> Blocks.PURPLE_STAINED_GLASS; case BLUE -> Blocks.BLUE_STAINED_GLASS; case BROWN -> Blocks.BROWN_STAINED_GLASS; case GREEN -> Blocks.GREEN_STAINED_GLASS; case RED -> Blocks.RED_STAINED_GLASS; case BLACK -> Blocks.BLACK_STAINED_GLASS; }; }
-    private static Block stainedGlassPane(net.minecraft.util.DyeColor c) { return switch (c) { case WHITE -> Blocks.WHITE_STAINED_GLASS_PANE; case ORANGE -> Blocks.ORANGE_STAINED_GLASS_PANE; case MAGENTA -> Blocks.MAGENTA_STAINED_GLASS_PANE; case LIGHT_BLUE -> Blocks.LIGHT_BLUE_STAINED_GLASS_PANE; case YELLOW -> Blocks.YELLOW_STAINED_GLASS_PANE; case LIME -> Blocks.LIME_STAINED_GLASS_PANE; case PINK -> Blocks.PINK_STAINED_GLASS_PANE; case GRAY -> Blocks.GRAY_STAINED_GLASS_PANE; case LIGHT_GRAY -> Blocks.LIGHT_GRAY_STAINED_GLASS_PANE; case CYAN -> Blocks.CYAN_STAINED_GLASS_PANE; case PURPLE -> Blocks.PURPLE_STAINED_GLASS_PANE; case BLUE -> Blocks.BLUE_STAINED_GLASS_PANE; case BROWN -> Blocks.BROWN_STAINED_GLASS_PANE; case GREEN -> Blocks.GREEN_STAINED_GLASS_PANE; case RED -> Blocks.RED_STAINED_GLASS_PANE; case BLACK -> Blocks.BLACK_STAINED_GLASS_PANE; }; }
-    private static Block concrete(net.minecraft.util.DyeColor c) { return switch (c) { case WHITE -> Blocks.WHITE_CONCRETE; case ORANGE -> Blocks.ORANGE_CONCRETE; case MAGENTA -> Blocks.MAGENTA_CONCRETE; case LIGHT_BLUE -> Blocks.LIGHT_BLUE_CONCRETE; case YELLOW -> Blocks.YELLOW_CONCRETE; case LIME -> Blocks.LIME_CONCRETE; case PINK -> Blocks.PINK_CONCRETE; case GRAY -> Blocks.GRAY_CONCRETE; case LIGHT_GRAY -> Blocks.LIGHT_GRAY_CONCRETE; case CYAN -> Blocks.CYAN_CONCRETE; case PURPLE -> Blocks.PURPLE_CONCRETE; case BLUE -> Blocks.BLUE_CONCRETE; case BROWN -> Blocks.BROWN_CONCRETE; case GREEN -> Blocks.GREEN_CONCRETE; case RED -> Blocks.RED_CONCRETE; case BLACK -> Blocks.BLACK_CONCRETE; }; }
-    private static Block concretePowder(net.minecraft.util.DyeColor c) { return switch (c) { case WHITE -> Blocks.WHITE_CONCRETE_POWDER; case ORANGE -> Blocks.ORANGE_CONCRETE_POWDER; case MAGENTA -> Blocks.MAGENTA_CONCRETE_POWDER; case LIGHT_BLUE -> Blocks.LIGHT_BLUE_CONCRETE_POWDER; case YELLOW -> Blocks.YELLOW_CONCRETE_POWDER; case LIME -> Blocks.LIME_CONCRETE_POWDER; case PINK -> Blocks.PINK_CONCRETE_POWDER; case GRAY -> Blocks.GRAY_CONCRETE_POWDER; case LIGHT_GRAY -> Blocks.LIGHT_GRAY_CONCRETE_POWDER; case CYAN -> Blocks.CYAN_CONCRETE_POWDER; case PURPLE -> Blocks.PURPLE_CONCRETE_POWDER; case BLUE -> Blocks.BLUE_CONCRETE_POWDER; case BROWN -> Blocks.BROWN_CONCRETE_POWDER; case GREEN -> Blocks.GREEN_CONCRETE_POWDER; case RED -> Blocks.RED_CONCRETE_POWDER; case BLACK -> Blocks.BLACK_CONCRETE_POWDER; }; }
 }
