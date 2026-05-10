@@ -105,7 +105,6 @@ public final class ModItems {
     public static final Item LEAD_INGOT = register("lead_ingot", new Item(new Item.Settings()));
     public static final Item BRONZE_INGOT = register("bronze_ingot", new Item(new Item.Settings()));
     public static final Item STEEL_INGOT = register("steel_ingot", new Item(new Item.Settings()));
-    public static final Item ALUMINUM_INGOT = register("aluminum_ingot", new Item(new Item.Settings()));
     public static final Item LITHIUM_INGOT = register("lithium_ingot", new Item(new Item.Settings()));
 
 
@@ -117,7 +116,6 @@ public final class ModItems {
     public static final Item CRUSHED_TIN_ORE = register("crushed_tin_ore", new Item(new Item.Settings()));
     public static final Item CRUSHED_LEAD_ORE = register("crushed_lead_ore", new Item(new Item.Settings()));
     public static final Item CRUSHED_URANIUM_ORE = register("crushed_uranium_ore", new Item(new Item.Settings()));
-    public static final Item CRUSHED_ALUMINUM_ORE = register("crushed_aluminum_ore", new Item(new Item.Settings()));
     public static final Item CRUSHED_LITHIUM_ORE = register("crushed_lithium_ore", new Item(new Item.Settings()));
 
 
@@ -162,7 +160,6 @@ public final class ModItems {
     public static final Item STONE_DUST = register("stone_dust", new Item(new Item.Settings()));
     public static final Item TIN_DUST = register("tin_dust", new Item(new Item.Settings()));
     public static final Item TIN_HYDRATED_DUST = register("tin_hydrated_dust", new Item(new Item.Settings()));
-    public static final Item ALUMINUM_DUST = register("aluminum_dust", new Item(new Item.Settings()));
 
     // --- Small dusts (tiny piles) ---
     public static final Item SMALL_BRONZE_DUST = register("small_bronze_dust", new Item(new Item.Settings()));
@@ -176,7 +173,6 @@ public final class ModItems {
     public static final Item SMALL_SILVER_DUST = register("small_silver_dust", new Item(new Item.Settings()));
     public static final Item SMALL_SULFUR_DUST = register("small_sulfur_dust", new Item(new Item.Settings()));
     public static final Item SMALL_TIN_DUST = register("small_tin_dust", new Item(new Item.Settings()));
-    public static final Item SMALL_ALUMINUM_DUST = register("small_aluminum_dust", new Item(new Item.Settings()));
 
     // --- IC2 crafting materials (needed for experimental recipes) ---
     public static final Item BIO_CHAFF = register("bio_chaff", new Item(new Item.Settings()));
