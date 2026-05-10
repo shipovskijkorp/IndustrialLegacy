@@ -50,8 +50,8 @@ public final class IridiumDrillItem extends ElectricDrillItem implements IModeSw
     @Override
     public Text getModeName(ItemStack stack) {
         return Text.translatable(isSilkTouch(stack)
-                ? "ic2.tooltip.mode.silkTouch"
-                : "ic2.tooltip.mode.normal");
+                ? "message.industrial_legacy.iridium_drill.silk_touch"
+                : "message.industrial_legacy.iridium_drill.normal");
     }
 
     private static boolean isSilkTouch(ItemStack stack) {

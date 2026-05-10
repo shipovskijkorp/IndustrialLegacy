@@ -69,8 +69,8 @@ public final class ElectricChainsawItem extends AbstractElectricToolItem impleme
     @Override
     public Text getModeName(ItemStack stack) {
         return Text.translatable(isShearingDisabled(stack)
-                ? "ic2.tooltip.mode.noShear"
-                : "ic2.tooltip.mode.normal");
+                ? "message.industrial_legacy.chainsaw.no_shear"
+                : "message.industrial_legacy.chainsaw.normal");
     }
 
     public static boolean isShearingDisabled(ItemStack stack) {
