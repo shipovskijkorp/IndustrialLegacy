@@ -4,6 +4,7 @@ import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
 import com.shipovskijkorp.industriallegacy.block.CableBlock;
 import com.shipovskijkorp.industriallegacy.block.entity.CableBlockEntity;
 import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
+import com.shipovskijkorp.industriallegacy.item.CableItem;
 import com.shipovskijkorp.industriallegacy.item.CableKind;
 import com.shipovskijkorp.industriallegacy.registry.ModBlocks;
 import net.fabricmc.api.EnvType;
@@ -56,7 +57,7 @@ public class CableBlockEntityRenderer implements BlockEntityRenderer<CableBlockE
 
         CableKind kind = cable.getKind();
 
-        String texPath = cable.getTexturePath();
+        String texPath = CableItem.colorTexturePath(cable.getTexturePath(), entity.getColor());
         // Copper oxidation visual stages for COPPER + insulation=0.
         if (kind == CableKind.COPPER && cable.getInsulation() == 0) {
             int lvl = entity.getOxidationLevel();
@@ -88,7 +89,7 @@ public class CableBlockEntityRenderer implements BlockEntityRenderer<CableBlockE
         // Determine visual connections (IL-like: connect to cables and to EU storages that can insert/extract on that face).
         Set<Direction> conns = EnumSet.noneOf(Direction.class);
         for (Direction dir : Direction.values()) {
-            if (connectsTo(world, pos, dir)) conns.add(dir);
+            if (CableBlock.connectsTo(world, pos, dir)) conns.add(dir);
         }
 
         float w = cable.getVisualWidth();
@@ -129,22 +130,6 @@ public class CableBlockEntityRenderer implements BlockEntityRenderer<CableBlockE
         // if connected in a direction, we do NOT render that outer face on the center cube
         s.removeAll(conns);
         return s;
-    }
-
-    private static boolean connectsTo(World world, BlockPos pos, Direction dir) {
-        BlockPos np = pos.offset(dir);
-        BlockState ns = world.getBlockState(np);
-        Block nb = ns.getBlock();
-
-        if (nb instanceof CableBlock) return true;
-
-        if (ns.isOf(ModBlocks.NUCLEAR_REACTOR) || ns.isOf(ModBlocks.REACTOR_CHAMBER)) return true;
-
-        if (world.getBlockEntity(np) instanceof IEuEnergyStorage storage) {
-            Direction face = dir.getOpposite();
-            return storage.canInsert(face) || storage.canExtract(face);
-        }
-        return false;
     }
 
     /**

@@ -11,17 +11,20 @@ import java.util.Locale;
  * breakdown/absorption rules in {@code TileEntityCable}.</p>
  */
 public enum CableKind {
-    // maxInsulation, thickness, loss, capacity, tier
-    COPPER(1, 0.25f, 0.2, 128, 1),
-    TIN(1, 0.25f, 0.2, 32, 0),
-    GOLD(2, 0.1875f, 0.4, 512, 2),
-    IRON(3, 0.375f, 0.8, 2048, 3),
-    GLASS(0, 0.25f, 0.025, 8192, 5),
-    DETECTOR(0, 0.5f, 0.5, 8192, 5),
-    SPLITTER(0, 0.5f, 0.5, 8192, 5);
+    // maxInsulation, minColoredInsulation, thickness, loss, capacity, tier
+    COPPER(1, 1, 0.25f, 0.2, 128, 1),
+    TIN(1, 1, 0.25f, 0.2, 32, 0),
+    GOLD(2, 1, 0.1875f, 0.4, 512, 2),
+    IRON(3, 1, 0.375f, 0.8, 2048, 3),
+    GLASS(0, 0, 0.25f, 0.025, 8192, 5),
+    DETECTOR(0, Integer.MAX_VALUE, 0.5f, 0.5, 8192, 5),
+    SPLITTER(0, Integer.MAX_VALUE, 0.5f, 0.5, 8192, 5);
 
     /** Maximum insulation level stored in NBT. */
     public final int maxInsulation;
+
+    /** IC2: minimum insulation required before this cable type can carry a color. */
+    public final int minColoredInsulation;
 
     /** Base rendered thickness (0..1 block units). */
     public final float thickness;
@@ -35,8 +38,9 @@ public enum CableKind {
     /** IL-ish tier (approx.). */
     public final int tier;
 
-    CableKind(int maxInsulation, float thickness, double loss, int capacity, int tier) {
+    CableKind(int maxInsulation, int minColoredInsulation, float thickness, double loss, int capacity, int tier) {
         this.maxInsulation = maxInsulation;
+        this.minColoredInsulation = minColoredInsulation;
         this.thickness = thickness;
         this.loss = loss;
         this.capacity = capacity;
@@ -57,6 +61,10 @@ public enum CableKind {
 
     public int clampInsulation(int insulation) {
         return Math.max(0, Math.min(maxInsulation, insulation));
+    }
+
+    public boolean canBeColored(int insulation) {
+        return insulation >= minColoredInsulation;
     }
 
     /** IL: {@code capacity + 1}. */

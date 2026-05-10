@@ -71,6 +71,43 @@ public class CableBlock extends BlockWithEntity {
         }
     }
 
+    public static boolean canCablesInteract(BlockView world, BlockPos pos, Direction dir) {
+        BlockPos otherPos = pos.offset(dir);
+        BlockState state = world.getBlockState(pos);
+        BlockState otherState = world.getBlockState(otherPos);
+        if (!(state.getBlock() instanceof CableBlock) || !(otherState.getBlock() instanceof CableBlock)) {
+            return false;
+        }
+
+        int thisColor = -1;
+        int otherColor = -1;
+        BlockEntity thisBe = world.getBlockEntity(pos);
+        BlockEntity otherBe = world.getBlockEntity(otherPos);
+        if (thisBe instanceof CableBlockEntity cableBe) thisColor = cableBe.getColor();
+        if (otherBe instanceof CableBlockEntity cableBe) otherColor = cableBe.getColor();
+        return CableBlockEntity.colorsInteract(thisColor, otherColor);
+    }
+
+    public static boolean connectsTo(BlockView world, BlockPos pos, Direction dir) {
+        BlockPos np = pos.offset(dir);
+        BlockState ns = world.getBlockState(np);
+        Block nb = ns.getBlock();
+
+        if (nb instanceof CableBlock) {
+            return canCablesInteract(world, pos, dir);
+        }
+
+        if (ns.isOf(ModBlocks.NUCLEAR_REACTOR) || ns.isOf(ModBlocks.REACTOR_CHAMBER)) return true;
+
+        BlockEntity be = world.getBlockEntity(np);
+        if (be instanceof IEuEnergyStorage storage) {
+            Direction face = dir.getOpposite();
+            return storage.canInsert(face) || storage.canExtract(face);
+        }
+
+        return false;
+    }
+
     private final CableKind kind;
     private final int insulation;
     private final String texturePath; // block atlas path without extension
@@ -217,6 +254,7 @@ public class CableBlock extends BlockWithEntity {
             if (this.kind == CableKind.COPPER && this.insulation == 0) {
                 cableBe.setOxidationLevel(CableItem.getOxidation(itemStack));
             }
+            cableBe.setColor(CableItem.getColor(itemStack));
             cableBe.refreshDerivedState();
         }
 
@@ -299,6 +337,12 @@ public class CableBlock extends BlockWithEntity {
                 return ActionResult.SUCCESS;
             }
 
+            int oldColor = -1;
+            BlockEntity oldBe = world.getBlockEntity(pos);
+            if (oldBe instanceof CableBlockEntity oldCableBe) {
+                oldColor = oldCableBe.getColor();
+            }
+
             Block newBlock = ModBlocks.getCableBlock(this.kind, next);
             boolean ok = world.setBlockState(pos, newBlock.getDefaultState(), Block.NOTIFY_ALL);
             if (!ok) return ActionResult.FAIL;
@@ -309,6 +353,7 @@ public class CableBlock extends BlockWithEntity {
                 if (this.kind == CableKind.COPPER && next > 0) {
                     cableBe.setOxidationLevel(0);
                 }
+                cableBe.setColor(oldColor);
                 cableBe.refreshDerivedState();
             }
 
@@ -328,27 +373,32 @@ public class CableBlock extends BlockWithEntity {
     public List<ItemStack> getDroppedStacks(BlockState state, LootContextParameterSet.Builder builder) {
         BlockEntity be = builder.getOptional(LootContextParameters.BLOCK_ENTITY);
 
-        ItemStack drop;
-        if (this.kind == CableKind.COPPER && this.insulation == 0 && be instanceof CableBlockEntity cableBe) {
-            drop = CableItem.createStack(ModItems.CABLE, this.kind, this.insulation, cableBe.getOxidationLevel());
-        } else {
-            drop = CableItem.createStack(ModItems.CABLE, this.kind, this.insulation);
+        int oxidation = 0;
+        int color = -1;
+        if (be instanceof CableBlockEntity cableBe) {
+            color = cableBe.getColor();
+            if (this.kind == CableKind.COPPER && this.insulation == 0) {
+                oxidation = cableBe.getOxidationLevel();
+            }
         }
 
-        return List.of(drop);
+        return List.of(CableItem.createStack(ModItems.CABLE, this.kind, this.insulation, oxidation, color));
     }
 
     // Middle-click gives current oxidation stage (only copper uninsulated)
     @Override
     public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
-        if (this.kind == CableKind.COPPER && this.insulation == 0) {
-            BlockEntity be = world.getBlockEntity(pos);
-            if (be instanceof CableBlockEntity cableBe) {
-                return CableItem.createStack(ModItems.CABLE, this.kind, this.insulation, cableBe.getOxidationLevel());
+        int oxidation = 0;
+        int color = -1;
+        BlockEntity be = world.getBlockEntity(pos);
+        if (be instanceof CableBlockEntity cableBe) {
+            color = cableBe.getColor();
+            if (this.kind == CableKind.COPPER && this.insulation == 0) {
+                oxidation = cableBe.getOxidationLevel();
             }
         }
 
-        return CableItem.createStack(ModItems.CABLE, this.kind, this.insulation);
+        return CableItem.createStack(ModItems.CABLE, this.kind, this.insulation, oxidation, color);
     }
 
     // ---- Shapes (thin cable + arms) ----
@@ -377,24 +427,6 @@ public class CableBlock extends BlockWithEntity {
         }
 
         return shape;
-    }
-
-    private boolean connectsTo(BlockView world, BlockPos pos, Direction dir) {
-        BlockPos np = pos.offset(dir);
-        BlockState ns = world.getBlockState(np);
-        Block nb = ns.getBlock();
-
-        if (nb instanceof CableBlock) {
-            return true;
-        }
-
-        BlockEntity be = world.getBlockEntity(np);
-        if (be instanceof IEuEnergyStorage storage) {
-            Direction face = dir.getOpposite();
-            return storage.canInsert(face) || storage.canExtract(face);
-        }
-
-        return false;
     }
 
     private VoxelShape arm(float min, float max, Direction dir) {

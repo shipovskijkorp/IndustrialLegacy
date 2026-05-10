@@ -114,6 +114,7 @@ final class EnergyGridPathFinder {
                 if (!ModBlocks.isCable(ns.getBlock())) continue;
                 if (!(ns.getBlock() instanceof CableBlock nextCable)) continue;
                 if (isCableDisabledByRedstone(world, np, nextCable)) continue;
+                if (!CableBlock.canCablesInteract(world, cur.pos, dir)) continue;
 
                 // IL: link loss between two cables is average(innerLossA, innerLossB)
                 double nextInnerLoss = dynamicInnerLoss(world, np, nextCable);

@@ -13,15 +13,6 @@ base {
 repositories {
     mavenCentral()
     maven { url = 'https://maven.fabricmc.net/' }
-
-    // Team Reborn Energy
-    maven { url = 'https://modmaven.dev' }
-
-    // ModMenu
-    maven { url = 'https://maven.terraformersmc.com/releases/' }
-
-    // Cloth Config
-    maven { url = 'https://maven.architectury.dev/' }
 }
 
 dependencies {
@@ -30,19 +21,6 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
-
-    // Energy API (for 1.20.1 use 3.x)
-    include(modApi("teamreborn:energy:${project.tr_energy_version}"))
-
-    // Optional dev conveniences
-    modCompileOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
-    modRuntimeOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
-
-    modCompileOnly "me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}"
-    modRuntimeOnly "me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}"
-
-    modCompileOnly "mezz.jei:jei-1.20.1-fabric:15.2.0.27"
-    modRuntimeOnly  "mezz.jei:jei-1.20.1-fabric:15.2.0.27"
 }
 
 loom {

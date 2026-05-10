@@ -13,6 +13,8 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.context.LootContextParameterSet;
+import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
@@ -23,6 +25,8 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -125,6 +129,25 @@ public class BatBoxBlock extends BlockWithEntity implements BlockEntityProvider 
         return getWeakRedstonePower(state, world, pos, direction);
     }
 
+
+
+    @Override
+    public List<ItemStack> getDroppedStacks(BlockState state, LootContextParameterSet.Builder builder) {
+        BlockEntity be = builder.getOptional(LootContextParameters.BLOCK_ENTITY);
+        if (be != null) {
+            return List.of(EnergyMachineBlockItem.createEnergyStack(state, be, true));
+        }
+        return super.getDroppedStacks(state, builder);
+    }
+
+    @Override
+    public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
+        BlockEntity be = world.getBlockEntity(pos);
+        if (be != null) {
+            return EnergyMachineBlockItem.createEnergyStack(state, be, false);
+        }
+        return super.getPickStack(world, pos, state);
+    }
 
     @Override
     public @Nullable BlockEntity createBlockEntity(BlockPos pos, BlockState state) {

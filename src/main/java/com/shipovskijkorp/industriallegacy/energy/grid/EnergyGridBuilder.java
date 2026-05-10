@@ -42,6 +42,7 @@ final class EnergyGridBuilder {
                 if (!ModBlocks.isCable(ns.getBlock())) continue;
                 if (!(ns.getBlock() instanceof CableBlock ncb)) continue;
                 if (EnergyGridPathFinder.isCableDisabledByRedstone(world, np, ncb)) continue;
+                if (!CableBlock.canCablesInteract(world, cur, dir)) continue;
                 long nLong = np.asLong();
                 if (visited.add(nLong)) {
                     q.enqueue(nLong);

@@ -442,5 +442,6 @@
   "ic2.tooltip.mode.silkTouch": "Шёлковое касание",
   "ic2.tooltip.mode.noShear": "Без стрижки",
   "ic2.item.tooltip.PowerTier": "Энергоуровень: %s",
-  "ic2.generic.text.EU": "EU"
+  "ic2.generic.text.EU": "EU",
+  "tooltip.industrial_legacy.cable.color": "Цвет: %s"
 }

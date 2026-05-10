@@ -17,6 +17,9 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -25,6 +28,7 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -103,8 +107,26 @@ public abstract class AbstractChargepadBlockEntity extends BlockEntity implement
 
         if (shouldBeActive) {
             chargePlayerInventory(players.get(0));
-            markDirty();
+            markDirtyAndSync();
         }
+    }
+
+    private void markDirtyAndSync() {
+        markDirty();
+        if (world != null && !world.isClient) {
+            BlockState state = getCachedState();
+            world.updateListeners(pos, state, state, Block.NOTIFY_LISTENERS);
+        }
+    }
+
+    @Override
+    public NbtCompound toInitialChunkDataNbt() {
+        return createNbt();
+    }
+
+    @Override
+    public @Nullable Packet<ClientPlayPacketListener> toUpdatePacket() {
+        return BlockEntityUpdateS2CPacket.create(this);
     }
 
     public void clientTick() {
@@ -147,7 +169,7 @@ public abstract class AbstractChargepadBlockEntity extends BlockEntity implement
                 long accepted = ElectricItemManager.charge(charge, move, false);
                 if (accepted > 0L) {
                     energy -= accepted;
-                    markDirty();
+                    markDirtyAndSync();
                 }
             }
         }
@@ -160,7 +182,7 @@ public abstract class AbstractChargepadBlockEntity extends BlockEntity implement
                 long extracted = ElectricItemManager.discharge(discharge, move, false);
                 if (extracted > 0L) {
                     energy = Math.min(capacity, energy + extracted);
-                    markDirty();
+                    markDirtyAndSync();
                 }
             }
         }
@@ -197,7 +219,7 @@ public abstract class AbstractChargepadBlockEntity extends BlockEntity implement
         BlockState state = this.getCachedState();
         if (state.getBlock() instanceof ChargepadBlock && state.get(ChargepadBlock.ACTIVE) != active) {
             this.world.setBlockState(this.pos, state.with(ChargepadBlock.ACTIVE, active), Block.NOTIFY_ALL);
-            markDirty();
+            markDirtyAndSync();
         }
         updateRedstoneOutput();
     }
@@ -230,7 +252,7 @@ public abstract class AbstractChargepadBlockEntity extends BlockEntity implement
     public void cycleRedstoneMode(ServerPlayerEntity player) {
         redstoneMode++;
         if (redstoneMode >= 2) redstoneMode = 0;
-        markDirty();
+        markDirtyAndSync();
         updateRedstoneOutput();
         if (player != null) {
             player.sendMessage(Text.translatable(getRedstoneModeTranslationKey()), false);
@@ -293,14 +315,14 @@ public abstract class AbstractChargepadBlockEntity extends BlockEntity implement
     @Override
     public ItemStack removeStack(int slot, int amount) {
         ItemStack result = Inventories.splitStack(items, slot, amount);
-        if (!result.isEmpty()) markDirty();
+        if (!result.isEmpty()) markDirtyAndSync();
         return result;
     }
 
     @Override
     public ItemStack removeStack(int slot) {
         ItemStack result = Inventories.removeStack(items, slot);
-        markDirty();
+        markDirtyAndSync();
         return result;
     }
 
@@ -308,7 +330,7 @@ public abstract class AbstractChargepadBlockEntity extends BlockEntity implement
     public void setStack(int slot, ItemStack stack) {
         if (!stack.isEmpty()) stack.setCount(1);
         items.set(slot, stack);
-        markDirty();
+        markDirtyAndSync();
     }
 
     @Override
@@ -365,7 +387,7 @@ public abstract class AbstractChargepadBlockEntity extends BlockEntity implement
         long accepted = Math.min(amount, getEuFree());
         if (!simulate && accepted > 0L) {
             energy += accepted;
-            markDirty();
+            markDirtyAndSync();
         }
         return accepted;
     }
@@ -377,7 +399,7 @@ public abstract class AbstractChargepadBlockEntity extends BlockEntity implement
         long extracted = Math.min(Math.min(amount, packet), energy);
         if (!simulate && extracted > 0L) {
             energy -= extracted;
-            markDirty();
+            markDirtyAndSync();
         }
         return extracted;
     }
@@ -400,7 +422,7 @@ public abstract class AbstractChargepadBlockEntity extends BlockEntity implement
     @Override
     public void setStoredEnergyFromItem(long amount) {
         this.energy = Math.min(capacity, Math.max(0L, amount));
-        markDirty();
+        markDirtyAndSync();
     }
 
     private long getEuFree() {

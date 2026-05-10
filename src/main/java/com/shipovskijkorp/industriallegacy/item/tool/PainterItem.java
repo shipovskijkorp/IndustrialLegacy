@@ -1,5 +1,8 @@
 package com.shipovskijkorp.industriallegacy.item.tool;
 
+import com.shipovskijkorp.industriallegacy.block.CableBlock;
+import com.shipovskijkorp.industriallegacy.block.entity.CableBlockEntity;
+import com.shipovskijkorp.industriallegacy.energy.net.EuNetwork;
 import com.shipovskijkorp.industriallegacy.registry.ModItems;
 import net.minecraft.block.BedBlock;
 import net.minecraft.block.Block;
@@ -55,6 +58,15 @@ public final class PainterItem extends Item implements IModeSwitchableItem {
         World world = ctx.getWorld();
         BlockPos pos = ctx.getBlockPos();
         BlockState state = world.getBlockState(pos);
+        if (state.getBlock() instanceof CableBlock && world.getBlockEntity(pos) instanceof CableBlockEntity cableBe) {
+            if (!cableBe.canBeColored()) return ActionResult.PASS;
+            if (!world.isClient && cableBe.recolor(color)) {
+                EuNetwork.invalidate(world, pos);
+                damagePainter(ctx.getPlayer(), ctx.getHand(), ctx.getStack());
+            }
+            return ActionResult.success(world.isClient);
+        }
+
         Block targetBlock = getColoredBlock(state.getBlock(), color);
         if (targetBlock == null || targetBlock == state.getBlock()) return ActionResult.PASS;
 
@@ -185,7 +197,7 @@ public final class PainterItem extends Item implements IModeSwitchableItem {
         return result;
     }
 
-    private void damagePainter(@Nullable PlayerEntity player, Hand hand, ItemStack stack) {
+    public void damagePainter(@Nullable PlayerEntity player, Hand hand, ItemStack stack) {
         if (player == null || player.getAbilities().creativeMode || color == null) return;
 
         if (stack.getDamage() >= stack.getMaxDamage() - 1) {

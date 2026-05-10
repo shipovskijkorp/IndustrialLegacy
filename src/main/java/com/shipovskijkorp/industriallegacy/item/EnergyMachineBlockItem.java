@@ -1,7 +1,11 @@
 package com.shipovskijkorp.industriallegacy.item;
 
+import com.shipovskijkorp.industriallegacy.config.ILConfig;
+import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
 import com.shipovskijkorp.industriallegacy.util.EnergyDisplayUtil;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
@@ -46,8 +50,15 @@ public class EnergyMachineBlockItem extends BlockItem {
     public long getStoredEnergy(ItemStack stack) {
         if (!chargeable || stack == null || stack.isEmpty()) return 0L;
         NbtCompound nbt = stack.getNbt();
-        if (nbt == null || !nbt.contains(NBT_ENERGY)) return 0L;
-        long energy = nbt.getLong(NBT_ENERGY);
+        if (nbt == null) return 0L;
+        long energy;
+        if (nbt.contains(NBT_ENERGY)) {
+            energy = nbt.getLong(NBT_ENERGY);
+        } else if (nbt.contains("BlockEntityTag", 10) && nbt.getCompound("BlockEntityTag").contains(NBT_ENERGY)) {
+            energy = nbt.getCompound("BlockEntityTag").getLong(NBT_ENERGY);
+        } else {
+            return 0L;
+        }
         return Math.max(0L, Math.min(chargeCapacity, energy));
     }
 
@@ -71,6 +82,25 @@ public class EnergyMachineBlockItem extends BlockItem {
     public ItemStack createChargedStack() {
         ItemStack stack = new ItemStack(this);
         setStoredEnergy(stack, chargeCapacity);
+        return stack;
+    }
+
+    public static ItemStack createEnergyStack(BlockState state, BlockEntity blockEntity, boolean applyDropRetention) {
+        ItemStack stack = new ItemStack(state.getBlock().asItem());
+        if (!(stack.getItem() instanceof EnergyMachineBlockItem energyItem) || !(blockEntity instanceof IEuEnergyStorage storage)) {
+            return stack;
+        }
+
+        long stored = Math.max(0L, storage.getEuStored());
+        if (applyDropRetention) {
+            double retainedRatio = ILConfig.getDouble("balance/energyRetainedInStorageBlockDrops", 0.8D);
+            if (retainedRatio <= 0.0D || stored <= 0L) {
+                stored = 0L;
+            } else {
+                stored = (long) Math.floor(stored * retainedRatio);
+            }
+        }
+        energyItem.setStoredEnergy(stack, stored);
         return stack;
     }
 

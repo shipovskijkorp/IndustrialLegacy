@@ -18,6 +18,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.context.LootContextParameterSet;
+import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
@@ -36,6 +38,8 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
@@ -155,6 +159,25 @@ public class ChargepadBlock extends BlockWithEntity implements BlockEntityProvid
     @Override
     public VoxelShape getCullingShape(BlockState state, BlockView world, BlockPos pos) {
         return SHAPE;
+    }
+
+
+    @Override
+    public List<ItemStack> getDroppedStacks(BlockState state, LootContextParameterSet.Builder builder) {
+        BlockEntity be = builder.getOptional(LootContextParameters.BLOCK_ENTITY);
+        if (be != null) {
+            return List.of(EnergyMachineBlockItem.createEnergyStack(state, be, true));
+        }
+        return super.getDroppedStacks(state, builder);
+    }
+
+    @Override
+    public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
+        BlockEntity be = world.getBlockEntity(pos);
+        if (be != null) {
+            return EnergyMachineBlockItem.createEnergyStack(state, be, false);
+        }
+        return super.getPickStack(world, pos, state);
     }
 
     @Override

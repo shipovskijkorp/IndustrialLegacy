@@ -10,6 +10,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.util.DyeColor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -38,6 +39,9 @@ public class CableBlockEntity extends BlockEntity {
     private boolean active = true;
     private int redstoneLevel = 0;
     private int comparatorLevel = 0;
+
+    // IC2 colored cable state. -1/black means uncolored and acts as a wildcard.
+    private int color = -1;
 
     // Copper cable oxidation (IL extension; only for COPPER + insulation=0)
     private int oxidationLevel = 0; // 0 clean, 1 exposed, 2 weathered, 3 oxidized
@@ -71,6 +75,50 @@ public class CableBlockEntity extends BlockEntity {
         return comparatorLevel;
     }
 
+    public int getColor() {
+        return color;
+    }
+
+    public boolean hasColor() {
+        return color >= 0;
+    }
+
+    public boolean canBeColored() {
+        BlockState state = getCachedState();
+        return state.getBlock() instanceof CableBlock cb && cb.getKind().canBeColored(cb.getInsulation());
+    }
+
+    public boolean recolor(DyeColor dyeColor) {
+        int newColor = dyeColor == DyeColor.BLACK ? -1 : dyeColor.getId();
+        return setColor(newColor);
+    }
+
+    public boolean setColor(int color) {
+        int clamped = color < 0 ? -1 : DyeColor.byId(color).getId();
+        if (clamped >= 0 && !canBeColored()) {
+            clamped = -1;
+        }
+        if (this.color == clamped) {
+            return false;
+        }
+        this.color = clamped;
+        markDirty();
+        sync();
+        return true;
+    }
+
+    public void refreshColorValidity() {
+        if (this.color >= 0 && !canBeColored()) {
+            this.color = -1;
+            markDirty();
+            sync();
+        }
+    }
+
+    public static boolean colorsInteract(int firstColor, int secondColor) {
+        return firstColor < 0 || secondColor < 0 || firstColor == secondColor;
+    }
+
     public int getOxidationLevel() {
         return oxidationLevel;
     }
@@ -101,6 +149,7 @@ public class CableBlockEntity extends BlockEntity {
         if (world == null || world.isClient) return;
         BlockState state = getCachedState();
         if (state.getBlock() instanceof CableBlock cb) {
+            refreshColorValidity();
             if (cb.getKind() == CableKind.SPLITTER) {
                 boolean newActive = !world.isReceivingRedstonePower(pos);
                 if (setActiveInternal(newActive)) {
@@ -200,6 +249,8 @@ public class CableBlockEntity extends BlockEntity {
         this.active = nbt.getBoolean("active");
         this.redstoneLevel = nbt.getInt("rs");
         this.comparatorLevel = nbt.getInt("cmp");
+        int storedColor = nbt.contains("color") ? nbt.getInt("color") : -1;
+        this.color = storedColor < 0 ? -1 : DyeColor.byId(storedColor).getId();
         this.energyInWindow = nbt.getDouble("energyInWindow");
         this.ticker = nbt.getInt("ticker");
         this.oxidationLevel = nbt.getInt("ox");
@@ -212,6 +263,7 @@ public class CableBlockEntity extends BlockEntity {
         nbt.putBoolean("active", this.active);
         nbt.putInt("rs", this.redstoneLevel);
         nbt.putInt("cmp", this.comparatorLevel);
+        nbt.putInt("color", this.color);
         nbt.putDouble("energyInWindow", this.energyInWindow);
         nbt.putInt("ticker", this.ticker);
         nbt.putInt("ox", this.oxidationLevel);

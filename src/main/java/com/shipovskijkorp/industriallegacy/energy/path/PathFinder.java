@@ -80,6 +80,7 @@ public final class PathFinder {
                 if (!ModBlocks.isCable(ns.getBlock())) continue;
                 if (!(ns.getBlock() instanceof CableBlock nextCable)) continue;
                 if (isSplitterDisabled(world, np, nextCable)) continue;
+                if (!CableBlock.canCablesInteract(world, cur.pos, dir)) continue;
 
                 double nextLoss = curLoss + dynamicInnerLoss(world, np, nextCable);
                 long nkey = np.asLong();

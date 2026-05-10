@@ -442,5 +442,6 @@
   "ic2.tooltip.mode.silkTouch": "Silk Touch",
   "ic2.tooltip.mode.noShear": "No Shearing",
   "ic2.item.tooltip.PowerTier": "Power Tier: %s",
-  "ic2.generic.text.EU": "EU"
+  "ic2.generic.text.EU": "EU",
+  "tooltip.industrial_legacy.cable.color": "Color: %s"
 }

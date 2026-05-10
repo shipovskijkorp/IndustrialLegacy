@@ -2,6 +2,7 @@ package com.shipovskijkorp.industriallegacy.item;
 
 import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
 import com.shipovskijkorp.industriallegacy.block.entity.CableBlockEntity;
+import com.shipovskijkorp.industriallegacy.energy.net.EuNetwork;
 import com.shipovskijkorp.industriallegacy.registry.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -16,6 +17,8 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.DyeColor;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -26,6 +29,7 @@ import java.text.DecimalFormatSymbols;
 import java.util.List;
 import java.util.Locale;
 import com.shipovskijkorp.industriallegacy.util.EnergyDisplayUtil;
+import com.shipovskijkorp.industriallegacy.item.tool.PainterItem;
 
 public class CableItem extends Item {
     public static final String NBT_KIND = "kind";
@@ -68,15 +72,20 @@ public class CableItem extends Item {
     }
 
     public static ItemStack createStack(Item cableItem, CableKind kind, int insulation) {
-        return createStack(cableItem, kind, insulation, 0);
+        return createStack(cableItem, kind, insulation, 0, -1);
     }
 
     public static ItemStack createStack(Item cableItem, CableKind kind, int insulation, int oxidation) {
+        return createStack(cableItem, kind, insulation, oxidation, -1);
+    }
+
+    public static ItemStack createStack(Item cableItem, CableKind kind, int insulation, int oxidation, int color) {
         ItemStack stack = new ItemStack(cableItem);
         NbtCompound nbt = stack.getOrCreateNbt();
         nbt.putString(NBT_KIND, kind.id());
         int clampedInsulation = Math.max(0, Math.min(kind.maxInsulation, insulation));
         nbt.putInt(NBT_INSULATION, clampedInsulation);
+        setColor(stack, color);
         setOxidation(stack, oxidation);
         syncVisualVariant(stack);
         return stack;
@@ -122,7 +131,33 @@ public class CableItem extends Item {
     public static int getColor(ItemStack stack) {
         NbtCompound nbt = stack.getNbt();
         if (nbt == null) return -1;
-        return nbt.contains(NBT_COLOR) ? nbt.getInt(NBT_COLOR) : -1;
+        int color = nbt.contains(NBT_COLOR) ? nbt.getInt(NBT_COLOR) : -1;
+        return color < 0 ? -1 : DyeColor.byId(color).getId();
+    }
+
+    public static void setColor(ItemStack stack, int color) {
+        if (stack == null || stack.isEmpty()) return;
+        CableKind kind = getKind(stack);
+        int insulation = getInsulation(stack);
+        NbtCompound nbt = stack.getOrCreateNbt();
+        if (color >= 0 && kind.canBeColored(insulation)) {
+            nbt.putInt(NBT_COLOR, DyeColor.byId(color).getId());
+        } else {
+            nbt.remove(NBT_COLOR);
+        }
+    }
+
+    public static String colorName(int color) {
+        return color < 0 ? "black" : DyeColor.byId(color).asString();
+    }
+
+    public static String colorTexturePath(String baseTexturePath, int color) {
+        if (color < 0) return baseTexturePath;
+        String suffix = "_" + colorName(color);
+        if (baseTexturePath.endsWith("_black")) {
+            return baseTexturePath.substring(0, baseTexturePath.length() - "_black".length()) + suffix;
+        }
+        return baseTexturePath;
     }
 
     @Override
@@ -144,17 +179,24 @@ public class CableItem extends Item {
         CableKind kind = getKind(stack);
         int ins = getInsulation(stack);
 
+        MutableText out = base.copy();
+
         if (kind == CableKind.COPPER && ins == 0) {
             int ox = getOxidation(stack);
             // Always show stage, even clean, to make it obvious in creative
-            MutableText out = base.copy();
             out.append(Text.literal(" (").formatted(Formatting.DARK_GRAY));
             out.append(Text.translatable(oxidationKey(ox)).formatted(Formatting.GRAY));
             out.append(Text.literal(")").formatted(Formatting.DARK_GRAY));
-            return out;
         }
 
-        return base;
+        int color = getColor(stack);
+        if (color >= 0) {
+            out.append(Text.literal(" (").formatted(Formatting.DARK_GRAY));
+            out.append(Text.translatable("color.minecraft." + DyeColor.byId(color).asString()).formatted(Formatting.GRAY));
+            out.append(Text.literal(")").formatted(Formatting.DARK_GRAY));
+        }
+
+        return out;
     }
 
     @Override
@@ -171,6 +213,13 @@ public class CableItem extends Item {
         // loss (effective)
         int mult = lossMultiplier(stack);
         double effectiveLoss = kind.loss * mult;
+
+        int color = getColor(stack);
+        if (color >= 0) {
+            tooltip.add(Text.translatable("tooltip." + IndustrialLegacy.MOD_ID + ".cable.color",
+                            Text.translatable("color.minecraft." + DyeColor.byId(color).asString()))
+                    .formatted(Formatting.GRAY));
+        }
 
         if (kind == CableKind.COPPER && ins == 0) {
             int ox = getOxidation(stack);
@@ -244,7 +293,19 @@ public class CableItem extends Item {
                 if (kind == CableKind.COPPER && ins == 0) {
                     cableBe.setOxidationLevel(getOxidation(stack));
                 }
+                int color = getColor(stack);
+                boolean colorAppliedFromStack = color >= 0 && cableBe.setColor(color);
+                if (!colorAppliedFromStack && color < 0 && context.getHand() == Hand.MAIN_HAND && context.getPlayer() != null) {
+                    ItemStack offStack = context.getPlayer().getOffHandStack();
+                    if (offStack.getItem() instanceof PainterItem painter && painter.getColor() != null && cableBe.recolor(painter.getColor())) {
+                        painter.damagePainter(context.getPlayer(), Hand.OFF_HAND, offStack);
+                    }
+                }
                 cableBe.refreshDerivedState();
+            }
+            EuNetwork.invalidate(world, pos);
+            for (Direction dir : Direction.values()) {
+                EuNetwork.invalidate(world, pos.offset(dir));
             }
         }
 

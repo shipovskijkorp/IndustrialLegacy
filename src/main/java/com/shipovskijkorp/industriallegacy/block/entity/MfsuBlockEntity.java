@@ -7,12 +7,16 @@ import com.shipovskijkorp.industriallegacy.energy.util.EuUtil;
 import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
 import com.shipovskijkorp.industriallegacy.energy.item.ElectricItemManager;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -92,6 +96,24 @@ public class MfsuBlockEntity extends BlockEntity implements SidedInventory, IEuE
 
     public MfsuBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.MFSU, pos, state);
+    }
+
+    private void markDirtyAndSync() {
+        markDirty();
+        if (world != null && !world.isClient) {
+            BlockState state = getCachedState();
+            world.updateListeners(pos, state, state, Block.NOTIFY_LISTENERS);
+        }
+    }
+
+    @Override
+    public NbtCompound toInitialChunkDataNbt() {
+        return createNbt();
+    }
+
+    @Override
+    public @Nullable Packet<ClientPlayPacketListener> toUpdatePacket() {
+        return BlockEntityUpdateS2CPacket.create(this);
     }
 
     public static void tick(World world, BlockPos pos, BlockState state, MfsuBlockEntity be) {
@@ -179,7 +201,7 @@ public class MfsuBlockEntity extends BlockEntity implements SidedInventory, IEuE
                 long accepted = ElectricItemManager.charge(charge, move, false);
                 if (accepted > 0L) {
                     energy -= accepted;
-                    markDirty();
+                    markDirtyAndSync();
                 }
             }
         }
@@ -196,7 +218,7 @@ public class MfsuBlockEntity extends BlockEntity implements SidedInventory, IEuE
                 long extracted = ElectricItemManager.discharge(discharge, move, false);
                 if (extracted > 0L) {
                     energy = Math.min(capacity, energy + extracted);
-                    markDirty();
+                    markDirtyAndSync();
                 }
             }
         }
@@ -249,14 +271,14 @@ public class MfsuBlockEntity extends BlockEntity implements SidedInventory, IEuE
     @Override
     public ItemStack removeStack(int slot, int amount) {
         ItemStack result = Inventories.splitStack(items, slot, amount);
-        if (!result.isEmpty()) markDirty();
+        if (!result.isEmpty()) markDirtyAndSync();
         return result;
     }
 
     @Override
     public ItemStack removeStack(int slot) {
         ItemStack result = Inventories.removeStack(items, slot);
-        markDirty();
+        markDirtyAndSync();
         return result;
     }
 
@@ -271,7 +293,7 @@ public class MfsuBlockEntity extends BlockEntity implements SidedInventory, IEuE
         if (stack.getCount() > getMaxCountPerStack()) {
             stack.setCount(getMaxCountPerStack());
         }
-        markDirty();
+        markDirtyAndSync();
     }
 
     @Override
@@ -316,7 +338,7 @@ public class MfsuBlockEntity extends BlockEntity implements SidedInventory, IEuE
     @Override
     public void setStoredEnergyFromItem(long amount) {
         this.energy = Math.max(0L, Math.min(this.capacity, amount));
-        markDirty();
+        markDirtyAndSync();
     }
 
     public long getEuStored() {
@@ -364,7 +386,7 @@ public class MfsuBlockEntity extends BlockEntity implements SidedInventory, IEuE
         long accepted = Math.min(amount, getEuFree());
         if (!simulate && accepted > 0) {
             energy += accepted;
-            markDirty();
+            markDirtyAndSync();
         }
         return accepted;
     }
@@ -384,7 +406,7 @@ public class MfsuBlockEntity extends BlockEntity implements SidedInventory, IEuE
         if (extracted <= 0) return 0;
         if (!simulate) {
             energy -= extracted;
-            markDirty();
+            markDirtyAndSync();
         }
         return extracted;
     }
@@ -400,7 +422,7 @@ public class MfsuBlockEntity extends BlockEntity implements SidedInventory, IEuE
     public void cycleRedstoneMode(@Nullable ServerPlayerEntity player) {
         redstoneMode++;
         if (redstoneMode >= REDSTONE_MODES) redstoneMode = 0;
-        markDirty();
+        markDirtyAndSync();
         updateRedstoneOutput();
         if (player != null) {
             player.sendMessage(Text.translatable(getRedstoneModeTranslationKey()), false);

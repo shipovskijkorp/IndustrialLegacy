@@ -3,6 +3,7 @@ package com.shipovskijkorp.industriallegacy.energy.grid;
 import com.shipovskijkorp.industriallegacy.block.CableBlock;
 import com.shipovskijkorp.industriallegacy.config.ILConfig;
 import com.shipovskijkorp.industriallegacy.item.CableKind;
+import com.shipovskijkorp.industriallegacy.block.entity.CableBlockEntity;
 import com.shipovskijkorp.industriallegacy.registry.ModBlocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
@@ -45,8 +46,16 @@ final class OverVoltageProcessor {
             double absorb = kind.getInsulationEnergyAbsorption(insulation);
             if (insulation > 0 && packet >= absorb) {
                 int newIns = Math.max(0, insulation - 1);
+                int oldColor = -1;
+                if (world.getBlockEntity(p) instanceof CableBlockEntity oldCableBe) {
+                    oldColor = oldCableBe.getColor();
+                }
                 BlockState ns = ModBlocks.getCableBlock(kind, newIns).getDefaultState();
                 world.setBlockState(p, ns, 3);
+                if (world.getBlockEntity(p) instanceof CableBlockEntity newCableBe) {
+                    newCableBe.setColor(kind.canBeColored(newIns) ? oldColor : -1);
+                    newCableBe.refreshDerivedState();
+                }
             }
 
             // Shock entities near uninsulated cables when a meaningful packet is conducted.
