@@ -7,9 +7,8 @@
   "authors": [
     "ShipovskijKorp"
   ],
-
   "mixins": [
-  "industrial_legacy.mixins.json"
+    "industrial_legacy.mixins.json"
   ],
   "contact": {
     "sources": ""
@@ -23,6 +22,9 @@
     ],
     "client": [
       "com.shipovskijkorp.industriallegacy.client.IndustrialLegacyClient"
+    ],
+    "jei_mod_plugin": [
+      "com.shipovskijkorp.industriallegacy.compat.jei.IndustrialLegacyJeiPlugin"
     ]
   },
   "depends": {
