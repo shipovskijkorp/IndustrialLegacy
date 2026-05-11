@@ -77,9 +77,9 @@ public final class SimpleMachineJeiCategory<T> implements IRecipeCategory<T> {
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, T recipe, IFocusGroup focuses) {
-        builder.addSlot(RecipeIngredientRole.INPUT, 55, 0)
+        builder.addSlot(RecipeIngredientRole.INPUT, 56, 1)
                 .addItemStacks(IlJeiUtil.ingredient(inputGetter.apply(recipe), inputCountGetter.applyAsInt(recipe)));
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 115, 18)
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 116, 19)
                 .addItemStack(outputGetter.apply(recipe).copy());
     }
 

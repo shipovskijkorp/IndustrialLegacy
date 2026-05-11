@@ -50,7 +50,7 @@ public final class ThermalCentrifugeJeiCategory implements IRecipeCategory<Therm
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, ThermalCentrifugeRecipe recipe, IFocusGroup focuses) {
-        builder.addSlot(RecipeIngredientRole.INPUT, 10, 1)
+        builder.addSlot(RecipeIngredientRole.INPUT, 11, 2)
                 .addItemStacks(IlJeiUtil.ingredient(recipe.getIngredient(), recipe.getInputCount()));
 
         List<ItemStack> results = recipe.getResults();
@@ -58,7 +58,7 @@ public final class ThermalCentrifugeJeiCategory implements IRecipeCategory<Therm
         for (int i = 0; i < results.size() && i < ys.length; i++) {
             ItemStack result = results.get(i);
             if (!result.isEmpty()) {
-                builder.addSlot(RecipeIngredientRole.OUTPUT, 123, ys[i])
+                builder.addSlot(RecipeIngredientRole.OUTPUT, 124, ys[i] + 1)
                         .addItemStack(result.copy());
             }
         }

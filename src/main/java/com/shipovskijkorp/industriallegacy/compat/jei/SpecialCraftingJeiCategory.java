@@ -56,10 +56,10 @@ public final class SpecialCraftingJeiCategory implements IRecipeCategory<IlSpeci
             if (stacks == null || stacks.isEmpty()) continue;
             int x = 4 + (i % 3) * 18;
             int y = 10 + (i / 3) * 18;
-            builder.addSlot(RecipeIngredientRole.INPUT, x, y).addItemStacks(stacks);
+            builder.addSlot(RecipeIngredientRole.INPUT, x + 1, y + 1).addItemStacks(stacks);
         }
 
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 120, 28)
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 121, 29)
                 .addItemStack(recipe.output());
     }
 

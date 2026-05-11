@@ -48,11 +48,11 @@ public final class SolidCanningJeiCategory implements IRecipeCategory<CanningRec
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, CanningRecipe recipe, IFocusGroup focuses) {
-        builder.addSlot(RecipeIngredientRole.INPUT, 36, 19)
+        builder.addSlot(RecipeIngredientRole.INPUT, 37, 20)
                 .addItemStacks(IlJeiUtil.ingredient(recipe.getFill(), recipe.getFillCount()));
-        builder.addSlot(RecipeIngredientRole.INPUT, 66, 19)
+        builder.addSlot(RecipeIngredientRole.INPUT, 67, 20)
                 .addItemStacks(IlJeiUtil.ingredient(recipe.getContainer(), recipe.getContainerCount()));
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 115, 19)
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 116, 20)
                 .addItemStack(recipe.getResultStack().copy());
     }
 

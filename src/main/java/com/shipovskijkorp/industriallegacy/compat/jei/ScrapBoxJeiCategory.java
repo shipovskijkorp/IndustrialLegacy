@@ -51,9 +51,9 @@ public final class ScrapBoxJeiCategory implements IRecipeCategory<ScrapBoxJeiRec
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, ScrapBoxJeiRecipe recipe, IFocusGroup focuses) {
-        builder.addSlot(RecipeIngredientRole.INPUT, 0, 4)
+        builder.addSlot(RecipeIngredientRole.INPUT, 1, 5)
                 .addItemStack(new ItemStack(ModItems.SCRAP_BOX));
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 60, 4)
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 61, 5)
                 .addItemStack(recipe.output());
     }
 

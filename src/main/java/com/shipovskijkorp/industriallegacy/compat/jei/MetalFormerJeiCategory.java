@@ -85,9 +85,9 @@ public final class MetalFormerJeiCategory implements IRecipeCategory<MetalFormer
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, MetalFormerRecipe recipe, IFocusGroup focuses) {
-        builder.addSlot(RecipeIngredientRole.INPUT, 16, 0)
+        builder.addSlot(RecipeIngredientRole.INPUT, 17, 1)
                 .addItemStacks(IlJeiUtil.ingredient(inputGetter.apply(recipe), inputCountGetter.applyAsInt(recipe)));
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 115, 18)
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 116, 19)
                 .addItemStack(outputGetter.apply(recipe).copy());
     }
 

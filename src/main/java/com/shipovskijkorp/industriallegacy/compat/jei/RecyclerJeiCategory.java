@@ -47,8 +47,8 @@ public final class RecyclerJeiCategory implements IRecipeCategory<RecyclerJeiRec
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, RecyclerJeiRecipe recipe, IFocusGroup focuses) {
-        builder.addSlot(RecipeIngredientRole.INPUT, 55, 0).addItemStacks(recipe.inputs());
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 115, 18).addItemStack(recipe.output());
+        builder.addSlot(RecipeIngredientRole.INPUT, 56, 1).addItemStacks(recipe.inputs());
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 116, 19).addItemStack(recipe.output());
     }
 
     @Override
