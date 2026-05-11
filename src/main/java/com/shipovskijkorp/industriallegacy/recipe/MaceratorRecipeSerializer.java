@@ -50,12 +50,28 @@ public class MaceratorRecipeSerializer implements RecipeSerializer<MaceratorReci
         Ingredient ing = legacyIngredient(in);
         int inputCount = JsonHelper.getInt(in, "count", 1);
 
-        Identifier outId = new Identifier(JsonHelper.getString(out, "item"));
+        Identifier outId = normalizeLegacyOutputId(new Identifier(JsonHelper.getString(out, "item")));
         int outCount = JsonHelper.getInt(out, "count", 1);
         ItemStack result = new ItemStack(Registries.ITEM.get(outId), outCount);
 
         int ticks = JsonHelper.getInt(json, "ticks", 300);
         return new MaceratorRecipe(id, ing, inputCount, result, ticks);
+    }
+
+    private Identifier normalizeLegacyOutputId(Identifier id) {
+        if (!"industrial_legacy".equals(id.getNamespace())) {
+            return id;
+        }
+
+        return switch (id.getPath()) {
+            case "copper_crushed_ore" -> new Identifier(id.getNamespace(), "crushed_copper_ore");
+            case "gold_crushed_ore" -> new Identifier(id.getNamespace(), "crushed_gold_ore");
+            case "iron_crushed_ore" -> new Identifier(id.getNamespace(), "crushed_iron_ore");
+            case "lead_crushed_ore" -> new Identifier(id.getNamespace(), "crushed_lead_ore");
+            case "tin_crushed_ore" -> new Identifier(id.getNamespace(), "crushed_tin_ore");
+            case "uranium_crushed_ore" -> new Identifier(id.getNamespace(), "crushed_uranium_ore");
+            default -> id;
+        };
     }
 
     private Ingredient legacyIngredient(JsonObject input) {

@@ -5,6 +5,7 @@ import com.shipovskijkorp.industriallegacy.block.*;
 import com.shipovskijkorp.industriallegacy.item.CableKind;
 import com.shipovskijkorp.industriallegacy.item.EnergyMachineBlockItem;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.minecraft.block.*;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -319,6 +320,41 @@ public final class ModBlocks {
     public static final Block REINFORCED_GLASS =
             register("reinforced_glass", new ReinforcedGlassBlock());
 
+
+    public static final Block SCAFFOLD = register(
+            "scaffold",
+            new ScaffoldBlock(FabricBlockSettings.create()
+                    .strength(0.5f, 0.12f)
+                    .sounds(BlockSoundGroup.WOOD),
+                    ScaffoldBlock.ScaffoldType.WOOD)
+    );
+
+    public static final Block REINFORCED_SCAFFOLD = register(
+            "reinforced_scaffold",
+            new ScaffoldBlock(FabricBlockSettings.create()
+                    .strength(0.6f, 0.24f)
+                    .sounds(BlockSoundGroup.WOOD),
+                    ScaffoldBlock.ScaffoldType.REINFORCED_WOOD)
+    );
+
+    public static final Block IRON_SCAFFOLD = register(
+            "iron_scaffold",
+            new ScaffoldBlock(FabricBlockSettings.create()
+                    .strength(0.8f, 6.0f)
+                    .sounds(BlockSoundGroup.METAL)
+                    .requiresTool(),
+                    ScaffoldBlock.ScaffoldType.IRON)
+    );
+
+    public static final Block REINFORCED_IRON_SCAFFOLD = register(
+            "reinforced_iron_scaffold",
+            new ScaffoldBlock(FabricBlockSettings.create()
+                    .strength(1.0f, 8.0f)
+                    .sounds(BlockSoundGroup.METAL)
+                    .requiresTool(),
+                    ScaffoldBlock.ScaffoldType.REINFORCED_IRON)
+    );
+
     public static final Block IRON_FENCE = register(
             "iron_fence",
             new FenceBlock(FabricBlockSettings.copyOf(Blocks.IRON_BARS).sounds(BlockSoundGroup.METAL).requiresTool())
@@ -522,5 +558,7 @@ public final class ModBlocks {
 
     public static void register() {
         // classload triggers static init
+        FlammableBlockRegistry.getDefaultInstance().add(SCAFFOLD, 20, 8);
+        FlammableBlockRegistry.getDefaultInstance().add(REINFORCED_SCAFFOLD, 20, 8);
     }
 }

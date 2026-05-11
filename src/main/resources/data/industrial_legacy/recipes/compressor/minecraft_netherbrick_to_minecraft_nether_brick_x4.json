@@ -1,10 +1,10 @@
 {
   "type": "industrial_legacy:compressor",
   "ingredient": {
-    "item": "minecraft:netherbrick"
+    "item": "minecraft:nether_brick"
   },
   "result": {
-    "item": "minecraft:nether_brick",
+    "item": "minecraft:nether_bricks",
     "count": 1
   },
   "ticks": 300,

@@ -89,6 +89,10 @@ public final class ModItems {
     public static final Item RE_BATTERY = register("re_battery", new ReBatteryItem(new FabricItemSettings().maxCount(16)));
 
     public static final Item ADVANCED_RE_BATTERY = register("advanced_re_battery", new AdvancedReBatteryItem(new FabricItemSettings().maxCount(16)));
+    public static final Item CHARGING_RE_BATTERY = register("charging_re_battery", new ChargingBatteryItem(new FabricItemSettings().maxCount(16), 40_000L, 128L, 1));
+    public static final Item ADVANCED_CHARGING_RE_BATTERY = register("advanced_charging_re_battery", new ChargingBatteryItem(new FabricItemSettings().maxCount(16), 400_000L, 1_024L, 2));
+    public static final Item CHARGING_ENERGY_CRYSTAL = register("charging_energy_crystal", new ChargingBatteryItem(new FabricItemSettings().maxCount(16), 4_000_000L, 8_192L, 3));
+    public static final Item CHARGING_LAPOTRON_CRYSTAL = register("charging_lapotron_crystal", new ChargingBatteryItem(new FabricItemSettings().maxCount(16), 40_000_000L, 32_768L, 4));
 
     // --- Basic materials / drops ---
     public static final Item STICKY_RESIN = register("sticky_resin", new Item(new FabricItemSettings()));

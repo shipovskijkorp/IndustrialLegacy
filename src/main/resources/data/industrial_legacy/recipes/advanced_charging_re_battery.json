@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "EBE",
+    "BOB",
+    "EBE"
+  ],
+  "key": {
+    "E": { "item": "industrial_legacy:heat_exchanger" },
+    "B": { "item": "industrial_legacy:advanced_re_battery" },
+    "O": { "item": "industrial_legacy:charging_re_battery" }
+  },
+  "result": {
+    "item": "industrial_legacy:advanced_charging_re_battery"
+  }
+}

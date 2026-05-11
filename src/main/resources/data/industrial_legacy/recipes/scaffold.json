@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PPP",
+    " S ",
+    "S S"
+  ],
+  "key": {
+    "P": { "tag": "minecraft:planks" },
+    "S": { "item": "minecraft:stick" }
+  },
+  "result": {
+    "item": "industrial_legacy:scaffold",
+    "count": 4
+  }
+}

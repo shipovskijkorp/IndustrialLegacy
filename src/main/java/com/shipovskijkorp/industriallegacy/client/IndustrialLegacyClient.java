@@ -76,8 +76,12 @@ public class IndustrialLegacyClient implements ClientModInitializer {
 
         registerChargePredicate(ModItems.RE_BATTERY);
         registerChargePredicate(ModItems.ADVANCED_RE_BATTERY);
+        registerChargePredicate(ModItems.CHARGING_RE_BATTERY);
+        registerChargePredicate(ModItems.ADVANCED_CHARGING_RE_BATTERY);
         registerChargePredicate(ModItems.ENERGY_CRYSTAL);
         registerChargePredicate(ModItems.LAPOTRON_CRYSTAL);
+        registerChargePredicate(ModItems.CHARGING_ENERGY_CRYSTAL);
+        registerChargePredicate(ModItems.CHARGING_LAPOTRON_CRYSTAL);
         registerChargePredicate(ModItems.JETPACK_ELECTRIC);
         registerChargePredicate(ModItems.NANO_HELMET);
         registerChargePredicate(ModItems.NANO_CHESTPLATE);
@@ -149,6 +153,10 @@ public class IndustrialLegacyClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.RUBBER_SAPLING, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.RUBBER_LEAVES, RenderLayer.getCutoutMipped());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.REINFORCED_GLASS, RenderLayer.getTranslucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SCAFFOLD, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.REINFORCED_SCAFFOLD, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.IRON_SCAFFOLD, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.REINFORCED_IRON_SCAFFOLD, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.LUMINATOR, RenderLayer.getTranslucent());
     }
 

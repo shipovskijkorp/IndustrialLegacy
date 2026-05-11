@@ -2,6 +2,8 @@ package com.shipovskijkorp.industriallegacy.compat.jei;
 
 import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
 import com.shipovskijkorp.industriallegacy.item.CableItem;
+import com.shipovskijkorp.industriallegacy.recipe.CompressorRecipe;
+import com.shipovskijkorp.industriallegacy.recipe.MaceratorRecipe;
 import com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem;
 import com.shipovskijkorp.industriallegacy.registry.ModBlocks;
 import com.shipovskijkorp.industriallegacy.registry.ModItems;
@@ -129,8 +131,13 @@ public final class IndustrialLegacyJeiPlugin implements IModPlugin {
             return;
         }
 
-        addRecipes(registration, IlJeiRecipeTypes.MACERATOR, manager.listAllOfType(ModRecipes.MACERATOR_TYPE));
-        addRecipes(registration, IlJeiRecipeTypes.COMPRESSOR, manager.listAllOfType(ModRecipes.COMPRESSOR_TYPE));
+        addRecipes(registration, IlJeiRecipeTypes.MACERATOR, manager.listAllOfType(ModRecipes.MACERATOR_TYPE).stream()
+                .filter(IndustrialLegacyJeiPlugin::hasVisibleOutput)
+                .filter(recipe -> !isDuplicateLegacyOreMaceratorRecipe(recipe))
+                .toList());
+        addRecipes(registration, IlJeiRecipeTypes.COMPRESSOR, manager.listAllOfType(ModRecipes.COMPRESSOR_TYPE).stream()
+                .filter(IndustrialLegacyJeiPlugin::hasVisibleOutput)
+                .toList());
         registration.addRecipes(IlJeiRecipeTypes.RECYCLER, List.of(RecyclerJeiRecipe.create()));
         List<com.shipovskijkorp.industriallegacy.recipe.CanningRecipe> canningRecipes = manager.listAllOfType(ModRecipes.CANNING_TYPE);
         addRecipes(registration, IlJeiRecipeTypes.CANNING, canningRecipes);
@@ -141,6 +148,19 @@ public final class IndustrialLegacyJeiPlugin implements IModPlugin {
         addRecipes(registration, IlJeiRecipeTypes.METAL_FORMER_CUTTING, manager.listAllOfType(ModRecipes.METAL_FORMER_CUTTING_TYPE));
         registration.addRecipes(IlJeiRecipeTypes.SPECIAL_CRAFTING, IlSpecialCraftingRecipeFactory.create(manager));
         registration.addRecipes(IlJeiRecipeTypes.SCRAP_BOX, ScrapBoxJeiRecipeFactory.create());
+    }
+
+    private static boolean hasVisibleOutput(MaceratorRecipe recipe) {
+        return !recipe.getOutputStack().isEmpty();
+    }
+
+    private static boolean hasVisibleOutput(CompressorRecipe recipe) {
+        return !recipe.getOutputStack().isEmpty();
+    }
+
+    private static boolean isDuplicateLegacyOreMaceratorRecipe(MaceratorRecipe recipe) {
+        String path = recipe.getId().getPath();
+        return path.startsWith("macerator/oredict_ore") && path.contains("_crushed_ore");
     }
 
     @Override

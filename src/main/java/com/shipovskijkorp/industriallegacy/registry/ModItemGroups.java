@@ -110,6 +110,10 @@ public final class ModItemGroups {
 
                         // Reinforced building block
                         add.accept(ModBlocks.REINFORCED_GLASS);
+                        add.accept(ModBlocks.SCAFFOLD);
+                        add.accept(ModBlocks.REINFORCED_SCAFFOLD);
+                        add.accept(ModBlocks.IRON_SCAFFOLD);
+                        add.accept(ModBlocks.REINFORCED_IRON_SCAFFOLD);
 
                         // Lighting
                         add.accept(ModBlocks.LUMINATOR);
@@ -174,8 +178,12 @@ public final class ModItemGroups {
 
                         add.accept(ModItems.RE_BATTERY);
                         add.accept(ModItems.ADVANCED_RE_BATTERY);
+                        add.accept(ModItems.CHARGING_RE_BATTERY);
+                        add.accept(ModItems.ADVANCED_CHARGING_RE_BATTERY);
                         add.accept(ModItems.ENERGY_CRYSTAL);
                         add.accept(ModItems.LAPOTRON_CRYSTAL);
+                        add.accept(ModItems.CHARGING_ENERGY_CRYSTAL);
+                        add.accept(ModItems.CHARGING_LAPOTRON_CRYSTAL);
                         add.accept(ModItems.FLUID_CELL);
                         entries.add(UniversalFluidCellItem.createStack(UniversalFluidCellItem.CellFluid.WATER));
                         entries.add(UniversalFluidCellItem.createStack(UniversalFluidCellItem.CellFluid.LAVA));
@@ -183,8 +191,12 @@ public final class ModItemGroups {
                         add.accept(ModItems.JETPACK_ELECTRIC);
                         addCharged.accept(ModItems.RE_BATTERY);
                         addCharged.accept(ModItems.ADVANCED_RE_BATTERY);
+                        addCharged.accept(ModItems.CHARGING_RE_BATTERY);
+                        addCharged.accept(ModItems.ADVANCED_CHARGING_RE_BATTERY);
                         addCharged.accept(ModItems.ENERGY_CRYSTAL);
                         addCharged.accept(ModItems.LAPOTRON_CRYSTAL);
+                        addCharged.accept(ModItems.CHARGING_ENERGY_CRYSTAL);
+                        addCharged.accept(ModItems.CHARGING_LAPOTRON_CRYSTAL);
                         addCharged.accept(ModItems.JETPACK_ELECTRIC);
 
                         // Night Vision

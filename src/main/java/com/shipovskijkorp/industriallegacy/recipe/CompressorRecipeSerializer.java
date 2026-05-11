@@ -22,7 +22,7 @@ public class CompressorRecipeSerializer implements RecipeSerializer<CompressorRe
         int inputCount = JsonHelper.getInt(json, "input_count", 1);
 
         JsonObject res = JsonHelper.getObject(json, "result");
-        Identifier itemId = new Identifier(JsonHelper.getString(res, "item"));
+        Identifier itemId = normalizeResultId(new Identifier(JsonHelper.getString(res, "item")));
         int count = JsonHelper.getInt(res, "count", 1);
         ItemStack out = new ItemStack(Registries.ITEM.get(itemId), count);
         if (res.has("nbt")) {
@@ -36,6 +36,19 @@ public class CompressorRecipeSerializer implements RecipeSerializer<CompressorRe
         int ticks = JsonHelper.getInt(json, "ticks", 300);
         String requiredFluid = json.has("required_fluid") ? JsonHelper.getString(json, "required_fluid") : null;
         return new CompressorRecipe(id, ing, inputCount, out, ticks, requiredFluid);
+    }
+
+    private Identifier normalizeResultId(Identifier id) {
+        if (!"minecraft".equals(id.getNamespace())) {
+            return id;
+        }
+
+        return switch (id.getPath()) {
+            case "brick_block" -> new Identifier(id.getNamespace(), "bricks");
+            case "netherbrick" -> new Identifier(id.getNamespace(), "nether_brick");
+            case "nether_brick" -> new Identifier(id.getNamespace(), "nether_bricks");
+            default -> id;
+        };
     }
 
     @Override

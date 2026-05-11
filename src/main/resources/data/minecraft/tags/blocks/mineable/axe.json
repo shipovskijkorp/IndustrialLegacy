@@ -5,6 +5,8 @@
     {
       "id": "industrial_legacy:rubber_wood",
       "required": false
-    }
+    },
+    "industrial_legacy:scaffold",
+    "industrial_legacy:reinforced_scaffold"
   ]
 }

@@ -1,0 +1,9 @@
+{
+  "parent": "industrial_legacy:item/battery/advanced_charging_re_battery_0",
+  "overrides": [
+    { "predicate": { "industrial_legacy:charge": 0.25 }, "model": "industrial_legacy:item/battery/advanced_charging_re_battery_1" },
+    { "predicate": { "industrial_legacy:charge": 0.50 }, "model": "industrial_legacy:item/battery/advanced_charging_re_battery_2" },
+    { "predicate": { "industrial_legacy:charge": 0.75 }, "model": "industrial_legacy:item/battery/advanced_charging_re_battery_3" },
+    { "predicate": { "industrial_legacy:charge": 0.99 }, "model": "industrial_legacy:item/battery/advanced_charging_re_battery_4" }
+  ]
+}

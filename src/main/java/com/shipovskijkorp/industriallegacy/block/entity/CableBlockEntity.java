@@ -32,11 +32,9 @@ public class CableBlockEntity extends BlockEntity {
 
     private long lastTransferredEu = 0;
 
-    // Detector-only: accumulated energy in the current 32-tick window.
-    private double energyInWindow = 0.0;
     private int ticker = 0;
 
-    private boolean active = true;
+    private boolean active = false;
     private int redstoneLevel = 0;
     private int comparatorLevel = 0;
 
@@ -64,6 +62,14 @@ public class CableBlockEntity extends BlockEntity {
     }
 
     public boolean isActive() {
+        return active;
+    }
+
+    public boolean isSplitterActive() {
+        BlockState state = getCachedState();
+        if (!(state.getBlock() instanceof CableBlock cb) || cb.getKind() != CableKind.SPLITTER) {
+            return true;
+        }
         return active;
     }
 
@@ -142,7 +148,8 @@ public class CableBlockEntity extends BlockEntity {
     }
 
     /**
-     * Force-sync derived state (mainly for splitter cables right after placement).
+     * Force-sync derived state. IC2 splitter cables are present in the energy net only while
+     * they are not receiving redstone; detector cables start inactive until energy is detected.
      */
     public void refreshDerivedState() {
         World world = getWorld();
@@ -151,11 +158,9 @@ public class CableBlockEntity extends BlockEntity {
         if (state.getBlock() instanceof CableBlock cb) {
             refreshColorValidity();
             if (cb.getKind() == CableKind.SPLITTER) {
-                boolean newActive = !world.isReceivingRedstonePower(pos);
-                if (setActiveInternal(newActive)) {
-                    com.shipovskijkorp.industriallegacy.energy.net.EuNetwork.invalidate(world, pos);
-                    sync();
-                }
+                syncSplitterActive(world);
+            } else if (cb.getKind() == CableKind.DETECTOR) {
+                setDetectorLevels(world, state, false, 0, 0);
             }
         }
     }
@@ -168,65 +173,77 @@ public class CableBlockEntity extends BlockEntity {
 
         CableKind kind = cb.getKind();
 
-        // Splitter: active state is purely redstone-controlled (matches IL load/unload toggle).
+        // Splitter: IC2 unloads the cable from EnergyNet while redstone-powered and reloads it
+        // when power is removed. In this port the active flag mirrors that net membership.
         if (kind == CableKind.SPLITTER) {
-            boolean newActive = !world.isReceivingRedstonePower(pos);
-            if (be.setActiveInternal(newActive)) {
-                be.sync();
-            }
+            be.syncSplitterActive(world);
             return;
         }
 
-        // Detector: every 32 ticks, emit redstone if there was energy input.
+        // Detector: IC2 samples NodeStats every 32 ticks. It does not sum the whole 32-tick
+        // window, so we read the latest previous-tick snapshot at the sample moment.
         if (kind != CableKind.DETECTOR) {
             return;
         }
-
-        // Accumulate energy-in from the previous tick's NodeStats snapshot.
-        // (END_WORLD_TICK snapshot avoids ordering issues.)
-        var stats = com.shipovskijkorp.industriallegacy.energy.grid.EnergyNetLocal.get(world).getNodeStats(pos);
-        if (stats.energyIn() > 0.0) be.energyInWindow += stats.energyIn();
 
         if (++be.ticker % 32 != 0) {
             return;
         }
 
-        double energy = be.energyInWindow;
-        be.energyInWindow = 0.0;
+        double energy = com.shipovskijkorp.industriallegacy.energy.grid.EnergyNetLocal.get(world)
+                .getNodeStats(pos)
+                .energyIn();
 
         boolean newActive = energy > 0.0;
         int newRs = newActive ? 15 : 0;
 
-        // IL: comparator level ~= map(energyIn / (breakdownEnergy - 1), 1 -> 15)
-        // where breakdownEnergy = capacity + 1, thus (breakdownEnergy - 1) = capacity.
+        // IC2: Util.map(energyIn / (conductorBreakdownEnergy - 1), 1, 15), cast to int.
         double denom = Math.max(1.0, cb.getKind().getConductorBreakdownEnergy() - 1.0);
         double ratio = energy / denom;
         if (Double.isNaN(ratio) || ratio < 0.0) ratio = 0.0;
         if (ratio > 1.0) ratio = 1.0;
         int newComp = (int) (ratio * 15.0);
 
+        be.setDetectorLevels(world, state, newActive, newRs, newComp);
+    }
+
+    private void syncSplitterActive(World world) {
+        boolean newActive = !world.isReceivingRedstonePower(pos);
+        if (!setActiveInternal(newActive)) {
+            return;
+        }
+        com.shipovskijkorp.industriallegacy.energy.net.EuNetwork.invalidate(world, pos);
+        for (net.minecraft.util.math.Direction direction : net.minecraft.util.math.Direction.values()) {
+            com.shipovskijkorp.industriallegacy.energy.net.EuNetwork.invalidate(world, pos.offset(direction));
+        }
+        sync();
+    }
+
+    private void setDetectorLevels(World world, BlockState state, boolean newActive, int newRs, int newComp) {
         boolean changed = false;
-        if (be.active != newActive) {
-            be.active = newActive;
+        if (this.active != newActive) {
+            this.active = newActive;
             changed = true;
         }
-        if (be.redstoneLevel != newRs) {
-            be.redstoneLevel = newRs;
+        if (this.redstoneLevel != newRs) {
+            this.redstoneLevel = newRs;
             changed = true;
         }
-        if (be.comparatorLevel != newComp) {
-            be.comparatorLevel = newComp;
+        if (this.comparatorLevel != newComp) {
+            this.comparatorLevel = newComp;
             changed = true;
         }
 
-        if (changed) {
-            be.markDirty();
-            be.sync();
-
-            Block b = state.getBlock();
-            world.updateNeighborsAlways(pos, b);
-            world.updateComparators(pos, b);
+        if (!changed) {
+            return;
         }
+
+        markDirty();
+        sync();
+
+        Block block = state.getBlock();
+        world.updateNeighborsAlways(pos, block);
+        world.updateComparators(pos, block);
     }
 
     private boolean setActiveInternal(boolean newActive) {
@@ -251,7 +268,6 @@ public class CableBlockEntity extends BlockEntity {
         this.comparatorLevel = nbt.getInt("cmp");
         int storedColor = nbt.contains("color") ? nbt.getInt("color") : -1;
         this.color = storedColor < 0 ? -1 : DyeColor.byId(storedColor).getId();
-        this.energyInWindow = nbt.getDouble("energyInWindow");
         this.ticker = nbt.getInt("ticker");
         this.oxidationLevel = nbt.getInt("ox");
     }
@@ -264,7 +280,6 @@ public class CableBlockEntity extends BlockEntity {
         nbt.putInt("rs", this.redstoneLevel);
         nbt.putInt("cmp", this.comparatorLevel);
         nbt.putInt("color", this.color);
-        nbt.putDouble("energyInWindow", this.energyInWindow);
         nbt.putInt("ticker", this.ticker);
         nbt.putInt("ox", this.oxidationLevel);
     }

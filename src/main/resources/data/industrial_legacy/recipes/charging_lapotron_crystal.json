@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CLC",
+    "LOL",
+    "CLC"
+  ],
+  "key": {
+    "C": { "item": "industrial_legacy:advanced_heat_exchanger" },
+    "L": { "item": "industrial_legacy:lapotron_crystal" },
+    "O": { "item": "industrial_legacy:charging_energy_crystal" }
+  },
+  "result": {
+    "item": "industrial_legacy:charging_lapotron_crystal"
+  }
+}

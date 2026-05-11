@@ -452,5 +452,16 @@
   "jei.industrial_legacy.metal_former_cutting": "Metal Former: Cutting",
   "jei.industrial_legacy.special_crafting": "Industrial Legacy Crafting",
   "jei.industrial_legacy.recycler": "Recycler",
-  "jei.industrial_legacy.solid_canning": "Solid Canning Machine"
+  "jei.industrial_legacy.solid_canning": "Solid Canning Machine",
+  "block.industrial_legacy.scaffold": "Scaffold",
+  "block.industrial_legacy.reinforced_scaffold": "Reinforced Scaffold",
+  "block.industrial_legacy.iron_scaffold": "Iron Scaffold",
+  "block.industrial_legacy.reinforced_iron_scaffold": "Reinforced Iron Scaffold",
+  "item.industrial_legacy.charging_re_battery": "Charging RE Battery",
+  "item.industrial_legacy.advanced_charging_re_battery": "Advanced Charging Battery",
+  "item.industrial_legacy.charging_energy_crystal": "Charging Energy Crystal",
+  "item.industrial_legacy.charging_lapotron_crystal": "Charging Lapotron Crystal",
+  "tooltip.industrial_legacy.mode.enabled": "Enabled",
+  "tooltip.industrial_legacy.mode.disabled": "Disabled",
+  "tooltip.industrial_legacy.mode.not_in_hand": "Not in hand"
 }

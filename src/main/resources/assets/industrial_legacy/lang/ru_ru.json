@@ -452,5 +452,16 @@
   "jei.industrial_legacy.metal_former_cutting": "Формовщик: резка",
   "jei.industrial_legacy.special_crafting": "Крафт Industrial Legacy",
   "jei.industrial_legacy.recycler": "Утилизатор",
-  "jei.industrial_legacy.solid_canning": "Твердотельный наполнитель"
+  "jei.industrial_legacy.solid_canning": "Твердотельный наполнитель",
+  "block.industrial_legacy.scaffold": "Строительные леса",
+  "block.industrial_legacy.reinforced_scaffold": "Укреплённые строительные леса",
+  "block.industrial_legacy.iron_scaffold": "Железные строительные леса",
+  "block.industrial_legacy.reinforced_iron_scaffold": "Укреплённые железные строительные леса",
+  "item.industrial_legacy.charging_re_battery": "Заряжающая RE-батарея",
+  "item.industrial_legacy.advanced_charging_re_battery": "Продвинутая заряжающая батарея",
+  "item.industrial_legacy.charging_energy_crystal": "Заряжающий энергетический кристалл",
+  "item.industrial_legacy.charging_lapotron_crystal": "Заряжающий лазутроновый кристалл",
+  "tooltip.industrial_legacy.mode.enabled": "Включено",
+  "tooltip.industrial_legacy.mode.disabled": "Выключено",
+  "tooltip.industrial_legacy.mode.not_in_hand": "Не в руке"
 }
