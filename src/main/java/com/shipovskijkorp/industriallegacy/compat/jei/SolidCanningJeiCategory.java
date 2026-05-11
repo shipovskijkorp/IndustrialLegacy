@@ -14,34 +14,31 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-public final class CanningJeiCategory implements IRecipeCategory<CanningRecipe> {
-    private static final int WIDTH = 96;
-    private static final int HEIGHT = 81;
-
+public final class SolidCanningJeiCategory implements IRecipeCategory<CanningRecipe> {
     private final IDrawable icon;
 
-    public CanningJeiCategory(IGuiHelper guiHelper, ItemStack iconStack) {
+    public SolidCanningJeiCategory(IGuiHelper guiHelper, ItemStack iconStack) {
         this.icon = guiHelper.createDrawableIngredient(mezz.jei.api.constants.VanillaTypes.ITEM_STACK, iconStack);
     }
 
     @Override
     public RecipeType<CanningRecipe> getRecipeType() {
-        return IlJeiRecipeTypes.CANNING;
+        return IlJeiRecipeTypes.SOLID_CANNING;
     }
 
     @Override
     public Text getTitle() {
-        return Text.translatable("jei.industrial_legacy.canning");
+        return Text.translatable("jei.industrial_legacy.solid_canning");
     }
 
     @Override
     public int getWidth() {
-        return WIDTH;
+        return IlJeiDraw.DYNAMIC_WIDTH;
     }
 
     @Override
     public int getHeight() {
-        return HEIGHT;
+        return IlJeiDraw.DYNAMIC_HEIGHT;
     }
 
     @Override
@@ -51,21 +48,21 @@ public final class CanningJeiCategory implements IRecipeCategory<CanningRecipe> 
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, CanningRecipe recipe, IFocusGroup focuses) {
-        builder.addSlot(RecipeIngredientRole.INPUT, 39, 27)
+        builder.addSlot(RecipeIngredientRole.INPUT, 36, 19)
                 .addItemStacks(IlJeiUtil.ingredient(recipe.getFill(), recipe.getFillCount()));
-        builder.addSlot(RecipeIngredientRole.INPUT, 0, 0)
+        builder.addSlot(RecipeIngredientRole.INPUT, 66, 19)
                 .addItemStacks(IlJeiUtil.ingredient(recipe.getContainer(), recipe.getContainerCount()));
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 78, 0)
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 115, 19)
                 .addItemStack(recipe.getResultStack().copy());
     }
 
     @Override
     public void draw(CanningRecipe recipe, IRecipeSlotsView recipeSlotsView, DrawContext ctx, double mouseX, double mouseY) {
-        IlJeiDraw.drawCannerFrame(ctx);
+        IlJeiDraw.drawSolidCannerFrame(ctx);
     }
 
     @Override
     public Identifier getRegistryName(CanningRecipe recipe) {
-        return recipe.getId();
+        return IlJeiUtil.suffix(recipe.getId(), "_solid_canner");
     }
 }

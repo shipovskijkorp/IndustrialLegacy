@@ -8,6 +8,7 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.text.Text;
@@ -17,13 +18,20 @@ import java.util.function.Function;
 import java.util.function.ToIntFunction;
 
 public final class SimpleMachineJeiCategory<T> implements IRecipeCategory<T> {
+    public enum Progress {
+        CRUSH,
+        TRIANGLE,
+        RECYCLER,
+        ARROW
+    }
+
     private final RecipeType<T> recipeType;
     private final Text title;
-    private final IDrawable background;
     private final IDrawable icon;
     private final Function<T, Ingredient> inputGetter;
     private final ToIntFunction<T> inputCountGetter;
     private final Function<T, ItemStack> outputGetter;
+    private final Progress progress;
 
     public SimpleMachineJeiCategory(IGuiHelper guiHelper,
                                     RecipeType<T> recipeType,
@@ -31,14 +39,15 @@ public final class SimpleMachineJeiCategory<T> implements IRecipeCategory<T> {
                                     ItemStack iconStack,
                                     Function<T, Ingredient> inputGetter,
                                     ToIntFunction<T> inputCountGetter,
-                                    Function<T, ItemStack> outputGetter) {
+                                    Function<T, ItemStack> outputGetter,
+                                    Progress progress) {
         this.recipeType = recipeType;
         this.title = Text.translatable(titleKey);
-        this.background = guiHelper.createBlankDrawable(128, 54);
         this.icon = guiHelper.createDrawableIngredient(mezz.jei.api.constants.VanillaTypes.ITEM_STACK, iconStack);
         this.inputGetter = inputGetter;
         this.inputCountGetter = inputCountGetter;
         this.outputGetter = outputGetter;
+        this.progress = progress;
     }
 
     @Override
@@ -52,8 +61,13 @@ public final class SimpleMachineJeiCategory<T> implements IRecipeCategory<T> {
     }
 
     @Override
-    public IDrawable getBackground() {
-        return background;
+    public int getWidth() {
+        return IlJeiDraw.DYNAMIC_WIDTH;
+    }
+
+    @Override
+    public int getHeight() {
+        return IlJeiDraw.DYNAMIC_HEIGHT;
     }
 
     @Override
@@ -63,10 +77,15 @@ public final class SimpleMachineJeiCategory<T> implements IRecipeCategory<T> {
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, T recipe, IFocusGroup focuses) {
-        builder.addSlot(RecipeIngredientRole.INPUT, 18, 19)
+        builder.addSlot(RecipeIngredientRole.INPUT, 55, 0)
                 .addItemStacks(IlJeiUtil.ingredient(inputGetter.apply(recipe), inputCountGetter.applyAsInt(recipe)));
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 92, 19)
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 115, 18)
                 .addItemStack(outputGetter.apply(recipe).copy());
+    }
+
+    @Override
+    public void draw(T recipe, IRecipeSlotsView recipeSlotsView, DrawContext ctx, double mouseX, double mouseY) {
+        IlJeiDraw.drawSimpleMachineFrame(ctx, progress);
     }
 
     @Override

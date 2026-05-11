@@ -450,5 +450,7 @@
   "jei.industrial_legacy.metal_former_extruding": "Формовщик: выдавливание",
   "jei.industrial_legacy.metal_former_rolling": "Формовщик: прокатка",
   "jei.industrial_legacy.metal_former_cutting": "Формовщик: резка",
-  "jei.industrial_legacy.special_crafting": "Крафт Industrial Legacy"
+  "jei.industrial_legacy.special_crafting": "Крафт Industrial Legacy",
+  "jei.industrial_legacy.recycler": "Утилизатор",
+  "jei.industrial_legacy.solid_canning": "Твердотельный наполнитель"
 }

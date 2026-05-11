@@ -101,22 +101,24 @@ public final class IndustrialLegacyJeiPlugin implements IModPlugin {
         registration.addRecipeCategories(
                 new SimpleMachineJeiCategory<>(gui, IlJeiRecipeTypes.MACERATOR,
                         "jei.industrial_legacy.macerator", stack(ModBlocks.MACERATOR),
-                        recipe -> recipe.getIngredient(), recipe -> recipe.getIngredientCount(), recipe -> recipe.getOutputStack()),
+                        recipe -> recipe.getIngredient(), recipe -> recipe.getIngredientCount(), recipe -> recipe.getOutputStack(),
+                        SimpleMachineJeiCategory.Progress.CRUSH),
                 new SimpleMachineJeiCategory<>(gui, IlJeiRecipeTypes.COMPRESSOR,
                         "jei.industrial_legacy.compressor", stack(ModBlocks.COMPRESSOR),
-                        recipe -> recipe.getIngredient(), recipe -> recipe.getIngredientCount(), recipe -> recipe.getOutputStack()),
+                        recipe -> recipe.getIngredient(), recipe -> recipe.getIngredientCount(), recipe -> recipe.getOutputStack(),
+                        SimpleMachineJeiCategory.Progress.TRIANGLE),
+                new RecyclerJeiCategory(gui, stack(ModBlocks.RECYCLER)),
                 new CanningJeiCategory(gui, stack(ModBlocks.CANNER)),
+                new SolidCanningJeiCategory(gui, stack(ModBlocks.SOLID_CANNER)),
                 new ThermalCentrifugeJeiCategory(gui, stack(ModBlocks.THERMAL_CENTRIFUGE)),
-                new SimpleMachineJeiCategory<>(gui, IlJeiRecipeTypes.METAL_FORMER_EXTRUDING,
-                        "jei.industrial_legacy.metal_former_extruding", stack(ModBlocks.METAL_FORMER),
+                new MetalFormerJeiCategory(gui, MetalFormerJeiCategory.Mode.EXTRUDING, stack(ModBlocks.METAL_FORMER),
                         recipe -> recipe.getIngredient(), recipe -> recipe.getInputCount(), recipe -> recipe.getOutputStack()),
-                new SimpleMachineJeiCategory<>(gui, IlJeiRecipeTypes.METAL_FORMER_ROLLING,
-                        "jei.industrial_legacy.metal_former_rolling", stack(ModBlocks.METAL_FORMER),
+                new MetalFormerJeiCategory(gui, MetalFormerJeiCategory.Mode.ROLLING, stack(ModBlocks.METAL_FORMER),
                         recipe -> recipe.getIngredient(), recipe -> recipe.getInputCount(), recipe -> recipe.getOutputStack()),
-                new SimpleMachineJeiCategory<>(gui, IlJeiRecipeTypes.METAL_FORMER_CUTTING,
-                        "jei.industrial_legacy.metal_former_cutting", stack(ModBlocks.METAL_FORMER),
+                new MetalFormerJeiCategory(gui, MetalFormerJeiCategory.Mode.CUTTING, stack(ModBlocks.METAL_FORMER),
                         recipe -> recipe.getIngredient(), recipe -> recipe.getInputCount(), recipe -> recipe.getOutputStack()),
-                new SpecialCraftingJeiCategory(gui)
+                new SpecialCraftingJeiCategory(gui),
+                new ScrapBoxJeiCategory(gui)
         );
     }
 
@@ -129,20 +131,25 @@ public final class IndustrialLegacyJeiPlugin implements IModPlugin {
 
         addRecipes(registration, IlJeiRecipeTypes.MACERATOR, manager.listAllOfType(ModRecipes.MACERATOR_TYPE));
         addRecipes(registration, IlJeiRecipeTypes.COMPRESSOR, manager.listAllOfType(ModRecipes.COMPRESSOR_TYPE));
-        addRecipes(registration, IlJeiRecipeTypes.CANNING, manager.listAllOfType(ModRecipes.CANNING_TYPE));
+        registration.addRecipes(IlJeiRecipeTypes.RECYCLER, List.of(RecyclerJeiRecipe.create()));
+        List<com.shipovskijkorp.industriallegacy.recipe.CanningRecipe> canningRecipes = manager.listAllOfType(ModRecipes.CANNING_TYPE);
+        addRecipes(registration, IlJeiRecipeTypes.CANNING, canningRecipes);
+        addRecipes(registration, IlJeiRecipeTypes.SOLID_CANNING, canningRecipes);
         addRecipes(registration, IlJeiRecipeTypes.THERMAL_CENTRIFUGE, manager.listAllOfType(ModRecipes.THERMAL_CENTRIFUGE_TYPE));
         addRecipes(registration, IlJeiRecipeTypes.METAL_FORMER_EXTRUDING, manager.listAllOfType(ModRecipes.METAL_FORMER_EXTRUDING_TYPE));
         addRecipes(registration, IlJeiRecipeTypes.METAL_FORMER_ROLLING, manager.listAllOfType(ModRecipes.METAL_FORMER_ROLLING_TYPE));
         addRecipes(registration, IlJeiRecipeTypes.METAL_FORMER_CUTTING, manager.listAllOfType(ModRecipes.METAL_FORMER_CUTTING_TYPE));
         registration.addRecipes(IlJeiRecipeTypes.SPECIAL_CRAFTING, IlSpecialCraftingRecipeFactory.create(manager));
+        registration.addRecipes(IlJeiRecipeTypes.SCRAP_BOX, ScrapBoxJeiRecipeFactory.create());
     }
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         registration.addRecipeCatalyst(stack(ModBlocks.MACERATOR), IlJeiRecipeTypes.MACERATOR);
         registration.addRecipeCatalyst(stack(ModBlocks.COMPRESSOR), IlJeiRecipeTypes.COMPRESSOR);
+        registration.addRecipeCatalyst(stack(ModBlocks.RECYCLER), IlJeiRecipeTypes.RECYCLER);
         registration.addRecipeCatalyst(stack(ModBlocks.CANNER), IlJeiRecipeTypes.CANNING);
-        registration.addRecipeCatalyst(stack(ModBlocks.SOLID_CANNER), IlJeiRecipeTypes.CANNING);
+        registration.addRecipeCatalyst(stack(ModBlocks.SOLID_CANNER), IlJeiRecipeTypes.SOLID_CANNING);
         registration.addRecipeCatalyst(stack(ModBlocks.THERMAL_CENTRIFUGE), IlJeiRecipeTypes.THERMAL_CENTRIFUGE);
         registration.addRecipeCatalyst(stack(ModBlocks.METAL_FORMER),
                 IlJeiRecipeTypes.METAL_FORMER_EXTRUDING,
@@ -150,10 +157,13 @@ public final class IndustrialLegacyJeiPlugin implements IModPlugin {
                 IlJeiRecipeTypes.METAL_FORMER_CUTTING);
         registration.addRecipeCatalyst(stack(ModBlocks.ELECTRIC_FURNACE), RecipeTypes.SMELTING);
         registration.addRecipeCatalyst(stack(ModBlocks.IRON_FURNACE), RecipeTypes.SMELTING);
+        registration.addRecipeCatalyst(stack(ModBlocks.IRON_FURNACE), RecipeTypes.FUELING);
+        registration.addRecipeCatalyst(stack(ModBlocks.GENERATOR), RecipeTypes.FUELING);
         registration.addRecipeCatalyst(new ItemStack(Items.CRAFTING_TABLE), IlJeiRecipeTypes.SPECIAL_CRAFTING);
         registration.addRecipeCatalyst(stack(ModItems.FORGE_HAMMER), IlJeiRecipeTypes.SPECIAL_CRAFTING);
         registration.addRecipeCatalyst(stack(ModItems.CUTTER), IlJeiRecipeTypes.SPECIAL_CRAFTING);
         registration.addRecipeCatalyst(stack(ModItems.PAINTER), IlJeiRecipeTypes.SPECIAL_CRAFTING);
+        registration.addRecipeCatalyst(stack(ModItems.SCRAP_BOX), IlJeiRecipeTypes.SCRAP_BOX);
     }
 
     private static RecipeManager recipeManager() {

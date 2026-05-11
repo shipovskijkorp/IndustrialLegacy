@@ -450,5 +450,7 @@
   "jei.industrial_legacy.metal_former_extruding": "Metal Former: Extruding",
   "jei.industrial_legacy.metal_former_rolling": "Metal Former: Rolling",
   "jei.industrial_legacy.metal_former_cutting": "Metal Former: Cutting",
-  "jei.industrial_legacy.special_crafting": "Industrial Legacy Crafting"
+  "jei.industrial_legacy.special_crafting": "Industrial Legacy Crafting",
+  "jei.industrial_legacy.recycler": "Recycler",
+  "jei.industrial_legacy.solid_canning": "Solid Canning Machine"
 }
