@@ -35,18 +35,18 @@ public class CannerScreenHandler extends ScreenHandler {
             this.props = inv instanceof CannerBlockEntity be ? be.getGuiProps() : emptyProps();
         }
 
-        this.addSlot(new Slot(this.inventory, CannerBlockEntity.SLOT_CONTAINER, 41, 17));
-        this.addSlot(new Slot(this.inventory, CannerBlockEntity.SLOT_FILL, 80, 44));
-        this.addSlot(new Slot(this.inventory, CannerBlockEntity.SLOT_OUTPUT, 119, 17) {
+        this.addSlot(new Slot(this.inventory, CannerBlockEntity.SLOT_CONTAINER, 42, 18));
+        this.addSlot(new Slot(this.inventory, CannerBlockEntity.SLOT_FILL, 81, 45));
+        this.addSlot(new Slot(this.inventory, CannerBlockEntity.SLOT_OUTPUT, 120, 18) {
             @Override public boolean canInsert(net.minecraft.item.ItemStack stack) { return false; }
         });
-        this.addSlot(new Slot(this.inventory, CannerBlockEntity.SLOT_DISCHARGE, 8, 80));
+        this.addSlot(new Slot(this.inventory, CannerBlockEntity.SLOT_DISCHARGE, 9, 81));
         for (int i = 0; i < CannerBlockEntity.UPGRADE_SLOTS; i++) {
-            this.addSlot(new Slot(this.inventory, CannerBlockEntity.SLOT_UPGRADE_0 + i, 152, 26 + i * 18));
+            this.addSlot(new Slot(this.inventory, CannerBlockEntity.SLOT_UPGRADE_0 + i, 153, 27 + i * 18));
         }
 
-        int invX = 8;
-        int invY = 101;
+        int invX = 9;
+        int invY = 102;
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 9; col++) {
                 this.addSlot(new Slot(playerInv, col + row * 9 + 9, invX + col * 18, invY + row * 18));
