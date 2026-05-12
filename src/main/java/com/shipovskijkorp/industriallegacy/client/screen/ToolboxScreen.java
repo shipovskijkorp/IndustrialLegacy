@@ -20,7 +20,7 @@ public final class ToolboxScreen extends HandledScreen<ToolboxScreenHandler> {
     @Override
     protected void init() {
         super.init();
-        this.titleX = 65;
+        this.titleX = (this.backgroundWidth - this.textRenderer.getWidth(this.title)) / 2;
         this.titleY = 11;
         this.playerInventoryTitleX = 8;
         this.playerInventoryTitleY = this.backgroundHeight - 94;
