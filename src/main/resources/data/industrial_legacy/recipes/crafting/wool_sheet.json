@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "WRW"
+  ],
+  "key": {
+    "W": {
+      "tag": "minecraft:wool_carpets"
+    },
+    "R": {
+      "item": "industrial_legacy:resin_sheet"
+    }
+  },
+  "result": {
+    "item": "industrial_legacy:wool_sheet",
+    "count": 1
+  }
+}

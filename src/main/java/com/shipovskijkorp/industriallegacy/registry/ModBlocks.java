@@ -330,6 +330,33 @@ public final class ModBlocks {
     public static final Block REINFORCED_GLASS =
             register("reinforced_glass", new ReinforcedGlassBlock());
 
+    public static final Block RESIN_SHEET = register(
+            "resin_sheet",
+            new SheetBlock(FabricBlockSettings.create()
+                    .strength(1.6f, 0.5f)
+                    .sounds(BlockSoundGroup.SLIME)
+                    .nonOpaque(),
+                    SheetBlock.SheetType.RESIN)
+    );
+
+    public static final Block RUBBER_SHEET = register(
+            "rubber_sheet",
+            new SheetBlock(FabricBlockSettings.create()
+                    .strength(0.8f, 2.0f)
+                    .sounds(BlockSoundGroup.WOOL)
+                    .nonOpaque(),
+                    SheetBlock.SheetType.RUBBER)
+    );
+
+    public static final Block WOOL_SHEET = register(
+            "wool_sheet",
+            new SheetBlock(FabricBlockSettings.create()
+                    .strength(0.8f, 0.8f)
+                    .sounds(BlockSoundGroup.WOOL)
+                    .nonOpaque(),
+                    SheetBlock.SheetType.WOOL)
+    );
+
 
     public static final Block SCAFFOLD = register(
             "scaffold",
@@ -570,5 +597,7 @@ public final class ModBlocks {
         // classload triggers static init
         FlammableBlockRegistry.getDefaultInstance().add(SCAFFOLD, 20, 8);
         FlammableBlockRegistry.getDefaultInstance().add(REINFORCED_SCAFFOLD, 20, 8);
+        FlammableBlockRegistry.getDefaultInstance().add(RUBBER_SHEET, 30, 60);
+        FlammableBlockRegistry.getDefaultInstance().add(WOOL_SHEET, 30, 60);
     }
 }

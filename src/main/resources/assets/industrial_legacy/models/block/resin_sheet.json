@@ -1,6 +1,6 @@
 {
-	"parent": "ic2:block/sheet_base",
-	"textures": {
-		"texture": "ic2:blocks/resin_sheet"
-	}
+  "parent": "industrial_legacy:block/sheet_base",
+  "textures": {
+    "texture": "industrial_legacy:block/resin_sheet"
+  }
 }

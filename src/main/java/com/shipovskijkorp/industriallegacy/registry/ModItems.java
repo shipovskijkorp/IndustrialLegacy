@@ -95,7 +95,7 @@ public final class ModItems {
     public static final Item CHARGING_LAPOTRON_CRYSTAL = register("charging_lapotron_crystal", new ChargingBatteryItem(new FabricItemSettings().maxCount(16), 40_000_000L, 32_768L, 4));
 
     // --- Basic materials / drops ---
-    public static final Item STICKY_RESIN = register("sticky_resin", new Item(new FabricItemSettings()));
+    public static final Item STICKY_RESIN = register("sticky_resin", new StickyResinItem(new FabricItemSettings()));
     public static final Item RUBBER = register("rubber", new Item(new FabricItemSettings()));
 
     /** IC2 semantics: sulfur is a dust item. */

@@ -111,6 +111,9 @@ public final class ModItemGroups {
 
                         // Reinforced building block
                         add.accept(ModBlocks.REINFORCED_GLASS);
+                        add.accept(ModBlocks.RESIN_SHEET);
+                        add.accept(ModBlocks.RUBBER_SHEET);
+                        add.accept(ModBlocks.WOOL_SHEET);
                         add.accept(ModBlocks.SCAFFOLD);
                         add.accept(ModBlocks.REINFORCED_SCAFFOLD);
                         add.accept(ModBlocks.IRON_SCAFFOLD);

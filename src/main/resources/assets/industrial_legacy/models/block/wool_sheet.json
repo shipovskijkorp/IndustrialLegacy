@@ -1,6 +1,6 @@
 {
-	"parent": "ic2:block/sheet_base",
-	"textures": {
-		"texture": "blocks/wool_colored_white"
-	}
+  "parent": "industrial_legacy:block/sheet_base",
+  "textures": {
+    "texture": "minecraft:block/white_wool"
+  }
 }
