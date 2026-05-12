@@ -21,6 +21,25 @@ public class CannerScreen extends HandledScreen<CannerScreenHandler> {
     private static final int GUI_W = 176;
     private static final int GUI_H = 184;
 
+    private static final int CENTER_PANEL_X = 40;
+    private static final int CENTER_PANEL_Y = 16;
+    private static final int CENTER_PANEL_W = 96;
+    private static final int CENTER_PANEL_H = 81;
+
+    private static final int SLOT_CONTAINER_X = 41;
+    private static final int SLOT_CONTAINER_Y = 17;
+    private static final int SLOT_FILL_X = 80;
+    private static final int SLOT_FILL_Y = 44;
+    private static final int SLOT_OUTPUT_X = 119;
+    private static final int SLOT_OUTPUT_Y = 17;
+    private static final int SLOT_DISCHARGE_X = 8;
+    private static final int SLOT_DISCHARGE_Y = 80;
+    private static final int SLOT_UPGRADE_X = 152;
+    private static final int SLOT_UPGRADE_Y = 26;
+
+    private static final int PLAYER_INV_X = 8;
+    private static final int PLAYER_INV_Y = 101;
+
     private static final int ENERGY_X = 12;
     private static final int ENERGY_Y = 62;
 
@@ -33,6 +52,11 @@ public class CannerScreen extends HandledScreen<CannerScreenHandler> {
     private static final int TANK_GAUGE_U = 38;
     private static final int TANK_EMPTY_U = 70;
     private static final int TANK_V = 100;
+
+    public static final int RECIPE_BUTTON_X = 74;
+    public static final int RECIPE_BUTTON_Y = 22;
+    public static final int RECIPE_BUTTON_W = 23;
+    public static final int RECIPE_BUTTON_H = 14;
 
     private static final int MODE_BUTTON_X = 63;
     private static final int MODE_BUTTON_Y = 81;
@@ -75,7 +99,29 @@ public class CannerScreen extends HandledScreen<CannerScreenHandler> {
     protected void drawBackground(DrawContext ctx, float delta, int mouseX, int mouseY) {
         int x = this.x;
         int y = this.y;
-        ctx.drawTexture(BACKGROUND, x, y, 0, 0, this.backgroundWidth, this.backgroundHeight, TEX_W, TEX_H);
+
+        IlGuiDraw.drawDefaultBackground(ctx, x, y, this.backgroundWidth, this.backgroundHeight);
+        IlGuiDraw.drawInfoButton(ctx, x + 4, y + 4);
+
+        // center IC2 canner layout without the outer frame / slot artwork
+        ctx.drawTexture(BACKGROUND, x + CENTER_PANEL_X, y + CENTER_PANEL_Y, CENTER_PANEL_X, CENTER_PANEL_Y, CENTER_PANEL_W, CENTER_PANEL_H, TEX_W, TEX_H);
+
+        // inventory & upgrade slots
+        IlGuiDraw.drawSlot(ctx, x + SLOT_CONTAINER_X, y + SLOT_CONTAINER_Y);
+        IlGuiDraw.drawSlot(ctx, x + SLOT_FILL_X, y + SLOT_FILL_Y);
+        IlGuiDraw.drawSlot(ctx, x + SLOT_OUTPUT_X, y + SLOT_OUTPUT_Y);
+        IlGuiDraw.drawSlot(ctx, x + SLOT_DISCHARGE_X, y + SLOT_DISCHARGE_Y);
+        for (int i = 0; i < CannerBlockEntity.UPGRADE_SLOTS; i++) {
+            IlGuiDraw.drawSlot(ctx, x + SLOT_UPGRADE_X, y + SLOT_UPGRADE_Y + i * 18);
+        }
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 9; col++) {
+                IlGuiDraw.drawSlot(ctx, x + PLAYER_INV_X + col * 18, y + PLAYER_INV_Y + row * 18);
+            }
+        }
+        for (int col = 0; col < 9; col++) {
+            IlGuiDraw.drawSlot(ctx, x + PLAYER_INV_X + col * 18, y + PLAYER_INV_Y + 58);
+        }
 
         IlGuiDraw.drawEnergyBoltFramed(ctx, x + ENERGY_X, y + ENERGY_Y,
                 handler.getEnergyCap() <= 0 ? 0f : handler.getEnergy() / (float) handler.getEnergyCap());
@@ -85,26 +131,26 @@ public class CannerScreen extends HandledScreen<CannerScreenHandler> {
 
         switch (handler.getMode()) {
             case BOTTLE_SOLID -> {
-                ctx.drawTexture(BACKGROUND, x + 59, y + 53, 9, 18, 3, 4, TEX_W, TEX_H);
-                ctx.drawTexture(BACKGROUND, x + 99, y + 53, 18, 23, 3, 4, TEX_W, TEX_H);
+                ctx.drawTexture(BACKGROUND, x + 59, y + 53, 3, 4, 9, 18, TEX_W, TEX_H);
+                ctx.drawTexture(BACKGROUND, x + 99, y + 53, 3, 4, 18, 23, TEX_W, TEX_H);
             }
             case EMPTY_LIQUID -> {
                 ctx.drawTexture(BACKGROUND, x + 71, y + 43, 196, 0, 26, 18, TEX_W, TEX_H);
-                ctx.drawTexture(BACKGROUND, x + 59, y + 53, 9, 18, 3, 4, TEX_W, TEX_H);
+                ctx.drawTexture(BACKGROUND, x + 59, y + 53, 3, 4, 9, 18, TEX_W, TEX_H);
             }
             case BOTTLE_LIQUID -> {
-                ctx.drawTexture(BACKGROUND, x + 99, y + 53, 18, 23, 3, 4, TEX_W, TEX_H);
+                ctx.drawTexture(BACKGROUND, x + 99, y + 53, 3, 4, 18, 23, TEX_W, TEX_H);
                 ctx.drawTexture(BACKGROUND, x + 71, y + 43, 196, 0, 26, 18, TEX_W, TEX_H);
             }
             case ENRICH_LIQUID -> {
-                // Base GUI already carries the center square for enrich mode.
+                // base center panel already includes the enrich-liquid middle square / arrows.
             }
         }
 
         float ratio = handler.getMaxProgress() <= 0 ? 0f : handler.getProgress() / (float) handler.getMaxProgress();
-        int width = Math.round(23 * ratio);
+        int width = Math.round(RECIPE_BUTTON_W * ratio);
         if (width > 0) {
-            ctx.drawTexture(BACKGROUND, x + 74, y + 22, 233, 0, width, 14, TEX_W, TEX_H);
+            ctx.drawTexture(BACKGROUND, x + RECIPE_BUTTON_X, y + RECIPE_BUTTON_Y, 233, 0, width, RECIPE_BUTTON_H, TEX_W, TEX_H);
         }
 
         drawModeButton(ctx, x, y, mouseX, mouseY);

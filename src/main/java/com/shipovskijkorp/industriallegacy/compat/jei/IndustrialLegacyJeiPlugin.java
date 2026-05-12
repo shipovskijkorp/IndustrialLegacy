@@ -1,6 +1,7 @@
 package com.shipovskijkorp.industriallegacy.compat.jei;
 
 import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
+import com.shipovskijkorp.industriallegacy.client.screen.CannerScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.CompressorScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.ElectricFurnaceScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.InductionFurnaceScreen;
@@ -141,6 +142,7 @@ public final class IndustrialLegacyJeiPlugin implements IModPlugin {
         registration.addRecipeClickArea(MaceratorScreen.class, 80, 38, 21, 11, IlJeiRecipeTypes.MACERATOR);
         registration.addRecipeClickArea(CompressorScreen.class, 80, 35, 22, 15, IlJeiRecipeTypes.COMPRESSOR);
         registration.addRecipeClickArea(RecyclerScreen.class, 80, 35, 18, 15, IlJeiRecipeTypes.RECYCLER);
+        registration.addRecipeClickArea(CannerScreen.class, CannerScreen.RECIPE_BUTTON_X, CannerScreen.RECIPE_BUTTON_Y, CannerScreen.RECIPE_BUTTON_W, CannerScreen.RECIPE_BUTTON_H, IlJeiRecipeTypes.CANNING);
         registration.addRecipeClickArea(ElectricFurnaceScreen.class, 80, 35, 22, 15, RecipeTypes.SMELTING);
         registration.addRecipeClickArea(InductionFurnaceScreen.class, 81, 35, 22, 15, RecipeTypes.SMELTING);
         registration.addRecipeClickArea(SolidCannerScreen.class, 88, 35, 22, 15, IlJeiRecipeTypes.SOLID_CANNING);
