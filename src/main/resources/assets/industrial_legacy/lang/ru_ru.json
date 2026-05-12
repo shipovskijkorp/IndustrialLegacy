@@ -463,5 +463,9 @@
   "item.industrial_legacy.charging_lapotron_crystal": "Заряжающий лазутроновый кристалл",
   "tooltip.industrial_legacy.mode.enabled": "Включено",
   "tooltip.industrial_legacy.mode.disabled": "Выключено",
-  "tooltip.industrial_legacy.mode.not_in_hand": "Не в руке"
+  "tooltip.industrial_legacy.mode.not_in_hand": "Не в руке",
+  "block.industrial_legacy.induction_furnace": "Индукционная печь",
+  "container.industrial_legacy.induction_furnace": "Индукционная печь",
+  "gui.industrial_legacy.heat": "Нагрев:",
+  "industrial_legacy.generic.text.heat": "Нагрев:"
 }

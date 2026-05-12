@@ -16,6 +16,7 @@
     "industrial_legacy:steel_block",
     "industrial_legacy:silver_block",
     "industrial_legacy:iron_scaffold",
-    "industrial_legacy:reinforced_iron_scaffold"
+    "industrial_legacy:reinforced_iron_scaffold",
+    "industrial_legacy:induction_furnace"
   ]
 }

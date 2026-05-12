@@ -146,6 +146,12 @@ public final class ModBlockEntities {
             BlockEntityType.Builder.create(ElectricFurnaceBlockEntity::new, ModBlocks.ELECTRIC_FURNACE).build(null)
     );
 
+    public static final BlockEntityType<InductionFurnaceBlockEntity> INDUCTION_FURNACE = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE,
+            new Identifier(IndustrialLegacy.MOD_ID, "induction_furnace"),
+            BlockEntityType.Builder.create(InductionFurnaceBlockEntity::new, ModBlocks.INDUCTION_FURNACE).build(null)
+    );
+
     public static final BlockEntityType<MetalFormerBlockEntity> METAL_FORMER = Registry.register(
             Registries.BLOCK_ENTITY_TYPE,
             new Identifier(IndustrialLegacy.MOD_ID, "metal_former"),

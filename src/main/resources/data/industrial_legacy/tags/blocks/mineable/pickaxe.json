@@ -10,6 +10,7 @@
     "industrial_legacy:deepslate_lithium_ore",
     "industrial_legacy:metal_former",
     "industrial_legacy:iron_fence",
-    "industrial_legacy:uranium_block"
+    "industrial_legacy:uranium_block",
+    "industrial_legacy:induction_furnace"
   ]
 }

@@ -93,6 +93,7 @@ public final class ModItemGroups {
                         add.accept(ModBlocks.NUCLEAR_REACTOR);
                         add.accept(ModBlocks.REACTOR_CHAMBER);
                         add.accept(ModBlocks.ELECTRIC_FURNACE);
+                        add.accept(ModBlocks.INDUCTION_FURNACE);
                         add.accept(ModBlocks.MACERATOR);
                         add.accept(ModBlocks.COMPRESSOR);
                         add.accept(ModBlocks.RECYCLER);

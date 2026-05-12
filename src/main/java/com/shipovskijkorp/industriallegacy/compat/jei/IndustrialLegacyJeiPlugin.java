@@ -86,6 +86,7 @@ public final class IndustrialLegacyJeiPlugin implements IModPlugin {
                 ModBlocks.COMPRESSOR.asItem(),
                 ModBlocks.RECYCLER.asItem(),
                 ModBlocks.ELECTRIC_FURNACE.asItem(),
+                ModBlocks.INDUCTION_FURNACE.asItem(),
                 ModBlocks.METAL_FORMER.asItem(),
                 ModBlocks.SOLID_CANNER.asItem(),
                 ModBlocks.CANNER.asItem(),
@@ -176,6 +177,7 @@ public final class IndustrialLegacyJeiPlugin implements IModPlugin {
                 IlJeiRecipeTypes.METAL_FORMER_ROLLING,
                 IlJeiRecipeTypes.METAL_FORMER_CUTTING);
         registration.addRecipeCatalyst(stack(ModBlocks.ELECTRIC_FURNACE), RecipeTypes.SMELTING);
+        registration.addRecipeCatalyst(stack(ModBlocks.INDUCTION_FURNACE), RecipeTypes.SMELTING);
         registration.addRecipeCatalyst(stack(ModBlocks.IRON_FURNACE), RecipeTypes.SMELTING);
         registration.addRecipeCatalyst(stack(ModBlocks.IRON_FURNACE), RecipeTypes.FUELING);
         registration.addRecipeCatalyst(stack(ModBlocks.GENERATOR), RecipeTypes.FUELING);

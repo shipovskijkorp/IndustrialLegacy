@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CCC",
+    "CFC",
+    "CMC"
+  ],
+  "key": {
+    "C": {
+      "item": "minecraft:copper_ingot"
+    },
+    "F": {
+      "item": "industrial_legacy:electric_furnace"
+    },
+    "M": {
+      "item": "industrial_legacy:advanced_machine"
+    }
+  },
+  "result": {
+    "item": "industrial_legacy:induction_furnace"
+  }
+}

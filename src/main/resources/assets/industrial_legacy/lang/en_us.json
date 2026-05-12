@@ -463,5 +463,9 @@
   "item.industrial_legacy.charging_lapotron_crystal": "Charging Lapotron Crystal",
   "tooltip.industrial_legacy.mode.enabled": "Enabled",
   "tooltip.industrial_legacy.mode.disabled": "Disabled",
-  "tooltip.industrial_legacy.mode.not_in_hand": "Not in hand"
+  "tooltip.industrial_legacy.mode.not_in_hand": "Not in hand",
+  "block.industrial_legacy.induction_furnace": "Induction Furnace",
+  "container.industrial_legacy.induction_furnace": "Induction Furnace",
+  "gui.industrial_legacy.heat": "Heat:",
+  "industrial_legacy.generic.text.heat": "Heat:"
 }

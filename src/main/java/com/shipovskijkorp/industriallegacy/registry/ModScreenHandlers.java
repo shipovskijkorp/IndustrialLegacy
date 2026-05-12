@@ -17,6 +17,7 @@ public final class ModScreenHandlers {
     public static final Identifier SOLAR_PANEL_ID = new Identifier(IndustrialLegacy.MOD_ID, "solar_panel");
     public static final Identifier RT_GENERATOR_ID = new Identifier(IndustrialLegacy.MOD_ID, "rt_generator");
     public static final Identifier ELECTRIC_FURNACE_ID = new Identifier(IndustrialLegacy.MOD_ID, "electric_furnace");
+    public static final Identifier INDUCTION_FURNACE_ID = new Identifier(IndustrialLegacy.MOD_ID, "induction_furnace");
     public static final Identifier CESU_ID = new Identifier(IndustrialLegacy.MOD_ID, "cesu");
     public static final Identifier MFE_ID = new Identifier(IndustrialLegacy.MOD_ID, "mfe");
     public static final Identifier MFSU_ID = new Identifier(IndustrialLegacy.MOD_ID, "mfsu");
@@ -53,6 +54,10 @@ public final class ModScreenHandlers {
     public static final ScreenHandlerType<ElectricFurnaceScreenHandler> ELECTRIC_FURNACE =
             Registry.register(Registries.SCREEN_HANDLER, new Identifier(IndustrialLegacy.MOD_ID, "electric_furnace"),
                     new ExtendedScreenHandlerType<>(ElectricFurnaceScreenHandler::new));
+
+    public static final ScreenHandlerType<InductionFurnaceScreenHandler> INDUCTION_FURNACE =
+            Registry.register(Registries.SCREEN_HANDLER, INDUCTION_FURNACE_ID,
+                    new ExtendedScreenHandlerType<>(InductionFurnaceScreenHandler::new));
 
     public static final ScreenHandlerType<CompressorScreenHandler> COMPRESSOR = Registry.register(
             Registries.SCREEN_HANDLER,

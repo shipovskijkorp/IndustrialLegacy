@@ -182,6 +182,16 @@ public final class ModBlocks {
             b -> new EnergyMachineBlockItem(b, new Item.Settings(), 1)
     );
 
+    public static final Block INDUCTION_FURNACE = register(
+            "induction_furnace",
+            new InductionFurnaceBlock(FabricBlockSettings.create()
+                    .strength(5.0f, 10.0f)
+                    .sounds(BlockSoundGroup.METAL)
+                    .requiresTool()
+                    .luminance(state -> state.get(InductionFurnaceBlock.LIT) ? 13 : 0)),
+            b -> new EnergyMachineBlockItem(b, new Item.Settings(), 2)
+    );
+
     public static final Block METAL_FORMER = register(
             "metal_former",
             new MetalFormerBlock(FabricBlockSettings.create()

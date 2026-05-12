@@ -17,6 +17,6 @@
     <button type="recipe" x="81" y="35" width="22" height="15" event="minecraft.smelting"></button>
     <playerInventory x="7" y="83"/>
 
-	<text x="10" y="36">{ic2.generic.text.heat}</text>
+	<text x="10" y="36">{industrial_legacy.generic.text.heat}</text>
 	<text x="10" y="46">%base.getHeat()%</text>
 </gui>
