@@ -75,7 +75,13 @@ public class CableBlock extends BlockWithEntity {
         BlockPos otherPos = pos.offset(dir);
         BlockState state = world.getBlockState(pos);
         BlockState otherState = world.getBlockState(otherPos);
-        if (!(state.getBlock() instanceof CableBlock) || !(otherState.getBlock() instanceof CableBlock)) {
+        if (!(state.getBlock() instanceof CableBlock thisCable) || !(otherState.getBlock() instanceof CableBlock otherCable)) {
+            return false;
+        }
+
+        // IC2 splitter cables unload from the EnergyNet while redstone-powered. Visually this
+        // also removes all cable arms, because the inactive splitter is no longer a network node.
+        if (!isCableConnectionOpen(world, pos, thisCable) || !isCableConnectionOpen(world, otherPos, otherCable)) {
             return false;
         }
 
@@ -88,7 +94,29 @@ public class CableBlock extends BlockWithEntity {
         return CableBlockEntity.colorsInteract(thisColor, otherColor);
     }
 
+    private static boolean isCableConnectionOpen(BlockView world, BlockPos pos, CableBlock cable) {
+        if (cable.getKind() != CableKind.SPLITTER) {
+            return true;
+        }
+
+        if (world instanceof World serverWorld && !serverWorld.isClient) {
+            return !serverWorld.isReceivingRedstonePower(pos);
+        }
+
+        BlockEntity be = world.getBlockEntity(pos);
+        if (be instanceof CableBlockEntity cableBe) {
+            return cableBe.isSplitterActive();
+        }
+
+        return false;
+    }
+
     public static boolean connectsTo(BlockView world, BlockPos pos, Direction dir) {
+        BlockState selfState = world.getBlockState(pos);
+        if (!(selfState.getBlock() instanceof CableBlock selfCable) || !isCableConnectionOpen(world, pos, selfCable)) {
+            return false;
+        }
+
         BlockPos np = pos.offset(dir);
         BlockState ns = world.getBlockState(np);
         Block nb = ns.getBlock();

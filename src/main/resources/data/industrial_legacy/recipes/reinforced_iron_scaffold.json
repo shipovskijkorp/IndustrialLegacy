@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    { "item": "industrial_legacy:iron_scaffold" },
+    { "item": "industrial_legacy:iron_fence" }
+  ],
+  "result": {
+    "item": "industrial_legacy:reinforced_iron_scaffold"
+  }
+}

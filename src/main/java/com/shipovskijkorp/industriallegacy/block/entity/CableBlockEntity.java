@@ -212,10 +212,18 @@ public class CableBlockEntity extends BlockEntity {
         if (!setActiveInternal(newActive)) {
             return;
         }
+
+        // IC2 removes/loads the splitter energy tile when redstone toggles. In this port that
+        // means both the EU graph and all neighboring cable render states must be refreshed.
         com.shipovskijkorp.industriallegacy.energy.net.EuNetwork.invalidate(world, pos);
         for (net.minecraft.util.math.Direction direction : net.minecraft.util.math.Direction.values()) {
-            com.shipovskijkorp.industriallegacy.energy.net.EuNetwork.invalidate(world, pos.offset(direction));
+            BlockPos neighborPos = pos.offset(direction);
+            com.shipovskijkorp.industriallegacy.energy.net.EuNetwork.invalidate(world, neighborPos);
+
+            BlockState neighborState = world.getBlockState(neighborPos);
+            world.updateListeners(neighborPos, neighborState, neighborState, Block.NOTIFY_ALL);
         }
+
         sync();
     }
 

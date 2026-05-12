@@ -4,6 +4,7 @@ import com.shipovskijkorp.industriallegacy.item.CableKind;
 import com.shipovskijkorp.industriallegacy.recipe.AdvancedReBatteryRecipe;
 import com.shipovskijkorp.industriallegacy.recipe.BatBoxRecipe;
 import com.shipovskijkorp.industriallegacy.recipe.CesuRecipe;
+import com.shipovskijkorp.industriallegacy.recipe.CableVariantCraftingRecipe;
 import com.shipovskijkorp.industriallegacy.recipe.CoilRecipe;
 import com.shipovskijkorp.industriallegacy.recipe.CutterCableRecipe;
 import com.shipovskijkorp.industriallegacy.recipe.ElectricMotorRecipe;
@@ -36,6 +37,8 @@ final class IlSpecialCraftingRecipeFactory {
                 out.add(shapeless(cutter.getId(), cutter.resultStack(), IlJeiUtil.ingredient(cutter.tool(), 1), IlJeiUtil.ingredient(cutter.material(), 1)));
             } else if (recipe instanceof InsulateCableRecipe insulate) {
                 addInsulationRecipes(out, insulate);
+            } else if (recipe instanceof CableVariantCraftingRecipe cableVariant) {
+                addCableVariantRecipe(out, cableVariant);
             } else if (recipe instanceof ReBatteryRecipe reBattery) {
                 out.add(shaped(reBattery.getId(), reBattery.resultStack(),
                         e(), cable(CableKind.TIN, 1), e(),
@@ -103,6 +106,20 @@ final class IlSpecialCraftingRecipeFactory {
                     out.add(shapeless(id, output.get(0), cable(kind, insulation), IlJeiUtil.ingredient(recipe.material(), 1)));
                 }
             }
+        }
+    }
+
+    private static void addCableVariantRecipe(List<IlSpecialCraftingRecipe> out, CableVariantCraftingRecipe recipe) {
+        if (recipe.resultKind() == CableKind.DETECTOR) {
+            out.add(shaped(recipe.getId(), recipe.resultStack(),
+                    e(), item(ModItems.ELECTRONIC_CIRCUIT), e(),
+                    item(Items.REDSTONE), cable(CableKind.IRON, 3), item(Items.REDSTONE),
+                    e(), item(Items.REDSTONE), e()));
+        } else if (recipe.resultKind() == CableKind.SPLITTER) {
+            out.add(shaped(recipe.getId(), recipe.resultStack(),
+                    e(), item(Items.REDSTONE), e(),
+                    cable(CableKind.IRON, 3), item(Items.LEVER), cable(CableKind.IRON, 3),
+                    e(), item(Items.REDSTONE), e()));
         }
     }
 

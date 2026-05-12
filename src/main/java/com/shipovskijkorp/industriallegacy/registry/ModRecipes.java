@@ -101,6 +101,12 @@ public final class ModRecipes {
             new LuminatorRecipeSerializer()
     );
 
+    public static final RecipeSerializer<CableVariantCraftingRecipe> CABLE_VARIANT_SERIALIZER = Registry.register(
+            Registries.RECIPE_SERIALIZER,
+            new Identifier(IndustrialLegacy.MOD_ID, "cable_variant"),
+            new CableVariantCraftingRecipeSerializer()
+    );
+
 
     public static final RecipeSerializer<BatBoxRecipe> BATBOX_SERIALIZER = Registry.register(
             Registries.RECIPE_SERIALIZER,
