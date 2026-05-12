@@ -83,7 +83,7 @@ public class ElectricFurnaceScreen extends HandledScreen<ElectricFurnaceScreenHa
         float eRatio = handler.getEnergyCap() <= 0 ? 0f : (handler.getEnergy() / (float) handler.getEnergyCap());
         IlGuiDraw.drawEnergyBoltFramed(ctx, x + ENERGY_BOLT_X, y + ENERGY_BOLT_Y, eRatio);
         float pRatio = handler.getMaxProgress() <= 0 ? 0f : (handler.getProgress() / (float) handler.getMaxProgress());
-        IlGuiDraw.drawProgressTriangle(ctx, x + PROGRESS_X, y + PROGRESS_Y, pRatio);
+        IlGuiDraw.drawProgressArrow(ctx, x + PROGRESS_X, y + PROGRESS_Y, pRatio);
 
         boolean xpHovered = this.isPointWithinBounds(XP_BUTTON_X, XP_BUTTON_Y, XP_BUTTON_W, XP_BUTTON_H, mouseX, mouseY);
         IlGuiDraw.drawButton(ctx, x + XP_BUTTON_X, y + XP_BUTTON_Y, xpHovered);

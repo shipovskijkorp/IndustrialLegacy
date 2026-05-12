@@ -213,6 +213,22 @@ public final class IlGuiDraw {
         drawTex(ctx, x, y, 133, 80, w, 15);
     }
 
+    /**
+     * IC2 progressarrow gauge used by electric, iron and induction furnaces.
+     * Matches GaugeStyle.ProgressArrow from the IC2 source:
+     * background common.png (160,0) 32x16 at (-5,0), fill common.png (165,16) 22x15.
+     */
+    public static void drawProgressArrow(DrawContext ctx, int x, int y, float ratio) {
+        ratio = clamp01(ratio);
+
+        drawTex(ctx, x - 5, y, 160, 0, 32, 16);
+
+        int w = Math.round(22.0f * ratio);
+        if (w <= 0) return;
+
+        drawTex(ctx, x, y, 165, 16, w, 15);
+    }
+
     public static void drawProgressTriangle(DrawContext ctx, int x, int y, float ratio) {
         ratio = clamp01(ratio);
 

@@ -1,6 +1,14 @@
 package com.shipovskijkorp.industriallegacy.compat.jei;
 
 import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
+import com.shipovskijkorp.industriallegacy.client.screen.CompressorScreen;
+import com.shipovskijkorp.industriallegacy.client.screen.ElectricFurnaceScreen;
+import com.shipovskijkorp.industriallegacy.client.screen.InductionFurnaceScreen;
+import com.shipovskijkorp.industriallegacy.client.screen.MaceratorScreen;
+import com.shipovskijkorp.industriallegacy.client.screen.MetalFormerScreen;
+import com.shipovskijkorp.industriallegacy.client.screen.RecyclerScreen;
+import com.shipovskijkorp.industriallegacy.client.screen.SolidCannerScreen;
+import com.shipovskijkorp.industriallegacy.client.screen.ThermalCentrifugeScreen;
 import com.shipovskijkorp.industriallegacy.item.CableItem;
 import com.shipovskijkorp.industriallegacy.recipe.CompressorRecipe;
 import com.shipovskijkorp.industriallegacy.recipe.MaceratorRecipe;
@@ -15,6 +23,7 @@ import mezz.jei.api.ingredients.subtypes.IIngredientSubtypeInterpreter;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
+import mezz.jei.api.registration.IGuiHandlerRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.ISubtypeRegistration;
 import net.minecraft.client.MinecraftClient;
@@ -123,6 +132,24 @@ public final class IndustrialLegacyJeiPlugin implements IModPlugin {
                 new SpecialCraftingJeiCategory(gui),
                 new ScrapBoxJeiCategory(gui)
         );
+    }
+
+    @Override
+    public void registerGuiHandlers(IGuiHandlerRegistration registration) {
+        // IC2 guidef recipe buttons are transparent overlays on machine progress gauges.
+        // JEI renders the hover hint and opens the matching category from these areas.
+        registration.addRecipeClickArea(MaceratorScreen.class, 80, 38, 21, 11, IlJeiRecipeTypes.MACERATOR);
+        registration.addRecipeClickArea(CompressorScreen.class, 80, 35, 22, 15, IlJeiRecipeTypes.COMPRESSOR);
+        registration.addRecipeClickArea(RecyclerScreen.class, 80, 35, 18, 15, IlJeiRecipeTypes.RECYCLER);
+        registration.addRecipeClickArea(ElectricFurnaceScreen.class, 80, 35, 22, 15, RecipeTypes.SMELTING);
+        registration.addRecipeClickArea(InductionFurnaceScreen.class, 81, 35, 22, 15, RecipeTypes.SMELTING);
+        registration.addRecipeClickArea(SolidCannerScreen.class, 88, 35, 22, 15, IlJeiRecipeTypes.SOLID_CANNING);
+        registration.addRecipeClickArea(ThermalCentrifugeScreen.class, 84, 25, 3, 28, IlJeiRecipeTypes.THERMAL_CENTRIFUGE);
+
+        registration.addRecipeClickArea(MetalFormerScreen.class, 52, 39, 46, 9,
+                IlJeiRecipeTypes.METAL_FORMER_EXTRUDING,
+                IlJeiRecipeTypes.METAL_FORMER_ROLLING,
+                IlJeiRecipeTypes.METAL_FORMER_CUTTING);
     }
 
     @Override

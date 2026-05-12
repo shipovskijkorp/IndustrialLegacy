@@ -71,7 +71,7 @@ public class InductionFurnaceScreen extends HandledScreen<InductionFurnaceScreen
         IlGuiDraw.drawEnergyBoltFramed(ctx, x + ENERGY_BOLT_X, y + ENERGY_BOLT_Y, eRatio);
 
         float pRatio = handler.getMaxProgress() <= 0 ? 0f : handler.getProgress() / (float) handler.getMaxProgress();
-        IlGuiDraw.drawProgressTriangle(ctx, x + PROGRESS_X, y + PROGRESS_Y, pRatio);
+        IlGuiDraw.drawProgressArrow(ctx, x + PROGRESS_X, y + PROGRESS_Y, pRatio);
 
         int invX = x + 7;
         int invY = y + 83;
