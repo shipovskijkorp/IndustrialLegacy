@@ -28,8 +28,8 @@ public class CannerScreen extends HandledScreen<CannerScreenHandler> {
 
     private static final int SLOT_CONTAINER_X = 41;
     private static final int SLOT_CONTAINER_Y = 17;
-    private static final int SLOT_FILL_X = 80;
-    private static final int SLOT_FILL_Y = 44;
+    private static final int SLOT_FILL_X = 79;
+    private static final int SLOT_FILL_Y = 43;
     private static final int SLOT_OUTPUT_X = 119;
     private static final int SLOT_OUTPUT_Y = 17;
     private static final int SLOT_DISCHARGE_X = 8;
@@ -103,12 +103,11 @@ public class CannerScreen extends HandledScreen<CannerScreenHandler> {
         IlGuiDraw.drawDefaultBackground(ctx, x, y, this.backgroundWidth, this.backgroundHeight);
         IlGuiDraw.drawInfoButton(ctx, x + 4, y + 4);
 
-        // center IC2 canner layout without the outer frame / slot artwork
+        // Center IC2 canner layout without the old baked outer frame / slot artwork.
         ctx.drawTexture(BACKGROUND, x + CENTER_PANEL_X, y + CENTER_PANEL_Y, CENTER_PANEL_X, CENTER_PANEL_Y, CENTER_PANEL_W, CENTER_PANEL_H, TEX_W, TEX_H);
 
-        // inventory & upgrade slots
+        // Slot frames are drawn from code so they can be pixel-aligned independently.
         IlGuiDraw.drawSlot(ctx, x + SLOT_CONTAINER_X, y + SLOT_CONTAINER_Y);
-        IlGuiDraw.drawSlot(ctx, x + SLOT_FILL_X, y + SLOT_FILL_Y);
         IlGuiDraw.drawSlot(ctx, x + SLOT_OUTPUT_X, y + SLOT_OUTPUT_Y);
         IlGuiDraw.drawSlot(ctx, x + SLOT_DISCHARGE_X, y + SLOT_DISCHARGE_Y);
         for (int i = 0; i < CannerBlockEntity.UPGRADE_SLOTS; i++) {
@@ -143,7 +142,7 @@ public class CannerScreen extends HandledScreen<CannerScreenHandler> {
                 ctx.drawTexture(BACKGROUND, x + 71, y + 43, 196, 0, 26, 18, TEX_W, TEX_H);
             }
             case ENRICH_LIQUID -> {
-                // base center panel already includes the enrich-liquid middle square / arrows.
+                // Base center panel already includes the enrich-liquid middle square / arrows.
             }
         }
 

@@ -36,7 +36,7 @@ public class CannerScreenHandler extends ScreenHandler {
         }
 
         this.addSlot(new Slot(this.inventory, CannerBlockEntity.SLOT_CONTAINER, 42, 18));
-        this.addSlot(new Slot(this.inventory, CannerBlockEntity.SLOT_FILL, 81, 45));
+        this.addSlot(new Slot(this.inventory, CannerBlockEntity.SLOT_FILL, 80, 44));
         this.addSlot(new Slot(this.inventory, CannerBlockEntity.SLOT_OUTPUT, 120, 18) {
             @Override public boolean canInsert(net.minecraft.item.ItemStack stack) { return false; }
         });
