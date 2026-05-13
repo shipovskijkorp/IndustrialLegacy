@@ -60,8 +60,8 @@ public class CannerBlockEntity extends BlockEntity implements SidedInventory, IE
     private static final int[] BOTTOM_SLOTS = new int[] { SLOT_OUTPUT };
 
     private static final int TIER = 1;
-    private static final long CAPACITY = 600L;
-    private static final int EU_PER_TICK = 1;
+    private static final long CAPACITY = 800L;
+    private static final int EU_PER_TICK = 4;
     private static final int BASE_TICKS = 200;
     private static final int TANK_CAPACITY = 8000;
     private static final int CELL_MB = 1000;
@@ -181,7 +181,7 @@ public class CannerBlockEntity extends BlockEntity implements SidedInventory, IE
         if (energy < EU_PER_TICK) return false;
 
         energy -= EU_PER_TICK;
-        maxProgress = recipe.getTicks() <= 0 ? BASE_TICKS : recipe.getTicks();
+        maxProgress = BASE_TICKS;
         progress++;
 
         if (progress >= maxProgress) {

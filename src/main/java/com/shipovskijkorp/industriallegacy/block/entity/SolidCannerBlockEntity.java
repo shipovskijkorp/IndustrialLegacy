@@ -44,7 +44,7 @@ public class SolidCannerBlockEntity extends BlockEntity implements SidedInventor
     private static final int[] BOTTOM_SLOTS = new int[] { SLOT_OUTPUT };
 
     private static final int TIER = 1;
-    private static final long CAPACITY = 600L;
+    private static final long CAPACITY = 400L;
     private static final int EU_PER_TICK = 2;
     private static final int BASE_TICKS = 200;
 
@@ -103,7 +103,7 @@ public class SolidCannerBlockEntity extends BlockEntity implements SidedInventor
         if (energy < EU_PER_TICK) return false;
 
         energy -= EU_PER_TICK;
-        maxProgress = recipe.getTicks() <= 0 ? BASE_TICKS : recipe.getTicks();
+        maxProgress = BASE_TICKS;
         progress++;
 
         if (progress >= maxProgress) {

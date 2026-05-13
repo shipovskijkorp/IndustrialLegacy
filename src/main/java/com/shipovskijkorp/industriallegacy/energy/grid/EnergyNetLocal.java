@@ -1,5 +1,7 @@
 package com.shipovskijkorp.industriallegacy.energy.grid;
 
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -120,12 +122,16 @@ public final class EnergyNetLocal {
 
         // Cable effects (meltdown/insulation/shock) for paths that actually conducted something.
         if (!touchedPaths.isEmpty()) {
+            IdentityHashMap<LivingEntity, Double> shockEnergyMap = new IdentityHashMap<>();
             for (RoutePath p : touchedPaths) {
                 double packet = p.maxPacketConducted(tick);
                 if (packet <= 0.0) continue;
-                if (packet >= p.minEffectEnergy) {
-                    OverVoltageProcessor.applyCableEffects(world, p.cables(), packet);
+                if (packet > p.minEffectEnergy) {
+                    OverVoltageProcessor.applyCableEffects(world, p.cables(), packet, shockEnergyMap);
                 }
+            }
+            if (world instanceof ServerWorld serverWorld) {
+                OverVoltageProcessor.applyAccumulatedShockDamage(serverWorld, shockEnergyMap);
             }
             touchedPaths.clear();
         }

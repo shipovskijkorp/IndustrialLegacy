@@ -11,22 +11,31 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
-import net.minecraft.entity.player.PlayerEntity;
 
+import java.util.HashSet;
+import java.util.IdentityHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
- * Applies IL-like over-voltage side effects: conductor meltdown, insulation breakdown, entity shocks,
- * and sink explosions.
+ * Applies IC2-style over-voltage side effects: conductor meltdown, insulation breakdown,
+ * entity shocks, and sink explosions.
  */
 final class OverVoltageProcessor {
     private OverVoltageProcessor() {}
 
-    static void applyCableEffects(World world, List<BlockPos> cables, double packet) {
+    static void applyCableEffects(World world, List<BlockPos> cables, double packet, Map<LivingEntity, Double> shockEnergyMap) {
         if (!(world instanceof ServerWorld sw)) return;
         if (packet <= 0.0) return;
 
-        boolean cableMeltdown = ILConfig.getBool("misc/enableEnetCableMeltdown", true);
+        // IC2 gates the whole cable-effects pass behind misc/enableEnetCableMeltdown.
+        if (!ILConfig.getBool("misc/enableEnetCableMeltdown", true)) return;
+
+        IdentityHashMap<LivingEntity, Double> localShockEnergyMap = new IdentityHashMap<>();
+        Set<BlockPos> cablesToRemove = new HashSet<>();
+        Set<BlockPos> cablesToStrip = new HashSet<>();
+
         for (BlockPos p : cables) {
             BlockState s = world.getBlockState(p);
             if (!(s.getBlock() instanceof CableBlock cb)) continue;
@@ -34,48 +43,75 @@ final class OverVoltageProcessor {
             CableKind kind = cb.getKind();
             int insulation = cb.getInsulation();
 
-            // Conductor breakdown (capacity + 1)
-            if (packet >= kind.getConductorBreakdownEnergy()) {
-                if (cableMeltdown) {
-                    world.breakBlock(p, false);
-                }
-                continue;
+            // IC2: conductor breaks only when packet is strictly above capacity + 1.
+            if (packet > kind.getConductorBreakdownEnergy()) {
+                cablesToRemove.add(p);
+            } else if (insulation > 0 && packet > kind.getInsulationBreakdownEnergy()) {
+                // IC2: insulation is stripped by insulation breakdown energy, not by shock absorption.
+                cablesToStrip.add(p);
             }
 
-            // Insulation absorption: strip one layer if packet exceeds absorption.
             double absorb = kind.getInsulationEnergyAbsorption(insulation);
-            if (insulation > 0 && packet >= absorb) {
-                int newIns = Math.max(0, insulation - 1);
-                int oldColor = -1;
-                if (world.getBlockEntity(p) instanceof CableBlockEntity oldCableBe) {
-                    oldColor = oldCableBe.getColor();
-                }
-                BlockState ns = ModBlocks.getCableBlock(kind, newIns).getDefaultState();
-                world.setBlockState(p, ns, 3);
-                if (world.getBlockEntity(p) instanceof CableBlockEntity newCableBe) {
-                    newCableBe.setColor(kind.canBeColored(newIns) ? oldColor : -1);
-                    newCableBe.refreshDerivedState();
-                }
+            if (packet > absorb) {
+                int shockEnergy = (int) (packet - absorb);
+                recordShockEnergy(sw, p, shockEnergy, localShockEnergyMap);
             }
+        }
 
-            // Shock entities near uninsulated cables when a meaningful packet is conducted.
-            if (insulation <= 0 && packet >= 32.0) {
-                shockEntities(sw, p, packet);
+        cablesToStrip.removeAll(cablesToRemove);
+        for (BlockPos p : cablesToRemove) {
+            world.breakBlock(p, false);
+        }
+        for (BlockPos p : cablesToStrip) {
+            BlockState s = world.getBlockState(p);
+            if (s.getBlock() instanceof CableBlock cb) {
+                stripOneInsulationLayer(world, p, cb.getKind(), cb.getInsulation());
+            }
+        }
+
+        for (Map.Entry<LivingEntity, Double> entry : localShockEnergyMap.entrySet()) {
+            shockEnergyMap.merge(entry.getKey(), entry.getValue(), Double::sum);
+        }
+    }
+
+    private static void stripOneInsulationLayer(World world, BlockPos pos, CableKind kind, int insulation) {
+        int newIns = Math.max(0, insulation - 1);
+        int oldColor = -1;
+        if (world.getBlockEntity(pos) instanceof CableBlockEntity oldCableBe) {
+            oldColor = oldCableBe.getColor();
+        }
+
+        BlockState ns = ModBlocks.getCableBlock(kind, newIns).getDefaultState();
+        world.setBlockState(pos, ns, 3);
+        if (world.getBlockEntity(pos) instanceof CableBlockEntity newCableBe) {
+            newCableBe.setColor(kind.canBeColored(newIns) ? oldColor : -1);
+            newCableBe.refreshDerivedState();
+        }
+    }
+
+    private static void recordShockEnergy(ServerWorld world, BlockPos pos, int shockEnergy, Map<LivingEntity, Double> localShockEnergyMap) {
+        if (shockEnergy <= 0) return;
+
+        // IC2 checks a 3x3x3 area around each conducted cable block.
+        Box box = new Box(pos).expand(1.0D);
+        for (LivingEntity entity : world.getEntitiesByClass(LivingEntity.class, box, LivingEntity::isAlive)) {
+            Double previous = localShockEnergyMap.get(entity);
+            if (previous == null || previous < shockEnergy) {
+                localShockEnergyMap.put(entity, (double) shockEnergy);
             }
         }
     }
 
-    private static void shockEntities(ServerWorld world, BlockPos pos, double packet) {
-        // Very small AABB around the cable block.
-        Box box = new Box(pos).expand(0.15);
-        float damage = (float) Math.min(20.0, packet / 64.0); // IL-ish scaling (rough)
-        if (damage <= 0.0f) return;
+    static void applyAccumulatedShockDamage(ServerWorld world, Map<LivingEntity, Double> shockEnergyMap) {
+        if (shockEnergyMap.isEmpty()) return;
 
         var src = world.getDamageSources().lightningBolt();
-        for (LivingEntity e : world.getEntitiesByClass(LivingEntity.class, box, ent -> ent.isAlive() && !ent.isSpectator())) {
-            // IL doesn't shock in creative, keep it mild here.
-            if (e instanceof PlayerEntity p && p.getAbilities().creativeMode) continue;
-            e.damage(src, damage);
+        for (Map.Entry<LivingEntity, Double> entry : shockEnergyMap.entrySet()) {
+            LivingEntity target = entry.getKey();
+            int damage = (int) Math.ceil(entry.getValue() / 64.0D);
+            if (target.isAlive() && damage > 0) {
+                target.damage(src, (float) damage);
+            }
         }
     }
 
