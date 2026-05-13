@@ -470,5 +470,8 @@
   "block.industrial_legacy.induction_furnace": "Induction Furnace",
   "container.industrial_legacy.induction_furnace": "Induction Furnace",
   "gui.industrial_legacy.heat": "Heat:",
-  "industrial_legacy.generic.text.heat": "Heat:"
+  "industrial_legacy.generic.text.heat": "Heat:",
+  "item.industrial_legacy.solar_helmet": "Solar Helmet",
+  "item.industrial_legacy.static_boots": "Static Boots",
+  "item.industrial_legacy.energy_pack": "Energypack"
 }

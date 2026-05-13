@@ -1,6 +1,6 @@
 {
-	"parent": "ic2:item/default",
-	"textures": {
-		"layer0": "ic2:items/armor/static_boots"
-	}
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "industrial_legacy:item/armor/static_boots"
+  }
 }

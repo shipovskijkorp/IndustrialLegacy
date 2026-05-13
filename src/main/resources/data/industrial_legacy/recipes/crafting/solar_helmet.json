@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "III",
+    "ISI",
+    "CCC"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "S": {
+      "item": "industrial_legacy:solar_panel"
+    },
+    "C": {
+      "item": "industrial_legacy:cable"
+    }
+  },
+  "result": {
+    "item": "industrial_legacy:solar_helmet",
+    "count": 1
+  }
+}

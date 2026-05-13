@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "I I",
+    "ISI",
+    "CCC"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "S": {
+      "tag": "minecraft:wool"
+    },
+    "C": {
+      "item": "industrial_legacy:cable"
+    }
+  },
+  "result": {
+    "item": "industrial_legacy:static_boots",
+    "count": 1
+  }
+}

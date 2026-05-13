@@ -193,6 +193,9 @@ public final class ModItemGroups {
                         entries.add(UniversalFluidCellItem.createStack(UniversalFluidCellItem.CellFluid.LAVA));
                         entries.add(UniversalFluidCellItem.createStack(UniversalFluidCellItem.CellFluid.AIR));
                         add.accept(ModItems.JETPACK_ELECTRIC);
+                        add.accept(ModItems.SOLAR_HELMET);
+                        add.accept(ModItems.STATIC_BOOTS);
+                        add.accept(ModItems.ENERGY_PACK);
                         addCharged.accept(ModItems.RE_BATTERY);
                         addCharged.accept(ModItems.ADVANCED_RE_BATTERY);
                         addCharged.accept(ModItems.CHARGING_RE_BATTERY);
@@ -202,6 +205,7 @@ public final class ModItemGroups {
                         addCharged.accept(ModItems.CHARGING_ENERGY_CRYSTAL);
                         addCharged.accept(ModItems.CHARGING_LAPOTRON_CRYSTAL);
                         addCharged.accept(ModItems.JETPACK_ELECTRIC);
+                        addCharged.accept(ModItems.ENERGY_PACK);
 
                         // Night Vision
                         add.accept(ModItems.NIGHTVISION_GOGGLES);

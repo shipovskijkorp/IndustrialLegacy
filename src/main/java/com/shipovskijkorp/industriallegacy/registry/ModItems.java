@@ -3,6 +3,9 @@ package com.shipovskijkorp.industriallegacy.registry;
 import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
 import com.shipovskijkorp.industriallegacy.item.*;
 import com.shipovskijkorp.industriallegacy.item.armor.ElectricJetpackItem;
+import com.shipovskijkorp.industriallegacy.item.armor.StaticBootsItem;
+import com.shipovskijkorp.industriallegacy.item.armor.SolarHelmetItem;
+import com.shipovskijkorp.industriallegacy.item.armor.EnergyPackItem;
 import com.shipovskijkorp.industriallegacy.item.armor.HazmatArmorItem;
 import com.shipovskijkorp.industriallegacy.item.armor.ModArmorMaterials;
 import com.shipovskijkorp.industriallegacy.item.armor.NanoArmorItem;
@@ -283,6 +286,9 @@ public final class ModItems {
     // Armor / utility
     public static final Item NIGHTVISION_GOGGLES = register("nightvision_goggles", new NightVisionGogglesItem(new Item.Settings().maxCount(1)));
     public static final Item JETPACK_ELECTRIC = register("jetpack_electric", new ElectricJetpackItem(new Item.Settings().maxCount(1)));
+    public static final Item SOLAR_HELMET = register("solar_helmet", new SolarHelmetItem(new Item.Settings().maxCount(1)));
+    public static final Item STATIC_BOOTS = register("static_boots", new StaticBootsItem(new Item.Settings().maxCount(1)));
+    public static final Item ENERGY_PACK = register("energy_pack", new EnergyPackItem(new Item.Settings().maxCount(1)));
     public static final Item HAZMAT_HELMET = register("hazmat_helmet", new HazmatArmorItem(net.minecraft.item.ArmorItem.Type.HELMET, new Item.Settings().maxCount(1)));
     public static final Item HAZMAT_CHESTPLATE = register("hazmat_chestplate", new HazmatArmorItem(net.minecraft.item.ArmorItem.Type.CHESTPLATE, new Item.Settings().maxCount(1)));
     public static final Item HAZMAT_LEGGINGS = register("hazmat_leggings", new HazmatArmorItem(net.minecraft.item.ArmorItem.Type.LEGGINGS, new Item.Settings().maxCount(1)));

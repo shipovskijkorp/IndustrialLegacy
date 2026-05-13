@@ -25,10 +25,20 @@ public final class ModArmorMaterials {
             ArmorItem.Type.BOOTS, 3
     );
 
+    private static final Map<ArmorItem.Type, Integer> ZERO_PROTECTION = Map.of(
+            ArmorItem.Type.HELMET, 0,
+            ArmorItem.Type.CHESTPLATE, 0,
+            ArmorItem.Type.LEGGINGS, 0,
+            ArmorItem.Type.BOOTS, 0
+    );
+
     public static final ArmorMaterial NIGHTVISION = utilityMaterial("nightvision", 27, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER);
     public static final ArmorMaterial JETPACK = utilityMaterial("jetpack", 27, SoundEvents.ITEM_ARMOR_EQUIP_IRON);
     public static final ArmorMaterial HAZMAT = utilityMaterial("hazmat", 64, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER);
     public static final ArmorMaterial RUBBER_BOOTS = utilityMaterial("rubber_boots", 64, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER);
+    public static final ArmorMaterial SOLAR = zeroUtilityMaterial("solar", SoundEvents.ITEM_ARMOR_EQUIP_IRON);
+    public static final ArmorMaterial STATIC_BOOTS = zeroUtilityMaterial("rubber", SoundEvents.ITEM_ARMOR_EQUIP_LEATHER);
+    public static final ArmorMaterial ENERGYPACK = zeroUtilityMaterial("energypack", SoundEvents.ITEM_ARMOR_EQUIP_IRON);
 
     /** IC2 bronze armor: factor 15, reductions {boots=2, legs=5, chest=6, helmet=2}, enchantability 9. */
     public static final ArmorMaterial BRONZE = exactMaterial(
@@ -109,6 +119,50 @@ public final class ModArmorMaterials {
             @Override
             public float getToughness() {
                 return 2.0F;
+            }
+
+            @Override
+            public float getKnockbackResistance() {
+                return 0.0F;
+            }
+        };
+    }
+
+    private static ArmorMaterial zeroUtilityMaterial(String name, SoundEvent equipSound) {
+        return new ArmorMaterial() {
+            @Override
+            public int getDurability(ArmorItem.Type type) {
+                return 0;
+            }
+
+            @Override
+            public int getProtection(ArmorItem.Type type) {
+                return ZERO_PROTECTION.getOrDefault(type, 0);
+            }
+
+            @Override
+            public int getEnchantability() {
+                return 0;
+            }
+
+            @Override
+            public SoundEvent getEquipSound() {
+                return equipSound;
+            }
+
+            @Override
+            public Ingredient getRepairIngredient() {
+                return Ingredient.EMPTY;
+            }
+
+            @Override
+            public String getName() {
+                return IndustrialLegacy.MOD_ID + ":" + name;
+            }
+
+            @Override
+            public float getToughness() {
+                return 0.0F;
             }
 
             @Override

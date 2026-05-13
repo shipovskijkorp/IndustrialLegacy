@@ -470,5 +470,8 @@
   "block.industrial_legacy.induction_furnace": "Индукционная печь",
   "container.industrial_legacy.induction_furnace": "Индукционная печь",
   "gui.industrial_legacy.heat": "Нагрев:",
-  "industrial_legacy.generic.text.heat": "Нагрев:"
+  "industrial_legacy.generic.text.heat": "Нагрев:",
+  "item.industrial_legacy.solar_helmet": "Шлем с солнечной батареей",
+  "item.industrial_legacy.static_boots": "Электростатические ботинки",
+  "item.industrial_legacy.energy_pack": "Энергетический ранец"
 }
