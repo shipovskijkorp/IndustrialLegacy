@@ -95,6 +95,12 @@ public final class ModScreenHandlers {
             new ExtendedScreenHandlerType<>(ThermalCentrifugeScreenHandler::new)
     );
 
+    public static final ScreenHandlerType<OreWashingPlantScreenHandler> ORE_WASHING_PLANT = Registry.register(
+            Registries.SCREEN_HANDLER,
+            new Identifier(IndustrialLegacy.MOD_ID, "ore_washing_plant"),
+            new ExtendedScreenHandlerType<>(OreWashingPlantScreenHandler::new)
+    );
+
     public static final ScreenHandlerType<NuclearReactorScreenHandler> NUCLEAR_REACTOR = Registry.register(
             Registries.SCREEN_HANDLER,
             new Identifier(IndustrialLegacy.MOD_ID, "nuclear_reactor"),

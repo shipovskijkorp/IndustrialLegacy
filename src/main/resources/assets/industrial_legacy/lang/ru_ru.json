@@ -473,5 +473,15 @@
   "industrial_legacy.generic.text.heat": "Нагрев:",
   "item.industrial_legacy.solar_helmet": "Шлем с солнечной батареей",
   "item.industrial_legacy.static_boots": "Электростатические ботинки",
-  "item.industrial_legacy.energy_pack": "Энергетический ранец"
+  "item.industrial_legacy.energy_pack": "Энергетический ранец",
+  "block.industrial_legacy.ore_washing_plant": "Рудопромывочная машина",
+  "container.industrial_legacy.ore_washing_plant": "Рудопромывочная машина",
+  "jei.industrial_legacy.ore_washing_plant": "Рудопромывочная машина",
+  "tooltip.industrial_legacy.ore_washing_plant.water": "Вода: %s / %s мВ",
+  "item.industrial_legacy.copper_purified_crushed_ore": "Очищенная дроблёная медная руда",
+  "item.industrial_legacy.tin_purified_crushed_ore": "Очищенная дроблёная оловянная руда",
+  "item.industrial_legacy.lead_purified_crushed_ore": "Очищенная дроблёная свинцовая руда",
+  "item.industrial_legacy.silver_purified_crushed_ore": "Очищенная дроблёная серебряная руда",
+  "item.industrial_legacy.iron_purified_crushed_ore": "Очищенная дроблёная железная руда",
+  "item.industrial_legacy.gold_purified_crushed_ore": "Очищенная дроблёная золотая руда"
 }

@@ -232,6 +232,16 @@ public final class ModBlocks {
             b -> new EnergyMachineBlockItem(b, new Item.Settings(), 2)
     );
 
+    public static final Block ORE_WASHING_PLANT = register(
+            "ore_washing_plant",
+            new OreWashingPlantBlock(FabricBlockSettings.create()
+                    .strength(5.0f, 10.0f)
+                    .sounds(BlockSoundGroup.METAL)
+                    .requiresTool()
+                    .luminance(state -> state.get(OreWashingPlantBlock.LIT) ? 13 : 0)),
+            b -> new EnergyMachineBlockItem(b, new Item.Settings(), 1)
+    );
+
     public static final Block NUCLEAR_REACTOR = register(
             "nuclear_reactor",
             new NuclearReactorBlock(FabricBlockSettings.create()

@@ -176,6 +176,12 @@ public final class ModBlockEntities {
             BlockEntityType.Builder.create(ThermalCentrifugeBlockEntity::new, ModBlocks.THERMAL_CENTRIFUGE).build(null)
     );
 
+    public static final BlockEntityType<OreWashingPlantBlockEntity> ORE_WASHING_PLANT = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE,
+            new Identifier(IndustrialLegacy.MOD_ID, "ore_washing_plant"),
+            BlockEntityType.Builder.create(OreWashingPlantBlockEntity::new, ModBlocks.ORE_WASHING_PLANT).build(null)
+    );
+
     public static final BlockEntityType<NuclearReactorBlockEntity> NUCLEAR_REACTOR = Registry.register(
             Registries.BLOCK_ENTITY_TYPE,
             new Identifier(IndustrialLegacy.MOD_ID, "nuclear_reactor"),

@@ -1,0 +1,18 @@
+{
+  "type": "industrial_legacy:thermal_centrifuge",
+  "ingredient": {
+    "item": "industrial_legacy:lead_purified_crushed_ore"
+  },
+  "results": [
+    {
+      "item": "industrial_legacy:small_copper_dust",
+      "count": 1
+    },
+    {
+      "item": "industrial_legacy:lead_dust",
+      "count": 1
+    }
+  ],
+  "ticks": 500,
+  "heat": 2000
+}

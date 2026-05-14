@@ -196,6 +196,23 @@ public static final RecipeType<MaceratorRecipe> MACERATOR_TYPE = Registry.regist
             new ThermalCentrifugeRecipeSerializer()
     );
 
+    public static final RecipeType<OreWashingRecipe> ORE_WASHING_TYPE = Registry.register(
+            Registries.RECIPE_TYPE,
+            new Identifier(IndustrialLegacy.MOD_ID, "ore_washing"),
+            new RecipeType<>() {
+                @Override
+                public String toString() {
+                    return IndustrialLegacy.MOD_ID + ":ore_washing";
+                }
+            }
+    );
+
+    public static final RecipeSerializer<OreWashingRecipe> ORE_WASHING_SERIALIZER = Registry.register(
+            Registries.RECIPE_SERIALIZER,
+            new Identifier(IndustrialLegacy.MOD_ID, "ore_washing"),
+            new OreWashingRecipeSerializer()
+    );
+
     public static final RecipeType<MetalFormerRecipe> METAL_FORMER_EXTRUDING_TYPE = Registry.register(
             Registries.RECIPE_TYPE,
             new Identifier(IndustrialLegacy.MOD_ID, "metal_former_extruding"),

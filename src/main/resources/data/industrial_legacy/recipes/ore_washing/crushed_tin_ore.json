@@ -1,0 +1,22 @@
+{
+  "type": "industrial_legacy:ore_washing",
+  "ingredient": {
+    "item": "industrial_legacy:crushed_tin_ore"
+  },
+  "results": [
+    {
+      "item": "industrial_legacy:tin_purified_crushed_ore",
+      "count": 1
+    },
+    {
+      "item": "industrial_legacy:small_tin_dust",
+      "count": 2
+    },
+    {
+      "item": "industrial_legacy:stone_dust",
+      "count": 1
+    }
+  ],
+  "ticks": 500,
+  "water_amount": 1000
+}

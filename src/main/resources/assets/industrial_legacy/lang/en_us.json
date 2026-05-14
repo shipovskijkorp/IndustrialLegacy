@@ -473,5 +473,15 @@
   "industrial_legacy.generic.text.heat": "Heat:",
   "item.industrial_legacy.solar_helmet": "Solar Helmet",
   "item.industrial_legacy.static_boots": "Static Boots",
-  "item.industrial_legacy.energy_pack": "Energypack"
+  "item.industrial_legacy.energy_pack": "Energypack",
+  "block.industrial_legacy.ore_washing_plant": "Ore Washing Plant",
+  "container.industrial_legacy.ore_washing_plant": "Ore Washing Plant",
+  "jei.industrial_legacy.ore_washing_plant": "Ore Washing Plant",
+  "tooltip.industrial_legacy.ore_washing_plant.water": "Water: %s / %s mB",
+  "item.industrial_legacy.copper_purified_crushed_ore": "Purified Crushed Copper Ore",
+  "item.industrial_legacy.tin_purified_crushed_ore": "Purified Crushed Tin Ore",
+  "item.industrial_legacy.lead_purified_crushed_ore": "Purified Crushed Lead Ore",
+  "item.industrial_legacy.silver_purified_crushed_ore": "Purified Crushed Silver Ore",
+  "item.industrial_legacy.iron_purified_crushed_ore": "Purified Crushed Iron Ore",
+  "item.industrial_legacy.gold_purified_crushed_ore": "Purified Crushed Gold Ore"
 }

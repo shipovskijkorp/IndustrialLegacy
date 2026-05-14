@@ -6,6 +6,7 @@ import com.shipovskijkorp.industriallegacy.recipe.CompressorRecipe;
 import com.shipovskijkorp.industriallegacy.recipe.MaceratorRecipe;
 import com.shipovskijkorp.industriallegacy.recipe.MetalFormerRecipe;
 import com.shipovskijkorp.industriallegacy.recipe.ThermalCentrifugeRecipe;
+import com.shipovskijkorp.industriallegacy.recipe.OreWashingRecipe;
 import mezz.jei.api.recipe.RecipeType;
 
 public final class IlJeiRecipeTypes {
@@ -16,6 +17,7 @@ public final class IlJeiRecipeTypes {
     public static final RecipeType<RecyclerJeiRecipe> RECYCLER = RecipeType.create(IndustrialLegacy.MOD_ID, "recycler", RecyclerJeiRecipe.class);
     public static final RecipeType<CanningRecipe> CANNING = RecipeType.create(IndustrialLegacy.MOD_ID, "canning", CanningRecipe.class);
     public static final RecipeType<CanningRecipe> SOLID_CANNING = RecipeType.create(IndustrialLegacy.MOD_ID, "solid_canning", CanningRecipe.class);
+    public static final RecipeType<OreWashingRecipe> ORE_WASHING = RecipeType.create(IndustrialLegacy.MOD_ID, "ore_washing", OreWashingRecipe.class);
     public static final RecipeType<ThermalCentrifugeRecipe> THERMAL_CENTRIFUGE = RecipeType.create(IndustrialLegacy.MOD_ID, "thermal_centrifuge", ThermalCentrifugeRecipe.class);
     public static final RecipeType<MetalFormerRecipe> METAL_FORMER_EXTRUDING = RecipeType.create(IndustrialLegacy.MOD_ID, "metal_former_extruding", MetalFormerRecipe.class);
     public static final RecipeType<MetalFormerRecipe> METAL_FORMER_ROLLING = RecipeType.create(IndustrialLegacy.MOD_ID, "metal_former_rolling", MetalFormerRecipe.class);

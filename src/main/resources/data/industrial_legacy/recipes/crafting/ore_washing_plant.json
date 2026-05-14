@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "III",
+    "BAB",
+    "EWE"
+  ],
+  "key": {
+    "I": {
+      "item": "industrial_legacy:iron_plate"
+    },
+    "B": {
+      "item": "minecraft:bucket"
+    },
+    "A": {
+      "item": "industrial_legacy:machine_casing"
+    },
+    "E": {
+      "item": "industrial_legacy:electric_motor"
+    },
+    "W": {
+      "item": "industrial_legacy:electronic_circuit"
+    }
+  },
+  "result": {
+    "item": "industrial_legacy:ore_washing_plant",
+    "count": 1
+  }
+}

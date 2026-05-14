@@ -7,6 +7,7 @@ import com.shipovskijkorp.industriallegacy.client.screen.ElectricFurnaceScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.InductionFurnaceScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.MaceratorScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.MetalFormerScreen;
+import com.shipovskijkorp.industriallegacy.client.screen.OreWashingPlantScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.RecyclerScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.SolidCannerScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.ThermalCentrifugeScreen;
@@ -101,6 +102,7 @@ public final class IndustrialLegacyJeiPlugin implements IModPlugin {
                 ModBlocks.SOLID_CANNER.asItem(),
                 ModBlocks.CANNER.asItem(),
                 ModBlocks.THERMAL_CENTRIFUGE.asItem(),
+                ModBlocks.ORE_WASHING_PLANT.asItem(),
                 ModBlocks.LV_TRANSFORMER.asItem(),
                 ModBlocks.MV_TRANSFORMER.asItem(),
                 ModBlocks.HV_TRANSFORMER.asItem(),
@@ -124,6 +126,7 @@ public final class IndustrialLegacyJeiPlugin implements IModPlugin {
                 new CanningJeiCategory(gui, stack(ModBlocks.CANNER)),
                 new SolidCanningJeiCategory(gui, stack(ModBlocks.SOLID_CANNER)),
                 new ThermalCentrifugeJeiCategory(gui, stack(ModBlocks.THERMAL_CENTRIFUGE)),
+                new OreWashingPlantJeiCategory(gui, stack(ModBlocks.ORE_WASHING_PLANT)),
                 new MetalFormerJeiCategory(gui, MetalFormerJeiCategory.Mode.EXTRUDING, stack(ModBlocks.METAL_FORMER),
                         recipe -> recipe.getIngredient(), recipe -> recipe.getInputCount(), recipe -> recipe.getOutputStack()),
                 new MetalFormerJeiCategory(gui, MetalFormerJeiCategory.Mode.ROLLING, stack(ModBlocks.METAL_FORMER),
@@ -147,6 +150,7 @@ public final class IndustrialLegacyJeiPlugin implements IModPlugin {
         registration.addRecipeClickArea(InductionFurnaceScreen.class, 81, 35, 22, 15, RecipeTypes.SMELTING);
         registration.addRecipeClickArea(SolidCannerScreen.class, 88, 35, 22, 15, IlJeiRecipeTypes.SOLID_CANNING);
         registration.addRecipeClickArea(ThermalCentrifugeScreen.class, 84, 25, 3, 28, IlJeiRecipeTypes.THERMAL_CENTRIFUGE);
+        registration.addRecipeClickArea(OreWashingPlantScreen.class, OreWashingPlantScreen.RECIPE_CLICK_X, OreWashingPlantScreen.RECIPE_CLICK_Y, OreWashingPlantScreen.RECIPE_CLICK_W, OreWashingPlantScreen.RECIPE_CLICK_H, IlJeiRecipeTypes.ORE_WASHING);
 
         registration.addRecipeClickArea(MetalFormerScreen.class, 52, 39, 46, 9,
                 IlJeiRecipeTypes.METAL_FORMER_EXTRUDING,
@@ -173,6 +177,7 @@ public final class IndustrialLegacyJeiPlugin implements IModPlugin {
         addRecipes(registration, IlJeiRecipeTypes.CANNING, canningRecipes);
         addRecipes(registration, IlJeiRecipeTypes.SOLID_CANNING, canningRecipes);
         addRecipes(registration, IlJeiRecipeTypes.THERMAL_CENTRIFUGE, manager.listAllOfType(ModRecipes.THERMAL_CENTRIFUGE_TYPE));
+        addRecipes(registration, IlJeiRecipeTypes.ORE_WASHING, manager.listAllOfType(ModRecipes.ORE_WASHING_TYPE));
         addRecipes(registration, IlJeiRecipeTypes.METAL_FORMER_EXTRUDING, manager.listAllOfType(ModRecipes.METAL_FORMER_EXTRUDING_TYPE));
         addRecipes(registration, IlJeiRecipeTypes.METAL_FORMER_ROLLING, manager.listAllOfType(ModRecipes.METAL_FORMER_ROLLING_TYPE));
         addRecipes(registration, IlJeiRecipeTypes.METAL_FORMER_CUTTING, manager.listAllOfType(ModRecipes.METAL_FORMER_CUTTING_TYPE));
@@ -201,6 +206,7 @@ public final class IndustrialLegacyJeiPlugin implements IModPlugin {
         registration.addRecipeCatalyst(stack(ModBlocks.CANNER), IlJeiRecipeTypes.CANNING);
         registration.addRecipeCatalyst(stack(ModBlocks.SOLID_CANNER), IlJeiRecipeTypes.SOLID_CANNING);
         registration.addRecipeCatalyst(stack(ModBlocks.THERMAL_CENTRIFUGE), IlJeiRecipeTypes.THERMAL_CENTRIFUGE);
+        registration.addRecipeCatalyst(stack(ModBlocks.ORE_WASHING_PLANT), IlJeiRecipeTypes.ORE_WASHING);
         registration.addRecipeCatalyst(stack(ModBlocks.METAL_FORMER),
                 IlJeiRecipeTypes.METAL_FORMER_EXTRUDING,
                 IlJeiRecipeTypes.METAL_FORMER_ROLLING,

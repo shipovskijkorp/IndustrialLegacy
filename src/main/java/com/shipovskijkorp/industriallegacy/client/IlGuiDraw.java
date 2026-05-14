@@ -14,6 +14,7 @@ public final class IlGuiDraw {
     public static final Identifier INFO_BUTTON = new Identifier(IndustrialLegacy.MOD_ID, "textures/gui/infobutton.png");
     public static final Identifier BUTTON = new Identifier(IndustrialLegacy.MOD_ID, "textures/gui/button.png");
     public static final Identifier BUTTON_ACTIVE = new Identifier(IndustrialLegacy.MOD_ID, "textures/gui/button_enabled.png");
+    private static final Identifier ORE_WASHER_GUI = new Identifier(IndustrialLegacy.MOD_ID, "textures/gui/guiorewashingplant.png");
 
     // common.png atlas size
     private static final int TEX_W = 256;
@@ -240,4 +241,23 @@ public final class IlGuiDraw {
         drawTex(ctx, x, y + 1, 165, 80, w, 15);
     }
 
+
+    /**
+     * IC2 progressorewasher gauge. Unlike most machine gauges this one lives in
+     * GUIOreWashingPlant.png, not common.png.
+     *
+     * IC2 GaugeStyle.ProgressOreWasher:
+     * background: texture (102,38) 20x19 at offset (-1,-1)
+     * fill:       texture (177,118) 18x18, left-to-right
+     */
+    public static void drawProgressOreWasher(DrawContext ctx, int x, int y, float ratio) {
+        ratio = clamp01(ratio);
+
+        ctx.drawTexture(ORE_WASHER_GUI, x - 1, y - 1, 102, 38, 20, 19, TEX_W, TEX_H);
+
+        int w = Math.round(18.0f * ratio);
+        if (w <= 0) return;
+
+        ctx.drawTexture(ORE_WASHER_GUI, x, y, 177, 118, w, 18, TEX_W, TEX_H);
+    }
 }

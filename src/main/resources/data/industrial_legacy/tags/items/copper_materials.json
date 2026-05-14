@@ -3,6 +3,7 @@
   "values": [
     "industrial_legacy:copper_dust",
     "industrial_legacy:copper_crushed_ore",
+    "industrial_legacy:copper_purified_crushed_ore",
     "industrial_legacy:copper_purified_crushed_ore"
   ]
 }

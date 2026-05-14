@@ -1,0 +1,14 @@
+{
+  "type": "industrial_legacy:ore_washing",
+  "ingredient": {
+    "item": "minecraft:gravel"
+  },
+  "results": [
+    {
+      "item": "industrial_legacy:stone_dust",
+      "count": 1
+    }
+  ],
+  "ticks": 500,
+  "water_amount": 1000
+}

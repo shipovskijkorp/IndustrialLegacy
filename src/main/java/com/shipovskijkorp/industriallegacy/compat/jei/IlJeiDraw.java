@@ -11,6 +11,7 @@ final class IlJeiDraw {
     private static final Identifier COMMON = new Identifier(IndustrialLegacy.MOD_ID, "textures/gui/common.png");
     private static final Identifier CANNER = new Identifier(IndustrialLegacy.MOD_ID, "textures/gui/guicanner.png");
     private static final Identifier SOLID_CANNER = new Identifier(IndustrialLegacy.MOD_ID, "textures/gui/guisolidcanner.png");
+    private static final Identifier ORE_WASHER = new Identifier(IndustrialLegacy.MOD_ID, "textures/gui/guiorewashingplant.png");
     private static final Identifier THERMAL_CENTRIFUGE = new Identifier(IndustrialLegacy.MOD_ID, "textures/gui/guitermalcentrifuge.png");
     private static final Identifier SCRAP_BOX = new Identifier(IndustrialLegacy.MOD_ID, "textures/gui/scrapboxrecipes.png");
     private static final Identifier CANNER_ARROW = new Identifier(IndustrialLegacy.MOD_ID, "textures/gui/overlay/canner_arrow.png");
@@ -113,6 +114,27 @@ final class IlJeiDraw {
         ctx.drawTexture(CANNER, 59, 37, 3, 4, 18, 23, TEX, TEX);
         int w = animatedSize(23, 66);
         if (w > 0) ctx.drawTexture(CANNER, 34, 6, 233, 0, w, 14, TEX, TEX);
+    }
+
+    static void progressOreWasher(DrawContext ctx, int x, int y) {
+        ctx.drawTexture(ORE_WASHER, x - 1, y - 1, 102, 38, 20, 19, TEX, TEX);
+        int w = animatedSize(18, 166);
+        if (w > 0) ctx.drawTexture(ORE_WASHER, x, y, 177, 118, w, 18, TEX, TEX);
+    }
+
+    static void drawOreWashingPlantFrame(DrawContext ctx) {
+        // IC2 DynamicCategory renders guidef nodes with xOffset=0 and yOffset=-16.
+        ctx.drawTexture(ORE_WASHER, 37, 0, 37, 16, 87, 63, TEX, TEX);
+
+        slot(ctx, 37, 0);
+        slot(ctx, 37, 45);
+        slot(ctx, 103, 0);
+        slot(ctx, 85, 45);
+        slot(ctx, 103, 45);
+        slot(ctx, 121, 45);
+
+        energyBolt(ctx, 15, 22);
+        progressOreWasher(ctx, 103, 23);
     }
 
     static void drawThermalCentrifugeFrame(DrawContext ctx) {

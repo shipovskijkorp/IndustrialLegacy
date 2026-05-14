@@ -148,6 +148,14 @@ public final class ModItems {
     /** @deprecated use {@link #CRUSHED_SILVER_ORE} (id: silver_crushed_ore) */
     @Deprecated public static final Item SILVER_CRUSHED_ORE = CRUSHED_SILVER_ORE;
 
+    // --- Purified crushed ores (ore washing output) ---
+    public static final Item PURIFIED_COPPER_ORE = register("copper_purified_crushed_ore", new Item(new Item.Settings()));
+    public static final Item PURIFIED_GOLD_ORE = register("gold_purified_crushed_ore", new Item(new Item.Settings()));
+    public static final Item PURIFIED_IRON_ORE = register("iron_purified_crushed_ore", new Item(new Item.Settings()));
+    public static final Item PURIFIED_LEAD_ORE = register("lead_purified_crushed_ore", new Item(new Item.Settings()));
+    public static final Item PURIFIED_SILVER_ORE = register("silver_purified_crushed_ore", new Item(new Item.Settings()));
+    public static final Item PURIFIED_TIN_ORE = register("tin_purified_crushed_ore", new Item(new Item.Settings()));
+
     // --- Dusts (IC2: dust.*) ---
     public static final Item BRONZE_DUST = register("bronze_dust", new Item(new Item.Settings()));
     public static final Item CLAY_DUST = register("clay_dust", new Item(new Item.Settings()));
