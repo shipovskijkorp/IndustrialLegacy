@@ -162,6 +162,24 @@ public static final RecipeType<MaceratorRecipe> MACERATOR_TYPE = Registry.regist
     );
 
 
+
+    public static final RecipeType<ExtractorRecipe> EXTRACTOR_TYPE = Registry.register(
+            Registries.RECIPE_TYPE,
+            new Identifier(IndustrialLegacy.MOD_ID, "extractor"),
+            new RecipeType<>() {
+                @Override
+                public String toString() {
+                    return IndustrialLegacy.MOD_ID + ":extractor";
+                }
+            }
+    );
+
+    public static final RecipeSerializer<ExtractorRecipe> EXTRACTOR_SERIALIZER = Registry.register(
+            Registries.RECIPE_SERIALIZER,
+            new Identifier(IndustrialLegacy.MOD_ID, "extractor"),
+            new ExtractorRecipeSerializer()
+    );
+
     public static final RecipeType<CanningRecipe> CANNING_TYPE = Registry.register(
             Registries.RECIPE_TYPE,
             new Identifier(IndustrialLegacy.MOD_ID, "canning"),

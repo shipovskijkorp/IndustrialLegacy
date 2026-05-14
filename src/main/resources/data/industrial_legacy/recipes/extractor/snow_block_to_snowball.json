@@ -1,0 +1,11 @@
+{
+  "type": "industrial_legacy:extractor",
+  "ingredient": {
+    "item": "minecraft:snow_block"
+  },
+  "result": {
+    "item": "minecraft:snowball",
+    "count": 4
+  },
+  "ticks": 300
+}

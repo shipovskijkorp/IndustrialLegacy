@@ -22,6 +22,7 @@ public final class SimpleMachineJeiCategory<T> implements IRecipeCategory<T> {
         CRUSH,
         TRIANGLE,
         RECYCLER,
+        DROP,
         ARROW
     }
 

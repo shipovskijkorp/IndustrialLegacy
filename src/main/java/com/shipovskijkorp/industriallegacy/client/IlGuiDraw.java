@@ -230,6 +230,23 @@ public final class IlGuiDraw {
         drawTex(ctx, x, y, 165, 16, w, 15);
     }
 
+
+    /**
+     * IC2 progressdrop gauge used by the extractor and pump.
+     * Matches GaugeStyle.ProgressDrop:
+     * background common.png (160,96) 32x16 at offset (-5,0), fill common.png (165,112) 22x15.
+     */
+    public static void drawProgressDrop(DrawContext ctx, int x, int y, float ratio) {
+        ratio = clamp01(ratio);
+
+        drawTex(ctx, x - 5, y, 160, 96, 32, 16);
+
+        int w = Math.round(22.0f * ratio);
+        if (w <= 0) return;
+
+        drawTex(ctx, x, y, 165, 112, w, 15);
+    }
+
     public static void drawProgressTriangle(DrawContext ctx, int x, int y, float ratio) {
         ratio = clamp01(ratio);
 

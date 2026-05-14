@@ -50,6 +50,13 @@ final class IlJeiDraw {
         if (w > 0) ctx.drawTexture(COMMON, x, y + 1, 165, 80, w, 15, TEX, TEX);
     }
 
+
+    static void progressDrop(DrawContext ctx, int x, int y) {
+        ctx.drawTexture(COMMON, x - 5, y, 160, 96, 32, 16, TEX, TEX);
+        int w = animatedSize(22, 66);
+        if (w > 0) ctx.drawTexture(COMMON, x, y, 165, 112, w, 15, TEX, TEX);
+    }
+
     static void progressRecycler(DrawContext ctx, int x, int y) {
         ctx.drawTexture(COMMON, x - 5, y, 128, 64, 32, 16, TEX, TEX);
         int w = animatedSize(18, 15);
@@ -90,6 +97,7 @@ final class IlJeiDraw {
             case CRUSH -> progressCrush(ctx, 80, 22);
             case TRIANGLE -> progressTriangle(ctx, 80, 19);
             case RECYCLER -> progressRecycler(ctx, 80, 19);
+            case DROP -> progressDrop(ctx, 80, 19);
             case ARROW -> progressTriangle(ctx, 80, 19);
         }
     }

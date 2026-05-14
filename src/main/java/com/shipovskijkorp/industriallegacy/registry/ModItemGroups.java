@@ -96,6 +96,7 @@ public final class ModItemGroups {
                         add.accept(ModBlocks.INDUCTION_FURNACE);
                         add.accept(ModBlocks.MACERATOR);
                         add.accept(ModBlocks.COMPRESSOR);
+                        add.accept(ModBlocks.EXTRACTOR);
                         add.accept(ModBlocks.RECYCLER);
                         add.accept(ModBlocks.METAL_FORMER);
                         add.accept(ModBlocks.SOLID_CANNER);
@@ -269,6 +270,7 @@ public final class ModItemGroups {
                         add.accept(ModItems.STICKY_RESIN);
                         add.accept(ModItems.RUBBER);
                         add.accept(ModItems.SULFUR);
+                        add.accept(ModItems.IODINE);
                         add.accept(ModItems.ELECTRONIC_CIRCUIT);
 
                         // Circuits

@@ -1,0 +1,11 @@
+{
+  "type": "industrial_legacy:extractor",
+  "ingredient": {
+    "item": "minecraft:gunpowder"
+  },
+  "result": {
+    "item": "industrial_legacy:sulfur",
+    "count": 1
+  },
+  "ticks": 300
+}

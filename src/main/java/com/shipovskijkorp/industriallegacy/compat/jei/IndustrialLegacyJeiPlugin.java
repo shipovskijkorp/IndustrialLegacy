@@ -4,6 +4,7 @@ import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
 import com.shipovskijkorp.industriallegacy.client.screen.CannerScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.CompressorScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.ElectricFurnaceScreen;
+import com.shipovskijkorp.industriallegacy.client.screen.ExtractorScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.InductionFurnaceScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.MaceratorScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.MetalFormerScreen;
@@ -13,6 +14,7 @@ import com.shipovskijkorp.industriallegacy.client.screen.SolidCannerScreen;
 import com.shipovskijkorp.industriallegacy.client.screen.ThermalCentrifugeScreen;
 import com.shipovskijkorp.industriallegacy.item.CableItem;
 import com.shipovskijkorp.industriallegacy.recipe.CompressorRecipe;
+import com.shipovskijkorp.industriallegacy.recipe.ExtractorRecipe;
 import com.shipovskijkorp.industriallegacy.recipe.MaceratorRecipe;
 import com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem;
 import com.shipovskijkorp.industriallegacy.registry.ModBlocks;
@@ -95,6 +97,7 @@ public final class IndustrialLegacyJeiPlugin implements IModPlugin {
                 ModBlocks.CHARGEPAD_MFSU.asItem(),
                 ModBlocks.MACERATOR.asItem(),
                 ModBlocks.COMPRESSOR.asItem(),
+                ModBlocks.EXTRACTOR.asItem(),
                 ModBlocks.RECYCLER.asItem(),
                 ModBlocks.ELECTRIC_FURNACE.asItem(),
                 ModBlocks.INDUCTION_FURNACE.asItem(),
@@ -122,6 +125,10 @@ public final class IndustrialLegacyJeiPlugin implements IModPlugin {
                         "jei.industrial_legacy.compressor", stack(ModBlocks.COMPRESSOR),
                         recipe -> recipe.getIngredient(), recipe -> recipe.getIngredientCount(), recipe -> recipe.getOutputStack(),
                         SimpleMachineJeiCategory.Progress.TRIANGLE),
+                new SimpleMachineJeiCategory<>(gui, IlJeiRecipeTypes.EXTRACTOR,
+                        "jei.industrial_legacy.extractor", stack(ModBlocks.EXTRACTOR),
+                        recipe -> recipe.getIngredient(), recipe -> recipe.getIngredientCount(), recipe -> recipe.getOutputStack(),
+                        SimpleMachineJeiCategory.Progress.DROP),
                 new RecyclerJeiCategory(gui, stack(ModBlocks.RECYCLER)),
                 new CanningJeiCategory(gui, stack(ModBlocks.CANNER)),
                 new SolidCanningJeiCategory(gui, stack(ModBlocks.SOLID_CANNER)),
@@ -144,6 +151,7 @@ public final class IndustrialLegacyJeiPlugin implements IModPlugin {
         // JEI renders the hover hint and opens the matching category from these areas.
         registration.addRecipeClickArea(MaceratorScreen.class, 80, 38, 21, 11, IlJeiRecipeTypes.MACERATOR);
         registration.addRecipeClickArea(CompressorScreen.class, 80, 35, 22, 15, IlJeiRecipeTypes.COMPRESSOR);
+        registration.addRecipeClickArea(ExtractorScreen.class, 80, 35, 22, 15, IlJeiRecipeTypes.EXTRACTOR);
         registration.addRecipeClickArea(RecyclerScreen.class, 80, 35, 18, 15, IlJeiRecipeTypes.RECYCLER);
         registration.addRecipeClickArea(CannerScreen.class, CannerScreen.RECIPE_BUTTON_X, CannerScreen.RECIPE_BUTTON_Y, CannerScreen.RECIPE_BUTTON_W, CannerScreen.RECIPE_BUTTON_H, IlJeiRecipeTypes.CANNING);
         registration.addRecipeClickArea(ElectricFurnaceScreen.class, 80, 35, 22, 15, RecipeTypes.SMELTING);
@@ -172,6 +180,9 @@ public final class IndustrialLegacyJeiPlugin implements IModPlugin {
         addRecipes(registration, IlJeiRecipeTypes.COMPRESSOR, manager.listAllOfType(ModRecipes.COMPRESSOR_TYPE).stream()
                 .filter(IndustrialLegacyJeiPlugin::hasVisibleOutput)
                 .toList());
+        addRecipes(registration, IlJeiRecipeTypes.EXTRACTOR, manager.listAllOfType(ModRecipes.EXTRACTOR_TYPE).stream()
+                .filter(IndustrialLegacyJeiPlugin::hasVisibleOutput)
+                .toList());
         registration.addRecipes(IlJeiRecipeTypes.RECYCLER, List.of(RecyclerJeiRecipe.create()));
         List<com.shipovskijkorp.industriallegacy.recipe.CanningRecipe> canningRecipes = manager.listAllOfType(ModRecipes.CANNING_TYPE);
         addRecipes(registration, IlJeiRecipeTypes.CANNING, canningRecipes);
@@ -193,6 +204,10 @@ public final class IndustrialLegacyJeiPlugin implements IModPlugin {
         return !recipe.getOutputStack().isEmpty();
     }
 
+    private static boolean hasVisibleOutput(ExtractorRecipe recipe) {
+        return !recipe.getOutputStack().isEmpty();
+    }
+
     private static boolean isDuplicateLegacyOreMaceratorRecipe(MaceratorRecipe recipe) {
         String path = recipe.getId().getPath();
         return path.startsWith("macerator/oredict_ore") && path.contains("_crushed_ore");
@@ -202,6 +217,7 @@ public final class IndustrialLegacyJeiPlugin implements IModPlugin {
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         registration.addRecipeCatalyst(stack(ModBlocks.MACERATOR), IlJeiRecipeTypes.MACERATOR);
         registration.addRecipeCatalyst(stack(ModBlocks.COMPRESSOR), IlJeiRecipeTypes.COMPRESSOR);
+        registration.addRecipeCatalyst(stack(ModBlocks.EXTRACTOR), IlJeiRecipeTypes.EXTRACTOR);
         registration.addRecipeCatalyst(stack(ModBlocks.RECYCLER), IlJeiRecipeTypes.RECYCLER);
         registration.addRecipeCatalyst(stack(ModBlocks.CANNER), IlJeiRecipeTypes.CANNING);
         registration.addRecipeCatalyst(stack(ModBlocks.SOLID_CANNER), IlJeiRecipeTypes.SOLID_CANNING);

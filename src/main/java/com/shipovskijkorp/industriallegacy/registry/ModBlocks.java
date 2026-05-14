@@ -161,6 +161,17 @@ public final class ModBlocks {
     );
 
 
+
+    public static final Block EXTRACTOR = register(
+            "extractor",
+            new ExtractorBlock(FabricBlockSettings.create()
+                    .strength(2.0f)
+                    .sounds(BlockSoundGroup.METAL)
+                    .requiresTool()
+                    .luminance(state -> state.get(ExtractorBlock.LIT) ? 13 : 0)),
+            b -> new EnergyMachineBlockItem(b, new Item.Settings(), 1)
+    );
+
     public static final Block RECYCLER = register(
             "recycler",
             new RecyclerBlock(FabricBlockSettings.create()

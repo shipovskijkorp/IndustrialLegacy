@@ -65,6 +65,13 @@ public final class ModScreenHandlers {
             new ExtendedScreenHandlerType<>(CompressorScreenHandler::new)
     );
 
+
+    public static final ScreenHandlerType<ExtractorScreenHandler> EXTRACTOR = Registry.register(
+            Registries.SCREEN_HANDLER,
+            new Identifier(IndustrialLegacy.MOD_ID, "extractor"),
+            new ExtendedScreenHandlerType<>(ExtractorScreenHandler::new)
+    );
+
     public static final ScreenHandlerType<RecyclerScreenHandler> RECYCLER = Registry.register(
             Registries.SCREEN_HANDLER,
             new Identifier(IndustrialLegacy.MOD_ID, "recycler"),

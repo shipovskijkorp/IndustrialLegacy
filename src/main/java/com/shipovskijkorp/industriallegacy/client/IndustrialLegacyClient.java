@@ -127,6 +127,7 @@ public class IndustrialLegacyClient implements ClientModInitializer {
         HandledScreens.register(ModScreenHandlers.CHARGEPAD_MFSU, ChargepadMfsuScreen::new);
         HandledScreens.register(ModScreenHandlers.MACERATOR, MaceratorScreen::new);
         HandledScreens.register(ModScreenHandlers.COMPRESSOR, CompressorScreen::new);
+        HandledScreens.register(ModScreenHandlers.EXTRACTOR, ExtractorScreen::new);
         HandledScreens.register(ModScreenHandlers.RECYCLER, RecyclerScreen::new);
         HandledScreens.register(ModScreenHandlers.METAL_FORMER, MetalFormerScreen::new);
         HandledScreens.register(ModScreenHandlers.SOLID_CANNER, SolidCannerScreen::new);

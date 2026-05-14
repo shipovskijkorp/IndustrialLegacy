@@ -1,0 +1,11 @@
+{
+  "type": "industrial_legacy:extractor",
+  "ingredient": {
+    "item": "minecraft:light_gray_wool"
+  },
+  "result": {
+    "item": "minecraft:white_wool",
+    "count": 1
+  },
+  "ticks": 300
+}

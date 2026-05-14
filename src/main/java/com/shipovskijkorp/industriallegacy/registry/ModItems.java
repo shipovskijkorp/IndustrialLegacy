@@ -174,6 +174,7 @@ public final class ModItems {
     public static final Item STONE_DUST = register("stone_dust", new Item(new Item.Settings()));
     public static final Item TIN_DUST = register("tin_dust", new Item(new Item.Settings()));
     public static final Item TIN_HYDRATED_DUST = register("tin_hydrated_dust", new Item(new Item.Settings()));
+    public static final Item IODINE = register("iodine", new Item(new Item.Settings()));
 
     // --- Small dusts (tiny piles) ---
     public static final Item SMALL_BRONZE_DUST = register("small_bronze_dust", new Item(new Item.Settings()));

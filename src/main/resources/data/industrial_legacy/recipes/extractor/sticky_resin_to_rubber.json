@@ -1,0 +1,11 @@
+{
+  "type": "industrial_legacy:extractor",
+  "ingredient": {
+    "item": "industrial_legacy:sticky_resin"
+  },
+  "result": {
+    "item": "industrial_legacy:rubber",
+    "count": 3
+  },
+  "ticks": 300
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TMT",
+    "TCT"
+  ],
+  "key": {
+    "T": { "item": "industrial_legacy:treetap" },
+    "M": { "item": "industrial_legacy:machine_casing" },
+    "C": { "item": "industrial_legacy:electronic_circuit" }
+  },
+  "result": {
+    "item": "industrial_legacy:extractor",
+    "count": 1
+  }
+}
