@@ -465,9 +465,6 @@ add.accept(ModItems.LZH_CONDENSATOR);
                         add.accept(ModItems.MIXED_METAL_INGOT);
                         add.accept(ModItems.ADVANCED_ALLOY);
 
-                        // Debug last
-                        add.accept(ModItems.DEBUG_WRENCH);
-
                         // ------------------------------
                         // Fallback: anything else registered under this modid (sorted by id)
                         // ------------------------------

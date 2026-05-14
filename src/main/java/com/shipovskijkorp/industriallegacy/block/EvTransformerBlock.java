@@ -116,7 +116,7 @@ public class EvTransformerBlock extends BlockWithEntity implements BlockEntityPr
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         ItemStack held = player.getStackInHand(hand);
 
-        if (held.isOf(ModItems.DEBUG_WRENCH)) {
+        if (held.isOf(ModItems.WRENCH)) {
             if (!world.isClient) {
                 world.setBlockState(pos, state.with(DOT, hit.getSide()), Block.NOTIFY_ALL);
                 if (world.getBlockEntity(pos) instanceof EvTransformerBlockEntity transformer) {

@@ -52,7 +52,6 @@ public final class ModItems {
 
     // --- Tools / special items ---
     public static final Item CABLE = register("cable", new CableItem(new FabricItemSettings()));
-    public static final Item DEBUG_WRENCH = register("debug_wrench", new DebugWrenchItem(new FabricItemSettings().maxCount(1)));
 
     public static final Item TREETAP = register("treetap", new TreetapItem(new FabricItemSettings().maxDamage(64)));
     public static final Item FORGE_HAMMER = register("forge_hammer", new Item(new FabricItemSettings().maxCount(1).maxDamage(79)));

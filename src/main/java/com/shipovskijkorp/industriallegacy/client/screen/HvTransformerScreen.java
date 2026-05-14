@@ -64,7 +64,7 @@ public class HvTransformerScreen extends HandledScreen<HvTransformerScreenHandle
             case 2 -> 107;
             default -> 67;
         };
-        context.drawItem(ModItems.DEBUG_WRENCH.getDefaultStack(), 152, wrenchY);
+        context.drawItem(ModItems.WRENCH.getDefaultStack(), 152, wrenchY);
     }
 
     @Override
