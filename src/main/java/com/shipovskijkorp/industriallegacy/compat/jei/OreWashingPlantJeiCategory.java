@@ -53,11 +53,11 @@ public final class OreWashingPlantJeiCategory implements IRecipeCategory<OreWash
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, OreWashingRecipe recipe, IFocusGroup focuses) {
-        builder.addSlot(RecipeIngredientRole.INPUT, 104, 1)
+        builder.addSlot(RecipeIngredientRole.INPUT, 105, 1)
                 .addItemStacks(IlJeiUtil.ingredient(recipe.getIngredient(), recipe.getInputCount()));
 
         List<ItemStack> results = recipe.getResults();
-        int[] outputX = {86, 104, 122};
+        int[] outputX = {87, 105, 123};
         for (int i = 0; i < results.size() && i < outputX.length; i++) {
             ItemStack result = results.get(i);
             if (!result.isEmpty()) {

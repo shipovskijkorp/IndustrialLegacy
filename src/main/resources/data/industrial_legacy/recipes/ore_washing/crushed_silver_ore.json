@@ -3,6 +3,11 @@
   "ingredient": {
     "item": "industrial_legacy:silver_crushed_ore"
   },
+  "input_count": 1,
+  "input": {
+    "item": "industrial_legacy:silver_crushed_ore",
+    "count": 1
+  },
   "results": [
     {
       "item": "industrial_legacy:silver_purified_crushed_ore",

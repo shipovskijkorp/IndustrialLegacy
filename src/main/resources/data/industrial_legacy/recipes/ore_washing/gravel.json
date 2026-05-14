@@ -3,6 +3,11 @@
   "ingredient": {
     "item": "minecraft:gravel"
   },
+  "input_count": 1,
+  "input": {
+    "item": "minecraft:gravel",
+    "count": 1
+  },
   "results": [
     {
       "item": "industrial_legacy:stone_dust",

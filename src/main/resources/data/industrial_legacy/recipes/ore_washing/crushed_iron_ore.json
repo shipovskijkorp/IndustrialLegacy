@@ -3,6 +3,11 @@
   "ingredient": {
     "item": "industrial_legacy:crushed_iron_ore"
   },
+  "input_count": 1,
+  "input": {
+    "item": "industrial_legacy:crushed_iron_ore",
+    "count": 1
+  },
   "results": [
     {
       "item": "industrial_legacy:iron_purified_crushed_ore",

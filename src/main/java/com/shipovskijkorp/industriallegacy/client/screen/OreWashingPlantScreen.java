@@ -27,7 +27,7 @@ public class OreWashingPlantScreen extends HandledScreen<OreWashingPlantScreenHa
 
     private static final int WATER_TANK_X = 60;
     private static final int WATER_TANK_Y = 20;
-    private static final int WATER_TANK_W = 12;
+    private static final int WATER_TANK_W = 20;
     private static final int WATER_TANK_H = 55;
 
     public OreWashingPlantScreen(OreWashingPlantScreenHandler handler, PlayerInventory inventory, Text title) {
@@ -72,13 +72,8 @@ public class OreWashingPlantScreen extends HandledScreen<OreWashingPlantScreenHa
     }
 
     private void drawWaterTank(DrawContext ctx, int x, int y, int amount, int capacity) {
-        int fill = Math.round(WATER_TANK_H * Math.min(1.0f, amount / (float) Math.max(1, capacity)));
-        if (fill <= 0) {
-            return;
-        }
-
-        int dstY = y + WATER_TANK_H - fill;
-        ctx.fill(x + 1, dstY, x + WATER_TANK_W - 1, y + WATER_TANK_H, 0xAA3F76E4);
+        float ratio = Math.min(1.0f, amount / (float) Math.max(1, capacity));
+        IlGuiDraw.drawFluidTankNormal(ctx, x, y, ratio, 0xCC3F76E4);
     }
 
     @Override

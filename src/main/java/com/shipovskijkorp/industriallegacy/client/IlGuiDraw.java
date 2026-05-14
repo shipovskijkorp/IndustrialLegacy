@@ -242,6 +242,36 @@ public final class IlGuiDraw {
     }
 
 
+
+    /**
+     * IC2 normal fluid tank gauge.
+     *
+     * Matches TankGauge.createNormal():
+     * - full/filled background: common.png (6,100) 20x55
+     * - empty background:       common.png (70,100) 20x55
+     * - inner fluid area:       x+4/y+4, 12x47, bottom-to-top
+     * - foreground scale:       common.png (38,100) 20x55
+     */
+    public static void drawFluidTankNormal(DrawContext ctx, int x, int y, float ratio, int fluidColor) {
+        ratio = clamp01(ratio);
+
+        if (ratio <= 0.0f) {
+            drawTex(ctx, x, y, 70, 100, 20, 55);
+            return;
+        }
+
+        drawTex(ctx, x, y, 6, 100, 20, 55);
+
+        int fillH = Math.round(47.0f * ratio);
+        if (fillH > 0) {
+            int fluidX = x + 4;
+            int fluidY = y + 4 + (47 - fillH);
+            ctx.fill(fluidX, fluidY, fluidX + 12, y + 4 + 47, fluidColor);
+        }
+
+        drawTex(ctx, x, y, 38, 100, 20, 55);
+    }
+
     /**
      * IC2 progressorewasher gauge. Unlike most machine gauges this one lives in
      * GUIOreWashingPlant.png, not common.png.
