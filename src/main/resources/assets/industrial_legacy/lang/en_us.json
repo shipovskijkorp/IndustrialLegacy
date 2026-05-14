@@ -228,7 +228,7 @@
   "tooltip.industrial_legacy.oxidation.oxidized": "Oxidized",
   "tooltip.industrial_legacy.cable.oxidation": "Oxidation: %s",
   "tooltip.industrial_legacy.cable.loss_mult": "Loss multiplier: %sx",
-  "block.industrial_legacy.lv_transformer": "LV Transformer",
+  "block.industrial_legacy.lv_transformer": "LV-Transformer",
   "block.industrial_legacy.mv_transformer": "MV-Transformer",
   "block.industrial_legacy.hv_transformer": "HV-Transformer",
   "block.industrial_legacy.ev_transformer": "EV-Transformer",

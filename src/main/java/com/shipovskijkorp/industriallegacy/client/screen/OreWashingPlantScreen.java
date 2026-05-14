@@ -39,7 +39,7 @@ public class OreWashingPlantScreen extends HandledScreen<OreWashingPlantScreenHa
     @Override
     protected void init() {
         super.init();
-        this.titleX = (this.backgroundWidth - this.textRenderer.getWidth(this.title)) / 2;
+        this.titleX = ((this.backgroundWidth - this.textRenderer.getWidth(this.title)) / 2) - 4;
         this.titleY = 6;
         this.playerInventoryTitleY = 7200;
     }

@@ -46,7 +46,7 @@ public class MetalFormerScreen extends HandledScreen<MetalFormerScreenHandler> {
     @Override
     protected void init() {
         super.init();
-        this.titleX = (this.backgroundWidth - this.textRenderer.getWidth(this.title)) / 2;
+        this.titleX = ((this.backgroundWidth - this.textRenderer.getWidth(this.title)) / 2) - 10;
         this.playerInventoryTitleX = 8;
         this.playerInventoryTitleY = 72;
     }

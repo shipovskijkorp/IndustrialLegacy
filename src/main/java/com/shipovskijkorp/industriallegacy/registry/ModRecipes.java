@@ -272,6 +272,13 @@ public static final RecipeType<MaceratorRecipe> MACERATOR_TYPE = Registry.regist
         };
     }
 
+
+    public static final RecipeSerializer<TransformerRecipe> TRANSFORMER_SERIALIZER = Registry.register(
+            Registries.RECIPE_SERIALIZER,
+            new Identifier(IndustrialLegacy.MOD_ID, "transformer"),
+            new TransformerRecipeSerializer()
+    );
+
     public static void register() {
         // classload triggers static init
     }

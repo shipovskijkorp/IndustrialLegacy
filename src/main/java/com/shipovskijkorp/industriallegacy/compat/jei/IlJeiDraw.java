@@ -57,6 +57,9 @@ final class IlJeiDraw {
     }
 
     static void progressMetalFormer(DrawContext ctx, int x, int y) {
+        // IC2 GaugeStyle.ProgressMetalFormer:
+        // background common.png (192,0) 64x16 at offset (-8,-3), fill common.png (200,19) 46x9.
+        ctx.drawTexture(COMMON, x - 8, y - 3, 192, 0, 64, 16, TEX, TEX);
         int w = animatedSize(46, 66);
         if (w > 0) ctx.drawTexture(COMMON, x, y, 200, 19, w, 9, TEX, TEX);
     }

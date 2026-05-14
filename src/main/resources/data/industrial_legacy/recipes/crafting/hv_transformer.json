@@ -1,0 +1,8 @@
+{
+  "type": "industrial_legacy:transformer",
+  "category": "redstone",
+  "variant": "hv",
+  "result": {
+    "item": "industrial_legacy:hv_transformer"
+  }
+}

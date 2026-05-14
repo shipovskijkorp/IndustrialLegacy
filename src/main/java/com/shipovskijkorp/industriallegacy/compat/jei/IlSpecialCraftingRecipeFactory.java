@@ -14,6 +14,7 @@ import com.shipovskijkorp.industriallegacy.recipe.InsulateCableRecipe;
 import com.shipovskijkorp.industriallegacy.recipe.LuminatorRecipe;
 import com.shipovskijkorp.industriallegacy.recipe.MfeRecipe;
 import com.shipovskijkorp.industriallegacy.recipe.ReBatteryRecipe;
+import com.shipovskijkorp.industriallegacy.recipe.TransformerRecipe;
 import com.shipovskijkorp.industriallegacy.registry.ModBlocks;
 import com.shipovskijkorp.industriallegacy.registry.ModItems;
 import net.minecraft.item.ItemStack;
@@ -64,6 +65,8 @@ final class IlSpecialCraftingRecipeFactory {
                         cable(CableKind.GOLD, 2), item(ModItems.ENERGY_CRYSTAL), cable(CableKind.GOLD, 2),
                         item(ModItems.ENERGY_CRYSTAL), item(ModBlocks.MACHINE_CASING), item(ModItems.ENERGY_CRYSTAL),
                         cable(CableKind.GOLD, 2), item(ModItems.ENERGY_CRYSTAL), cable(CableKind.GOLD, 2)));
+            } else if (recipe instanceof TransformerRecipe transformer) {
+                addTransformerRecipe(out, transformer);
             } else if (recipe instanceof CoilRecipe coil) {
                 out.add(shaped(coil.getId(), coil.resultStack(),
                         cable(CableKind.COPPER, 0), cable(CableKind.COPPER, 0), cable(CableKind.COPPER, 0),
@@ -95,6 +98,28 @@ final class IlSpecialCraftingRecipeFactory {
             }
         }
         return out;
+    }
+
+
+    private static void addTransformerRecipe(List<IlSpecialCraftingRecipe> out, TransformerRecipe recipe) {
+        switch (recipe.variant()) {
+            case LV -> out.add(shaped(recipe.getId(), recipe.resultStack(),
+                    item(Items.OAK_PLANKS), cable(CableKind.TIN, 1), item(Items.OAK_PLANKS),
+                    item(Items.OAK_PLANKS), item(ModItems.COIL), item(Items.OAK_PLANKS),
+                    item(Items.OAK_PLANKS), cable(CableKind.TIN, 1), item(Items.OAK_PLANKS)));
+            case MV -> out.add(shaped(recipe.getId(), recipe.resultStack(),
+                    e(), cable(CableKind.COPPER, 1), e(),
+                    e(), item(ModBlocks.MACHINE_CASING), e(),
+                    e(), cable(CableKind.COPPER, 1), e()));
+            case HV -> out.add(shaped(recipe.getId(), recipe.resultStack(),
+                    e(), cable(CableKind.GOLD, 2), e(),
+                    item(ModItems.ELECTRONIC_CIRCUIT), item(ModBlocks.MV_TRANSFORMER), item(ModItems.ADVANCED_RE_BATTERY),
+                    e(), cable(CableKind.GOLD, 2), e()));
+            case EV -> out.add(shaped(recipe.getId(), recipe.resultStack(),
+                    e(), cable(CableKind.IRON, 3), e(),
+                    item(ModItems.ADVANCED_CIRCUIT), item(ModBlocks.HV_TRANSFORMER), item(ModItems.LAPOTRON_CRYSTAL),
+                    e(), cable(CableKind.IRON, 3), e()));
+        }
     }
 
     private static void addInsulationRecipes(List<IlSpecialCraftingRecipe> out, InsulateCableRecipe recipe) {
