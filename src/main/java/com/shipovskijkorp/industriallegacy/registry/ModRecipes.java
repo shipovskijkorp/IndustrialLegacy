@@ -299,5 +299,6 @@ public static final RecipeType<MaceratorRecipe> MACERATOR_TYPE = Registry.regist
 
     public static void register() {
         // classload triggers static init
+        MachineRecipeManager.reloadBuiltin();
     }
 }

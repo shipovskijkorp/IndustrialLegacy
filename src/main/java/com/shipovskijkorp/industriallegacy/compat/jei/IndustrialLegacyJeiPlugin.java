@@ -16,6 +16,7 @@ import com.shipovskijkorp.industriallegacy.item.CableItem;
 import com.shipovskijkorp.industriallegacy.recipe.CompressorRecipe;
 import com.shipovskijkorp.industriallegacy.recipe.ExtractorRecipe;
 import com.shipovskijkorp.industriallegacy.recipe.MaceratorRecipe;
+import com.shipovskijkorp.industriallegacy.recipe.MachineRecipeManager;
 import com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem;
 import com.shipovskijkorp.industriallegacy.registry.ModBlocks;
 import com.shipovskijkorp.industriallegacy.registry.ModItems;
@@ -168,18 +169,19 @@ public final class IndustrialLegacyJeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
+        addRecipes(registration, IlJeiRecipeTypes.MACERATOR, MachineRecipeManager.getMaceratorRecipes().stream()
+                .filter(IndustrialLegacyJeiPlugin::hasVisibleOutput)
+                .filter(recipe -> !isDuplicateLegacyOreMaceratorRecipe(recipe))
+                .toList());
+        addRecipes(registration, IlJeiRecipeTypes.COMPRESSOR, MachineRecipeManager.getCompressorRecipes().stream()
+                .filter(IndustrialLegacyJeiPlugin::hasVisibleOutput)
+                .toList());
+
         RecipeManager manager = recipeManager();
         if (manager == null) {
             return;
         }
 
-        addRecipes(registration, IlJeiRecipeTypes.MACERATOR, manager.listAllOfType(ModRecipes.MACERATOR_TYPE).stream()
-                .filter(IndustrialLegacyJeiPlugin::hasVisibleOutput)
-                .filter(recipe -> !isDuplicateLegacyOreMaceratorRecipe(recipe))
-                .toList());
-        addRecipes(registration, IlJeiRecipeTypes.COMPRESSOR, manager.listAllOfType(ModRecipes.COMPRESSOR_TYPE).stream()
-                .filter(IndustrialLegacyJeiPlugin::hasVisibleOutput)
-                .toList());
         addRecipes(registration, IlJeiRecipeTypes.EXTRACTOR, manager.listAllOfType(ModRecipes.EXTRACTOR_TYPE).stream()
                 .filter(IndustrialLegacyJeiPlugin::hasVisibleOutput)
                 .toList());

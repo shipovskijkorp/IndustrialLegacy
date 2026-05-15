@@ -3,8 +3,8 @@ package com.shipovskijkorp.industriallegacy.block.entity;
 import com.shipovskijkorp.industriallegacy.block.CompressorBlock;
 import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
 import com.shipovskijkorp.industriallegacy.recipe.CompressorRecipe;
+import com.shipovskijkorp.industriallegacy.recipe.MachineRecipeManager;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
-import com.shipovskijkorp.industriallegacy.registry.ModRecipes;
 import com.shipovskijkorp.industriallegacy.screen.CompressorScreenHandler;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
@@ -26,7 +26,6 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Method;
 import java.util.Optional;
 
 public class CompressorBlockEntity extends BlockEntity implements SidedInventory, IEuEnergyStorage, ExtendedScreenHandlerFactory {
@@ -135,26 +134,8 @@ public class CompressorBlockEntity extends BlockEntity implements SidedInventory
         return true;
     }
 
-    /**
-     * Compat helper: Fabric/Yarn changed RecipeManager#getFirstMatch return type across versions
-     * (either Optional<RecipeEntry<R>> or Optional<R>). We avoid hard dependency on RecipeEntry.
-     */
     private Optional<CompressorRecipe> findRecipe(World world) {
-        Optional<?> opt = world.getRecipeManager().getFirstMatch(ModRecipes.COMPRESSOR_TYPE, this, world);
-        if (opt.isEmpty()) return Optional.empty();
-
-        Object o = opt.get();
-        if (o instanceof CompressorRecipe r) return Optional.of(r);
-
-        // Try RecipeEntry#value() via reflection (if present).
-        try {
-            Method m = o.getClass().getMethod("value");
-            Object v = m.invoke(o);
-            if (v instanceof CompressorRecipe r) return Optional.of(r);
-        } catch (Throwable ignored) {
-        }
-
-        return Optional.empty();
+        return MachineRecipeManager.findCompressorRecipe(this);
     }
 
     private boolean canOutput(ItemStack stack) {
