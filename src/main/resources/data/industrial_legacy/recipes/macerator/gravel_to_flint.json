@@ -1,6 +1,0 @@
-{
-  "type": "industrial_legacy:macerator",
-  "ingredient": { "item": "minecraft:gravel" },
-  "result": { "item": "minecraft:flint", "count": 1 },
-  "ticks": 300
-}

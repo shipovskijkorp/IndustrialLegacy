@@ -1,6 +1,0 @@
-{
-  "type": "industrial_legacy:macerator",
-  "ingredient": { "item": "minecraft:raw_copper" },
-  "result": { "item": "industrial_legacy:crushed_copper_ore", "count": 1 },
-  "ticks": 300
-}

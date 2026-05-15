@@ -1,6 +1,0 @@
-{
-  "type": "industrial_legacy:macerator",
-  "ingredient": { "item": "minecraft:ice" },
-  "result": { "item": "minecraft:snowball", "count": 1 },
-  "ticks": 300
-}

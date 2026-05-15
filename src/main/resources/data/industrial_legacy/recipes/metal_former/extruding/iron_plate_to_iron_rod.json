@@ -1,7 +1,0 @@
-{
-  "type": "industrial_legacy:metal_former_extruding",
-  "ingredient": { "item": "industrial_legacy:iron_plate" },
-  "input_count": 2,
-  "result": { "item": "industrial_legacy:iron_rod", "count": 1 },
-  "ticks": 200
-}

@@ -1,6 +1,0 @@
-{
-  "type": "industrial_legacy:macerator",
-  "ingredient": { "item": "minecraft:raw_iron" },
-  "result": { "item": "industrial_legacy:crushed_iron_ore", "count": 1 },
-  "ticks": 300
-}

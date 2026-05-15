@@ -1,6 +1,0 @@
-{
-  "type": "industrial_legacy:macerator",
-  "ingredient": { "tag": "minecraft:quartz_blocks" },
-  "result": { "item": "minecraft:quartz", "count": 4 },
-  "ticks": 300
-}

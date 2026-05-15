@@ -1,6 +1,0 @@
-{
-  "type": "industrial_legacy:macerator",
-  "ingredient": { "tag": "minecraft:sandstone" },
-  "result": { "item": "minecraft:sand", "count": 1 },
-  "ticks": 300
-}
