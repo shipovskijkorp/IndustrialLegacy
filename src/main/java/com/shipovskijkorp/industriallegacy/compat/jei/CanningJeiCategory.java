@@ -53,9 +53,9 @@ public final class CanningJeiCategory implements IRecipeCategory<CanningRecipe> 
     public void setRecipe(IRecipeLayoutBuilder builder, CanningRecipe recipe, IFocusGroup focuses) {
         builder.addSlot(RecipeIngredientRole.INPUT, 40, 28)
                 .addItemStacks(IlJeiUtil.ingredient(recipe.getFill(), recipe.getFillCount()));
-        builder.addSlot(RecipeIngredientRole.INPUT, 1, 1)
+        builder.addSlot(RecipeIngredientRole.INPUT, 2, 2)
                 .addItemStacks(IlJeiUtil.ingredient(recipe.getContainer(), recipe.getContainerCount()));
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 79, 1)
+        builder.addSlot(RecipeIngredientRole.OUTPUT, 80, 2)
                 .addItemStack(recipe.getResultStack().copy());
     }
 

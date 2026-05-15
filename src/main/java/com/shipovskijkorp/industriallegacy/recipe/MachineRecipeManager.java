@@ -15,6 +15,7 @@ public final class MachineRecipeManager {
     private static final String METAL_FORMER_ROLLING_PATH = "data/industrial_legacy/il_recipes/metal_former_rolling.ini";
     private static final String METAL_FORMER_CUTTING_PATH = "data/industrial_legacy/il_recipes/metal_former_cutting.ini";
     private static final String CANNING_PATH = "data/industrial_legacy/il_recipes/canning.ini";
+    private static final String CANNING_ENRICH_PATH = "data/industrial_legacy/il_recipes/canning_enrich.ini";
 
     private static List<MaceratorRecipe> maceratorRecipes = List.of();
     private static List<CompressorRecipe> compressorRecipes = List.of();
@@ -22,6 +23,7 @@ public final class MachineRecipeManager {
     private static List<MetalFormerRecipe> metalFormerRollingRecipes = List.of();
     private static List<MetalFormerRecipe> metalFormerCuttingRecipes = List.of();
     private static List<CanningRecipe> canningRecipes = List.of();
+    private static List<CanningEnrichRecipe> canningEnrichRecipes = List.of();
 
     private MachineRecipeManager() {}
 
@@ -38,12 +40,13 @@ public final class MachineRecipeManager {
                 METAL_FORMER_CUTTING_PATH, com.shipovskijkorp.industriallegacy.registry.ModRecipes.METAL_FORMER_CUTTING_TYPE,
                 com.shipovskijkorp.industriallegacy.registry.ModRecipes.METAL_FORMER_CUTTING_SERIALIZER, "cutting")));
         canningRecipes = Collections.unmodifiableList(new ArrayList<>(MachineRecipeIniLoader.loadCanning(CANNING_PATH)));
+        canningEnrichRecipes = Collections.unmodifiableList(new ArrayList<>(MachineRecipeIniLoader.loadCanningEnrich(CANNING_ENRICH_PATH)));
 
         IndustrialLegacy.LOGGER.info(
-                "Loaded IC2-style .ini recipes: {} macerator, {} compressor, {} metal former extruding, {} rolling, {} cutting, {} canning",
+                "Loaded IC2-style .ini recipes: {} macerator, {} compressor, {} metal former extruding, {} rolling, {} cutting, {} canning, {} canning enrich",
                 maceratorRecipes.size(), compressorRecipes.size(),
                 metalFormerExtrudingRecipes.size(), metalFormerRollingRecipes.size(), metalFormerCuttingRecipes.size(),
-                canningRecipes.size());
+                canningRecipes.size(), canningEnrichRecipes.size());
     }
 
     public static List<MaceratorRecipe> getMaceratorRecipes() {
@@ -74,6 +77,11 @@ public final class MachineRecipeManager {
     public static List<CanningRecipe> getCanningRecipes() {
         ensureLoaded();
         return canningRecipes;
+    }
+
+    public static List<CanningEnrichRecipe> getCanningEnrichRecipes() {
+        ensureLoaded();
+        return canningEnrichRecipes;
     }
 
     public static Optional<MaceratorRecipe> findMaceratorRecipe(Inventory inv) {
@@ -116,6 +124,19 @@ public final class MachineRecipeManager {
         return Optional.empty();
     }
 
+    public static Optional<CanningEnrichRecipe> findCanningEnrichRecipe(
+            com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem.CellFluid fluid,
+            int amount,
+            net.minecraft.item.ItemStack additiveStack) {
+        ensureLoaded();
+        for (CanningEnrichRecipe recipe : canningEnrichRecipes) {
+            if (recipe.matches(fluid, amount, additiveStack)) {
+                return Optional.of(recipe);
+            }
+        }
+        return Optional.empty();
+    }
+
     private static List<MetalFormerRecipe> metalFormerRecipesForMode(com.shipovskijkorp.industriallegacy.block.entity.MetalFormerBlockEntity.Mode mode) {
         return switch (mode) {
             case ROLLING -> metalFormerRollingRecipes;
@@ -127,7 +148,7 @@ public final class MachineRecipeManager {
     private static void ensureLoaded() {
         if (maceratorRecipes.isEmpty() && compressorRecipes.isEmpty()
                 && metalFormerExtrudingRecipes.isEmpty() && metalFormerRollingRecipes.isEmpty()
-                && metalFormerCuttingRecipes.isEmpty() && canningRecipes.isEmpty()) {
+                && metalFormerCuttingRecipes.isEmpty() && canningRecipes.isEmpty() && canningEnrichRecipes.isEmpty()) {
             reloadBuiltin();
         }
     }

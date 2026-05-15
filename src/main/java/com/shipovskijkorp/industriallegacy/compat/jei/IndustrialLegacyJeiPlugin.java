@@ -132,6 +132,7 @@ public final class IndustrialLegacyJeiPlugin implements IModPlugin {
                         SimpleMachineJeiCategory.Progress.DROP),
                 new RecyclerJeiCategory(gui, stack(ModBlocks.RECYCLER)),
                 new CanningJeiCategory(gui, stack(ModBlocks.CANNER)),
+                new CanningEnrichJeiCategory(gui, stack(ModBlocks.CANNER)),
                 new SolidCanningJeiCategory(gui, stack(ModBlocks.SOLID_CANNER)),
                 new ThermalCentrifugeJeiCategory(gui, stack(ModBlocks.THERMAL_CENTRIFUGE)),
                 new OreWashingPlantJeiCategory(gui, stack(ModBlocks.ORE_WASHING_PLANT)),
@@ -154,7 +155,8 @@ public final class IndustrialLegacyJeiPlugin implements IModPlugin {
         registration.addRecipeClickArea(CompressorScreen.class, 80, 35, 22, 15, IlJeiRecipeTypes.COMPRESSOR);
         registration.addRecipeClickArea(ExtractorScreen.class, 80, 35, 22, 15, IlJeiRecipeTypes.EXTRACTOR);
         registration.addRecipeClickArea(RecyclerScreen.class, 80, 35, 18, 15, IlJeiRecipeTypes.RECYCLER);
-        registration.addRecipeClickArea(CannerScreen.class, CannerScreen.RECIPE_BUTTON_X, CannerScreen.RECIPE_BUTTON_Y, CannerScreen.RECIPE_BUTTON_W, CannerScreen.RECIPE_BUTTON_H, IlJeiRecipeTypes.CANNING);
+        registration.addRecipeClickArea(CannerScreen.class, CannerScreen.RECIPE_BUTTON_X, CannerScreen.RECIPE_BUTTON_Y, CannerScreen.RECIPE_BUTTON_W, CannerScreen.RECIPE_BUTTON_H,
+                IlJeiRecipeTypes.CANNING, IlJeiRecipeTypes.CANNING_ENRICH);
         registration.addRecipeClickArea(ElectricFurnaceScreen.class, 80, 35, 22, 15, RecipeTypes.SMELTING);
         registration.addRecipeClickArea(InductionFurnaceScreen.class, 81, 35, 22, 15, RecipeTypes.SMELTING);
         registration.addRecipeClickArea(SolidCannerScreen.class, 88, 35, 22, 15, IlJeiRecipeTypes.SOLID_CANNING);
@@ -179,6 +181,7 @@ public final class IndustrialLegacyJeiPlugin implements IModPlugin {
 
         List<com.shipovskijkorp.industriallegacy.recipe.CanningRecipe> canningRecipes = MachineRecipeManager.getCanningRecipes();
         addRecipes(registration, IlJeiRecipeTypes.CANNING, canningRecipes);
+        registration.addRecipes(IlJeiRecipeTypes.CANNING_ENRICH, MachineRecipeManager.getCanningEnrichRecipes());
         addRecipes(registration, IlJeiRecipeTypes.SOLID_CANNING, canningRecipes);
         addRecipes(registration, IlJeiRecipeTypes.METAL_FORMER_EXTRUDING, MachineRecipeManager.getMetalFormerExtrudingRecipes());
         addRecipes(registration, IlJeiRecipeTypes.METAL_FORMER_ROLLING, MachineRecipeManager.getMetalFormerRollingRecipes());
@@ -222,7 +225,7 @@ public final class IndustrialLegacyJeiPlugin implements IModPlugin {
         registration.addRecipeCatalyst(stack(ModBlocks.COMPRESSOR), IlJeiRecipeTypes.COMPRESSOR);
         registration.addRecipeCatalyst(stack(ModBlocks.EXTRACTOR), IlJeiRecipeTypes.EXTRACTOR);
         registration.addRecipeCatalyst(stack(ModBlocks.RECYCLER), IlJeiRecipeTypes.RECYCLER);
-        registration.addRecipeCatalyst(stack(ModBlocks.CANNER), IlJeiRecipeTypes.CANNING);
+        registration.addRecipeCatalyst(stack(ModBlocks.CANNER), IlJeiRecipeTypes.CANNING, IlJeiRecipeTypes.CANNING_ENRICH);
         registration.addRecipeCatalyst(stack(ModBlocks.SOLID_CANNER), IlJeiRecipeTypes.SOLID_CANNING);
         registration.addRecipeCatalyst(stack(ModBlocks.THERMAL_CENTRIFUGE), IlJeiRecipeTypes.THERMAL_CENTRIFUGE);
         registration.addRecipeCatalyst(stack(ModBlocks.ORE_WASHING_PLANT), IlJeiRecipeTypes.ORE_WASHING);

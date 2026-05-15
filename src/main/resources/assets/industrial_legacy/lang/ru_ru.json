@@ -487,5 +487,6 @@
   "item.industrial_legacy.lead_purified_crushed_ore": "Очищенная дроблёная свинцовая руда",
   "item.industrial_legacy.silver_purified_crushed_ore": "Очищенная дроблёная серебряная руда",
   "item.industrial_legacy.iron_purified_crushed_ore": "Очищенная дроблёная железная руда",
-  "item.industrial_legacy.gold_purified_crushed_ore": "Очищенная дроблёная золотая руда"
+  "item.industrial_legacy.gold_purified_crushed_ore": "Очищенная дроблёная золотая руда",
+  "jei.industrial_legacy.canning_enrich": "Наполнитель — обогащение жидкости"
 }

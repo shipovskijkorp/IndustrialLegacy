@@ -116,6 +116,28 @@ final class MachineRecipeIniLoader {
         return recipes;
     }
 
+    static List<CanningEnrichRecipe> loadCanningEnrich(String resourcePath) {
+        List<ParsedLine> lines = loadLines(resourcePath, DEFAULT_CANNING_TICKS);
+        List<CanningEnrichRecipe> recipes = new ArrayList<>();
+        for (int i = 0; i < lines.size(); i++) {
+            ParsedLine line = lines.get(i);
+            try {
+                String[] pair = splitCanningInputs(line.input());
+                ParsedFluid inputFluid = parseFluid(pair[0]);
+                ParsedInput additive = parseInput(pair[1]);
+                ParsedFluid outputFluid = parseFluid(line.output());
+                if (inputFluid == null || additive == null || outputFluid == null) continue;
+
+                Identifier id = new Identifier(IndustrialLegacy.MOD_ID, "ini/canning_enrich/" + sanitizeId(pair[0]) + "_with_" + sanitizeId(pair[1]) + "_to_" + sanitizeId(line.output()) + "_" + i);
+                recipes.add(new CanningEnrichRecipe(id, inputFluid.fluid(), inputFluid.amount(), additive.ingredient(), additive.count(), outputFluid.fluid(), outputFluid.amount(), line.ticks()));
+            } catch (RuntimeException e) {
+                IndustrialLegacy.LOGGER.warn("Skipping canning enrich ini recipe {}:{} -> {}: {}",
+                        resourcePath, line.number(), line.raw(), e.getMessage());
+            }
+        }
+        return recipes;
+    }
+
     private static List<ParsedLine> loadLines(String resourcePath, int defaultTicks) {
         List<ParsedLine> result = new ArrayList<>();
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
@@ -183,6 +205,26 @@ final class MachineRecipeIniLoader {
             throw new IllegalArgumentException("Canning input must be '<container> + <fill>'");
         }
         return parts;
+    }
+
+    private static ParsedFluid parseFluid(String rawToken) {
+        CountedToken counted = splitCount(rawToken.trim());
+        String token = stripMetadata(counted.token());
+        int amount = counted.count();
+
+        String idText;
+        if (token.startsWith("Fluid:")) {
+            idText = token.substring("Fluid:".length()).trim();
+        } else {
+            throw new IllegalArgumentException("Fluid token must be 'Fluid:<id>[*mb]'");
+        }
+
+        String fluidId = normalizeFluidId(idText);
+        UniversalFluidCellItem.CellFluid fluid = UniversalFluidCellItem.CellFluid.byId(fluidId);
+        if (fluid == UniversalFluidCellItem.CellFluid.EMPTY) {
+            throw new IllegalArgumentException("Unknown or empty fluid id in canning enrich recipe: " + fluidId);
+        }
+        return new ParsedFluid(fluid, amount);
     }
 
     private static ParsedInput parseInput(String rawToken) {
@@ -357,5 +399,6 @@ final class MachineRecipeIniLoader {
     private record ParsedLine(String raw, int number, String input, String output, int ticks) {}
     private record CountedToken(String token, int count) {}
     private record ParsedInput(Ingredient ingredient, int count, String requiredFluid) {}
+    private record ParsedFluid(UniversalFluidCellItem.CellFluid fluid, int amount) {}
     private record ParsedStack(ItemStack stack) {}
 }
