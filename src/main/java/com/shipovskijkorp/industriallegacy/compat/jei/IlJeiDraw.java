@@ -1,6 +1,8 @@
 package com.shipovskijkorp.industriallegacy.compat.jei;
 
 import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
+import com.shipovskijkorp.industriallegacy.block.entity.CannerBlockEntity;
+import com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.Identifier;
 
@@ -119,12 +121,68 @@ final class IlJeiDraw {
     }
 
     static void drawCannerFrame(DrawContext ctx) {
+        drawCannerFrame(ctx, CannerBlockEntity.Mode.BOTTLE_SOLID);
+    }
+
+    static void drawCannerFrame(DrawContext ctx, CannerBlockEntity.Mode mode) {
         ctx.drawTexture(CANNER, 0, 0, 40, 16, 96, 81, TEX, TEX);
-        ctx.drawTexture(CANNER, 23, 65, 176, 18, 50, 14, TEX, TEX);
-        ctx.drawTexture(CANNER, 19, 37, 3, 4, 9, 18, TEX, TEX);
-        ctx.drawTexture(CANNER, 59, 37, 3, 4, 18, 23, TEX, TEX);
+        ctx.drawTexture(CANNER, 23, 65, 176, 18 + mode.ordinal() * 14, 50, 14, TEX, TEX);
+
+        switch (mode) {
+            case BOTTLE_SOLID -> {
+                ctx.drawTexture(CANNER, 19, 37, 3, 4, 9, 18, TEX, TEX);
+                ctx.drawTexture(CANNER, 59, 37, 3, 4, 18, 23, TEX, TEX);
+            }
+            case EMPTY_LIQUID -> {
+                ctx.drawTexture(CANNER, 31, 27, 196, 0, 26, 18, TEX, TEX);
+                ctx.drawTexture(CANNER, 19, 37, 3, 4, 9, 18, TEX, TEX);
+            }
+            case BOTTLE_LIQUID -> {
+                ctx.drawTexture(CANNER, 59, 37, 3, 4, 18, 23, TEX, TEX);
+                ctx.drawTexture(CANNER, 31, 27, 196, 0, 26, 18, TEX, TEX);
+            }
+            case ENRICH_LIQUID -> {
+                drawCannerTank(ctx, -1, 26, UniversalFluidCellItem.CellFluid.EMPTY, 0, 8000);
+                drawCannerTank(ctx, 77, 26, UniversalFluidCellItem.CellFluid.EMPTY, 0, 8000);
+            }
+        }
+
         int w = animatedSize(23, 66);
         if (w > 0) ctx.drawTexture(CANNER, 34, 6, 233, 0, w, 14, TEX, TEX);
+    }
+
+    static void drawCannerTank(DrawContext ctx, int x, int y, UniversalFluidCellItem.CellFluid fluid, int amount, int capacity) {
+        if (amount <= 0 || capacity <= 0 || fluid == UniversalFluidCellItem.CellFluid.EMPTY) {
+            ctx.drawTexture(COMMON, x, y, 70, 100, 20, 55, TEX, TEX);
+            return;
+        }
+
+        ctx.drawTexture(COMMON, x, y, 6, 100, 20, 55, TEX, TEX);
+
+        float ratio = Math.max(0.0f, Math.min(1.0f, amount / (float) capacity));
+        int fillH = Math.round(47 * ratio);
+        if (fillH > 0) {
+            int fillX1 = x + 4;
+            int fillX2 = fillX1 + 12;
+            int fillY2 = y + 4 + 47;
+            int fillY1 = fillY2 - fillH;
+            ctx.fill(fillX1, fillY1, fillX2, fillY2, cannerFluidColor(fluid));
+        }
+
+        ctx.drawTexture(COMMON, x, y, 38, 100, 20, 55, TEX, TEX);
+    }
+
+    private static int cannerFluidColor(UniversalFluidCellItem.CellFluid fluid) {
+        return switch (fluid) {
+            case WATER, DISTILLED_WATER -> 0xFF3F76E4;
+            case LAVA -> 0xFFFF6A00;
+            case AIR -> 0xFFBFC9D9;
+            case COOLANT -> 0xFF23B7D9;
+            case BIOMASS -> 0xFF4E8F22;
+            case CONSTRUCTION_FOAM -> 0xFFE7E7E7;
+            case HOT_WATER -> 0xFFFF4020;
+            default -> 0xFFFFFFFF;
+        };
     }
 
     static void progressOreWasher(DrawContext ctx, int x, int y) {

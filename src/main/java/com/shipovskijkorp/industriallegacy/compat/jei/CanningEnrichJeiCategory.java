@@ -1,6 +1,5 @@
 package com.shipovskijkorp.industriallegacy.compat.jei;
 
-import com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem;
 import com.shipovskijkorp.industriallegacy.recipe.CanningEnrichRecipe;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -32,7 +31,7 @@ public final class CanningEnrichJeiCategory implements IRecipeCategory<CanningEn
 
     @Override
     public Text getTitle() {
-        return Text.translatable("jei.industrial_legacy.canning_enrich");
+        return Text.translatable("jei.industrial_legacy.canning");
     }
 
     @Override
@@ -52,23 +51,15 @@ public final class CanningEnrichJeiCategory implements IRecipeCategory<CanningEn
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, CanningEnrichRecipe recipe, IFocusGroup focuses) {
-        builder.addSlot(RecipeIngredientRole.INPUT, 2, 2)
-                .addItemStack(fluidCell(recipe.getInputFluid(), recipe.getInputAmount()));
         builder.addSlot(RecipeIngredientRole.INPUT, 40, 28)
                 .addItemStacks(IlJeiUtil.ingredient(recipe.getAdditive(), recipe.getAdditiveCount()));
-        builder.addSlot(RecipeIngredientRole.OUTPUT, 80, 2)
-                .addItemStack(fluidCell(recipe.getOutputFluid(), recipe.getOutputAmount()));
-    }
-
-    private static ItemStack fluidCell(UniversalFluidCellItem.CellFluid fluid, int amountMb) {
-        ItemStack stack = UniversalFluidCellItem.createStack(fluid);
-        stack.setCount(Math.max(1, (amountMb + 999) / 1000));
-        return stack;
     }
 
     @Override
     public void draw(CanningEnrichRecipe recipe, IRecipeSlotsView recipeSlotsView, DrawContext ctx, double mouseX, double mouseY) {
-        IlJeiDraw.drawCannerFrame(ctx);
+        IlJeiDraw.drawCannerFrame(ctx, com.shipovskijkorp.industriallegacy.block.entity.CannerBlockEntity.Mode.ENRICH_LIQUID);
+        IlJeiDraw.drawCannerTank(ctx, -1, 26, recipe.getInputFluid(), recipe.getInputAmount(), 8000);
+        IlJeiDraw.drawCannerTank(ctx, 77, 26, recipe.getOutputFluid(), recipe.getOutputAmount(), 8000);
     }
 
     @Override
