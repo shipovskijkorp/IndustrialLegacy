@@ -4,9 +4,9 @@ import com.shipovskijkorp.industriallegacy.block.CannerBlock;
 import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
 import com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem;
 import com.shipovskijkorp.industriallegacy.recipe.CanningRecipe;
+import com.shipovskijkorp.industriallegacy.recipe.MachineRecipeManager;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
 import com.shipovskijkorp.industriallegacy.registry.ModItems;
-import com.shipovskijkorp.industriallegacy.registry.ModRecipes;
 import com.shipovskijkorp.industriallegacy.screen.CannerScreenHandler;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
@@ -29,7 +29,6 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Method;
 import java.util.Optional;
 import java.util.List;
 
@@ -181,7 +180,7 @@ public class CannerBlockEntity extends BlockEntity implements SidedInventory, IE
         if (energy < EU_PER_TICK) return false;
 
         energy -= EU_PER_TICK;
-        maxProgress = BASE_TICKS;
+        maxProgress = recipe.getTicks();
         progress++;
 
         if (progress >= maxProgress) {
@@ -379,17 +378,7 @@ public class CannerBlockEntity extends BlockEntity implements SidedInventory, IE
                                 UniversalFluidCellItem.CellFluid outputFluid, int outputAmount) {}
 
     private Optional<CanningRecipe> findRecipe(World world) {
-        Optional<?> opt = world.getRecipeManager().getFirstMatch(ModRecipes.CANNING_TYPE, this, world);
-        if (opt.isEmpty()) return Optional.empty();
-        Object o = opt.get();
-        if (o instanceof CanningRecipe r) return Optional.of(r);
-        try {
-            Method m = o.getClass().getMethod("value");
-            Object v = m.invoke(o);
-            if (v instanceof CanningRecipe r) return Optional.of(r);
-        } catch (Throwable ignored) {
-        }
-        return Optional.empty();
+        return MachineRecipeManager.findCanningRecipe(this);
     }
 
     private boolean canOutput(ItemStack stack) {

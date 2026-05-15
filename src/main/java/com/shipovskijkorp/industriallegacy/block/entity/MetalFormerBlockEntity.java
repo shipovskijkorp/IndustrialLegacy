@@ -2,9 +2,9 @@ package com.shipovskijkorp.industriallegacy.block.entity;
 
 import com.shipovskijkorp.industriallegacy.block.MetalFormerBlock;
 import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
+import com.shipovskijkorp.industriallegacy.recipe.MachineRecipeManager;
 import com.shipovskijkorp.industriallegacy.recipe.MetalFormerRecipe;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
-import com.shipovskijkorp.industriallegacy.registry.ModRecipes;
 import com.shipovskijkorp.industriallegacy.screen.MetalFormerScreenHandler;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
@@ -16,8 +16,6 @@ import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
-import java.lang.reflect.Method;
-import java.util.Optional;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -140,21 +138,7 @@ public class MetalFormerBlockEntity extends BlockEntity implements SidedInventor
 
     @Nullable
     private MetalFormerRecipe findRecipe(World world) {
-        Optional<?> opt = world.getRecipeManager().getFirstMatch(ModRecipes.typeForMode(mode), this, world);
-        if (opt.isEmpty()) return null;
-
-        Object o = opt.get();
-        if (o instanceof MetalFormerRecipe r) return r;
-
-        // Compat helper for versions where getFirstMatch returns RecipeEntry<R>
-        try {
-            Method m = o.getClass().getMethod("value");
-            Object v = m.invoke(o);
-            if (v instanceof MetalFormerRecipe r) return r;
-        } catch (Throwable ignored) {
-        }
-
-        return null;
+        return MachineRecipeManager.findMetalFormerRecipe(this, mode).orElse(null);
     }
 
     private boolean canOutput(ItemStack stack) {

@@ -177,6 +177,13 @@ public final class IndustrialLegacyJeiPlugin implements IModPlugin {
                 .filter(IndustrialLegacyJeiPlugin::hasVisibleOutput)
                 .toList());
 
+        List<com.shipovskijkorp.industriallegacy.recipe.CanningRecipe> canningRecipes = MachineRecipeManager.getCanningRecipes();
+        addRecipes(registration, IlJeiRecipeTypes.CANNING, canningRecipes);
+        addRecipes(registration, IlJeiRecipeTypes.SOLID_CANNING, canningRecipes);
+        addRecipes(registration, IlJeiRecipeTypes.METAL_FORMER_EXTRUDING, MachineRecipeManager.getMetalFormerExtrudingRecipes());
+        addRecipes(registration, IlJeiRecipeTypes.METAL_FORMER_ROLLING, MachineRecipeManager.getMetalFormerRollingRecipes());
+        addRecipes(registration, IlJeiRecipeTypes.METAL_FORMER_CUTTING, MachineRecipeManager.getMetalFormerCuttingRecipes());
+
         RecipeManager manager = recipeManager();
         if (manager == null) {
             return;
@@ -186,14 +193,8 @@ public final class IndustrialLegacyJeiPlugin implements IModPlugin {
                 .filter(IndustrialLegacyJeiPlugin::hasVisibleOutput)
                 .toList());
         registration.addRecipes(IlJeiRecipeTypes.RECYCLER, List.of(RecyclerJeiRecipe.create()));
-        List<com.shipovskijkorp.industriallegacy.recipe.CanningRecipe> canningRecipes = manager.listAllOfType(ModRecipes.CANNING_TYPE);
-        addRecipes(registration, IlJeiRecipeTypes.CANNING, canningRecipes);
-        addRecipes(registration, IlJeiRecipeTypes.SOLID_CANNING, canningRecipes);
         addRecipes(registration, IlJeiRecipeTypes.THERMAL_CENTRIFUGE, manager.listAllOfType(ModRecipes.THERMAL_CENTRIFUGE_TYPE));
         addRecipes(registration, IlJeiRecipeTypes.ORE_WASHING, manager.listAllOfType(ModRecipes.ORE_WASHING_TYPE));
-        addRecipes(registration, IlJeiRecipeTypes.METAL_FORMER_EXTRUDING, manager.listAllOfType(ModRecipes.METAL_FORMER_EXTRUDING_TYPE));
-        addRecipes(registration, IlJeiRecipeTypes.METAL_FORMER_ROLLING, manager.listAllOfType(ModRecipes.METAL_FORMER_ROLLING_TYPE));
-        addRecipes(registration, IlJeiRecipeTypes.METAL_FORMER_CUTTING, manager.listAllOfType(ModRecipes.METAL_FORMER_CUTTING_TYPE));
         registration.addRecipes(IlJeiRecipeTypes.SPECIAL_CRAFTING, IlSpecialCraftingRecipeFactory.create(manager));
         registration.addRecipes(IlJeiRecipeTypes.SCRAP_BOX, ScrapBoxJeiRecipeFactory.create());
     }

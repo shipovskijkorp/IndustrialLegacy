@@ -2,6 +2,8 @@ package com.shipovskijkorp.industriallegacy.recipe;
 
 import com.google.gson.JsonObject;
 import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
+import com.shipovskijkorp.industriallegacy.item.CableItem;
+import com.shipovskijkorp.industriallegacy.item.CableKind;
 import com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem;
 import com.shipovskijkorp.industriallegacy.registry.ModBlocks;
 import com.shipovskijkorp.industriallegacy.registry.ModItems;
@@ -10,6 +12,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.recipe.RecipeType;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 
@@ -25,11 +29,13 @@ import java.util.Locale;
 /** Parser for the compact IC2-style machine recipe .ini format used by IL. */
 final class MachineRecipeIniLoader {
     private static final int DEFAULT_TICKS = 300;
+    private static final int DEFAULT_METAL_FORMER_TICKS = 200;
+    private static final int DEFAULT_CANNING_TICKS = 200;
 
     private MachineRecipeIniLoader() {}
 
     static List<MaceratorRecipe> loadMacerator(String resourcePath) {
-        List<ParsedLine> lines = loadLines(resourcePath);
+        List<ParsedLine> lines = loadLines(resourcePath, DEFAULT_TICKS);
         List<MaceratorRecipe> recipes = new ArrayList<>();
         for (int i = 0; i < lines.size(); i++) {
             ParsedLine line = lines.get(i);
@@ -49,7 +55,7 @@ final class MachineRecipeIniLoader {
     }
 
     static List<CompressorRecipe> loadCompressor(String resourcePath) {
-        List<ParsedLine> lines = loadLines(resourcePath);
+        List<ParsedLine> lines = loadLines(resourcePath, DEFAULT_TICKS);
         List<CompressorRecipe> recipes = new ArrayList<>();
         for (int i = 0; i < lines.size(); i++) {
             ParsedLine line = lines.get(i);
@@ -68,7 +74,49 @@ final class MachineRecipeIniLoader {
         return recipes;
     }
 
-    private static List<ParsedLine> loadLines(String resourcePath) {
+    static List<MetalFormerRecipe> loadMetalFormer(String resourcePath, RecipeType<?> type, RecipeSerializer<?> serializer, String modeId) {
+        List<ParsedLine> lines = loadLines(resourcePath, DEFAULT_METAL_FORMER_TICKS);
+        List<MetalFormerRecipe> recipes = new ArrayList<>();
+        for (int i = 0; i < lines.size(); i++) {
+            ParsedLine line = lines.get(i);
+            try {
+                ParsedInput input = parseInput(line.input());
+                ParsedStack output = parseOutput(line.output());
+                if (input == null || output == null) continue;
+
+                Identifier id = new Identifier(IndustrialLegacy.MOD_ID, "ini/metal_former/" + modeId + "/" + sanitizeId(line.input()) + "_to_" + sanitizeId(line.output()) + "_" + i);
+                recipes.add(new MetalFormerRecipe(id, input.ingredient(), output.stack(), line.ticks(), input.count(), type, serializer));
+            } catch (RuntimeException e) {
+                IndustrialLegacy.LOGGER.warn("Skipping metal former {} ini recipe {}:{} -> {}: {}",
+                        modeId, resourcePath, line.number(), line.raw(), e.getMessage());
+            }
+        }
+        return recipes;
+    }
+
+    static List<CanningRecipe> loadCanning(String resourcePath) {
+        List<ParsedLine> lines = loadLines(resourcePath, DEFAULT_CANNING_TICKS);
+        List<CanningRecipe> recipes = new ArrayList<>();
+        for (int i = 0; i < lines.size(); i++) {
+            ParsedLine line = lines.get(i);
+            try {
+                String[] pair = splitCanningInputs(line.input());
+                ParsedInput container = parseInput(pair[0]);
+                ParsedInput fill = parseInput(pair[1]);
+                ParsedStack output = parseOutput(line.output());
+                if (container == null || fill == null || output == null) continue;
+
+                Identifier id = new Identifier(IndustrialLegacy.MOD_ID, "ini/canning/" + sanitizeId(pair[0]) + "_with_" + sanitizeId(pair[1]) + "_to_" + sanitizeId(line.output()) + "_" + i);
+                recipes.add(new CanningRecipe(id, container.ingredient(), container.count(), fill.ingredient(), fill.count(), output.stack(), line.ticks()));
+            } catch (RuntimeException e) {
+                IndustrialLegacy.LOGGER.warn("Skipping canning ini recipe {}:{} -> {}: {}",
+                        resourcePath, line.number(), line.raw(), e.getMessage());
+            }
+        }
+        return recipes;
+    }
+
+    private static List<ParsedLine> loadLines(String resourcePath, int defaultTicks) {
         List<ParsedLine> result = new ArrayList<>();
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         InputStream stream = loader.getResourceAsStream(resourcePath);
@@ -85,7 +133,7 @@ final class MachineRecipeIniLoader {
             int number = 0;
             while ((line = reader.readLine()) != null) {
                 number++;
-                ParsedLine parsed = parseLine(line, number);
+                ParsedLine parsed = parseLine(line, number, defaultTicks);
                 if (parsed != null) result.add(parsed);
             }
         } catch (IOException e) {
@@ -94,7 +142,7 @@ final class MachineRecipeIniLoader {
         return result;
     }
 
-    private static ParsedLine parseLine(String raw, int number) {
+    private static ParsedLine parseLine(String raw, int number, int defaultTicks) {
         String noComment = raw;
         int comment = noComment.indexOf(';');
         if (comment >= 0) noComment = noComment.substring(0, comment);
@@ -106,7 +154,7 @@ final class MachineRecipeIniLoader {
 
         String input = noComment.substring(0, equals).trim();
         String output = noComment.substring(equals + 1).trim();
-        int ticks = DEFAULT_TICKS;
+        int ticks = defaultTicks;
 
         // Optional IL extension: append "| ticks=200" to a recipe line.
         int pipe = output.indexOf('|');
@@ -122,9 +170,19 @@ final class MachineRecipeIniLoader {
         }
 
         int comma = output.indexOf(',');
-        if (comma >= 0) output = output.substring(0, comma).trim();
+        if (comma >= 0 && !output.startsWith("industrial_legacy:cable#")) {
+            output = output.substring(0, comma).trim();
+        }
         if (input.isEmpty() || output.isEmpty()) return null;
         return new ParsedLine(raw, number, input, output, ticks);
+    }
+
+    private static String[] splitCanningInputs(String rawInput) {
+        String[] parts = rawInput.split("\\s+\\+\\s+", 2);
+        if (parts.length != 2 || parts[0].isBlank() || parts[1].isBlank()) {
+            throw new IllegalArgumentException("Canning input must be '<container> + <fill>'");
+        }
+        return parts;
     }
 
     private static ParsedInput parseInput(String rawToken) {
@@ -167,10 +225,44 @@ final class MachineRecipeIniLoader {
             stack.setCount(count);
             return new ParsedStack(stack);
         }
+        if (token.startsWith("Cable:")) {
+            return new ParsedStack(parseCableStack(token.substring("Cable:".length()).trim(), count));
+        }
+        if (token.startsWith("industrial_legacy:cable#")) {
+            return new ParsedStack(parseCableStack(token.substring("industrial_legacy:cable#".length()).trim(), count));
+        }
 
         Item item = resolveItem(token);
         if (item == null) return null;
         return new ParsedStack(new ItemStack(item, count));
+    }
+
+    private static ItemStack parseCableStack(String rawProperties, int count) {
+        String kind = "copper";
+        int insulation = 0;
+
+        String raw = rawProperties.trim();
+        if (!raw.contains("=") && !raw.contains(",") && raw.contains(":")) {
+            String[] parts = raw.split(":");
+            if (parts.length >= 1 && !parts[0].isBlank()) kind = parts[0].trim();
+            if (parts.length >= 2 && !parts[1].isBlank()) insulation = Integer.parseInt(parts[1].trim());
+        } else {
+            for (String token : raw.split(",")) {
+                String[] pair = token.trim().split("[:=]", 2);
+                if (pair.length != 2) continue;
+                String key = pair[0].trim();
+                String value = pair[1].trim();
+                if (key.equalsIgnoreCase("type") || key.equalsIgnoreCase("kind")) {
+                    kind = value;
+                } else if (key.equalsIgnoreCase("insulation")) {
+                    insulation = Integer.parseInt(value);
+                }
+            }
+        }
+
+        ItemStack stack = CableItem.createStack(ModItems.CABLE, CableKind.fromId(kind), insulation);
+        stack.setCount(count);
+        return stack;
     }
 
     private static CountedToken splitCount(String raw) {
@@ -256,7 +348,9 @@ final class MachineRecipeIniLoader {
                 .replace('*', '_')
                 .replace(' ', '_')
                 .replace('|', '_')
-                .replace('=', '_');
+                .replace('=', '_')
+                .replace('+', '_')
+                .replace(',', '_');
         return cleaned.replaceAll("[^a-z0-9_./-]", "_");
     }
 
