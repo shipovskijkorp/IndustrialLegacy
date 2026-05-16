@@ -113,6 +113,11 @@ public final class ModItemGroups {
                         add.accept(ModBlocks.STEEL_BLOCK);
                         add.accept(ModBlocks.SILVER_BLOCK);
                         add.accept(ModBlocks.IRON_FENCE);
+                        add.accept(ModBlocks.WOODEN_STORAGE_BOX);
+                        add.accept(ModBlocks.IRON_STORAGE_BOX);
+                        add.accept(ModBlocks.BRONZE_STORAGE_BOX);
+                        add.accept(ModBlocks.STEEL_STORAGE_BOX);
+                        add.accept(ModBlocks.IRIDIUM_STORAGE_BOX);
 
                         // Reinforced building block
                         add.accept(ModBlocks.REINFORCED_GLASS);

@@ -1,6 +1,7 @@
 package com.shipovskijkorp.industriallegacy.item;
 
 import com.shipovskijkorp.industriallegacy.block.*;
+import com.shipovskijkorp.industriallegacy.block.entity.StorageBoxBlockEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -123,8 +124,13 @@ public class WrenchItem extends Item {
 
     public static void removeWithWrench(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         Block block = state.getBlock();
-        if (!player.getAbilities().creativeMode) {
-            BlockEntity be = world.getBlockEntity(pos);
+        BlockEntity be = world.getBlockEntity(pos);
+
+        if (block instanceof StorageBoxBlock && be instanceof StorageBoxBlockEntity box) {
+            if (!player.getAbilities().creativeMode || !box.isEmpty()) {
+                Block.dropStack(world, pos, box.createDroppedStack());
+            }
+        } else if (!player.getAbilities().creativeMode) {
             ItemStack drop = EnergyMachineBlockItem.createEnergyStack(state, be, true);
             Block.dropStack(world, pos, drop);
         }
@@ -187,6 +193,7 @@ public class WrenchItem extends Item {
                 || block instanceof NuclearReactorBlock
                 || block instanceof ReactorChamberBlock
                 || block instanceof ChargepadBlock
+                || block instanceof StorageBoxBlock
                 || block instanceof LuminatorBlock;
     }
 

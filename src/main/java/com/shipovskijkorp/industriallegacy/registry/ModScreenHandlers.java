@@ -28,6 +28,7 @@ public final class ModScreenHandlers {
     public static final Identifier CHARGEPAD_MFSU_ID = new Identifier(IndustrialLegacy.MOD_ID, "chargepad_mfsu");
     public static final Identifier CONTAINMENT_BOX_ID = new Identifier(IndustrialLegacy.MOD_ID, "containment_box");
     public static final Identifier TOOL_BOX_ID = new Identifier(IndustrialLegacy.MOD_ID, "tool_box");
+    public static final Identifier STORAGE_BOX_ID = new Identifier(IndustrialLegacy.MOD_ID, "storage_box");
     public static final Identifier MV_TRANSFORMER_ID = new Identifier(IndustrialLegacy.MOD_ID, "mv_transformer");
     public static final Identifier HV_TRANSFORMER_ID = new Identifier(IndustrialLegacy.MOD_ID, "hv_transformer");
     public static final Identifier EV_TRANSFORMER_ID = new Identifier(IndustrialLegacy.MOD_ID, "ev_transformer");
@@ -135,6 +136,7 @@ public final class ModScreenHandlers {
     public static ScreenHandlerType<ChargepadMfsuScreenHandler> CHARGEPAD_MFSU;
     public static ScreenHandlerType<ContainmentBoxScreenHandler> CONTAINMENT_BOX;
     public static ScreenHandlerType<ToolboxScreenHandler> TOOL_BOX;
+    public static ScreenHandlerType<StorageBoxScreenHandler> STORAGE_BOX;
 
 
     private ModScreenHandlers() {}
@@ -154,5 +156,6 @@ public final class ModScreenHandlers {
         CHARGEPAD_MFSU = ScreenHandlerRegistry.registerExtended(CHARGEPAD_MFSU_ID, ChargepadMfsuScreenHandler::new);
         CONTAINMENT_BOX = ScreenHandlerRegistry.registerExtended(CONTAINMENT_BOX_ID, ContainmentBoxScreenHandler::new);
         TOOL_BOX = ScreenHandlerRegistry.registerExtended(TOOL_BOX_ID, ToolboxScreenHandler::new);
+        STORAGE_BOX = ScreenHandlerRegistry.registerExtended(STORAGE_BOX_ID, StorageBoxScreenHandler::new);
     }
 }

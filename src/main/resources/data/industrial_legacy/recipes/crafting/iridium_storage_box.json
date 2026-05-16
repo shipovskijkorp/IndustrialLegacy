@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ISI",
+    "S S",
+    "ISI"
+  ],
+  "key": {
+    "I": {
+      "item": "industrial_legacy:iridium"
+    },
+    "S": {
+      "item": "industrial_legacy:steel_plate"
+    }
+  },
+  "result": {
+    "item": "industrial_legacy:iridium_storage_box"
+  }
+}

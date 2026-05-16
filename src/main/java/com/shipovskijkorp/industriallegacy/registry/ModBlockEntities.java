@@ -208,6 +208,20 @@ public final class ModBlockEntities {
             BlockEntityType.Builder.create(NuclearReactorBlockEntity::new, ModBlocks.NUCLEAR_REACTOR).build(null)
     );
 
+
+    public static final BlockEntityType<StorageBoxBlockEntity> STORAGE_BOX = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE,
+            id("storage_box"),
+            FabricBlockEntityTypeBuilder.create(StorageBoxBlockEntity::new,
+                    ModBlocks.WOODEN_STORAGE_BOX,
+                    ModBlocks.IRON_STORAGE_BOX,
+                    ModBlocks.BRONZE_STORAGE_BOX,
+                    ModBlocks.STEEL_STORAGE_BOX,
+                    ModBlocks.IRIDIUM_STORAGE_BOX
+            ).build()
+    );
+
+
     /** Cable BE used for thin cable rendering + detector/splitter behavior and EU-net bookkeeping. */
     public static final BlockEntityType<CableBlockEntity> CABLE = Registry.register(
             Registries.BLOCK_ENTITY_TYPE,

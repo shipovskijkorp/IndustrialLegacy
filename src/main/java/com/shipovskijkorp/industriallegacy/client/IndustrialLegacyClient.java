@@ -32,6 +32,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.minecraft.block.Block;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.minecraft.client.color.world.BiomeColors;
@@ -153,6 +154,7 @@ public class IndustrialLegacyClient implements ClientModInitializer {
         HandledScreens.register(ModScreenHandlers.EV_TRANSFORMER, EvTransformerScreen::new);
         HandledScreens.register(ModScreenHandlers.CONTAINMENT_BOX, ContainmentBoxScreen::new);
         HandledScreens.register(ModScreenHandlers.TOOL_BOX, ToolboxScreen::new);
+        HandledScreens.register(ModScreenHandlers.STORAGE_BOX, StorageBoxScreen::new);
     }
 
     private static void registerParticles() {
@@ -205,6 +207,30 @@ public class IndustrialLegacyClient implements ClientModInitializer {
         // item color provider the IC2-style flat water sheet renders gray in GUIs.
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> tintIndex == 0 ? 0x3F76E4 : 0xFFFFFF,
                 ModItems.WATER_SHEET);
+
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) ->
+                        tintIndex == 0 ? storageBoxColor(state.getBlock()) : 0xFFFFFF,
+                ModBlocks.WOODEN_STORAGE_BOX,
+                ModBlocks.IRON_STORAGE_BOX,
+                ModBlocks.BRONZE_STORAGE_BOX,
+                ModBlocks.STEEL_STORAGE_BOX,
+                ModBlocks.IRIDIUM_STORAGE_BOX);
+
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) ->
+                        tintIndex == 0 ? storageBoxColor(Block.getBlockFromItem(stack.getItem())) : 0xFFFFFF,
+                ModBlocks.WOODEN_STORAGE_BOX.asItem(),
+                ModBlocks.IRON_STORAGE_BOX.asItem(),
+                ModBlocks.BRONZE_STORAGE_BOX.asItem(),
+                ModBlocks.STEEL_STORAGE_BOX.asItem(),
+                ModBlocks.IRIDIUM_STORAGE_BOX.asItem());
+    }
+
+    private static int storageBoxColor(net.minecraft.block.Block block) {
+        if (block == ModBlocks.WOODEN_STORAGE_BOX) return 0x9F844D;
+        if (block == ModBlocks.IRON_STORAGE_BOX) return 0xC8C8C8;
+        if (block == ModBlocks.BRONZE_STORAGE_BOX) return 0xFF8000;
+        if (block == ModBlocks.STEEL_STORAGE_BOX) return 0x808080;
+        return 0xFFFFFF;
     }
 
     private static void registerKeyBindings() {

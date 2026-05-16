@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PCP",
+    "C C",
+    "PCP"
+  ],
+  "key": {
+    "P": {
+      "item": "industrial_legacy:bronze_plate"
+    },
+    "C": {
+      "item": "industrial_legacy:bronze_casing"
+    }
+  },
+  "result": {
+    "item": "industrial_legacy:bronze_storage_box"
+  }
+}

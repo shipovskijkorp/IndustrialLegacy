@@ -4,6 +4,7 @@ import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
 import com.shipovskijkorp.industriallegacy.block.*;
 import com.shipovskijkorp.industriallegacy.item.CableKind;
 import com.shipovskijkorp.industriallegacy.item.EnergyMachineBlockItem;
+import com.shipovskijkorp.industriallegacy.item.StorageBoxBlockItem;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.minecraft.block.*;
@@ -325,6 +326,38 @@ public final class ModBlocks {
      * Building material + crafting component.
      * Strength is identical to vanilla iron block.
      */
+
+
+    public static final Block WOODEN_STORAGE_BOX = register(
+            "wooden_storage_box",
+            new StorageBoxBlock(FabricBlockSettings.create().strength(1.0f, 10.0f).sounds(BlockSoundGroup.WOOD), StorageBoxBlock.Type.WOODEN),
+            b -> new StorageBoxBlockItem(b, new Item.Settings(), StorageBoxBlock.Type.WOODEN)
+    );
+
+    public static final Block IRON_STORAGE_BOX = register(
+            "iron_storage_box",
+            new StorageBoxBlock(FabricBlockSettings.create().strength(1.0f, 15.0f).sounds(BlockSoundGroup.METAL), StorageBoxBlock.Type.IRON),
+            b -> new StorageBoxBlockItem(b, new Item.Settings(), StorageBoxBlock.Type.IRON)
+    );
+
+    public static final Block BRONZE_STORAGE_BOX = register(
+            "bronze_storage_box",
+            new StorageBoxBlock(FabricBlockSettings.create().strength(1.0f, 15.0f).sounds(BlockSoundGroup.METAL), StorageBoxBlock.Type.BRONZE),
+            b -> new StorageBoxBlockItem(b, new Item.Settings(), StorageBoxBlock.Type.BRONZE)
+    );
+
+    public static final Block STEEL_STORAGE_BOX = register(
+            "steel_storage_box",
+            new StorageBoxBlock(FabricBlockSettings.create().strength(2.0f, 20.0f).sounds(BlockSoundGroup.METAL), StorageBoxBlock.Type.STEEL),
+            b -> new StorageBoxBlockItem(b, new Item.Settings(), StorageBoxBlock.Type.STEEL)
+    );
+
+    public static final Block IRIDIUM_STORAGE_BOX = register(
+            "iridium_storage_box",
+            new StorageBoxBlock(FabricBlockSettings.create().strength(3.0f, 100.0f).sounds(BlockSoundGroup.METAL), StorageBoxBlock.Type.IRIDIUM),
+            b -> new StorageBoxBlockItem(b, new Item.Settings(), StorageBoxBlock.Type.IRIDIUM)
+    );
+
     public static final Block MACHINE_CASING = register(
             "machine_casing",
             new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).requiresTool())

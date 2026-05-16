@@ -552,5 +552,12 @@
   "block.industrial_legacy.semifluid_generator": "Semifluid Generator",
   "container.industrial_legacy.semifluid_generator": "Semifluid Generator",
   "block.industrial_legacy.fluid_bottler": "Fluid Bottler",
-  "container.industrial_legacy.fluid_bottler": "Fluid Bottler"
+  "container.industrial_legacy.fluid_bottler": "Fluid Bottler",
+  "block.industrial_legacy.wooden_storage_box": "Wooden Storage Box",
+  "block.industrial_legacy.iron_storage_box": "Iron Storage Box",
+  "block.industrial_legacy.bronze_storage_box": "Bronze Storage Box",
+  "block.industrial_legacy.steel_storage_box": "Steel Storage Box",
+  "block.industrial_legacy.iridium_storage_box": "Iridium Storage Box",
+  "tooltip.industrial_legacy.storage_box_keeps_items": "Stores items even when broken",
+  "tooltip.industrial_legacy.storage_box_inventory_size": "Inventory size: %s"
 }
