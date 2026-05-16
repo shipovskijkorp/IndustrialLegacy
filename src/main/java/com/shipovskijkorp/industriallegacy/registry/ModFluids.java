@@ -260,6 +260,20 @@ public final class ModFluids {
         }
 
         @Override
+        public void onScheduledTick(World world, BlockPos pos, FluidState state) {
+            if (entry.rises()) {
+                if (!world.isClient) {
+                    BlockState blockState = world.getBlockState(pos);
+                    if (blockState.getBlock() == entry.block()) {
+                        world.scheduleBlockTick(pos, entry.block(), getTickRate(world));
+                    }
+                }
+                return;
+            }
+            super.onScheduledTick(world, pos, state);
+        }
+
+        @Override
         public Optional<SoundEvent> getBucketFillSound() {
             return Optional.empty();
         }
@@ -342,49 +356,123 @@ public final class ModFluids {
             super.scheduledTick(state, world, pos, random);
         }
 
+        private static final int GAS_MAX_LEVEL = 7;
+
         private void tickRisingGas(ServerWorld world, BlockPos pos, BlockState state) {
-            int level = state.contains(Properties.LEVEL_15) ? state.get(Properties.LEVEL_15) : 0;
-            boolean source = level == 0;
-            int nextLevel = source ? 1 : Math.min(7, level + 1);
+            int level = getGasLevel(state);
 
-            GasFlowResult upward = tryFlowGas(world, pos.up(), nextLevel);
-            boolean moved = upward == GasFlowResult.MOVED;
-
-            // IC2/Forge negative-density fluids prefer the density direction first.
-            // If the block above already contains this gas, do not spill sideways
-            // from the source every tick; let the gas column above continue moving.
-            if (upward == GasFlowResult.BLOCKED) {
-                for (Direction direction : Direction.Type.HORIZONTAL) {
-                    if (tryFlowGas(world, pos.offset(direction), nextLevel) == GasFlowResult.MOVED) {
-                        moved = true;
-                    }
+            if (level != 0) {
+                int recalculatedLevel = getStableGasLevel(world, pos);
+                if (recalculatedLevel > GAS_MAX_LEVEL) {
+                    world.setBlockState(pos, Blocks.AIR.getDefaultState(), Block.NOTIFY_ALL);
+                    return;
+                }
+                if (recalculatedLevel != level) {
+                    level = recalculatedLevel;
+                    state = state.with(Properties.LEVEL_15, level);
+                    world.setBlockState(pos, state, Block.NOTIFY_ALL);
                 }
             }
 
-            if (!source) {
-                if (moved || nextLevel >= 7) {
-                    world.setBlockState(pos, Blocks.AIR.getDefaultState(), Block.NOTIFY_ALL);
-                } else {
-                    world.setBlockState(pos, state.with(Properties.LEVEL_15, nextLevel), Block.NOTIFY_ALL);
-                    world.scheduleBlockTick(pos, this, entry.blockTickRate());
-                }
-            } else {
+            BlockPos upPos = pos.up();
+            GasFlowResult upward = tryFlowGasUp(world, upPos);
+
+            // Forge BlockFluidClassic with negative density behaves like a normal liquid with
+            // the vertical preference inverted: gas goes UP first, while source blocks can
+            // also emit the short four-way horizontal arms that then rise as falling water
+            // would fall. Non-source flowing gas must not spread horizontally while it can
+            // keep rising, or every vertical column starts producing a pyramid.
+            if (level == 0) {
+                spreadGasHorizontally(world, pos, 1);
                 world.scheduleBlockTick(pos, this, entry.blockTickRate());
+                return;
+            }
+
+            if (upward == GasFlowResult.MOVED || upward == GasFlowResult.OCCUPIED) {
+                world.scheduleBlockTick(pos, this, entry.blockTickRate());
+                return;
+            }
+
+            // Only when the preferred upward path is blocked do flowing gas blocks spread
+            // sideways to search for a new upward path, matching IC2's inverted fluid flow.
+            if (level < GAS_MAX_LEVEL) {
+                spreadGasHorizontally(world, pos, level + 1);
+            }
+
+            world.scheduleBlockTick(pos, this, entry.blockTickRate());
+        }
+
+        private int getGasLevel(BlockState state) {
+            return state.contains(Properties.LEVEL_15) ? state.get(Properties.LEVEL_15) : 0;
+        }
+
+        private int getStableGasLevel(ServerWorld world, BlockPos pos) {
+            int best = GAS_MAX_LEVEL + 1;
+
+            BlockState belowState = world.getBlockState(pos.down());
+            if (belowState.isOf(this)) {
+                best = 1;
+            }
+
+            for (Direction direction : Direction.Type.HORIZONTAL) {
+                BlockState neighborState = world.getBlockState(pos.offset(direction));
+                if (!neighborState.isOf(this)) continue;
+
+                int neighborLevel = getGasLevel(neighborState);
+                if (neighborLevel == 0) {
+                    best = Math.min(best, 1);
+                } else if (neighborLevel < GAS_MAX_LEVEL) {
+                    best = Math.min(best, neighborLevel + 1);
+                }
+            }
+
+            return best;
+        }
+
+        private GasFlowResult tryFlowGasUp(ServerWorld world, BlockPos targetPos) {
+            BlockState targetState = world.getBlockState(targetPos);
+            if (targetState.isOf(this)) {
+                int oldLevel = getGasLevel(targetState);
+                if (oldLevel > 1) {
+                    world.setBlockState(targetPos, targetState.with(Properties.LEVEL_15, 1), Block.NOTIFY_ALL);
+                    world.scheduleBlockTick(targetPos, this, entry.blockTickRate());
+                    return GasFlowResult.MOVED;
+                }
+                world.scheduleBlockTick(targetPos, this, entry.blockTickRate());
+                return GasFlowResult.OCCUPIED;
+            }
+            if (!canGasDisplace(targetState)) {
+                return GasFlowResult.BLOCKED;
+            }
+
+            world.setBlockState(targetPos, getDefaultState().with(Properties.LEVEL_15, 1), Block.NOTIFY_ALL);
+            world.scheduleBlockTick(targetPos, this, entry.blockTickRate());
+            return GasFlowResult.MOVED;
+        }
+
+        private void spreadGasHorizontally(ServerWorld world, BlockPos pos, int level) {
+            for (Direction direction : Direction.Type.HORIZONTAL) {
+                BlockPos targetPos = pos.offset(direction);
+                BlockState targetState = world.getBlockState(targetPos);
+
+                if (targetState.isOf(this)) {
+                    int oldLevel = getGasLevel(targetState);
+                    if (oldLevel != 0 && oldLevel > level) {
+                        world.setBlockState(targetPos, targetState.with(Properties.LEVEL_15, level), Block.NOTIFY_ALL);
+                        world.scheduleBlockTick(targetPos, this, entry.blockTickRate());
+                    }
+                    continue;
+                }
+
+                if (!canGasDisplace(targetState)) continue;
+
+                world.setBlockState(targetPos, getDefaultState().with(Properties.LEVEL_15, level), Block.NOTIFY_ALL);
+                world.scheduleBlockTick(targetPos, this, entry.blockTickRate());
             }
         }
 
-        private GasFlowResult tryFlowGas(ServerWorld world, BlockPos targetPos, int level) {
-            BlockState targetState = world.getBlockState(targetPos);
-            if (!targetState.isAir() && !targetState.isReplaceable() && !targetState.isOf(this)) {
-                return GasFlowResult.BLOCKED;
-            }
-            if (targetState.isOf(this)) {
-                int oldLevel = targetState.contains(Properties.LEVEL_15) ? targetState.get(Properties.LEVEL_15) : 0;
-                return oldLevel <= level ? GasFlowResult.OCCUPIED : GasFlowResult.BLOCKED;
-            }
-            world.setBlockState(targetPos, getDefaultState().with(Properties.LEVEL_15, level), Block.NOTIFY_ALL);
-            world.scheduleBlockTick(targetPos, this, entry.blockTickRate());
-            return GasFlowResult.MOVED;
+        private boolean canGasDisplace(BlockState state) {
+            return state.isAir() || state.isReplaceable();
         }
 
         private enum GasFlowResult {
