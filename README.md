@@ -1,0 +1,1 @@
+InustrialLegacy - unofficial IndustrialCraft2 experemental port from 1.12.2 forge to 1.20.1 fabric (another versions planned for future)
