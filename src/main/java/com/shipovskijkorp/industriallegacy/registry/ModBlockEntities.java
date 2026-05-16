@@ -190,6 +190,12 @@ public final class ModBlockEntities {
             BlockEntityType.Builder.create(FluidBottlerBlockEntity::new, ModBlocks.FLUID_BOTTLER).build(null)
     );
 
+    public static final BlockEntityType<PumpBlockEntity> PUMP = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE,
+            new Identifier(IndustrialLegacy.MOD_ID, "pump"),
+            BlockEntityType.Builder.create(PumpBlockEntity::new, ModBlocks.PUMP).build(null)
+    );
+
     public static final BlockEntityType<ThermalCentrifugeBlockEntity> THERMAL_CENTRIFUGE = Registry.register(
             Registries.BLOCK_ENTITY_TYPE,
             new Identifier(IndustrialLegacy.MOD_ID, "thermal_centrifuge"),

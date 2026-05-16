@@ -559,5 +559,8 @@
   "block.industrial_legacy.steel_storage_box": "Стальной контейнер",
   "block.industrial_legacy.iridium_storage_box": "Иридиевый контейнер",
   "tooltip.industrial_legacy.storage_box_keeps_items": "Сохраняет предметы при разрушении",
-  "tooltip.industrial_legacy.storage_box_inventory_size": "Размер инвентаря: %s"
+  "tooltip.industrial_legacy.storage_box_inventory_size": "Размер инвентаря: %s",
+  "block.industrial_legacy.pump": "Помпа",
+  "container.industrial_legacy.pump": "Помпа",
+  "item.industrial_legacy.mining_pipe": "Буровая труба"
 }

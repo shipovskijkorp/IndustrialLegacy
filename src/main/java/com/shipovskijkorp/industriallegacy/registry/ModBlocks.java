@@ -254,6 +254,16 @@ public final class ModBlocks {
             b -> new EnergyMachineBlockItem(b, new Item.Settings(), 1)
     );
 
+    public static final Block PUMP = register(
+            "pump",
+            new PumpBlock(FabricBlockSettings.create()
+                    .strength(2.0f, 10.0f)
+                    .sounds(BlockSoundGroup.METAL)
+                    .requiresTool()
+                    .luminance(state -> state.get(PumpBlock.LIT) ? 13 : 0)),
+            b -> new EnergyMachineBlockItem(b, new Item.Settings(), 1)
+    );
+
     public static final Block THERMAL_CENTRIFUGE = register(
             "thermal_centrifuge",
             new ThermalCentrifugeBlock(FabricBlockSettings.create()

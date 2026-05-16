@@ -104,6 +104,7 @@ public final class ModItemGroups {
                         add.accept(ModBlocks.SOLID_CANNER);
                         add.accept(ModBlocks.CANNER);
                         add.accept(ModBlocks.FLUID_BOTTLER);
+                        add.accept(ModBlocks.PUMP);
                         add.accept(ModBlocks.THERMAL_CENTRIFUGE);
                         add.accept(ModBlocks.ORE_WASHING_PLANT);
                         add.accept(ModBlocks.MACHINE_CASING);
@@ -199,6 +200,7 @@ public final class ModItemGroups {
                         add.accept(ModItems.CHARGING_ENERGY_CRYSTAL);
                         add.accept(ModItems.CHARGING_LAPOTRON_CRYSTAL);
                         add.accept(ModItems.FLUID_CELL);
+                        add.accept(ModItems.MINING_PIPE);
                         for (UniversalFluidCellItem.CellFluid fluid : UniversalFluidCellItem.CellFluid.values()) {
                             if (fluid != UniversalFluidCellItem.CellFluid.EMPTY) {
                                 entries.add(UniversalFluidCellItem.createStack(fluid));

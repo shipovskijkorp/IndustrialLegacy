@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "FCF",
+    "FMF",
+    "PTP"
+  ],
+  "key": {
+    "F": { "item": "industrial_legacy:fluid_cell" },
+    "C": { "item": "industrial_legacy:electronic_circuit" },
+    "M": { "item": "industrial_legacy:machine_casing" },
+    "P": { "item": "industrial_legacy:mining_pipe" },
+    "T": { "item": "industrial_legacy:treetap" }
+  },
+  "result": {
+    "item": "industrial_legacy:pump"
+  }
+}

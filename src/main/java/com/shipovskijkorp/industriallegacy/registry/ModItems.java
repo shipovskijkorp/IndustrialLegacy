@@ -295,6 +295,7 @@ public final class ModItems {
 
     public static final Item MFSU_UPGRADE_KIT = register("mfsu_upgrade_kit", new MfsuUpgradeKitItem(new Item.Settings().maxCount(16)));
     public static final Item WRENCH = register("wrench", new WrenchItem(new Item.Settings()));
+    public static final Item MINING_PIPE = register("mining_pipe", new Item(new Item.Settings()));
 
 
     // Batteries (electric items)

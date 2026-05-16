@@ -104,6 +104,12 @@ public final class ModScreenHandlers {
             new ExtendedScreenHandlerType<>(FluidBottlerScreenHandler::new)
     );
 
+    public static final ScreenHandlerType<PumpScreenHandler> PUMP = Registry.register(
+            Registries.SCREEN_HANDLER,
+            new Identifier(IndustrialLegacy.MOD_ID, "pump"),
+            new ExtendedScreenHandlerType<>(PumpScreenHandler::new)
+    );
+
     public static final ScreenHandlerType<ThermalCentrifugeScreenHandler> THERMAL_CENTRIFUGE = Registry.register(
             Registries.SCREEN_HANDLER,
             new Identifier(IndustrialLegacy.MOD_ID, "thermal_centrifuge"),

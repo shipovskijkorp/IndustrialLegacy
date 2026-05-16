@@ -2,6 +2,7 @@ package com.shipovskijkorp.industriallegacy.block.entity;
 
 import com.shipovskijkorp.industriallegacy.block.CompressorBlock;
 import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
+import com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem;
 import com.shipovskijkorp.industriallegacy.recipe.CompressorRecipe;
 import com.shipovskijkorp.industriallegacy.recipe.MachineRecipeManager;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
@@ -14,6 +15,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.PropertyDelegate;
@@ -105,28 +107,36 @@ public class CompressorBlockEntity extends BlockEntity implements SidedInventory
 
     private boolean processTick(World world) {
         CompressorRecipe recipe = findRecipe(world).orElse(null);
-        if (recipe == null) {
+        boolean pumpRecipe = recipe == null && canUseAdjacentPumpRecipe(world);
+
+        if (recipe == null && !pumpRecipe) {
             if (progress != 0) progress = 0;
             return false;
         }
 
-        ItemStack in = items.get(SLOT_INPUT);
-        if (in.isEmpty()) {
-            progress = 0;
-            return false;
-        }
-
-        ItemStack result = recipe.getOutput(world.getRegistryManager()).copy();
+        ItemStack result = pumpRecipe ? new ItemStack(Items.SNOWBALL) : recipe.getOutput(world.getRegistryManager()).copy();
         if (!canOutput(result)) return false;
 
         if (energy < EU_PER_TICK) return false;
         energy -= EU_PER_TICK;
 
-        maxProgress = recipe.getTicks() <= 0 ? BASE_TICKS : recipe.getTicks();
+        maxProgress = pumpRecipe || recipe.getTicks() <= 0 ? BASE_TICKS : recipe.getTicks();
         progress++;
 
         if (progress >= maxProgress) {
-            in.decrement(Math.max(1, recipe.getIngredientCount()));
+            if (pumpRecipe) {
+                if (!drainWaterFromAdjacentPumps(world, 1000, false)) {
+                    progress = 0;
+                    return false;
+                }
+            } else {
+                ItemStack in = items.get(SLOT_INPUT);
+                if (in.isEmpty()) {
+                    progress = 0;
+                    return false;
+                }
+                in.decrement(Math.max(1, recipe.getIngredientCount()));
+            }
             insertOutput(result);
             progress = 0;
         }
@@ -136,6 +146,28 @@ public class CompressorBlockEntity extends BlockEntity implements SidedInventory
 
     private Optional<CompressorRecipe> findRecipe(World world) {
         return MachineRecipeManager.findCompressorRecipe(this);
+    }
+
+    /**
+     * IC2 pump shortcut: if an adjacent pump can supply 1000 mB of water and the compressor
+     * input slot is empty, the compressor can compress that water into one snowball.
+     */
+    private boolean canUseAdjacentPumpRecipe(World world) {
+        return items.get(SLOT_INPUT).isEmpty()
+                && canOutput(new ItemStack(Items.SNOWBALL))
+                && drainWaterFromAdjacentPumps(world, 1000, true);
+    }
+
+    private boolean drainWaterFromAdjacentPumps(World world, int amountMb, boolean simulate) {
+        int needed = amountMb;
+        for (Direction side : Direction.values()) {
+            if (world.getBlockEntity(pos.offset(side)) instanceof PumpBlockEntity pump) {
+                int drained = pump.drainTank(UniversalFluidCellItem.CellFluid.WATER, needed, simulate);
+                needed -= drained;
+                if (needed <= 0) return true;
+            }
+        }
+        return false;
     }
 
     private boolean canOutput(ItemStack stack) {

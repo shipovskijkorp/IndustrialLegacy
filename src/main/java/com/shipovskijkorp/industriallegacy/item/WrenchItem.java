@@ -189,6 +189,9 @@ public class WrenchItem extends Item {
                 || block instanceof IronFurnaceBlock
                 || block instanceof CannerBlock
                 || block instanceof SolidCannerBlock
+                || block instanceof FluidBottlerBlock
+                || block instanceof PumpBlock
+                || block instanceof SemifluidGeneratorBlock
                 || block instanceof ThermalCentrifugeBlock
                 || block instanceof NuclearReactorBlock
                 || block instanceof ReactorChamberBlock

@@ -559,5 +559,8 @@
   "block.industrial_legacy.steel_storage_box": "Steel Storage Box",
   "block.industrial_legacy.iridium_storage_box": "Iridium Storage Box",
   "tooltip.industrial_legacy.storage_box_keeps_items": "Stores items even when broken",
-  "tooltip.industrial_legacy.storage_box_inventory_size": "Inventory size: %s"
+  "tooltip.industrial_legacy.storage_box_inventory_size": "Inventory size: %s",
+  "block.industrial_legacy.pump": "Pump",
+  "container.industrial_legacy.pump": "Pump",
+  "item.industrial_legacy.mining_pipe": "Mining Pipe"
 }
