@@ -330,11 +330,7 @@ final class MachineRecipeIniLoader {
     }
 
     private static String normalizeFluidId(String fluidId) {
-        if (fluidId.equals("water")) return "minecraft:water";
-        if (fluidId.equals("lava")) return "minecraft:lava";
-        if (fluidId.equals("air") || fluidId.equals("ic2air")) return "industrial_legacy:air";
-        if (fluidId.equals("empty")) return "empty";
-        return fluidId;
+        return UniversalFluidCellItem.CellFluid.normalizeFluidId(fluidId);
     }
 
     private static Item resolveItem(String idText) {

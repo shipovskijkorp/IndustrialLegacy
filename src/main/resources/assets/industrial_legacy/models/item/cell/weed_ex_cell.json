@@ -1,6 +1,6 @@
 {
-	"parent": "ic2:item/default",
-	"textures": {
-		"layer0": "ic2:items/crop/weed_ex"
-	}
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "industrial_legacy:item/crop/weed_ex"
+  }
 }

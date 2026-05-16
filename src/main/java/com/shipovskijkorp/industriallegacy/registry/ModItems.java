@@ -29,6 +29,7 @@ import com.shipovskijkorp.industriallegacy.item.tool.MiningLaserItem;
 import com.shipovskijkorp.industriallegacy.item.tool.NanoSaberItem;
 import com.shipovskijkorp.industriallegacy.item.tool.ToolboxItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.HoeItem;
@@ -175,6 +176,8 @@ public final class ModItems {
     public static final Item TIN_DUST = register("tin_dust", new Item(new Item.Settings()));
     public static final Item TIN_HYDRATED_DUST = register("tin_hydrated_dust", new Item(new Item.Settings()));
     public static final Item IODINE = register("iodine", new Item(new Item.Settings()));
+    public static final Item WATER_SHEET = register("water_sheet", new FluidSheetItem(new Item.Settings(), Blocks.WATER));
+    public static final Item LAVA_SHEET = register("lava_sheet", new FluidSheetItem(new Item.Settings(), Blocks.LAVA));
 
     // --- Small dusts (tiny piles) ---
     public static final Item SMALL_BRONZE_DUST = register("small_bronze_dust", new Item(new Item.Settings()));

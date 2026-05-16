@@ -191,9 +191,14 @@ public final class ModItemGroups {
                         add.accept(ModItems.CHARGING_ENERGY_CRYSTAL);
                         add.accept(ModItems.CHARGING_LAPOTRON_CRYSTAL);
                         add.accept(ModItems.FLUID_CELL);
-                        entries.add(UniversalFluidCellItem.createStack(UniversalFluidCellItem.CellFluid.WATER));
-                        entries.add(UniversalFluidCellItem.createStack(UniversalFluidCellItem.CellFluid.LAVA));
-                        entries.add(UniversalFluidCellItem.createStack(UniversalFluidCellItem.CellFluid.AIR));
+                        for (UniversalFluidCellItem.CellFluid fluid : UniversalFluidCellItem.CellFluid.values()) {
+                            if (fluid != UniversalFluidCellItem.CellFluid.EMPTY) {
+                                entries.add(UniversalFluidCellItem.createStack(fluid));
+                            }
+                        }
+                        for (ModFluids.Ic2FluidEntry fluid : ModFluids.entries()) {
+                            add.accept(fluid.item());
+                        }
                         add.accept(ModItems.JETPACK_ELECTRIC);
                         add.accept(ModItems.SOLAR_HELMET);
                         add.accept(ModItems.STATIC_BOOTS);
@@ -271,6 +276,8 @@ public final class ModItemGroups {
                         add.accept(ModItems.RUBBER);
                         add.accept(ModItems.SULFUR);
                         add.accept(ModItems.IODINE);
+                        add.accept(ModItems.WATER_SHEET);
+                        add.accept(ModItems.LAVA_SHEET);
                         add.accept(ModItems.ELECTRONIC_CIRCUIT);
 
                         // Circuits

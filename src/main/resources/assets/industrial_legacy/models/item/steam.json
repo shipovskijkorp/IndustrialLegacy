@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "industrial_legacy:item/cell/hot_coolant_cell"
+    "layer0": "industrial_legacy:block/fluid/steam_still"
   }
 }

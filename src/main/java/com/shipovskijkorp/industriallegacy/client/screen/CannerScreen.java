@@ -209,13 +209,7 @@ public class CannerScreen extends HandledScreen<CannerScreenHandler> {
     private Text tankTooltip(boolean input) {
         UniversalFluidCellItem.CellFluid fluid = input ? handler.getInputTankFluid() : handler.getOutputTankFluid();
         int amount = input ? handler.getInputTankAmount() : handler.getOutputTankAmount();
-        String fluidName = switch (fluid) {
-            case WATER -> "Water";
-            case LAVA -> "Lava";
-            case AIR -> "Air";
-            default -> "Empty";
-        };
-        return Text.literal(amount + " / " + handler.getTankCapacity() + " mB " + fluidName);
+        return Text.translatable("tooltip.industrial_legacy.fluid_tank", amount, handler.getTankCapacity(), fluid.fluidName());
     }
 
     private Text modeTooltip(CannerBlockEntity.Mode mode) {
@@ -238,12 +232,7 @@ public class CannerScreen extends HandledScreen<CannerScreenHandler> {
         float ratio = Math.max(0.0f, Math.min(1.0f, amount / (float) capacity));
         int fillH = Math.round(47 * ratio);
         if (fillH > 0) {
-            int color = switch (fluid) {
-                case WATER -> 0xFF3F76E4;
-                case LAVA -> 0xFFFF6A00;
-                case AIR -> 0xFFBFC9D9;
-                default -> 0xFFFFFFFF;
-            };
+            int color = fluid.tintArgb();
             int fillX1 = x + 4;
             int fillX2 = fillX1 + 12;
             int fillY2 = y + 4 + 47;

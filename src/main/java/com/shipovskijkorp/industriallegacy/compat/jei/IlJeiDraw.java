@@ -173,16 +173,7 @@ final class IlJeiDraw {
     }
 
     private static int cannerFluidColor(UniversalFluidCellItem.CellFluid fluid) {
-        return switch (fluid) {
-            case WATER, DISTILLED_WATER -> 0xFF3F76E4;
-            case LAVA -> 0xFFFF6A00;
-            case AIR -> 0xFFBFC9D9;
-            case COOLANT -> 0xFF23B7D9;
-            case BIOMASS -> 0xFF4E8F22;
-            case CONSTRUCTION_FOAM -> 0xFFE7E7E7;
-            case HOT_WATER -> 0xFFFF4020;
-            default -> 0xFFFFFFFF;
-        };
+        return fluid.tintArgb();
     }
 
     static void progressOreWasher(DrawContext ctx, int x, int y) {

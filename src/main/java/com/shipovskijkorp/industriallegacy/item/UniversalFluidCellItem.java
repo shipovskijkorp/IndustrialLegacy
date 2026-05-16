@@ -1,17 +1,20 @@
 package com.shipovskijkorp.industriallegacy.item;
 
+import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
 import com.shipovskijkorp.industriallegacy.registry.ModFluids;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
@@ -28,30 +31,103 @@ public class UniversalFluidCellItem extends Item {
     private static final int AMOUNT_MB = 1000;
 
     public enum CellFluid {
-        EMPTY("empty", 0.0f, null),
-        WATER("minecraft:water", 0.1f, Blocks.WATER),
-        LAVA("minecraft:lava", 0.2f, Blocks.LAVA),
-        AIR(ModFluids.AIR_ID.toString(), 0.3f, null),
-        DISTILLED_WATER("industrial_legacy:distilled_water", 0.4f, null),
-        COOLANT("industrial_legacy:coolant", 0.5f, null),
-        BIOMASS("industrial_legacy:biomass", 0.6f, null),
-        CONSTRUCTION_FOAM("industrial_legacy:construction_foam", 0.7f, null),
-        HOT_WATER("industrial_legacy:hot_water", 0.8f, null);
+        EMPTY("empty", 0.0f, 0x00FFFFFF, false),
+        WATER("minecraft:water", 0.1f, 0xFF3F76E4, true),
+        LAVA("minecraft:lava", 0.2f, 0xFFFF6A00, true),
+        AIR(ModFluids.AIR_ID.toString(), 0.3f, 0xFFDCDCDC, false),
+        DISTILLED_WATER("industrial_legacy:distilled_water", 0.4f, 0xFF4356F5, true),
+        COOLANT("industrial_legacy:coolant", 0.5f, 0xFF145A6A, true),
+        BIOMASS("industrial_legacy:biomass", 0.6f, 0xFF376F25, true),
+        CONSTRUCTION_FOAM("industrial_legacy:construction_foam", 0.7f, 0xFF202020, true),
+        HOT_WATER("industrial_legacy:hot_water", 0.8f, 0xFF46DEFF, true),
+        HOT_COOLANT("industrial_legacy:hot_coolant", 0.9f, 0xFFB52834, true),
+        PAHOEHOE_LAVA("industrial_legacy:pahoehoe_lava", 1.0f, 0xFF7B746C, true),
+        BIOGAS("industrial_legacy:biogas", 1.1f, 0xFFA7984C, true),
+        STEAM("industrial_legacy:steam", 1.2f, 0xFFBCBCBC, true),
+        SUPERHEATED_STEAM("industrial_legacy:superheated_steam", 1.3f, 0xFFCAD1D1, true),
+        UU_MATTER("industrial_legacy:uu_matter", 1.4f, 0xFF3B0533, true),
+        WEED_EX("industrial_legacy:weed_ex", 1.5f, 0xFF074F14, true),
+        HEAVY_WATER("industrial_legacy:heavy_water", 1.6f, 0xFF4356F5, true),
+        HYDROGEN("industrial_legacy:hydrogen", 1.7f, 0xFFDCDCDC, true),
+        OXYGEN("industrial_legacy:oxygen", 1.8f, 0xFFDCDCDC, true);
 
         public final String id;
         public final float predicate;
-        public final @Nullable Block block;
+        private final int tintArgb;
+        private final boolean placeableFromCell;
 
-        CellFluid(String id, float predicate, @Nullable Block block) {
+        CellFluid(String id, float predicate, int tintArgb, boolean placeableFromCell) {
             this.id = id;
             this.predicate = predicate;
-            this.block = block;
+            this.tintArgb = tintArgb;
+            this.placeableFromCell = placeableFromCell;
+        }
+
+        public int tintArgb() {
+            return tintArgb;
+        }
+
+        public String langPath() {
+            return switch (this) {
+                case EMPTY -> "empty";
+                default -> Identifier.tryParse(id) != null ? Identifier.tryParse(id).getPath() : name().toLowerCase(java.util.Locale.ROOT);
+            };
+        }
+
+        public Text fluidName() {
+            if (this == EMPTY) return Text.translatable("fluid.industrial_legacy.empty");
+            if (this == WATER) return Text.translatable("block.minecraft.water");
+            if (this == LAVA) return Text.translatable("block.minecraft.lava");
+            return Text.translatable("fluid.industrial_legacy." + langPath());
+        }
+
+        public Text cellName() {
+            return Text.translatable("item.industrial_legacy.cell." + langPath());
+        }
+
+        public @Nullable Block placeableBlock() {
+            if (!placeableFromCell) return null;
+            if (this == WATER) return Blocks.WATER;
+            if (this == LAVA) return Blocks.LAVA;
+            Block block = ModFluids.getFluidBlock(id);
+            return block == null || block == Blocks.AIR ? null : block;
         }
 
         public static CellFluid byId(@Nullable String id) {
-            if (id == null || id.isEmpty() || id.equals("empty")) return EMPTY;
+            String normalized = normalizeFluidId(id);
+            if (normalized == null || normalized.isEmpty() || normalized.equals("empty")) return EMPTY;
             for (CellFluid value : values()) {
-                if (value.id.equals(id)) return value;
+                if (value.id.equals(normalized)) return value;
+            }
+            return EMPTY;
+        }
+
+        public static String normalizeFluidId(@Nullable String rawId) {
+            if (rawId == null || rawId.isBlank()) return "empty";
+            String token = rawId.trim();
+            if (token.equals("empty")) return "empty";
+            if (token.equals("water")) return "minecraft:water";
+            if (token.equals("lava")) return "minecraft:lava";
+            if (token.equals("ic2water")) return "minecraft:water";
+            if (token.equals("ic2lava")) return "minecraft:lava";
+            if (token.startsWith("ic2:") && token.length() > 4) {
+                return IndustrialLegacy.MOD_ID + ":" + token.substring(4);
+            }
+            if (token.startsWith("ic2") && token.length() > 3 && token.indexOf(':') < 0) {
+                return IndustrialLegacy.MOD_ID + ":" + token.substring(3);
+            }
+            if (token.indexOf(':') < 0) {
+                return IndustrialLegacy.MOD_ID + ":" + token;
+            }
+            return token;
+        }
+
+        public static CellFluid byBlock(Block block) {
+            if (block == Blocks.WATER) return WATER;
+            if (block == Blocks.LAVA) return LAVA;
+            Identifier id = Registries.BLOCK.getId(block);
+            if (IndustrialLegacy.MOD_ID.equals(id.getNamespace())) {
+                return byId(id.toString());
             }
             return EMPTY;
         }
@@ -90,11 +166,19 @@ public class UniversalFluidCellItem extends Item {
         return getFluid(stack).predicate;
     }
 
+    public static int getFluidTintRgb(ItemStack stack) {
+        return getFluid(stack).tintArgb() & 0x00FFFFFF;
+    }
+
+    public static boolean isFilled(ItemStack stack) {
+        return getFluid(stack) != CellFluid.EMPTY;
+    }
+
     public static boolean matchesRequiredFluid(ItemStack stack, @Nullable String requiredFluidId) {
         if (requiredFluidId == null || requiredFluidId.isEmpty()) return true;
         CellFluid fluid = getFluid(stack);
         if ("empty".equals(requiredFluidId)) return fluid == CellFluid.EMPTY;
-        return fluid.id.equals(requiredFluidId);
+        return fluid.id.equals(CellFluid.normalizeFluidId(requiredFluidId));
     }
 
     public static int consumeFluidFromPlayerInventory(PlayerEntity player, CellFluid fluid, int neededMb) {
@@ -123,17 +207,7 @@ public class UniversalFluidCellItem extends Item {
 
     @Override
     public Text getName(ItemStack stack) {
-        return switch (getFluid(stack)) {
-            case WATER -> Text.translatable("item.industrial_legacy.cell.water");
-            case LAVA -> Text.translatable("item.industrial_legacy.cell.lava");
-            case AIR -> Text.translatable("item.industrial_legacy.cell.air");
-            case DISTILLED_WATER -> Text.translatable("item.industrial_legacy.cell.distilled_water");
-            case COOLANT -> Text.translatable("item.industrial_legacy.cell.coolant");
-            case BIOMASS -> Text.translatable("item.industrial_legacy.cell.biomass");
-            case CONSTRUCTION_FOAM -> Text.translatable("item.industrial_legacy.cell.construction_foam");
-            case HOT_WATER -> Text.translatable("item.industrial_legacy.cell.hot_water");
-            default -> Text.translatable("item.industrial_legacy.cell.empty");
-        };
+        return getFluid(stack).cellName();
     }
 
     @Override
@@ -155,18 +229,18 @@ public class UniversalFluidCellItem extends Item {
             if (hit.getType() != HitResult.Type.BLOCK) return TypedActionResult.pass(stack);
             BlockPos pos = hit.getBlockPos();
             BlockState state = world.getBlockState(pos);
-            if (state.isOf(Blocks.WATER)) {
-                if (!world.isClient) fillFromSource(user, hand, stack, CellFluid.WATER, pos);
-                return TypedActionResult.success(user.getStackInHand(hand), world.isClient);
-            }
-            if (state.isOf(Blocks.LAVA)) {
-                if (!world.isClient) fillFromSource(user, hand, stack, CellFluid.LAVA, pos);
+            FluidState fluidState = world.getFluidState(pos);
+
+            CellFluid sourceFluid = CellFluid.byBlock(state.getBlock());
+            if (sourceFluid != CellFluid.EMPTY && fluidState.isStill()) {
+                if (!world.isClient) fillFromSource(user, hand, stack, sourceFluid, pos);
                 return TypedActionResult.success(user.getStackInHand(hand), world.isClient);
             }
             return TypedActionResult.pass(stack);
         }
 
-        if (fluid.block != null) {
+        Block placeBlock = fluid.placeableBlock();
+        if (placeBlock != null) {
             BlockHitResult hit = raycast(world, user, RaycastContext.FluidHandling.NONE);
             if (hit.getType() != HitResult.Type.BLOCK) return TypedActionResult.pass(stack);
             BlockPos pos = hit.getBlockPos();
@@ -176,7 +250,7 @@ public class UniversalFluidCellItem extends Item {
             BlockState placeState = world.getBlockState(placePos);
             if (!placeState.isReplaceable()) return TypedActionResult.fail(stack);
             if (!world.isClient) {
-                world.setBlockState(placePos, fluid.block.getDefaultState(), Block.NOTIFY_ALL);
+                world.setBlockState(placePos, placeBlock.getDefaultState(), Block.NOTIFY_ALL);
                 replaceHeldWithEmpty(user, hand, stack);
             }
             return TypedActionResult.success(user.getStackInHand(hand), world.isClient);

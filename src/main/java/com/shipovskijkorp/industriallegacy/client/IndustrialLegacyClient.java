@@ -19,6 +19,7 @@ import com.shipovskijkorp.industriallegacy.net.ModPackets;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
 import com.shipovskijkorp.industriallegacy.registry.ModEntities;
 import com.shipovskijkorp.industriallegacy.registry.ModBlocks;
+import com.shipovskijkorp.industriallegacy.registry.ModFluids;
 import com.shipovskijkorp.industriallegacy.registry.ModItems;
 import com.shipovskijkorp.industriallegacy.registry.ModParticles;
 import com.shipovskijkorp.industriallegacy.registry.ModScreenHandlers;
@@ -30,6 +31,8 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
+import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.client.color.world.FoliageColors;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
@@ -54,6 +57,7 @@ public class IndustrialLegacyClient implements ClientModInitializer {
         registerScreens();
         registerRenderers();
         registerParticles();
+        registerFluidRenderers();
         registerBlockRenderLayers();
         registerBlockColors();
         registerKeyBindings();
@@ -152,6 +156,14 @@ public class IndustrialLegacyClient implements ClientModInitializer {
         EntityRendererRegistry.register(ModEntities.MINING_LASER, MiningLaserEntityRenderer::new);
     }
 
+    private static void registerFluidRenderers() {
+        for (ModFluids.Ic2FluidEntry entry : ModFluids.entries()) {
+            FluidRenderHandlerRegistry.INSTANCE.register(entry.still(), entry.flowing(),
+                    new SimpleFluidRenderHandler(entry.stillTexture(), entry.flowingTexture(), entry.tintRgb()));
+            BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), entry.still(), entry.flowing());
+        }
+    }
+
     private static void registerBlockRenderLayers() {
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.RUBBER_SAPLING, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.RUBBER_LEAVES, RenderLayer.getCutoutMipped());
@@ -173,6 +185,18 @@ public class IndustrialLegacyClient implements ClientModInitializer {
 
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> FoliageColors.getDefaultColor(),
                 ModBlocks.RUBBER_LEAVES.asItem());
+
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
+            if (tintIndex != 1 || !UniversalFluidCellItem.isFilled(stack)) {
+                return 0xFFFFFF;
+            }
+            return UniversalFluidCellItem.getFluidTintRgb(stack);
+        }, ModItems.FLUID_CELL);
+
+        // minecraft:block/water_still is a grayscale/tintable texture. Without an
+        // item color provider the IC2-style flat water sheet renders gray in GUIs.
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> tintIndex == 0 ? 0x3F76E4 : 0xFFFFFF,
+                ModItems.WATER_SHEET);
     }
 
     private static void registerKeyBindings() {
