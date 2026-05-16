@@ -20,7 +20,6 @@ import com.shipovskijkorp.industriallegacy.recipe.MachineRecipeManager;
 import com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem;
 import com.shipovskijkorp.industriallegacy.registry.ModBlocks;
 import com.shipovskijkorp.industriallegacy.registry.ModItems;
-import com.shipovskijkorp.industriallegacy.registry.ModRecipes;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.RecipeTypes;
@@ -180,6 +179,9 @@ public final class IndustrialLegacyJeiPlugin implements IModPlugin {
         addRecipes(registration, IlJeiRecipeTypes.COMPRESSOR, MachineRecipeManager.getCompressorRecipes().stream()
                 .filter(IndustrialLegacyJeiPlugin::hasVisibleOutput)
                 .toList());
+        addRecipes(registration, IlJeiRecipeTypes.EXTRACTOR, MachineRecipeManager.getExtractorRecipes().stream()
+                .filter(IndustrialLegacyJeiPlugin::hasVisibleOutput)
+                .toList());
 
         List<com.shipovskijkorp.industriallegacy.recipe.CanningRecipe> canningRecipes = MachineRecipeManager.getCanningRecipes();
         addRecipes(registration, IlJeiRecipeTypes.CANNING, canningRecipes);
@@ -198,9 +200,6 @@ public final class IndustrialLegacyJeiPlugin implements IModPlugin {
             return;
         }
 
-        addRecipes(registration, IlJeiRecipeTypes.EXTRACTOR, manager.listAllOfType(ModRecipes.EXTRACTOR_TYPE).stream()
-                .filter(IndustrialLegacyJeiPlugin::hasVisibleOutput)
-                .toList());
         registration.addRecipes(IlJeiRecipeTypes.RECYCLER, List.of(RecyclerJeiRecipe.create()));
         registration.addRecipes(IlJeiRecipeTypes.SPECIAL_CRAFTING, IlSpecialCraftingRecipeFactory.create(manager));
         registration.addRecipes(IlJeiRecipeTypes.SCRAP_BOX, ScrapBoxJeiRecipeFactory.create());

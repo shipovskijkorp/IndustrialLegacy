@@ -11,6 +11,7 @@ import java.util.Optional;
 public final class MachineRecipeManager {
     private static final String MACERATOR_PATH = "data/industrial_legacy/il_recipes/macerator.ini";
     private static final String COMPRESSOR_PATH = "data/industrial_legacy/il_recipes/compressor.ini";
+    private static final String EXTRACTOR_PATH = "data/industrial_legacy/il_recipes/extractor.ini";
     private static final String METAL_FORMER_EXTRUDING_PATH = "data/industrial_legacy/il_recipes/metal_former_extruding.ini";
     private static final String METAL_FORMER_ROLLING_PATH = "data/industrial_legacy/il_recipes/metal_former_rolling.ini";
     private static final String METAL_FORMER_CUTTING_PATH = "data/industrial_legacy/il_recipes/metal_former_cutting.ini";
@@ -21,6 +22,7 @@ public final class MachineRecipeManager {
 
     private static List<MaceratorRecipe> maceratorRecipes = List.of();
     private static List<CompressorRecipe> compressorRecipes = List.of();
+    private static List<ExtractorRecipe> extractorRecipes = List.of();
     private static List<MetalFormerRecipe> metalFormerExtrudingRecipes = List.of();
     private static List<MetalFormerRecipe> metalFormerRollingRecipes = List.of();
     private static List<MetalFormerRecipe> metalFormerCuttingRecipes = List.of();
@@ -36,6 +38,7 @@ public final class MachineRecipeManager {
     public static void reloadBuiltin() {
         maceratorRecipes = Collections.unmodifiableList(new ArrayList<>(MachineRecipeIniLoader.loadMacerator(MACERATOR_PATH)));
         compressorRecipes = Collections.unmodifiableList(new ArrayList<>(MachineRecipeIniLoader.loadCompressor(COMPRESSOR_PATH)));
+        extractorRecipes = Collections.unmodifiableList(new ArrayList<>(MachineRecipeIniLoader.loadExtractor(EXTRACTOR_PATH)));
         metalFormerExtrudingRecipes = Collections.unmodifiableList(new ArrayList<>(MachineRecipeIniLoader.loadMetalFormer(
                 METAL_FORMER_EXTRUDING_PATH, com.shipovskijkorp.industriallegacy.registry.ModRecipes.METAL_FORMER_EXTRUDING_TYPE,
                 com.shipovskijkorp.industriallegacy.registry.ModRecipes.METAL_FORMER_EXTRUDING_SERIALIZER, "extruding")));
@@ -53,8 +56,8 @@ public final class MachineRecipeManager {
         canningBottleLiquidRecipes = Collections.unmodifiableList(CanningFluidRecipe.createBottleLiquidRecipes());
 
         IndustrialLegacy.LOGGER.info(
-                "Loaded IC2-style .ini recipes: {} macerator, {} compressor, {} metal former extruding, {} rolling, {} cutting, {} canning, {} canning enrich, {} thermal centrifuge, {} ore washing, {} canning empty liquid, {} canning bottle liquid",
-                maceratorRecipes.size(), compressorRecipes.size(),
+                "Loaded IC2-style .ini recipes: {} macerator, {} compressor, {} extractor, {} metal former extruding, {} rolling, {} cutting, {} canning, {} canning enrich, {} thermal centrifuge, {} ore washing, {} canning empty liquid, {} canning bottle liquid",
+                maceratorRecipes.size(), compressorRecipes.size(), extractorRecipes.size(),
                 metalFormerExtrudingRecipes.size(), metalFormerRollingRecipes.size(), metalFormerCuttingRecipes.size(),
                 canningRecipes.size(), canningEnrichRecipes.size(), thermalCentrifugeRecipes.size(), oreWashingRecipes.size(),
                 canningEmptyLiquidRecipes.size(), canningBottleLiquidRecipes.size());
@@ -68,6 +71,11 @@ public final class MachineRecipeManager {
     public static List<CompressorRecipe> getCompressorRecipes() {
         ensureLoaded();
         return compressorRecipes;
+    }
+
+    public static List<ExtractorRecipe> getExtractorRecipes() {
+        ensureLoaded();
+        return extractorRecipes;
     }
 
     public static List<MetalFormerRecipe> getMetalFormerExtrudingRecipes() {
@@ -128,6 +136,16 @@ public final class MachineRecipeManager {
     public static Optional<CompressorRecipe> findCompressorRecipe(Inventory inv) {
         ensureLoaded();
         for (CompressorRecipe recipe : compressorRecipes) {
+            if (recipe.matches(inv, null)) {
+                return Optional.of(recipe);
+            }
+        }
+        return Optional.empty();
+    }
+
+    public static Optional<ExtractorRecipe> findExtractorRecipe(Inventory inv) {
+        ensureLoaded();
+        for (ExtractorRecipe recipe : extractorRecipes) {
             if (recipe.matches(inv, null)) {
                 return Optional.of(recipe);
             }
@@ -197,7 +215,7 @@ public final class MachineRecipeManager {
     }
 
     private static void ensureLoaded() {
-        if (maceratorRecipes.isEmpty() && compressorRecipes.isEmpty()
+        if (maceratorRecipes.isEmpty() && compressorRecipes.isEmpty() && extractorRecipes.isEmpty()
                 && metalFormerExtrudingRecipes.isEmpty() && metalFormerRollingRecipes.isEmpty()
                 && metalFormerCuttingRecipes.isEmpty() && canningRecipes.isEmpty() && canningEnrichRecipes.isEmpty()
                 && thermalCentrifugeRecipes.isEmpty() && oreWashingRecipes.isEmpty()

@@ -542,5 +542,8 @@
   "item.industrial_legacy.iron_purified_crushed_ore": "Очищенная дроблёная железная руда",
   "item.industrial_legacy.gold_purified_crushed_ore": "Очищенная дроблёная золотая руда",
   "jei.industrial_legacy.canning_enrich": "Наполнитель",
-  "item.industrial_legacy.slag": "Шлак"
+  "item.industrial_legacy.slag": "Шлак",
+  "item.industrial_legacy.netherrack_dust": "Адский порошок",
+  "item.industrial_legacy.small_emerald_dust": "Мелкий изумрудный порошок",
+  "item.industrial_legacy.bobs_yer_uncle_ranks_berry": "Ягода Bobs-Yer-Uncle-Ranks"
 }

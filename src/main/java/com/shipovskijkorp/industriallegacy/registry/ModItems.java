@@ -170,6 +170,7 @@ public final class ModItems {
     public static final Item LEAD_DUST = register("lead_dust", new Item(new Item.Settings()));
     public static final Item LITHIUM_DUST = register("lithium_dust", new Item(new Item.Settings()));
     public static final Item MILK_DUST = register("milk_dust", new Item(new Item.Settings()));
+    public static final Item NETHERRACK_DUST = register("netherrack_dust", new Item(new Item.Settings()));
     public static final Item OBSIDIAN_DUST = register("obsidian_dust", new Item(new Item.Settings()));
     public static final Item SILICON_DIOXIDE = register("silicon_dioxide", new Item(new Item.Settings()));
     public static final Item SILVER_DUST = register("silver_dust", new Item(new Item.Settings()));
@@ -188,6 +189,7 @@ public final class ModItems {
     public static final Item SMALL_LAPIS_DUST = register("small_lapis_dust", new Item(new Item.Settings()));
     public static final Item SMALL_LEAD_DUST = register("small_lead_dust", new Item(new Item.Settings()));
     public static final Item SMALL_LITHIUM_DUST = register("small_lithium_dust", new Item(new Item.Settings()));
+    public static final Item SMALL_EMERALD_DUST = register("small_emerald_dust", new Item(new Item.Settings()));
     public static final Item SMALL_OBSIDIAN_DUST = register("small_obsidian_dust", new Item(new Item.Settings()));
     public static final Item SMALL_SILVER_DUST = register("small_silver_dust", new Item(new Item.Settings()));
     public static final Item SMALL_SULFUR_DUST = register("small_sulfur_dust", new Item(new Item.Settings()));
@@ -250,6 +252,7 @@ public final class ModItems {
     public static final Item COFFEE_POWDER = register("coffee_powder", new Item(new Item.Settings()));
     public static final Item GRIN_POWDER = register("grin_powder", new Item(new Item.Settings()));
     public static final Item WEED = register("weed", new Item(new Item.Settings()));
+    public static final Item BOBS_YER_UNCLE_RANKS_BERRY = register("bobs_yer_uncle_ranks_berry", new Item(new Item.Settings()));
 
     // --- Materials (IL resources; split into separate IDs in IL) ---
     public static final Item IRIDIUM_SHARD = register("iridium_shard", new Item(new Item.Settings()));

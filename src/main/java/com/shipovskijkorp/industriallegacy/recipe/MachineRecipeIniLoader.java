@@ -78,6 +78,27 @@ final class MachineRecipeIniLoader {
         return recipes;
     }
 
+
+    static List<ExtractorRecipe> loadExtractor(String resourcePath) {
+        List<ParsedLine> lines = loadLines(resourcePath, DEFAULT_TICKS);
+        List<ExtractorRecipe> recipes = new ArrayList<>();
+        for (int i = 0; i < lines.size(); i++) {
+            ParsedLine line = lines.get(i);
+            try {
+                ParsedInput input = parseInput(line.input());
+                ParsedStack output = parseOutput(line.output());
+                if (input == null || output == null) continue;
+
+                Identifier id = new Identifier(IndustrialLegacy.MOD_ID, "ini/extractor/" + sanitizeId(line.input()) + "_to_" + sanitizeId(line.output()) + "_" + i);
+                recipes.add(new ExtractorRecipe(id, input.ingredient(), input.count(), output.stack(), line.ticks(), input.requiredFluid()));
+            } catch (RuntimeException e) {
+                IndustrialLegacy.LOGGER.warn("Skipping extractor ini recipe {}:{} -> {}: {}",
+                        resourcePath, line.number(), line.raw(), e.getMessage());
+            }
+        }
+        return recipes;
+    }
+
     static List<MetalFormerRecipe> loadMetalFormer(String resourcePath, RecipeType<?> type, RecipeSerializer<?> serializer, String modeId) {
         List<ParsedLine> lines = loadLines(resourcePath, DEFAULT_METAL_FORMER_TICKS);
         List<MetalFormerRecipe> recipes = new ArrayList<>();
@@ -443,6 +464,13 @@ final class MachineRecipeIniLoader {
                     Blocks.JUNGLE_SAPLING.asItem(), Blocks.ACACIA_SAPLING.asItem(), Blocks.DARK_OAK_SAPLING.asItem(),
                     Blocks.MANGROVE_PROPAGULE.asItem(), Blocks.CHERRY_SAPLING.asItem(), Blocks.AZALEA.asItem(),
                     Blocks.FLOWERING_AZALEA.asItem(), ModBlocks.RUBBER_SAPLING.asItem()
+            );
+            case "colored_wool" -> Ingredient.ofItems(
+                    Blocks.ORANGE_WOOL.asItem(), Blocks.MAGENTA_WOOL.asItem(), Blocks.LIGHT_BLUE_WOOL.asItem(),
+                    Blocks.YELLOW_WOOL.asItem(), Blocks.LIME_WOOL.asItem(), Blocks.PINK_WOOL.asItem(),
+                    Blocks.GRAY_WOOL.asItem(), Blocks.LIGHT_GRAY_WOOL.asItem(), Blocks.CYAN_WOOL.asItem(),
+                    Blocks.PURPLE_WOOL.asItem(), Blocks.BLUE_WOOL.asItem(), Blocks.BROWN_WOOL.asItem(),
+                    Blocks.GREEN_WOOL.asItem(), Blocks.RED_WOOL.asItem(), Blocks.BLACK_WOOL.asItem()
             );
             case "wool" -> Ingredient.ofItems(
                     Blocks.WHITE_WOOL.asItem(), Blocks.ORANGE_WOOL.asItem(), Blocks.MAGENTA_WOOL.asItem(),

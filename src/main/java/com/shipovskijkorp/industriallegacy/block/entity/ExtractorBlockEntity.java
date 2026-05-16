@@ -4,7 +4,7 @@ import com.shipovskijkorp.industriallegacy.block.ExtractorBlock;
 import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
 import com.shipovskijkorp.industriallegacy.recipe.ExtractorRecipe;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
-import com.shipovskijkorp.industriallegacy.registry.ModRecipes;
+import com.shipovskijkorp.industriallegacy.recipe.MachineRecipeManager;
 import com.shipovskijkorp.industriallegacy.screen.ExtractorScreenHandler;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
@@ -26,7 +26,6 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Method;
 import java.util.Optional;
 
 public class ExtractorBlockEntity extends BlockEntity implements SidedInventory, IEuEnergyStorage, ExtendedScreenHandlerFactory {
@@ -140,21 +139,7 @@ public class ExtractorBlockEntity extends BlockEntity implements SidedInventory,
      * (either Optional<RecipeEntry<R>> or Optional<R>). We avoid hard dependency on RecipeEntry.
      */
     private Optional<ExtractorRecipe> findRecipe(World world) {
-        Optional<?> opt = world.getRecipeManager().getFirstMatch(ModRecipes.EXTRACTOR_TYPE, this, world);
-        if (opt.isEmpty()) return Optional.empty();
-
-        Object o = opt.get();
-        if (o instanceof ExtractorRecipe r) return Optional.of(r);
-
-        // Try RecipeEntry#value() via reflection (if present).
-        try {
-            Method m = o.getClass().getMethod("value");
-            Object v = m.invoke(o);
-            if (v instanceof ExtractorRecipe r) return Optional.of(r);
-        } catch (Throwable ignored) {
-        }
-
-        return Optional.empty();
+        return MachineRecipeManager.findExtractorRecipe(this);
     }
 
     private boolean canOutput(ItemStack stack) {

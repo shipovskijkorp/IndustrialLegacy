@@ -370,6 +370,7 @@ add.accept(ModItems.LZH_CONDENSATOR);
 
                         add.accept(ModItems.LITHIUM_DUST);
                         add.accept(ModItems.MILK_DUST);
+                        add.accept(ModItems.NETHERRACK_DUST);
                         add.accept(ModItems.SILICON_DIOXIDE);
 
                         add.accept(ModItems.STONE_DUST);
@@ -391,6 +392,7 @@ add.accept(ModItems.LZH_CONDENSATOR);
                         add.accept(ModItems.SMALL_LAPIS_DUST);
                         add.accept(ModItems.SMALL_OBSIDIAN_DUST);
                         add.accept(ModItems.SMALL_LITHIUM_DUST);
+                        add.accept(ModItems.SMALL_EMERALD_DUST);
                         add.accept(ModItems.SMALL_SULFUR_DUST);
 
                         // ------------------------------
@@ -471,6 +473,7 @@ add.accept(ModItems.LZH_CONDENSATOR);
                         add.accept(ModItems.COFFEE_POWDER);
                         add.accept(ModItems.GRIN_POWDER);
                         add.accept(ModItems.WEED);
+                        add.accept(ModItems.BOBS_YER_UNCLE_RANKS_BERRY);
 
                         // Advanced alloys (IC2 chain)
                         add.accept(ModItems.MIXED_METAL_INGOT);
