@@ -43,19 +43,19 @@ public class PumpScreenHandler extends ScreenHandler {
         this.inv = inv;
         this.props = props;
 
-        this.addSlot(new Slot(inv, PumpBlockEntity.SLOT_INPUT, 98, 16) {
+        this.addSlot(new Slot(inv, PumpBlockEntity.SLOT_INPUT, 99, 17) {
             @Override public boolean canInsert(net.minecraft.item.ItemStack stack) { return PumpBlockEntity.canFillFromPumpTank(stack); }
         });
-        this.addSlot(new Slot(inv, PumpBlockEntity.SLOT_OUTPUT, 131, 33) {
+        this.addSlot(new Slot(inv, PumpBlockEntity.SLOT_OUTPUT, 132, 34) {
             @Override public boolean canInsert(net.minecraft.item.ItemStack stack) { return false; }
         });
-        this.addSlot(new Slot(inv, PumpBlockEntity.SLOT_DISCHARGE, 7, 43));
+        this.addSlot(new Slot(inv, PumpBlockEntity.SLOT_DISCHARGE, 8, 44));
         for (int i = 0; i < PumpBlockEntity.UPGRADE_SLOTS; i++) {
-            this.addSlot(new Slot(inv, PumpBlockEntity.SLOT_UPGRADE_0 + i, 151, 7 + i * 18));
+            this.addSlot(new Slot(inv, PumpBlockEntity.SLOT_UPGRADE_0 + i, 152, 8 + i * 18));
         }
 
-        int invX = 7;
-        int invY = 83;
+        int invX = 8;
+        int invY = 84;
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 9; col++) {
                 this.addSlot(new Slot(playerInv, col + row * 9 + 9, invX + col * 18, invY + row * 18));
