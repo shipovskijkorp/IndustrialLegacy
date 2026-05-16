@@ -3,6 +3,7 @@ package com.shipovskijkorp.industriallegacy.compat.jei;
 import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
 import com.shipovskijkorp.industriallegacy.recipe.CanningEnrichRecipe;
 import com.shipovskijkorp.industriallegacy.recipe.CanningRecipe;
+import com.shipovskijkorp.industriallegacy.recipe.CanningFluidRecipe;
 import com.shipovskijkorp.industriallegacy.recipe.CompressorRecipe;
 import com.shipovskijkorp.industriallegacy.recipe.ExtractorRecipe;
 import com.shipovskijkorp.industriallegacy.recipe.MaceratorRecipe;
@@ -20,6 +21,8 @@ public final class IlJeiRecipeTypes {
     public static final RecipeType<RecyclerJeiRecipe> RECYCLER = RecipeType.create(IndustrialLegacy.MOD_ID, "recycler", RecyclerJeiRecipe.class);
     public static final RecipeType<CanningRecipe> CANNING = RecipeType.create(IndustrialLegacy.MOD_ID, "canning", CanningRecipe.class);
     public static final RecipeType<CanningEnrichRecipe> CANNING_ENRICH = RecipeType.create(IndustrialLegacy.MOD_ID, "canning_enrich", CanningEnrichRecipe.class);
+    public static final RecipeType<CanningFluidRecipe> CANNING_EMPTY_LIQUID = RecipeType.create(IndustrialLegacy.MOD_ID, "canning_empty_liquid", CanningFluidRecipe.class);
+    public static final RecipeType<CanningFluidRecipe> CANNING_BOTTLE_LIQUID = RecipeType.create(IndustrialLegacy.MOD_ID, "canning_bottle_liquid", CanningFluidRecipe.class);
     public static final RecipeType<CanningRecipe> SOLID_CANNING = RecipeType.create(IndustrialLegacy.MOD_ID, "solid_canning", CanningRecipe.class);
     public static final RecipeType<OreWashingRecipe> ORE_WASHING = RecipeType.create(IndustrialLegacy.MOD_ID, "ore_washing", OreWashingRecipe.class);
     public static final RecipeType<ThermalCentrifugeRecipe> THERMAL_CENTRIFUGE = RecipeType.create(IndustrialLegacy.MOD_ID, "thermal_centrifuge", ThermalCentrifugeRecipe.class);

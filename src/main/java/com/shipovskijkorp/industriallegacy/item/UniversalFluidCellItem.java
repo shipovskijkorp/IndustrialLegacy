@@ -49,7 +49,9 @@ public class UniversalFluidCellItem extends Item {
         WEED_EX("industrial_legacy:weed_ex", 1.5f, 0xFF074F14, true),
         HEAVY_WATER("industrial_legacy:heavy_water", 1.6f, 0xFF4356F5, true),
         HYDROGEN("industrial_legacy:hydrogen", 1.7f, 0xFFDCDCDC, true),
-        OXYGEN("industrial_legacy:oxygen", 1.8f, 0xFFDCDCDC, true);
+        OXYGEN("industrial_legacy:oxygen", 1.8f, 0xFFDCDCDC, true),
+        CREOSOTE("industrial_legacy:creosote", 1.9f, 0xFF3D390A, true),
+        MILK("industrial_legacy:milk", 2.0f, 0xFFFCFCFC, true);
 
         public final String id;
         public final float predicate;

@@ -21,6 +21,8 @@
     { "predicate": { "industrial_legacy:cell": 1.5 }, "model": "industrial_legacy:item/cell/fluid_cell_filled" },
     { "predicate": { "industrial_legacy:cell": 1.6 }, "model": "industrial_legacy:item/cell/fluid_cell_filled" },
     { "predicate": { "industrial_legacy:cell": 1.7 }, "model": "industrial_legacy:item/cell/fluid_cell_filled" },
-    { "predicate": { "industrial_legacy:cell": 1.8 }, "model": "industrial_legacy:item/cell/fluid_cell_filled" }
+    { "predicate": { "industrial_legacy:cell": 1.8 }, "model": "industrial_legacy:item/cell/fluid_cell_filled" },
+    { "predicate": { "industrial_legacy:cell": 1.9 }, "model": "industrial_legacy:item/cell/fluid_cell_filled" },
+    { "predicate": { "industrial_legacy:cell": 2.0 }, "model": "industrial_legacy:item/cell/fluid_cell_filled" }
   ]
 }

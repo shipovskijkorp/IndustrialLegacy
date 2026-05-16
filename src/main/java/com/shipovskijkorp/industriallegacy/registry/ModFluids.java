@@ -47,9 +47,9 @@ import java.util.Optional;
  * IC2 fluid registrations.
  *
  * <p>IndustrialCraft 2 2.8 registers these fluids in BlocksItems.initFluids():
- * uu_matter, construction_foam, coolant, hot_coolant, pahoehoe_lava, biomass,
+ * uu_matter, construction_foam, coolant, creosote, hot_coolant, pahoehoe_lava, biomass,
  * biogas, distilled_water, superheated_steam, steam, hot_water, weed_ex, air,
- * hydrogen, oxygen and heavy_water. Deuterium exists in the enum, but IC2 does
+ * hydrogen, oxygen, heavy_water and milk. Deuterium exists in the enum, but IC2 does
  * not register it in this version, so it is intentionally not registered here.</p>
  */
 public final class ModFluids {
@@ -61,6 +61,7 @@ public final class ModFluids {
     public static final Ic2FluidEntry UU_MATTER = registerIc2("uu_matter", 0xFF3B0533, 3000, 3000, 0, 300, false, true, false);
     public static final Ic2FluidEntry CONSTRUCTION_FOAM = registerIc2("construction_foam", 0xFF202020, 10000, 50000, 0, 300, false, true, false);
     public static final Ic2FluidEntry COOLANT = registerIc2("coolant", 0xFF145A6A, 1000, 3000, 0, 300, false, true, false);
+    public static final Ic2FluidEntry CREOSOTE = registerIc2("creosote", 0xFF3D390A, 10000, 50000, 0, 300, false, true, false);
     public static final Ic2FluidEntry HOT_COOLANT = registerIc2("hot_coolant", 0xFFB52834, 1000, 3000, 0, 1200, false, true, false);
     public static final Ic2FluidEntry PAHOEHOE_LAVA = registerIc2("pahoehoe_lava", 0xFF7B746C, 50000, 250000, 10, 1200, false, false, false);
     public static final Ic2FluidEntry BIOMASS = registerIc2("biomass", 0xFF376F25, 1000, 3000, 0, 300, false, true, false);
@@ -74,6 +75,7 @@ public final class ModFluids {
     public static final Ic2FluidEntry HYDROGEN = registerIc2("hydrogen", 0xFFDCDCDC, 0, 500, 0, 300, true, false, false);
     public static final Ic2FluidEntry OXYGEN = registerIc2("oxygen", 0xFFDCDCDC, 0, 500, 0, 300, true, false, false);
     public static final Ic2FluidEntry HEAVY_WATER = registerIc2("heavy_water", 0xFF4356F5, 1000, 1000, 0, 300, false, true, false);
+    public static final Ic2FluidEntry MILK = registerIc2("milk", 0xFFFCFCFC, 1050, 1000, 0, 300, false, true, false);
 
     private ModFluids() {}
 
@@ -184,7 +186,7 @@ public final class ModFluids {
         public Item item() { return item; }
         public Identifier stillTexture() { return ModFluids.id("block/fluid/" + path() + "_still"); }
         public Identifier flowingTexture() { return ModFluids.id("block/fluid/" + path() + (hasFlowTexture ? "_flow" : "_still")); }
-        public int blockTickRate() { return Math.max(1, Math.min(30, viscosity / 1000)); }
+        public int blockTickRate() { return Math.max(1, viscosity / 200); }
     }
 
     private abstract static class BaseFluid extends FlowableFluid {
@@ -222,8 +224,8 @@ public final class ModFluids {
 
         @Override
         protected int getFlowSpeed(WorldView world) {
-            if (entry.rises()) return 8;
             if (entry.viscosity() >= 50000) return 1;
+            if (entry.viscosity() >= 3000) return 2;
             return 4;
         }
 
@@ -234,7 +236,6 @@ public final class ModFluids {
 
         @Override
         public int getTickRate(WorldView world) {
-            if (entry.rises()) return 5;
             return entry.blockTickRate();
         }
 
@@ -346,10 +347,15 @@ public final class ModFluids {
             boolean source = level == 0;
             int nextLevel = source ? 1 : Math.min(7, level + 1);
 
-            boolean moved = tryFlowGas(world, pos.up(), nextLevel);
-            if (!moved) {
+            GasFlowResult upward = tryFlowGas(world, pos.up(), nextLevel);
+            boolean moved = upward == GasFlowResult.MOVED;
+
+            // IC2/Forge negative-density fluids prefer the density direction first.
+            // If the block above already contains this gas, do not spill sideways
+            // from the source every tick; let the gas column above continue moving.
+            if (upward == GasFlowResult.BLOCKED) {
                 for (Direction direction : Direction.Type.HORIZONTAL) {
-                    if (tryFlowGas(world, pos.offset(direction), nextLevel)) {
+                    if (tryFlowGas(world, pos.offset(direction), nextLevel) == GasFlowResult.MOVED) {
                         moved = true;
                     }
                 }
@@ -367,18 +373,24 @@ public final class ModFluids {
             }
         }
 
-        private boolean tryFlowGas(ServerWorld world, BlockPos targetPos, int level) {
+        private GasFlowResult tryFlowGas(ServerWorld world, BlockPos targetPos, int level) {
             BlockState targetState = world.getBlockState(targetPos);
             if (!targetState.isAir() && !targetState.isReplaceable() && !targetState.isOf(this)) {
-                return false;
+                return GasFlowResult.BLOCKED;
             }
             if (targetState.isOf(this)) {
                 int oldLevel = targetState.contains(Properties.LEVEL_15) ? targetState.get(Properties.LEVEL_15) : 0;
-                if (oldLevel <= level) return false;
+                return oldLevel <= level ? GasFlowResult.OCCUPIED : GasFlowResult.BLOCKED;
             }
             world.setBlockState(targetPos, getDefaultState().with(Properties.LEVEL_15, level), Block.NOTIFY_ALL);
             world.scheduleBlockTick(targetPos, this, entry.blockTickRate());
-            return true;
+            return GasFlowResult.MOVED;
+        }
+
+        private enum GasFlowResult {
+            MOVED,
+            OCCUPIED,
+            BLOCKED
         }
 
         @Override

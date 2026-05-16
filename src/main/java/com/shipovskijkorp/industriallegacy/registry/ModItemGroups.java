@@ -368,6 +368,7 @@ add.accept(ModItems.LZH_CONDENSATOR);
                         add.accept(ModItems.DIAMOND_DUST);
 
                         add.accept(ModItems.LITHIUM_DUST);
+                        add.accept(ModItems.MILK_DUST);
                         add.accept(ModItems.SILICON_DIOXIDE);
 
                         add.accept(ModItems.STONE_DUST);

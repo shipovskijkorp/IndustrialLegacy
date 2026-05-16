@@ -24,6 +24,8 @@ public final class MachineRecipeManager {
     private static List<MetalFormerRecipe> metalFormerCuttingRecipes = List.of();
     private static List<CanningRecipe> canningRecipes = List.of();
     private static List<CanningEnrichRecipe> canningEnrichRecipes = List.of();
+    private static List<CanningFluidRecipe> canningEmptyLiquidRecipes = List.of();
+    private static List<CanningFluidRecipe> canningBottleLiquidRecipes = List.of();
 
     private MachineRecipeManager() {}
 
@@ -41,12 +43,15 @@ public final class MachineRecipeManager {
                 com.shipovskijkorp.industriallegacy.registry.ModRecipes.METAL_FORMER_CUTTING_SERIALIZER, "cutting")));
         canningRecipes = Collections.unmodifiableList(new ArrayList<>(MachineRecipeIniLoader.loadCanning(CANNING_PATH)));
         canningEnrichRecipes = Collections.unmodifiableList(new ArrayList<>(MachineRecipeIniLoader.loadCanningEnrich(CANNING_ENRICH_PATH)));
+        canningEmptyLiquidRecipes = Collections.unmodifiableList(CanningFluidRecipe.createEmptyLiquidRecipes());
+        canningBottleLiquidRecipes = Collections.unmodifiableList(CanningFluidRecipe.createBottleLiquidRecipes());
 
         IndustrialLegacy.LOGGER.info(
-                "Loaded IC2-style .ini recipes: {} macerator, {} compressor, {} metal former extruding, {} rolling, {} cutting, {} canning, {} canning enrich",
+                "Loaded IC2-style .ini recipes: {} macerator, {} compressor, {} metal former extruding, {} rolling, {} cutting, {} canning, {} canning enrich, {} canning empty liquid, {} canning bottle liquid",
                 maceratorRecipes.size(), compressorRecipes.size(),
                 metalFormerExtrudingRecipes.size(), metalFormerRollingRecipes.size(), metalFormerCuttingRecipes.size(),
-                canningRecipes.size(), canningEnrichRecipes.size());
+                canningRecipes.size(), canningEnrichRecipes.size(),
+                canningEmptyLiquidRecipes.size(), canningBottleLiquidRecipes.size());
     }
 
     public static List<MaceratorRecipe> getMaceratorRecipes() {
@@ -82,6 +87,16 @@ public final class MachineRecipeManager {
     public static List<CanningEnrichRecipe> getCanningEnrichRecipes() {
         ensureLoaded();
         return canningEnrichRecipes;
+    }
+
+    public static List<CanningFluidRecipe> getCanningEmptyLiquidRecipes() {
+        ensureLoaded();
+        return canningEmptyLiquidRecipes;
+    }
+
+    public static List<CanningFluidRecipe> getCanningBottleLiquidRecipes() {
+        ensureLoaded();
+        return canningBottleLiquidRecipes;
     }
 
     public static Optional<MaceratorRecipe> findMaceratorRecipe(Inventory inv) {
@@ -148,7 +163,8 @@ public final class MachineRecipeManager {
     private static void ensureLoaded() {
         if (maceratorRecipes.isEmpty() && compressorRecipes.isEmpty()
                 && metalFormerExtrudingRecipes.isEmpty() && metalFormerRollingRecipes.isEmpty()
-                && metalFormerCuttingRecipes.isEmpty() && canningRecipes.isEmpty() && canningEnrichRecipes.isEmpty()) {
+                && metalFormerCuttingRecipes.isEmpty() && canningRecipes.isEmpty() && canningEnrichRecipes.isEmpty()
+                && canningEmptyLiquidRecipes.isEmpty() && canningBottleLiquidRecipes.isEmpty()) {
             reloadBuiltin();
         }
     }

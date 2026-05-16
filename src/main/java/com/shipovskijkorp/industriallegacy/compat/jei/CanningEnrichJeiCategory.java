@@ -14,6 +14,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
+import java.util.List;
+
 public final class CanningEnrichJeiCategory implements IRecipeCategory<CanningEnrichRecipe> {
     private static final int WIDTH = 96;
     private static final int HEIGHT = 81;
@@ -53,6 +55,15 @@ public final class CanningEnrichJeiCategory implements IRecipeCategory<CanningEn
     public void setRecipe(IRecipeLayoutBuilder builder, CanningEnrichRecipe recipe, IFocusGroup focuses) {
         builder.addSlot(RecipeIngredientRole.INPUT, 40, 28)
                 .addItemStacks(IlJeiUtil.ingredient(recipe.getAdditive(), recipe.getAdditiveCount()));
+
+        // The canner tanks are drawn manually, but JEI still needs ingredients to
+        // index recipe lookups. This makes flat IC2-style fluid items behave like
+        // normal item ingredients: opening recipes for milk/biomass/coolant/etc.
+        // can find the enrich-liquid recipes that actually create those fluids.
+        builder.addInvisibleIngredients(RecipeIngredientRole.INPUT)
+                .addItemStack(IlJeiUtil.fluidSheet(recipe.getInputFluid()));
+        builder.addInvisibleIngredients(RecipeIngredientRole.OUTPUT)
+                .addItemStack(IlJeiUtil.fluidSheet(recipe.getOutputFluid()));
     }
 
     @Override
@@ -60,6 +71,18 @@ public final class CanningEnrichJeiCategory implements IRecipeCategory<CanningEn
         IlJeiDraw.drawCannerFrame(ctx, com.shipovskijkorp.industriallegacy.block.entity.CannerBlockEntity.Mode.ENRICH_LIQUID);
         IlJeiDraw.drawCannerTank(ctx, -1, 26, recipe.getInputFluid(), recipe.getInputAmount(), 8000);
         IlJeiDraw.drawCannerTank(ctx, 77, 26, recipe.getOutputFluid(), recipe.getOutputAmount(), 8000);
+    }
+
+
+    @Override
+    public List<Text> getTooltipStrings(CanningEnrichRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
+        if (IlJeiDraw.isCannerTankHovered(-1, 26, mouseX, mouseY)) {
+            return IlJeiDraw.cannerTankTooltip(recipe.getInputFluid(), recipe.getInputAmount(), 8000);
+        }
+        if (IlJeiDraw.isCannerTankHovered(77, 26, mouseX, mouseY)) {
+            return IlJeiDraw.cannerTankTooltip(recipe.getOutputFluid(), recipe.getOutputAmount(), 8000);
+        }
+        return List.of();
     }
 
     @Override

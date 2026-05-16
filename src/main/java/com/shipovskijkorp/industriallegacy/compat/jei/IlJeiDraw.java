@@ -4,7 +4,12 @@ import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
 import com.shipovskijkorp.industriallegacy.block.entity.CannerBlockEntity;
 import com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+
+import java.util.ArrayList;
+import java.util.List;
 
 final class IlJeiDraw {
     static final int DYNAMIC_WIDTH = 160;
@@ -149,6 +154,22 @@ final class IlJeiDraw {
 
         int w = animatedSize(23, 66);
         if (w > 0) ctx.drawTexture(CANNER, 34, 6, 233, 0, w, 14, TEX, TEX);
+    }
+
+
+    static boolean isCannerTankHovered(int x, int y, double mouseX, double mouseY) {
+        return mouseX >= x && mouseX < x + 20 && mouseY >= y && mouseY < y + 55;
+    }
+
+    static List<Text> cannerTankTooltip(UniversalFluidCellItem.CellFluid fluid, int amount, int capacity) {
+        if (fluid == UniversalFluidCellItem.CellFluid.EMPTY || amount <= 0 || capacity <= 0) {
+            return List.of();
+        }
+
+        List<Text> tooltip = new ArrayList<>(2);
+        tooltip.add(fluid.fluidName());
+        tooltip.add(Text.literal(amount + " / " + capacity + " mB").formatted(Formatting.GRAY));
+        return tooltip;
     }
 
     static void drawCannerTank(DrawContext ctx, int x, int y, UniversalFluidCellItem.CellFluid fluid, int amount, int capacity) {

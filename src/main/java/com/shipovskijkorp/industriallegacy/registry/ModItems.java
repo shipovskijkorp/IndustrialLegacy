@@ -169,6 +169,7 @@ public final class ModItems {
     public static final Item LAPIS_DUST = register("lapis_dust", new Item(new Item.Settings()));
     public static final Item LEAD_DUST = register("lead_dust", new Item(new Item.Settings()));
     public static final Item LITHIUM_DUST = register("lithium_dust", new Item(new Item.Settings()));
+    public static final Item MILK_DUST = register("milk_dust", new Item(new Item.Settings()));
     public static final Item OBSIDIAN_DUST = register("obsidian_dust", new Item(new Item.Settings()));
     public static final Item SILICON_DIOXIDE = register("silicon_dioxide", new Item(new Item.Settings()));
     public static final Item SILVER_DUST = register("silver_dust", new Item(new Item.Settings()));
