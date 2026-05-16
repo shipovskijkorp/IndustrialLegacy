@@ -1,6 +1,5 @@
 package com.shipovskijkorp.industriallegacy.item.armor;
 
-import com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem;
 import com.shipovskijkorp.industriallegacy.registry.ModItems;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.ArmorItem;
@@ -8,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -62,17 +62,18 @@ public class FoamPackItem extends ArmorItem {
 
     @Override
     public boolean isItemBarVisible(ItemStack stack) {
-        return getFoam(stack) > 0;
+        return getFoam(stack) < CAPACITY_MB;
     }
 
     @Override
     public int getItemBarStep(ItemStack stack) {
-        return Math.round(13.0f * getFoam(stack) / CAPACITY_MB);
+        return Math.round((float) getFoam(stack) * 13.0f / (float) CAPACITY_MB);
     }
 
     @Override
     public int getItemBarColor(ItemStack stack) {
-        return UniversalFluidCellItem.CellFluid.CONSTRUCTION_FOAM.tintArgb() & 0x00FFFFFF;
+        float ratio = getItemBarStep(stack) / 13.0f;
+        return MathHelper.hsvToRgb(Math.max(0.0f, ratio / 3.0f), 1.0f, 1.0f);
     }
 
     @Override

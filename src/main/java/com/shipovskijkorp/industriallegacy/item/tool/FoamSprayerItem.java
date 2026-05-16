@@ -2,7 +2,6 @@ package com.shipovskijkorp.industriallegacy.item.tool;
 
 import com.shipovskijkorp.industriallegacy.block.ConstructionFoamBlock;
 import com.shipovskijkorp.industriallegacy.block.ScaffoldBlock;
-import com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem;
 import com.shipovskijkorp.industriallegacy.item.armor.FoamPackItem;
 import com.shipovskijkorp.industriallegacy.registry.ModBlocks;
 import net.minecraft.block.Block;
@@ -19,6 +18,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -206,17 +206,18 @@ public class FoamSprayerItem extends Item implements IModeSwitchableItem {
 
     @Override
     public boolean isItemBarVisible(ItemStack stack) {
-        return getFoam(stack) > 0;
+        return getFoam(stack) < CAPACITY_MB;
     }
 
     @Override
     public int getItemBarStep(ItemStack stack) {
-        return Math.round(13.0f * getFoam(stack) / CAPACITY_MB);
+        return Math.round((float) getFoam(stack) * 13.0f / (float) CAPACITY_MB);
     }
 
     @Override
     public int getItemBarColor(ItemStack stack) {
-        return UniversalFluidCellItem.CellFluid.CONSTRUCTION_FOAM.tintArgb() & 0x00FFFFFF;
+        float ratio = getItemBarStep(stack) / 13.0f;
+        return MathHelper.hsvToRgb(Math.max(0.0f, ratio / 3.0f), 1.0f, 1.0f);
     }
 
     @Override
