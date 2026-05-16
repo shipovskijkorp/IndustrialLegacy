@@ -420,7 +420,24 @@ public final class ModBlocks {
             new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).requiresTool())
     );
 
-    /** Reinforced glass (IC2-like): explosion resistant glass. */
+    /** Reinforced stone (IC2 resource#reinforced_stone): 80 hardness, 180 blast resistance. */
+    public static final Block REINFORCED_STONE = register(
+            "reinforced_stone",
+            new Block(FabricBlockSettings.copyOf(Blocks.STONE).strength(80.0f, 180.0f).requiresTool())
+    );
+
+    public static final Block FOAM = registerNoItem(
+            "foam",
+            new ConstructionFoamBlock(FabricBlockSettings.create()
+                    .strength(0.01f, 10.0f)
+                    .sounds(BlockSoundGroup.WOOL))
+    );
+
+    public static final Block FOAM_CONCRETE = register(
+            "foam_concrete",
+            new FoamConcreteBlock(FabricBlockSettings.copyOf(Blocks.STONE).strength(3.0f, 30.0f).requiresTool())
+    );
+
     public static final Block REINFORCED_GLASS =
             register("reinforced_glass", new ReinforcedGlassBlock());
 

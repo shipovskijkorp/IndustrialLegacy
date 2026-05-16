@@ -26,6 +26,7 @@ import com.shipovskijkorp.industriallegacy.item.tool.PainterItem;
 import com.shipovskijkorp.industriallegacy.item.tool.ElectricWrenchItem;
 import com.shipovskijkorp.industriallegacy.item.tool.ElectricTreetapItem;
 import com.shipovskijkorp.industriallegacy.item.tool.ElectricHoeItem;
+import com.shipovskijkorp.industriallegacy.item.tool.FoamSprayerItem;
 import com.shipovskijkorp.industriallegacy.item.tool.IridiumDrillItem;
 import com.shipovskijkorp.industriallegacy.item.tool.MiningLaserItem;
 import com.shipovskijkorp.industriallegacy.item.tool.NanoSaberItem;
@@ -59,6 +60,7 @@ public final class ModItems {
     public static final Item TREETAP = register("treetap", new TreetapItem(new FabricItemSettings().maxDamage(64)));
     public static final Item FORGE_HAMMER = register("forge_hammer", new Item(new FabricItemSettings().maxCount(1).maxDamage(79)));
     public static final Item CUTTER = register("cutter", new Item(new FabricItemSettings().maxCount(1).maxDamage(60)));
+    public static final Item FOAM_SPRAYER = register("foam_sprayer", new FoamSprayerItem(new Item.Settings()));
 
     // IC2 electric tools
     public static final Item POWER_UNIT = register("power_unit", new Item(new Item.Settings()));

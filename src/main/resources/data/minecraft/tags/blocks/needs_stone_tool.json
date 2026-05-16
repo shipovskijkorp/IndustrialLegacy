@@ -15,6 +15,8 @@
     "industrial_legacy:steel_block",
     "industrial_legacy:silver_block",
     "industrial_legacy:iron_scaffold",
-    "industrial_legacy:reinforced_iron_scaffold"
+    "industrial_legacy:reinforced_iron_scaffold",
+    "industrial_legacy:foam_concrete",
+    "industrial_legacy:reinforced_stone"
   ]
 }

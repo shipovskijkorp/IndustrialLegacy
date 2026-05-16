@@ -1,6 +1,7 @@
 package com.shipovskijkorp.industriallegacy.item.tool;
 
 import com.shipovskijkorp.industriallegacy.block.CableBlock;
+import com.shipovskijkorp.industriallegacy.block.FoamConcreteBlock;
 import com.shipovskijkorp.industriallegacy.block.entity.CableBlockEntity;
 import com.shipovskijkorp.industriallegacy.energy.net.EuNetwork;
 import com.shipovskijkorp.industriallegacy.registry.ModItems;
@@ -62,6 +63,14 @@ public final class PainterItem extends Item implements IModeSwitchableItem {
             if (!cableBe.canBeColored()) return ActionResult.PASS;
             if (!world.isClient && cableBe.recolor(color)) {
                 EuNetwork.invalidate(world, pos);
+                damagePainter(ctx.getPlayer(), ctx.getHand(), ctx.getStack());
+            }
+            return ActionResult.success(world.isClient);
+        }
+
+        if (state.getBlock() instanceof FoamConcreteBlock && state.contains(FoamConcreteBlock.COLOR)) {
+            if (state.get(FoamConcreteBlock.COLOR) == color) return ActionResult.PASS;
+            if (!world.isClient && world.setBlockState(pos, state.with(FoamConcreteBlock.COLOR, color), Block.NOTIFY_ALL)) {
                 damagePainter(ctx.getPlayer(), ctx.getHand(), ctx.getStack());
             }
             return ActionResult.success(world.isClient);

@@ -5,6 +5,7 @@ import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
 import com.shipovskijkorp.industriallegacy.energy.item.ElectricItemManager;
 import com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem;
 import com.shipovskijkorp.industriallegacy.item.armor.BiogasJetpackItem;
+import com.shipovskijkorp.industriallegacy.item.tool.FoamSprayerItem;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
 import com.shipovskijkorp.industriallegacy.screen.FluidBottlerScreenHandler;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
@@ -122,6 +123,9 @@ public class FluidBottlerBlockEntity extends BlockEntity implements SidedInvento
         if (stack.getItem() instanceof BiogasJetpackItem) {
             return BiogasJetpackItem.getFuel(stack) < BiogasJetpackItem.CAPACITY_MB;
         }
+        if (stack.getItem() instanceof FoamSprayerItem) {
+            return FoamSprayerItem.canFill(stack);
+        }
         return stack.isOf(Items.BUCKET) || stack.isOf(Items.GLASS_BOTTLE);
     }
 
@@ -202,6 +206,15 @@ public class FluidBottlerBlockEntity extends BlockEntity implements SidedInvento
             return new DrainData(UniversalFluidCellItem.CellFluid.BIOGAS, fuel, out);
         }
 
+        if (stack.getItem() instanceof FoamSprayerItem) {
+            int foam = FoamSprayerItem.getFoam(stack);
+            if (foam <= 0) return null;
+            ItemStack out = stack.copy();
+            out.setCount(1);
+            FoamSprayerItem.setFoam(out, 0);
+            return new DrainData(UniversalFluidCellItem.CellFluid.CONSTRUCTION_FOAM, foam, out);
+        }
+
         UniversalFluidCellItem.CellFluid bucketFluid = getFilledBucketFluid(stack);
         if (bucketFluid != UniversalFluidCellItem.CellFluid.EMPTY) {
             return new DrainData(bucketFluid, BUCKET_MB, new ItemStack(Items.BUCKET));
@@ -229,6 +242,15 @@ public class FluidBottlerBlockEntity extends BlockEntity implements SidedInvento
             ItemStack out = stack.copy();
             out.setCount(1);
             BiogasJetpackItem.setFuel(out, current + fill);
+            return new FillData(fill, out);
+        }
+
+        if (stack.getItem() instanceof FoamSprayerItem && fluid == UniversalFluidCellItem.CellFluid.CONSTRUCTION_FOAM) {
+            int fill = Math.min(availableMb, FoamSprayerItem.CAPACITY_MB - FoamSprayerItem.getFoam(stack));
+            if (fill <= 0) return null;
+            ItemStack out = stack.copy();
+            out.setCount(1);
+            FoamSprayerItem.fill(out, fill);
             return new FillData(fill, out);
         }
 

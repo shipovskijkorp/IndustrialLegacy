@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "color=white": { "model": "industrial_legacy:block/cf/wall_white" },
+    "color=orange": { "model": "industrial_legacy:block/cf/wall_orange" },
+    "color=magenta": { "model": "industrial_legacy:block/cf/wall_magenta" },
+    "color=light_blue": { "model": "industrial_legacy:block/cf/wall_light_blue" },
+    "color=yellow": { "model": "industrial_legacy:block/cf/wall_yellow" },
+    "color=lime": { "model": "industrial_legacy:block/cf/wall_lime" },
+    "color=pink": { "model": "industrial_legacy:block/cf/wall_pink" },
+    "color=gray": { "model": "industrial_legacy:block/cf/wall_gray" },
+    "color=light_gray": { "model": "industrial_legacy:block/cf/wall_light_gray" },
+    "color=cyan": { "model": "industrial_legacy:block/cf/wall_cyan" },
+    "color=purple": { "model": "industrial_legacy:block/cf/wall_purple" },
+    "color=blue": { "model": "industrial_legacy:block/cf/wall_blue" },
+    "color=brown": { "model": "industrial_legacy:block/cf/wall_brown" },
+    "color=green": { "model": "industrial_legacy:block/cf/wall_green" },
+    "color=red": { "model": "industrial_legacy:block/cf/wall_red" },
+    "color=black": { "model": "industrial_legacy:block/cf/wall_black" }
+  }
+}

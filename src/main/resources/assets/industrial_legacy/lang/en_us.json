@@ -565,5 +565,13 @@
   "item.industrial_legacy.mining_pipe": "Mining Pipe",
   "block.industrial_legacy.solar_distiller": "Solar Distiller",
   "container.industrial_legacy.solar_distiller": "Solar Distiller",
-  "tooltip.industrial_legacy.sky_light": "Sky light: %s%%"
+  "tooltip.industrial_legacy.sky_light": "Sky light: %s%%",
+  "item.industrial_legacy.foam_sprayer": "CF Sprayer",
+  "block.industrial_legacy.foam": "Construction Foam",
+  "block.industrial_legacy.foam_concrete": "Construction Foam Wall",
+  "block.industrial_legacy.reinforced_stone": "Reinforced Stone",
+  "tooltip.industrial_legacy.foam_sprayer.foam": "Construction Foam: %s / %s mB",
+  "tooltip.industrial_legacy.foam_sprayer.mode": "Mode: %s",
+  "message.industrial_legacy.foam_sprayer.mode.normal": "Normal",
+  "message.industrial_legacy.foam_sprayer.mode.single": "Single"
 }

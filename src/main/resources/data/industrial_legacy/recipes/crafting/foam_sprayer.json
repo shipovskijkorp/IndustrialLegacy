@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "C  ",
+    " C ",
+    "FC"
+  ],
+  "key": {
+    "C": { "item": "industrial_legacy:iron_casing" },
+    "F": { "item": "industrial_legacy:fluid_cell" }
+  },
+  "result": {
+    "item": "industrial_legacy:foam_sprayer"
+  }
+}

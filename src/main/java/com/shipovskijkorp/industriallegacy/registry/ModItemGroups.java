@@ -6,6 +6,7 @@ import com.shipovskijkorp.industriallegacy.item.CableKind;
 import com.shipovskijkorp.industriallegacy.item.CableVariants;
 import com.shipovskijkorp.industriallegacy.item.EnergyMachineBlockItem;
 import com.shipovskijkorp.industriallegacy.item.armor.BiogasJetpackItem;
+import com.shipovskijkorp.industriallegacy.item.tool.FoamSprayerItem;
 import com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem;
 import com.shipovskijkorp.industriallegacy.energy.item.ElectricItemManager;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
@@ -123,6 +124,8 @@ public final class ModItemGroups {
 
                         // Reinforced building block
                         add.accept(ModBlocks.REINFORCED_GLASS);
+                        add.accept(ModBlocks.REINFORCED_STONE);
+                        add.accept(ModBlocks.FOAM_CONCRETE);
                         add.accept(ModBlocks.RESIN_SHEET);
                         add.accept(ModBlocks.RUBBER_SHEET);
                         add.accept(ModBlocks.WOOL_SHEET);
@@ -167,6 +170,9 @@ public final class ModItemGroups {
                         add.accept(ModItems.TREETAP);
                         add.accept(ModItems.FORGE_HAMMER);
                         add.accept(ModItems.CUTTER);
+                        add.accept(ModItems.FOAM_SPRAYER);
+                        entries.add(FoamSprayerItem.createFilledStack());
+                        added.add(ModItems.FOAM_SPRAYER);
                         add.accept(ModItems.WRENCH);
                         add.accept(ModItems.POWER_UNIT);
                         add.accept(ModItems.ELECTRIC_TREETAP);
