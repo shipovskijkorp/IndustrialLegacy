@@ -9,6 +9,7 @@ import com.shipovskijkorp.industriallegacy.energy.item.ElectricItemManager;
 import com.shipovskijkorp.industriallegacy.item.CableItem;
 import com.shipovskijkorp.industriallegacy.item.CableKind;
 import com.shipovskijkorp.industriallegacy.item.CableVariants;
+import com.shipovskijkorp.industriallegacy.item.armor.BiogasJetpackItem;
 import com.shipovskijkorp.industriallegacy.item.armor.QuantumLeggingsItem;
 import com.shipovskijkorp.industriallegacy.item.armor.QuantumBootsItem;
 import com.shipovskijkorp.industriallegacy.item.flight.ChestFlightManager;
@@ -86,6 +87,10 @@ public class IndustrialLegacyClient implements ClientModInitializer {
         registerChargePredicate(ModItems.LAPOTRON_CRYSTAL);
         registerChargePredicate(ModItems.CHARGING_ENERGY_CRYSTAL);
         registerChargePredicate(ModItems.CHARGING_LAPOTRON_CRYSTAL);
+        registerChargePredicate(ModItems.BATPACK);
+        registerChargePredicate(ModItems.ADVANCED_BATPACK);
+        registerModelPredicate(ModItems.JETPACK, "fuel",
+                (stack, world, entity, seed) -> BiogasJetpackItem.getFuelRatio(stack));
         registerChargePredicate(ModItems.JETPACK_ELECTRIC);
         registerChargePredicate(ModItems.NANO_HELMET);
         registerChargePredicate(ModItems.NANO_CHESTPLATE);
@@ -97,6 +102,7 @@ public class IndustrialLegacyClient implements ClientModInitializer {
         registerChargePredicate(ModItems.QUANTUM_BOOTS);
         registerChargePredicate(ModItems.NANO_SABER);
         registerChargePredicate(ModItems.MINING_LASER);
+        registerChargePredicate(ModItems.ENERGY_PACK);
 
         registerModelPredicate(ModItems.FLUID_CELL, "cell",
                 (stack, world, entity, seed) -> UniversalFluidCellItem.getModelPredicate(stack));

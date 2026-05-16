@@ -545,5 +545,8 @@
   "item.industrial_legacy.slag": "Slag",
   "item.industrial_legacy.netherrack_dust": "Netherrack Dust",
   "item.industrial_legacy.small_emerald_dust": "Tiny Pile of Emerald Dust",
-  "item.industrial_legacy.bobs_yer_uncle_ranks_berry": "Bobs-Yer-Uncle-Ranks Berry"
+  "item.industrial_legacy.bobs_yer_uncle_ranks_berry": "Bobs-Yer-Uncle-Ranks Berry",
+  "item.industrial_legacy.batpack": "BatPack",
+  "item.industrial_legacy.advanced_batpack": "Advanced BatPack",
+  "item.industrial_legacy.jetpack": "Jetpack"
 }

@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ICI",
+    "IFI",
+    "R R"
+  ],
+  "key": {
+    "I": {
+      "item": "industrial_legacy:iron_casing"
+    },
+    "C": {
+      "item": "industrial_legacy:electronic_circuit"
+    },
+    "F": {
+      "item": "industrial_legacy:fluid_cell"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "result": {
+    "item": "industrial_legacy:jetpack",
+    "count": 1
+  }
+}

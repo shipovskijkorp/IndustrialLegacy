@@ -545,5 +545,8 @@
   "item.industrial_legacy.slag": "Шлак",
   "item.industrial_legacy.netherrack_dust": "Адский порошок",
   "item.industrial_legacy.small_emerald_dust": "Мелкий изумрудный порошок",
-  "item.industrial_legacy.bobs_yer_uncle_ranks_berry": "Ягода Bobs-Yer-Uncle-Ranks"
+  "item.industrial_legacy.bobs_yer_uncle_ranks_berry": "Ягода Bobs-Yer-Uncle-Ranks",
+  "item.industrial_legacy.batpack": "Аккумуляторный ранец",
+  "item.industrial_legacy.advanced_batpack": "Улучшенный аккумуляторный ранец",
+  "item.industrial_legacy.jetpack": "Реактивный ранец"
 }

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BCB",
+    "BTB",
+    "B B"
+  ],
+  "key": {
+    "B": {
+      "item": "industrial_legacy:advanced_re_battery"
+    },
+    "C": {
+      "item": "industrial_legacy:electronic_circuit"
+    },
+    "T": {
+      "item": "industrial_legacy:copper_casing"
+    }
+  },
+  "result": {
+    "item": "industrial_legacy:advanced_batpack",
+    "count": 1
+  }
+}

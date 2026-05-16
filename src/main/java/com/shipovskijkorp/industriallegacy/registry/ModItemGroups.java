@@ -5,6 +5,7 @@ import com.shipovskijkorp.industriallegacy.item.CableItem;
 import com.shipovskijkorp.industriallegacy.item.CableKind;
 import com.shipovskijkorp.industriallegacy.item.CableVariants;
 import com.shipovskijkorp.industriallegacy.item.EnergyMachineBlockItem;
+import com.shipovskijkorp.industriallegacy.item.armor.BiogasJetpackItem;
 import com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem;
 import com.shipovskijkorp.industriallegacy.energy.item.ElectricItemManager;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
@@ -199,6 +200,9 @@ public final class ModItemGroups {
                         for (ModFluids.Ic2FluidEntry fluid : ModFluids.entries()) {
                             add.accept(fluid.item());
                         }
+                        add.accept(ModItems.BATPACK);
+                        add.accept(ModItems.ADVANCED_BATPACK);
+                        add.accept(ModItems.JETPACK);
                         add.accept(ModItems.JETPACK_ELECTRIC);
                         add.accept(ModItems.SOLAR_HELMET);
                         add.accept(ModItems.STATIC_BOOTS);
@@ -211,6 +215,9 @@ public final class ModItemGroups {
                         addCharged.accept(ModItems.LAPOTRON_CRYSTAL);
                         addCharged.accept(ModItems.CHARGING_ENERGY_CRYSTAL);
                         addCharged.accept(ModItems.CHARGING_LAPOTRON_CRYSTAL);
+                        addCharged.accept(ModItems.BATPACK);
+                        addCharged.accept(ModItems.ADVANCED_BATPACK);
+                        entries.add(BiogasJetpackItem.createFilledStack());
                         addCharged.accept(ModItems.JETPACK_ELECTRIC);
                         addCharged.accept(ModItems.ENERGY_PACK);
 

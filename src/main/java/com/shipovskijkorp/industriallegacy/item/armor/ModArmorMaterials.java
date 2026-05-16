@@ -33,11 +33,13 @@ public final class ModArmorMaterials {
     );
 
     public static final ArmorMaterial NIGHTVISION = utilityMaterial("nightvision", 27, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER);
-    public static final ArmorMaterial JETPACK = utilityMaterial("jetpack", 27, SoundEvents.ITEM_ARMOR_EQUIP_IRON);
+    public static final ArmorMaterial JETPACK = zeroUtilityMaterial("jetpack", SoundEvents.ITEM_ARMOR_EQUIP_IRON);
     public static final ArmorMaterial HAZMAT = utilityMaterial("hazmat", 64, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER);
     public static final ArmorMaterial RUBBER_BOOTS = utilityMaterial("rubber_boots", 64, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER);
     public static final ArmorMaterial SOLAR = zeroUtilityMaterial("solar", SoundEvents.ITEM_ARMOR_EQUIP_IRON);
     public static final ArmorMaterial STATIC_BOOTS = zeroUtilityMaterial("rubber", SoundEvents.ITEM_ARMOR_EQUIP_LEATHER);
+    public static final ArmorMaterial BATPACK = zeroUtilityMaterial("batpack", SoundEvents.ITEM_ARMOR_EQUIP_IRON);
+    public static final ArmorMaterial ADVANCED_BATPACK = zeroUtilityMaterial("advbatpack", SoundEvents.ITEM_ARMOR_EQUIP_IRON);
     public static final ArmorMaterial ENERGYPACK = zeroUtilityMaterial("energypack", SoundEvents.ITEM_ARMOR_EQUIP_IRON);
 
     /** IC2 bronze armor: factor 15, reductions {boots=2, legs=5, chest=6, helmet=2}, enchantability 9. */

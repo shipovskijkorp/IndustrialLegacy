@@ -2,6 +2,8 @@ package com.shipovskijkorp.industriallegacy.registry;
 
 import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
 import com.shipovskijkorp.industriallegacy.item.*;
+import com.shipovskijkorp.industriallegacy.item.armor.BatteryPackItem;
+import com.shipovskijkorp.industriallegacy.item.armor.BiogasJetpackItem;
 import com.shipovskijkorp.industriallegacy.item.armor.ElectricJetpackItem;
 import com.shipovskijkorp.industriallegacy.item.armor.StaticBootsItem;
 import com.shipovskijkorp.industriallegacy.item.armor.SolarHelmetItem;
@@ -301,6 +303,9 @@ public final class ModItems {
     public static final Item FLUID_CELL = register("fluid_cell", new UniversalFluidCellItem(new Item.Settings().maxCount(64)));
     // Armor / utility
     public static final Item NIGHTVISION_GOGGLES = register("nightvision_goggles", new NightVisionGogglesItem(new Item.Settings().maxCount(1)));
+    public static final Item BATPACK = register("batpack", new BatteryPackItem(ModArmorMaterials.BATPACK, new Item.Settings().maxCount(1), 60_000L, 100L, 1));
+    public static final Item ADVANCED_BATPACK = register("advanced_batpack", new BatteryPackItem(ModArmorMaterials.ADVANCED_BATPACK, new Item.Settings().maxCount(1), 600_000L, 1_000L, 2));
+    public static final Item JETPACK = register("jetpack", new BiogasJetpackItem(new Item.Settings().maxCount(1)));
     public static final Item JETPACK_ELECTRIC = register("jetpack_electric", new ElectricJetpackItem(new Item.Settings().maxCount(1)));
     public static final Item SOLAR_HELMET = register("solar_helmet", new SolarHelmetItem(new Item.Settings().maxCount(1)));
     public static final Item STATIC_BOOTS = register("static_boots", new StaticBootsItem(new Item.Settings().maxCount(1)));
