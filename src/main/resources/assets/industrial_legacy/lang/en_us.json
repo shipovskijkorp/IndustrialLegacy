@@ -548,5 +548,9 @@
   "item.industrial_legacy.bobs_yer_uncle_ranks_berry": "Bobs-Yer-Uncle-Ranks Berry",
   "item.industrial_legacy.batpack": "BatPack",
   "item.industrial_legacy.advanced_batpack": "Advanced BatPack",
-  "item.industrial_legacy.jetpack": "Jetpack"
+  "item.industrial_legacy.jetpack": "Jetpack",
+  "block.industrial_legacy.semifluid_generator": "Semifluid Generator",
+  "container.industrial_legacy.semifluid_generator": "Semifluid Generator",
+  "block.industrial_legacy.fluid_bottler": "Fluid Bottler",
+  "container.industrial_legacy.fluid_bottler": "Fluid Bottler"
 }

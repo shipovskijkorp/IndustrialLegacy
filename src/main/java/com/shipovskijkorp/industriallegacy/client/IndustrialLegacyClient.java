@@ -125,6 +125,7 @@ public class IndustrialLegacyClient implements ClientModInitializer {
         HandledScreens.register(ModScreenHandlers.GEO_GENERATOR, GeoGeneratorScreen::new);
         HandledScreens.register(ModScreenHandlers.SOLAR_PANEL, SolarPanelScreen::new);
         HandledScreens.register(ModScreenHandlers.RT_GENERATOR, RTGeneratorScreen::new);
+        HandledScreens.register(ModScreenHandlers.SEMIFLUID_GENERATOR, SemifluidGeneratorScreen::new);
         HandledScreens.register(ModScreenHandlers.ELECTRIC_FURNACE, ElectricFurnaceScreen::new);
         HandledScreens.register(ModScreenHandlers.INDUCTION_FURNACE, InductionFurnaceScreen::new);
         HandledScreens.register(ModScreenHandlers.BATBOX, BatBoxScreen::new);
@@ -142,6 +143,7 @@ public class IndustrialLegacyClient implements ClientModInitializer {
         HandledScreens.register(ModScreenHandlers.METAL_FORMER, MetalFormerScreen::new);
         HandledScreens.register(ModScreenHandlers.SOLID_CANNER, SolidCannerScreen::new);
         HandledScreens.register(ModScreenHandlers.CANNER, CannerScreen::new);
+        HandledScreens.register(ModScreenHandlers.FLUID_BOTTLER, FluidBottlerScreen::new);
         HandledScreens.register(ModScreenHandlers.THERMAL_CENTRIFUGE, ThermalCentrifugeScreen::new);
         HandledScreens.register(ModScreenHandlers.ORE_WASHING_PLANT, OreWashingPlantScreen::new);
         HandledScreens.register(ModScreenHandlers.NUCLEAR_REACTOR, NuclearReactorScreen::new);

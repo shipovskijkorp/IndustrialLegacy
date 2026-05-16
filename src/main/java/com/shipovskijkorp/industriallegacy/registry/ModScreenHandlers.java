@@ -16,6 +16,7 @@ public final class ModScreenHandlers {
     public static final Identifier GEO_GENERATOR_ID = new Identifier(IndustrialLegacy.MOD_ID, "geo_generator");
     public static final Identifier SOLAR_PANEL_ID = new Identifier(IndustrialLegacy.MOD_ID, "solar_panel");
     public static final Identifier RT_GENERATOR_ID = new Identifier(IndustrialLegacy.MOD_ID, "rt_generator");
+    public static final Identifier SEMIFLUID_GENERATOR_ID = new Identifier(IndustrialLegacy.MOD_ID, "semifluid_generator");
     public static final Identifier ELECTRIC_FURNACE_ID = new Identifier(IndustrialLegacy.MOD_ID, "electric_furnace");
     public static final Identifier INDUCTION_FURNACE_ID = new Identifier(IndustrialLegacy.MOD_ID, "induction_furnace");
     public static final Identifier CESU_ID = new Identifier(IndustrialLegacy.MOD_ID, "cesu");
@@ -96,6 +97,12 @@ public final class ModScreenHandlers {
             new ExtendedScreenHandlerType<>(CannerScreenHandler::new)
     );
 
+    public static final ScreenHandlerType<FluidBottlerScreenHandler> FLUID_BOTTLER = Registry.register(
+            Registries.SCREEN_HANDLER,
+            new Identifier(IndustrialLegacy.MOD_ID, "fluid_bottler"),
+            new ExtendedScreenHandlerType<>(FluidBottlerScreenHandler::new)
+    );
+
     public static final ScreenHandlerType<ThermalCentrifugeScreenHandler> THERMAL_CENTRIFUGE = Registry.register(
             Registries.SCREEN_HANDLER,
             new Identifier(IndustrialLegacy.MOD_ID, "thermal_centrifuge"),
@@ -118,6 +125,7 @@ public final class ModScreenHandlers {
     public static ScreenHandlerType<BatBoxScreenHandler> BATBOX;
     public static ScreenHandlerType<SolarPanelScreenHandler> SOLAR_PANEL;
     public static ScreenHandlerType<RTGeneratorScreenHandler> RT_GENERATOR;
+    public static ScreenHandlerType<SemifluidGeneratorScreenHandler> SEMIFLUID_GENERATOR;
     public static ScreenHandlerType<CesuScreenHandler> CESU;
     public static ScreenHandlerType<MfeScreenHandler> MFE;
     public static ScreenHandlerType<MfsuScreenHandler> MFSU;
@@ -135,6 +143,7 @@ public final class ModScreenHandlers {
         GENERATOR = ScreenHandlerRegistry.registerExtended(GENERATOR_ID, GeneratorScreenHandler::new);
         SOLAR_PANEL = ScreenHandlerRegistry.registerExtended(SOLAR_PANEL_ID, SolarPanelScreenHandler::new);
         RT_GENERATOR = ScreenHandlerRegistry.registerExtended(RT_GENERATOR_ID, RTGeneratorScreenHandler::new);
+        SEMIFLUID_GENERATOR = ScreenHandlerRegistry.registerExtended(SEMIFLUID_GENERATOR_ID, SemifluidGeneratorScreenHandler::new);
         BATBOX = ScreenHandlerRegistry.registerExtended(BATBOX_ID, BatBoxScreenHandler::new);
         CESU = ScreenHandlerRegistry.registerExtended(CESU_ID, CesuScreenHandler::new);
         MFE = ScreenHandlerRegistry.registerExtended(MFE_ID, MfeScreenHandler::new);

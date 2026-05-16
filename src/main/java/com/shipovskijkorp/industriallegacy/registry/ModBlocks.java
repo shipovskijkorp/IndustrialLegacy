@@ -60,6 +60,16 @@ public final class ModBlocks {
             b -> new EnergyMachineBlockItem(b, new Item.Settings(), 1)
     );
 
+    public static final Block SEMIFLUID_GENERATOR = register(
+            "semifluid_generator",
+            new SemifluidGeneratorBlock(FabricBlockSettings.create()
+                    .strength(2.0f, 10.0f)
+                    .sounds(BlockSoundGroup.METAL)
+                    .requiresTool()
+                    .luminance(state -> state.get(SemifluidGeneratorBlock.LIT) ? 13 : 0)),
+            b -> new EnergyMachineBlockItem(b, new Item.Settings(), 1)
+    );
+
     public static final Block BATBOX = register(
             "batbox",
             new BatBoxBlock(FabricBlockSettings.create()
@@ -230,6 +240,16 @@ public final class ModBlocks {
                     .sounds(BlockSoundGroup.METAL)
                     .requiresTool()
                     .luminance(state -> state.get(CannerBlock.LIT) ? 13 : 0)),
+            b -> new EnergyMachineBlockItem(b, new Item.Settings(), 1)
+    );
+
+    public static final Block FLUID_BOTTLER = register(
+            "fluid_bottler",
+            new FluidBottlerBlock(FabricBlockSettings.create()
+                    .strength(2.0f, 10.0f)
+                    .sounds(BlockSoundGroup.METAL)
+                    .requiresTool()
+                    .luminance(state -> state.get(FluidBottlerBlock.LIT) ? 13 : 0)),
             b -> new EnergyMachineBlockItem(b, new Item.Settings(), 1)
     );
 

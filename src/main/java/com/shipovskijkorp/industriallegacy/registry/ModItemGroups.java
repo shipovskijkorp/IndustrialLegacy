@@ -73,6 +73,7 @@ public final class ModItemGroups {
                         add.accept(ModBlocks.GEO_GENERATOR);
                         add.accept(ModBlocks.SOLAR_PANEL);
                         add.accept(ModBlocks.RT_GENERATOR);
+                        add.accept(ModBlocks.SEMIFLUID_GENERATOR);
                         add.accept(ModBlocks.BATBOX);
                         add.accept(ModBlocks.CESU);
                         add.accept(ModBlocks.MFE);
@@ -102,6 +103,7 @@ public final class ModItemGroups {
                         add.accept(ModBlocks.METAL_FORMER);
                         add.accept(ModBlocks.SOLID_CANNER);
                         add.accept(ModBlocks.CANNER);
+                        add.accept(ModBlocks.FLUID_BOTTLER);
                         add.accept(ModBlocks.THERMAL_CENTRIFUGE);
                         add.accept(ModBlocks.ORE_WASHING_PLANT);
                         add.accept(ModBlocks.MACHINE_CASING);

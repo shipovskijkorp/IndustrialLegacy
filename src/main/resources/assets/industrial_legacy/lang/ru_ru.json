@@ -548,5 +548,9 @@
   "item.industrial_legacy.bobs_yer_uncle_ranks_berry": "Ягода Bobs-Yer-Uncle-Ranks",
   "item.industrial_legacy.batpack": "Аккумуляторный ранец",
   "item.industrial_legacy.advanced_batpack": "Улучшенный аккумуляторный ранец",
-  "item.industrial_legacy.jetpack": "Реактивный ранец"
+  "item.industrial_legacy.jetpack": "Реактивный ранец",
+  "block.industrial_legacy.semifluid_generator": "Полужидкостный генератор",
+  "container.industrial_legacy.semifluid_generator": "Полужидкостный генератор",
+  "block.industrial_legacy.fluid_bottler": "Разливочная машина",
+  "container.industrial_legacy.fluid_bottler": "Разливочная машина"
 }

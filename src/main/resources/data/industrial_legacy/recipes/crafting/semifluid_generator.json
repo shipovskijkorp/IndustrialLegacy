@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ICI",
+    "CGC",
+    "ICI"
+  ],
+  "key": {
+    "I": { "item": "industrial_legacy:iron_casing" },
+    "C": { "item": "industrial_legacy:fluid_cell" },
+    "G": { "item": "industrial_legacy:geo_generator" }
+  },
+  "result": {
+    "item": "industrial_legacy:semifluid_generator"
+  }
+}

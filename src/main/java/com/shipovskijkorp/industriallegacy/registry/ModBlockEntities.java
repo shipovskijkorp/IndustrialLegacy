@@ -40,6 +40,12 @@ public final class ModBlockEntities {
             FabricBlockEntityTypeBuilder.create(RTGeneratorBlockEntity::new, ModBlocks.RT_GENERATOR).build()
     );
 
+    public static final BlockEntityType<SemifluidGeneratorBlockEntity> SEMIFLUID_GENERATOR = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE,
+            id("semifluid_generator"),
+            FabricBlockEntityTypeBuilder.create(SemifluidGeneratorBlockEntity::new, ModBlocks.SEMIFLUID_GENERATOR).build()
+    );
+
     public static final BlockEntityType<LvTransformerBlockEntity> LV_TRANSFORMER =
             Registry.register(Registries.BLOCK_ENTITY_TYPE,
                     id("lv_transformer"),
@@ -175,6 +181,13 @@ public final class ModBlockEntities {
             Registries.BLOCK_ENTITY_TYPE,
             new Identifier(IndustrialLegacy.MOD_ID, "canner"),
             BlockEntityType.Builder.create(CannerBlockEntity::new, ModBlocks.CANNER).build(null)
+    );
+
+
+    public static final BlockEntityType<FluidBottlerBlockEntity> FLUID_BOTTLER = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE,
+            new Identifier(IndustrialLegacy.MOD_ID, "fluid_bottler"),
+            BlockEntityType.Builder.create(FluidBottlerBlockEntity::new, ModBlocks.FLUID_BOTTLER).build(null)
     );
 
     public static final BlockEntityType<ThermalCentrifugeBlockEntity> THERMAL_CENTRIFUGE = Registry.register(
