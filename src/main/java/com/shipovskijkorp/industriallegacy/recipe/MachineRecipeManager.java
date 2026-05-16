@@ -16,6 +16,8 @@ public final class MachineRecipeManager {
     private static final String METAL_FORMER_CUTTING_PATH = "data/industrial_legacy/il_recipes/metal_former_cutting.ini";
     private static final String CANNING_PATH = "data/industrial_legacy/il_recipes/canning.ini";
     private static final String CANNING_ENRICH_PATH = "data/industrial_legacy/il_recipes/canning_enrich.ini";
+    private static final String THERMAL_CENTRIFUGE_PATH = "data/industrial_legacy/il_recipes/thermal_centrifuge.ini";
+    private static final String ORE_WASHING_PATH = "data/industrial_legacy/il_recipes/ore_washer.ini";
 
     private static List<MaceratorRecipe> maceratorRecipes = List.of();
     private static List<CompressorRecipe> compressorRecipes = List.of();
@@ -24,6 +26,8 @@ public final class MachineRecipeManager {
     private static List<MetalFormerRecipe> metalFormerCuttingRecipes = List.of();
     private static List<CanningRecipe> canningRecipes = List.of();
     private static List<CanningEnrichRecipe> canningEnrichRecipes = List.of();
+    private static List<ThermalCentrifugeRecipe> thermalCentrifugeRecipes = List.of();
+    private static List<OreWashingRecipe> oreWashingRecipes = List.of();
     private static List<CanningFluidRecipe> canningEmptyLiquidRecipes = List.of();
     private static List<CanningFluidRecipe> canningBottleLiquidRecipes = List.of();
 
@@ -43,14 +47,16 @@ public final class MachineRecipeManager {
                 com.shipovskijkorp.industriallegacy.registry.ModRecipes.METAL_FORMER_CUTTING_SERIALIZER, "cutting")));
         canningRecipes = Collections.unmodifiableList(new ArrayList<>(MachineRecipeIniLoader.loadCanning(CANNING_PATH)));
         canningEnrichRecipes = Collections.unmodifiableList(new ArrayList<>(MachineRecipeIniLoader.loadCanningEnrich(CANNING_ENRICH_PATH)));
+        thermalCentrifugeRecipes = Collections.unmodifiableList(new ArrayList<>(MachineRecipeIniLoader.loadThermalCentrifuge(THERMAL_CENTRIFUGE_PATH)));
+        oreWashingRecipes = Collections.unmodifiableList(new ArrayList<>(MachineRecipeIniLoader.loadOreWashing(ORE_WASHING_PATH)));
         canningEmptyLiquidRecipes = Collections.unmodifiableList(CanningFluidRecipe.createEmptyLiquidRecipes());
         canningBottleLiquidRecipes = Collections.unmodifiableList(CanningFluidRecipe.createBottleLiquidRecipes());
 
         IndustrialLegacy.LOGGER.info(
-                "Loaded IC2-style .ini recipes: {} macerator, {} compressor, {} metal former extruding, {} rolling, {} cutting, {} canning, {} canning enrich, {} canning empty liquid, {} canning bottle liquid",
+                "Loaded IC2-style .ini recipes: {} macerator, {} compressor, {} metal former extruding, {} rolling, {} cutting, {} canning, {} canning enrich, {} thermal centrifuge, {} ore washing, {} canning empty liquid, {} canning bottle liquid",
                 maceratorRecipes.size(), compressorRecipes.size(),
                 metalFormerExtrudingRecipes.size(), metalFormerRollingRecipes.size(), metalFormerCuttingRecipes.size(),
-                canningRecipes.size(), canningEnrichRecipes.size(),
+                canningRecipes.size(), canningEnrichRecipes.size(), thermalCentrifugeRecipes.size(), oreWashingRecipes.size(),
                 canningEmptyLiquidRecipes.size(), canningBottleLiquidRecipes.size());
     }
 
@@ -87,6 +93,16 @@ public final class MachineRecipeManager {
     public static List<CanningEnrichRecipe> getCanningEnrichRecipes() {
         ensureLoaded();
         return canningEnrichRecipes;
+    }
+
+    public static List<ThermalCentrifugeRecipe> getThermalCentrifugeRecipes() {
+        ensureLoaded();
+        return thermalCentrifugeRecipes;
+    }
+
+    public static List<OreWashingRecipe> getOreWashingRecipes() {
+        ensureLoaded();
+        return oreWashingRecipes;
     }
 
     public static List<CanningFluidRecipe> getCanningEmptyLiquidRecipes() {
@@ -152,6 +168,26 @@ public final class MachineRecipeManager {
         return Optional.empty();
     }
 
+    public static Optional<ThermalCentrifugeRecipe> findThermalCentrifugeRecipe(Inventory inv) {
+        ensureLoaded();
+        for (ThermalCentrifugeRecipe recipe : thermalCentrifugeRecipes) {
+            if (recipe.matches(inv, null)) {
+                return Optional.of(recipe);
+            }
+        }
+        return Optional.empty();
+    }
+
+    public static Optional<OreWashingRecipe> findOreWashingRecipe(Inventory inv) {
+        ensureLoaded();
+        for (OreWashingRecipe recipe : oreWashingRecipes) {
+            if (recipe.matches(inv, null)) {
+                return Optional.of(recipe);
+            }
+        }
+        return Optional.empty();
+    }
+
     private static List<MetalFormerRecipe> metalFormerRecipesForMode(com.shipovskijkorp.industriallegacy.block.entity.MetalFormerBlockEntity.Mode mode) {
         return switch (mode) {
             case ROLLING -> metalFormerRollingRecipes;
@@ -164,6 +200,7 @@ public final class MachineRecipeManager {
         if (maceratorRecipes.isEmpty() && compressorRecipes.isEmpty()
                 && metalFormerExtrudingRecipes.isEmpty() && metalFormerRollingRecipes.isEmpty()
                 && metalFormerCuttingRecipes.isEmpty() && canningRecipes.isEmpty() && canningEnrichRecipes.isEmpty()
+                && thermalCentrifugeRecipes.isEmpty() && oreWashingRecipes.isEmpty()
                 && canningEmptyLiquidRecipes.isEmpty() && canningBottleLiquidRecipes.isEmpty()) {
             reloadBuiltin();
         }

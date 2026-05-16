@@ -190,6 +190,8 @@ public final class IndustrialLegacyJeiPlugin implements IModPlugin {
         addRecipes(registration, IlJeiRecipeTypes.METAL_FORMER_EXTRUDING, MachineRecipeManager.getMetalFormerExtrudingRecipes());
         addRecipes(registration, IlJeiRecipeTypes.METAL_FORMER_ROLLING, MachineRecipeManager.getMetalFormerRollingRecipes());
         addRecipes(registration, IlJeiRecipeTypes.METAL_FORMER_CUTTING, MachineRecipeManager.getMetalFormerCuttingRecipes());
+        addRecipes(registration, IlJeiRecipeTypes.THERMAL_CENTRIFUGE, MachineRecipeManager.getThermalCentrifugeRecipes());
+        addRecipes(registration, IlJeiRecipeTypes.ORE_WASHING, MachineRecipeManager.getOreWashingRecipes());
 
         RecipeManager manager = recipeManager();
         if (manager == null) {
@@ -200,8 +202,6 @@ public final class IndustrialLegacyJeiPlugin implements IModPlugin {
                 .filter(IndustrialLegacyJeiPlugin::hasVisibleOutput)
                 .toList());
         registration.addRecipes(IlJeiRecipeTypes.RECYCLER, List.of(RecyclerJeiRecipe.create()));
-        addRecipes(registration, IlJeiRecipeTypes.THERMAL_CENTRIFUGE, manager.listAllOfType(ModRecipes.THERMAL_CENTRIFUGE_TYPE));
-        addRecipes(registration, IlJeiRecipeTypes.ORE_WASHING, manager.listAllOfType(ModRecipes.ORE_WASHING_TYPE));
         registration.addRecipes(IlJeiRecipeTypes.SPECIAL_CRAFTING, IlSpecialCraftingRecipeFactory.create(manager));
         registration.addRecipes(IlJeiRecipeTypes.SCRAP_BOX, ScrapBoxJeiRecipeFactory.create());
     }

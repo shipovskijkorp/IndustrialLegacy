@@ -2,9 +2,9 @@ package com.shipovskijkorp.industriallegacy.block.entity;
 
 import com.shipovskijkorp.industriallegacy.block.ThermalCentrifugeBlock;
 import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
+import com.shipovskijkorp.industriallegacy.recipe.MachineRecipeManager;
 import com.shipovskijkorp.industriallegacy.recipe.ThermalCentrifugeRecipe;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
-import com.shipovskijkorp.industriallegacy.registry.ModRecipes;
 import com.shipovskijkorp.industriallegacy.screen.ThermalCentrifugeScreenHandler;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
@@ -26,7 +26,6 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -143,17 +142,7 @@ public class ThermalCentrifugeBlockEntity extends BlockEntity implements SidedIn
     }
 
     private Optional<ThermalCentrifugeRecipe> findRecipe(World world) {
-        Optional<?> opt = world.getRecipeManager().getFirstMatch(ModRecipes.THERMAL_CENTRIFUGE_TYPE, this, world);
-        if (opt.isEmpty()) return Optional.empty();
-        Object o = opt.get();
-        if (o instanceof ThermalCentrifugeRecipe r) return Optional.of(r);
-        try {
-            Method m = o.getClass().getMethod("value");
-            Object v = m.invoke(o);
-            if (v instanceof ThermalCentrifugeRecipe r) return Optional.of(r);
-        } catch (Throwable ignored) {
-        }
-        return Optional.empty();
+        return MachineRecipeManager.findThermalCentrifugeRecipe(this);
     }
 
     private boolean canOutput(List<ItemStack> outputs) {

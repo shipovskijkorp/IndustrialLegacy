@@ -541,5 +541,6 @@
   "item.industrial_legacy.silver_purified_crushed_ore": "Purified Crushed Silver Ore",
   "item.industrial_legacy.iron_purified_crushed_ore": "Purified Crushed Iron Ore",
   "item.industrial_legacy.gold_purified_crushed_ore": "Purified Crushed Gold Ore",
-  "jei.industrial_legacy.canning_enrich": "Canning Machine"
+  "jei.industrial_legacy.canning_enrich": "Canning Machine",
+  "item.industrial_legacy.slag": "Slag"
 }

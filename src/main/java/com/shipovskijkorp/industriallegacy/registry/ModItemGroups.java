@@ -313,6 +313,7 @@ add.accept(ModItems.LZH_CONDENSATOR);
                         add.accept(ModItems.SCRAP);
                         add.accept(ModItems.SCRAP_BOX);
                         add.accept(ModItems.FERTILIZER);
+                        add.accept(ModItems.SLAG);
                         add.accept(ModItems.COIL);
                         add.accept(ModItems.ELECTRIC_MOTOR);
 

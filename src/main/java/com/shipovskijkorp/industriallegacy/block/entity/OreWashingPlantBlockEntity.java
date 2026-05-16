@@ -3,9 +3,9 @@ package com.shipovskijkorp.industriallegacy.block.entity;
 import com.shipovskijkorp.industriallegacy.block.OreWashingPlantBlock;
 import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
 import com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem;
+import com.shipovskijkorp.industriallegacy.recipe.MachineRecipeManager;
 import com.shipovskijkorp.industriallegacy.recipe.OreWashingRecipe;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
-import com.shipovskijkorp.industriallegacy.registry.ModRecipes;
 import com.shipovskijkorp.industriallegacy.screen.OreWashingPlantScreenHandler;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
@@ -28,7 +28,6 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -114,12 +113,7 @@ public class OreWashingPlantBlockEntity extends BlockEntity implements SidedInve
     }
 
     private Optional<OreWashingRecipe> findRecipe(World world) {
-        Optional<?> opt = world.getRecipeManager().getFirstMatch(ModRecipes.ORE_WASHING_TYPE, this, world);
-        if (opt.isEmpty()) return Optional.empty();
-        Object o = opt.get();
-        if (o instanceof OreWashingRecipe r) return Optional.of(r);
-        try { Object v = o.getClass().getMethod("value").invoke(o); if (v instanceof OreWashingRecipe r) return Optional.of(r); } catch (Throwable ignored) {}
-        return Optional.empty();
+        return MachineRecipeManager.findOreWashingRecipe(this);
     }
 
     private void gainWater() {

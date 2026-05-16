@@ -31,6 +31,10 @@ final class MachineRecipeIniLoader {
     private static final int DEFAULT_TICKS = 300;
     private static final int DEFAULT_METAL_FORMER_TICKS = 200;
     private static final int DEFAULT_CANNING_TICKS = 200;
+    private static final int DEFAULT_THERMAL_CENTRIFUGE_TICKS = 500;
+    private static final int DEFAULT_THERMAL_CENTRIFUGE_HEAT = 0;
+    private static final int DEFAULT_ORE_WASHING_TICKS = 500;
+    private static final int DEFAULT_ORE_WASHING_WATER = 1000;
 
     private MachineRecipeIniLoader() {}
 
@@ -138,6 +142,48 @@ final class MachineRecipeIniLoader {
         return recipes;
     }
 
+    static List<ThermalCentrifugeRecipe> loadThermalCentrifuge(String resourcePath) {
+        List<ParsedLine> lines = loadLines(resourcePath, DEFAULT_THERMAL_CENTRIFUGE_TICKS);
+        List<ThermalCentrifugeRecipe> recipes = new ArrayList<>();
+        for (int i = 0; i < lines.size(); i++) {
+            ParsedLine line = lines.get(i);
+            try {
+                ParsedInput input = parseInput(line.input());
+                List<ItemStack> outputs = parseOutputs(line.output());
+                if (input == null || outputs.isEmpty()) continue;
+
+                int heat = parseIntAttribute(line.output(), "heat", DEFAULT_THERMAL_CENTRIFUGE_HEAT);
+                Identifier id = new Identifier(IndustrialLegacy.MOD_ID, "ini/thermal_centrifuge/" + sanitizeId(line.input()) + "_to_" + sanitizeId(outputWithoutAttributes(line.output())) + "_" + i);
+                recipes.add(new ThermalCentrifugeRecipe(id, input.ingredient(), input.count(), outputs, line.ticks(), heat));
+            } catch (RuntimeException e) {
+                IndustrialLegacy.LOGGER.warn("Skipping thermal centrifuge ini recipe {}:{} -> {}: {}",
+                        resourcePath, line.number(), line.raw(), e.getMessage());
+            }
+        }
+        return recipes;
+    }
+
+    static List<OreWashingRecipe> loadOreWashing(String resourcePath) {
+        List<ParsedLine> lines = loadLines(resourcePath, DEFAULT_ORE_WASHING_TICKS);
+        List<OreWashingRecipe> recipes = new ArrayList<>();
+        for (int i = 0; i < lines.size(); i++) {
+            ParsedLine line = lines.get(i);
+            try {
+                ParsedInput input = parseInput(line.input());
+                List<ItemStack> outputs = parseOutputs(line.output());
+                if (input == null || outputs.isEmpty()) continue;
+
+                int waterAmount = parseIntAttribute(line.output(), "fluid", DEFAULT_ORE_WASHING_WATER);
+                Identifier id = new Identifier(IndustrialLegacy.MOD_ID, "ini/ore_washing/" + sanitizeId(line.input()) + "_to_" + sanitizeId(outputWithoutAttributes(line.output())) + "_" + i);
+                recipes.add(new OreWashingRecipe(id, input.ingredient(), input.count(), outputs, line.ticks(), waterAmount));
+            } catch (RuntimeException e) {
+                IndustrialLegacy.LOGGER.warn("Skipping ore washing ini recipe {}:{} -> {}: {}",
+                        resourcePath, line.number(), line.raw(), e.getMessage());
+            }
+        }
+        return recipes;
+    }
+
     private static List<ParsedLine> loadLines(String resourcePath, int defaultTicks) {
         List<ParsedLine> result = new ArrayList<>();
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
@@ -192,7 +238,8 @@ final class MachineRecipeIniLoader {
         }
 
         int comma = output.indexOf(',');
-        if (comma >= 0 && !output.startsWith("industrial_legacy:cable#")) {
+        boolean multiOutputRecipe = output.contains("@heat:") || output.contains("@fluid:");
+        if (comma >= 0 && !multiOutputRecipe && !output.startsWith("industrial_legacy:cable#")) {
             output = output.substring(0, comma).trim();
         }
         if (input.isEmpty() || output.isEmpty()) return null;
@@ -305,6 +352,46 @@ final class MachineRecipeIniLoader {
         ItemStack stack = CableItem.createStack(ModItems.CABLE, CableKind.fromId(kind), insulation);
         stack.setCount(count);
         return stack;
+    }
+
+    private static List<ItemStack> parseOutputs(String rawOutput) {
+        String output = outputWithoutAttributes(rawOutput);
+        output = output.replace(',', ' ').trim();
+        List<ItemStack> stacks = new ArrayList<>();
+        if (output.isEmpty()) return stacks;
+
+        for (String token : output.split("\\s+")) {
+            if (token.isBlank()) continue;
+            ParsedStack parsed = parseOutput(token);
+            if (parsed != null && !parsed.stack().isEmpty()) {
+                stacks.add(parsed.stack());
+            }
+        }
+        return stacks;
+    }
+
+    private static String outputWithoutAttributes(String rawOutput) {
+        int at = rawOutput.indexOf('@');
+        return (at >= 0 ? rawOutput.substring(0, at) : rawOutput).trim();
+    }
+
+    private static int parseIntAttribute(String rawOutput, String name, int fallback) {
+        String needle = "@" + name + ":";
+        int start = rawOutput.indexOf(needle);
+        if (start < 0) return fallback;
+
+        start += needle.length();
+        int end = start;
+        while (end < rawOutput.length() && Character.isDigit(rawOutput.charAt(end))) {
+            end++;
+        }
+        if (end == start) return fallback;
+
+        try {
+            return Math.max(0, Integer.parseInt(rawOutput.substring(start, end)));
+        } catch (NumberFormatException e) {
+            return fallback;
+        }
     }
 
     private static CountedToken splitCount(String raw) {
