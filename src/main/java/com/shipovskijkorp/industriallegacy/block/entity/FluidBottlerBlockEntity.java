@@ -5,6 +5,7 @@ import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
 import com.shipovskijkorp.industriallegacy.energy.item.ElectricItemManager;
 import com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem;
 import com.shipovskijkorp.industriallegacy.item.armor.BiogasJetpackItem;
+import com.shipovskijkorp.industriallegacy.item.armor.FoamPackItem;
 import com.shipovskijkorp.industriallegacy.item.tool.FoamSprayerItem;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
 import com.shipovskijkorp.industriallegacy.screen.FluidBottlerScreenHandler;
@@ -40,7 +41,7 @@ import org.jetbrains.annotations.Nullable;
  * - fluid tank capacity: 8000 mB
  * - uses generic empty/fill fluid container recipe managers.
  *
- * Construction foam cases are intentionally left out until the CF tool path exists.
+ * Supports IC2 construction-foam containers: CF sprayer and CF pack.
  */
 public class FluidBottlerBlockEntity extends BlockEntity implements SidedInventory, IEuEnergyStorage, ExtendedScreenHandlerFactory {
     public static final int SLOT_DRAIN = 0;
@@ -125,6 +126,9 @@ public class FluidBottlerBlockEntity extends BlockEntity implements SidedInvento
         }
         if (stack.getItem() instanceof FoamSprayerItem) {
             return FoamSprayerItem.canFill(stack);
+        }
+        if (stack.getItem() instanceof FoamPackItem) {
+            return FoamPackItem.canFill(stack);
         }
         return stack.isOf(Items.BUCKET) || stack.isOf(Items.GLASS_BOTTLE);
     }
@@ -215,6 +219,15 @@ public class FluidBottlerBlockEntity extends BlockEntity implements SidedInvento
             return new DrainData(UniversalFluidCellItem.CellFluid.CONSTRUCTION_FOAM, foam, out);
         }
 
+        if (stack.getItem() instanceof FoamPackItem) {
+            int foam = FoamPackItem.getFoam(stack);
+            if (foam <= 0) return null;
+            ItemStack out = stack.copy();
+            out.setCount(1);
+            FoamPackItem.setFoam(out, 0);
+            return new DrainData(UniversalFluidCellItem.CellFluid.CONSTRUCTION_FOAM, foam, out);
+        }
+
         UniversalFluidCellItem.CellFluid bucketFluid = getFilledBucketFluid(stack);
         if (bucketFluid != UniversalFluidCellItem.CellFluid.EMPTY) {
             return new DrainData(bucketFluid, BUCKET_MB, new ItemStack(Items.BUCKET));
@@ -251,6 +264,15 @@ public class FluidBottlerBlockEntity extends BlockEntity implements SidedInvento
             ItemStack out = stack.copy();
             out.setCount(1);
             FoamSprayerItem.fill(out, fill);
+            return new FillData(fill, out);
+        }
+
+        if (stack.getItem() instanceof FoamPackItem && fluid == UniversalFluidCellItem.CellFluid.CONSTRUCTION_FOAM) {
+            int fill = Math.min(availableMb, FoamPackItem.CAPACITY_MB - FoamPackItem.getFoam(stack));
+            if (fill <= 0) return null;
+            ItemStack out = stack.copy();
+            out.setCount(1);
+            FoamPackItem.fill(out, fill);
             return new FillData(fill, out);
         }
 

@@ -17,6 +17,22 @@
     "industrial_legacy:iron_scaffold",
     "industrial_legacy:reinforced_iron_scaffold",
     "industrial_legacy:foam_concrete",
-    "industrial_legacy:reinforced_stone"
+    "industrial_legacy:reinforced_stone",
+    "industrial_legacy:white_foam_concrete",
+    "industrial_legacy:orange_foam_concrete",
+    "industrial_legacy:magenta_foam_concrete",
+    "industrial_legacy:light_blue_foam_concrete",
+    "industrial_legacy:yellow_foam_concrete",
+    "industrial_legacy:lime_foam_concrete",
+    "industrial_legacy:pink_foam_concrete",
+    "industrial_legacy:gray_foam_concrete",
+    "industrial_legacy:light_gray_foam_concrete",
+    "industrial_legacy:cyan_foam_concrete",
+    "industrial_legacy:purple_foam_concrete",
+    "industrial_legacy:blue_foam_concrete",
+    "industrial_legacy:brown_foam_concrete",
+    "industrial_legacy:green_foam_concrete",
+    "industrial_legacy:red_foam_concrete",
+    "industrial_legacy:black_foam_concrete"
   ]
 }

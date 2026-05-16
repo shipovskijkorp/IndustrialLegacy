@@ -13,6 +13,7 @@ import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 
 import java.util.function.Function;
@@ -426,16 +427,103 @@ public final class ModBlocks {
             new Block(FabricBlockSettings.copyOf(Blocks.STONE).strength(80.0f, 180.0f).requiresTool())
     );
 
-    public static final Block FOAM = registerNoItem(
+    public static final Block FOAM = register(
             "foam",
             new ConstructionFoamBlock(FabricBlockSettings.create()
                     .strength(0.01f, 10.0f)
-                    .sounds(BlockSoundGroup.WOOL))
+                    .sounds(BlockSoundGroup.WOOL), ConstructionFoamBlock.FoamType.NORMAL)
+    );
+
+    public static final Block REINFORCED_FOAM = register(
+            "reinforced_foam",
+            new ConstructionFoamBlock(FabricBlockSettings.create()
+                    .strength(0.01f, 10.0f)
+                    .sounds(BlockSoundGroup.WOOL), ConstructionFoamBlock.FoamType.REINFORCED)
     );
 
     public static final Block FOAM_CONCRETE = register(
             "foam_concrete",
             new FoamConcreteBlock(FabricBlockSettings.copyOf(Blocks.STONE).strength(3.0f, 30.0f).requiresTool())
+    );
+
+    public static final Block WHITE_FOAM_CONCRETE = register(
+            "white_foam_concrete",
+            new FoamConcreteBlock(FabricBlockSettings.copyOf(Blocks.STONE).strength(3.0f, 30.0f).requiresTool(), DyeColor.WHITE)
+    );
+
+    public static final Block ORANGE_FOAM_CONCRETE = register(
+            "orange_foam_concrete",
+            new FoamConcreteBlock(FabricBlockSettings.copyOf(Blocks.STONE).strength(3.0f, 30.0f).requiresTool(), DyeColor.ORANGE)
+    );
+
+    public static final Block MAGENTA_FOAM_CONCRETE = register(
+            "magenta_foam_concrete",
+            new FoamConcreteBlock(FabricBlockSettings.copyOf(Blocks.STONE).strength(3.0f, 30.0f).requiresTool(), DyeColor.MAGENTA)
+    );
+
+    public static final Block LIGHT_BLUE_FOAM_CONCRETE = register(
+            "light_blue_foam_concrete",
+            new FoamConcreteBlock(FabricBlockSettings.copyOf(Blocks.STONE).strength(3.0f, 30.0f).requiresTool(), DyeColor.LIGHT_BLUE)
+    );
+
+    public static final Block YELLOW_FOAM_CONCRETE = register(
+            "yellow_foam_concrete",
+            new FoamConcreteBlock(FabricBlockSettings.copyOf(Blocks.STONE).strength(3.0f, 30.0f).requiresTool(), DyeColor.YELLOW)
+    );
+
+    public static final Block LIME_FOAM_CONCRETE = register(
+            "lime_foam_concrete",
+            new FoamConcreteBlock(FabricBlockSettings.copyOf(Blocks.STONE).strength(3.0f, 30.0f).requiresTool(), DyeColor.LIME)
+    );
+
+    public static final Block PINK_FOAM_CONCRETE = register(
+            "pink_foam_concrete",
+            new FoamConcreteBlock(FabricBlockSettings.copyOf(Blocks.STONE).strength(3.0f, 30.0f).requiresTool(), DyeColor.PINK)
+    );
+
+    public static final Block GRAY_FOAM_CONCRETE = register(
+            "gray_foam_concrete",
+            new FoamConcreteBlock(FabricBlockSettings.copyOf(Blocks.STONE).strength(3.0f, 30.0f).requiresTool(), DyeColor.GRAY)
+    );
+
+    public static final Block LIGHT_GRAY_FOAM_CONCRETE = register(
+            "light_gray_foam_concrete",
+            new FoamConcreteBlock(FabricBlockSettings.copyOf(Blocks.STONE).strength(3.0f, 30.0f).requiresTool(), DyeColor.LIGHT_GRAY)
+    );
+
+    public static final Block CYAN_FOAM_CONCRETE = register(
+            "cyan_foam_concrete",
+            new FoamConcreteBlock(FabricBlockSettings.copyOf(Blocks.STONE).strength(3.0f, 30.0f).requiresTool(), DyeColor.CYAN)
+    );
+
+    public static final Block PURPLE_FOAM_CONCRETE = register(
+            "purple_foam_concrete",
+            new FoamConcreteBlock(FabricBlockSettings.copyOf(Blocks.STONE).strength(3.0f, 30.0f).requiresTool(), DyeColor.PURPLE)
+    );
+
+    public static final Block BLUE_FOAM_CONCRETE = register(
+            "blue_foam_concrete",
+            new FoamConcreteBlock(FabricBlockSettings.copyOf(Blocks.STONE).strength(3.0f, 30.0f).requiresTool(), DyeColor.BLUE)
+    );
+
+    public static final Block BROWN_FOAM_CONCRETE = register(
+            "brown_foam_concrete",
+            new FoamConcreteBlock(FabricBlockSettings.copyOf(Blocks.STONE).strength(3.0f, 30.0f).requiresTool(), DyeColor.BROWN)
+    );
+
+    public static final Block GREEN_FOAM_CONCRETE = register(
+            "green_foam_concrete",
+            new FoamConcreteBlock(FabricBlockSettings.copyOf(Blocks.STONE).strength(3.0f, 30.0f).requiresTool(), DyeColor.GREEN)
+    );
+
+    public static final Block RED_FOAM_CONCRETE = register(
+            "red_foam_concrete",
+            new FoamConcreteBlock(FabricBlockSettings.copyOf(Blocks.STONE).strength(3.0f, 30.0f).requiresTool(), DyeColor.RED)
+    );
+
+    public static final Block BLACK_FOAM_CONCRETE = register(
+            "black_foam_concrete",
+            new FoamConcreteBlock(FabricBlockSettings.copyOf(Blocks.STONE).strength(3.0f, 30.0f).requiresTool(), DyeColor.BLACK)
     );
 
     public static final Block REINFORCED_GLASS =
@@ -702,6 +790,39 @@ public final class ModBlocks {
             case DETECTOR -> DETECTOR_CABLE;
             case SPLITTER -> SPLITTER_CABLE;
         };
+    }
+
+
+    public static Block getColoredFoamConcrete(DyeColor color) {
+        return switch (color) {
+            case WHITE -> WHITE_FOAM_CONCRETE;
+            case ORANGE -> ORANGE_FOAM_CONCRETE;
+            case MAGENTA -> MAGENTA_FOAM_CONCRETE;
+            case LIGHT_BLUE -> LIGHT_BLUE_FOAM_CONCRETE;
+            case YELLOW -> YELLOW_FOAM_CONCRETE;
+            case LIME -> LIME_FOAM_CONCRETE;
+            case PINK -> PINK_FOAM_CONCRETE;
+            case GRAY -> GRAY_FOAM_CONCRETE;
+            case LIGHT_GRAY -> LIGHT_GRAY_FOAM_CONCRETE;
+            case CYAN -> CYAN_FOAM_CONCRETE;
+            case PURPLE -> PURPLE_FOAM_CONCRETE;
+            case BLUE -> BLUE_FOAM_CONCRETE;
+            case BROWN -> BROWN_FOAM_CONCRETE;
+            case GREEN -> GREEN_FOAM_CONCRETE;
+            case RED -> RED_FOAM_CONCRETE;
+            case BLACK -> BLACK_FOAM_CONCRETE;
+        };
+    }
+
+    public static DyeColor getFoamConcreteColor(Block block) {
+        if (block instanceof FoamConcreteBlock foamConcreteBlock) {
+            return foamConcreteBlock.getColor();
+        }
+        return null;
+    }
+
+    public static boolean isFoamConcreteBlock(Block block) {
+        return block instanceof FoamConcreteBlock;
     }
 
     public static void register() {

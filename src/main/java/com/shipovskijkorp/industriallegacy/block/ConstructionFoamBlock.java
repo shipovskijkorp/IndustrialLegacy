@@ -30,8 +30,12 @@ public class ConstructionFoamBlock extends Block {
     public static final EnumProperty<FoamType> TYPE = EnumProperty.of("type", FoamType.class);
 
     public ConstructionFoamBlock(Settings settings) {
+        this(settings, FoamType.NORMAL);
+    }
+
+    public ConstructionFoamBlock(Settings settings, FoamType defaultType) {
         super(settings.ticksRandomly().nonOpaque());
-        setDefaultState(getDefaultState().with(TYPE, FoamType.NORMAL));
+        setDefaultState(getDefaultState().with(TYPE, defaultType));
     }
 
     @Override
@@ -49,19 +53,24 @@ public class ConstructionFoamBlock extends Block {
         return VoxelShapes.fullCube();
     }
 
-
     @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         int tickSpeed = world.getGameRules().getInt(GameRules.RANDOM_TICK_SPEED);
         if (tickSpeed <= 0) return;
 
         FoamType type = state.get(TYPE);
-        int light = getNeighborAwareLight(world, pos, state);
-        int darkness = Math.max(1, 16 - light);
-        float chance = (1.0f / (type.hardenTime * darkness * 20.0f)) * (4096.0f / tickSpeed);
+        float chance = getHardenChance(world, pos, state, type) * 4096.0f / (float) tickSpeed;
         if (random.nextFloat() < chance) {
             harden(world, pos, type);
         }
+    }
+
+    /** Mirrors IC2 BlockFoam#getHardenChance: 1 / (hardenTime * (16 - light) * 20). */
+    public static float getHardenChance(World world, BlockPos pos, BlockState state, FoamType type) {
+        int light = getNeighborAwareLight(world, pos, state);
+        int lightPenalty = Math.max(1, 16 - light);
+        int avgTimeTicks = type.hardenTime * lightPenalty * 20;
+        return 1.0f / (float) avgTimeTicks;
     }
 
     private static int getNeighborAwareLight(World world, BlockPos pos, BlockState state) {
@@ -71,7 +80,7 @@ public class ConstructionFoamBlock extends Block {
                 light = Math.max(light, world.getLightLevel(pos.offset(direction)));
             }
         }
-        return light;
+        return Math.min(15, light);
     }
 
     @Override

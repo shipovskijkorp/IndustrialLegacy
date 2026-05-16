@@ -3,9 +3,11 @@ package com.shipovskijkorp.industriallegacy.item.tool;
 import com.shipovskijkorp.industriallegacy.block.ConstructionFoamBlock;
 import com.shipovskijkorp.industriallegacy.block.ScaffoldBlock;
 import com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem;
+import com.shipovskijkorp.industriallegacy.item.armor.FoamPackItem;
 import com.shipovskijkorp.industriallegacy.registry.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -85,7 +87,7 @@ public class FoamSprayerItem extends Item implements IModeSwitchableItem {
 
         World world = ctx.getWorld();
         ItemStack stack = ctx.getStack();
-        int availableBlocks = getFoam(stack) / FLUID_PER_FOAM_MB;
+        int availableBlocks = getAvailableFoam(player, stack) / FLUID_PER_FOAM_MB;
         if (availableBlocks <= 0) return ActionResult.FAIL;
 
         int maxBlocks = Math.min(availableBlocks, isSingleMode(stack) ? SINGLE_MODE_MAX_BLOCKS : NORMAL_MODE_MAX_BLOCKS);
@@ -106,9 +108,26 @@ public class FoamSprayerItem extends Item implements IModeSwitchableItem {
             Direction excluded = getExcludedDirection(player, ctx.getSide());
             int placed = sprayFoam(world, start, excluded, target, maxBlocks);
             if (placed <= 0) return ActionResult.PASS;
-            if (!player.getAbilities().creativeMode) drain(stack, placed * FLUID_PER_FOAM_MB);
+            if (!player.getAbilities().creativeMode) drainFoam(player, stack, placed * FLUID_PER_FOAM_MB);
         }
         return ActionResult.success(world.isClient);
+    }
+
+    private static int getAvailableFoam(PlayerEntity player, ItemStack sprayer) {
+        int amount = getFoam(sprayer);
+        ItemStack chest = player.getEquippedStack(EquipmentSlot.CHEST);
+        if (chest.getItem() instanceof FoamPackItem) amount += FoamPackItem.getFoam(chest);
+        return amount;
+    }
+
+    /** IC2 drains the worn CF pack first, then the sprayer itself. */
+    private static void drainFoam(PlayerEntity player, ItemStack sprayer, int amountMb) {
+        int remaining = Math.max(0, amountMb);
+        ItemStack chest = player.getEquippedStack(EquipmentSlot.CHEST);
+        if (chest.getItem() instanceof FoamPackItem) {
+            remaining -= FoamPackItem.drain(chest, remaining);
+        }
+        if (remaining > 0) drain(sprayer, remaining);
     }
 
     private static Direction getExcludedDirection(PlayerEntity player, Direction fallback) {
@@ -145,18 +164,18 @@ public class FoamSprayerItem extends Item implements IModeSwitchableItem {
             ScaffoldBlock.ScaffoldType type = scaffold.getScaffoldType();
             if (type == ScaffoldBlock.ScaffoldType.WOOD || type == ScaffoldBlock.ScaffoldType.REINFORCED_WOOD) {
                 Block.dropStack(world, pos, new ItemStack(state.getBlock().asItem()));
-                return world.setBlockState(pos, ModBlocks.FOAM.getDefaultState().with(ConstructionFoamBlock.TYPE, ConstructionFoamBlock.FoamType.NORMAL), Block.NOTIFY_ALL);
+                return world.setBlockState(pos, ModBlocks.FOAM.getDefaultState(), Block.NOTIFY_ALL);
             }
             if (type == ScaffoldBlock.ScaffoldType.REINFORCED_IRON) {
                 Block.dropStack(world, pos, new ItemStack(ModBlocks.IRON_FENCE));
             }
             if (type == ScaffoldBlock.ScaffoldType.IRON || type == ScaffoldBlock.ScaffoldType.REINFORCED_IRON) {
-                return world.setBlockState(pos, ModBlocks.FOAM.getDefaultState().with(ConstructionFoamBlock.TYPE, ConstructionFoamBlock.FoamType.REINFORCED), Block.NOTIFY_ALL);
+                return world.setBlockState(pos, ModBlocks.REINFORCED_FOAM.getDefaultState(), Block.NOTIFY_ALL);
             }
             return false;
         }
 
-        return world.setBlockState(pos, ModBlocks.FOAM.getDefaultState().with(ConstructionFoamBlock.TYPE, ConstructionFoamBlock.FoamType.NORMAL), Block.NOTIFY_ALL);
+        return world.setBlockState(pos, ModBlocks.FOAM.getDefaultState(), Block.NOTIFY_ALL);
     }
 
     private static boolean canPlaceFoam(World world, BlockPos pos, Target target) {

@@ -8,6 +8,7 @@ import com.shipovskijkorp.industriallegacy.item.armor.ElectricJetpackItem;
 import com.shipovskijkorp.industriallegacy.item.armor.StaticBootsItem;
 import com.shipovskijkorp.industriallegacy.item.armor.SolarHelmetItem;
 import com.shipovskijkorp.industriallegacy.item.armor.EnergyPackItem;
+import com.shipovskijkorp.industriallegacy.item.armor.FoamPackItem;
 import com.shipovskijkorp.industriallegacy.item.armor.HazmatArmorItem;
 import com.shipovskijkorp.industriallegacy.item.armor.ModArmorMaterials;
 import com.shipovskijkorp.industriallegacy.item.armor.NanoArmorItem;
@@ -61,6 +62,7 @@ public final class ModItems {
     public static final Item FORGE_HAMMER = register("forge_hammer", new Item(new FabricItemSettings().maxCount(1).maxDamage(79)));
     public static final Item CUTTER = register("cutter", new Item(new FabricItemSettings().maxCount(1).maxDamage(60)));
     public static final Item FOAM_SPRAYER = register("foam_sprayer", new FoamSprayerItem(new Item.Settings()));
+    public static final Item CF_PACK = register("cf_pack", new FoamPackItem(new Item.Settings()));
 
     // IC2 electric tools
     public static final Item POWER_UNIT = register("power_unit", new Item(new Item.Settings()));

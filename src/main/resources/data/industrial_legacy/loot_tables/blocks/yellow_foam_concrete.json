@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "industrial_legacy:foam_concrete"
+          "name": "industrial_legacy:yellow_foam_concrete"
         }
       ],
       "conditions": [
