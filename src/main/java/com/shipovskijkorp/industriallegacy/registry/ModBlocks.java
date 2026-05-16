@@ -264,6 +264,16 @@ public final class ModBlocks {
             b -> new EnergyMachineBlockItem(b, new Item.Settings(), 1)
     );
 
+
+    public static final Block SOLAR_DISTILLER = register(
+            "solar_distiller",
+            new SolarDistillerBlock(FabricBlockSettings.create()
+                    .strength(2.0f, 10.0f)
+                    .sounds(BlockSoundGroup.METAL)
+                    .requiresTool()),
+            b -> new EnergyMachineBlockItem(b, new Item.Settings(), 1)
+    );
+
     public static final Block THERMAL_CENTRIFUGE = register(
             "thermal_centrifuge",
             new ThermalCentrifugeBlock(FabricBlockSettings.create()

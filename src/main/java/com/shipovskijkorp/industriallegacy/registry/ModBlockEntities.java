@@ -196,6 +196,13 @@ public final class ModBlockEntities {
             BlockEntityType.Builder.create(PumpBlockEntity::new, ModBlocks.PUMP).build(null)
     );
 
+
+    public static final BlockEntityType<SolarDistillerBlockEntity> SOLAR_DISTILLER = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE,
+            id("solar_distiller"),
+            FabricBlockEntityTypeBuilder.create(SolarDistillerBlockEntity::new, ModBlocks.SOLAR_DISTILLER).build()
+    );
+
     public static final BlockEntityType<ThermalCentrifugeBlockEntity> THERMAL_CENTRIFUGE = Registry.register(
             Registries.BLOCK_ENTITY_TYPE,
             new Identifier(IndustrialLegacy.MOD_ID, "thermal_centrifuge"),

@@ -562,5 +562,8 @@
   "tooltip.industrial_legacy.storage_box_inventory_size": "Размер инвентаря: %s",
   "block.industrial_legacy.pump": "Помпа",
   "container.industrial_legacy.pump": "Помпа",
-  "item.industrial_legacy.mining_pipe": "Буровая труба"
+  "item.industrial_legacy.mining_pipe": "Буровая труба",
+  "block.industrial_legacy.solar_distiller": "Солнечный опреснитель",
+  "container.industrial_legacy.solar_distiller": "Солнечный опреснитель",
+  "tooltip.industrial_legacy.sky_light": "Свет неба: %s%%",
 }

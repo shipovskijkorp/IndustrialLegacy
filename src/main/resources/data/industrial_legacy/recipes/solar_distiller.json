@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    "G G",
+    "CMC"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "C": {
+      "item": "industrial_legacy:fluid_cell"
+    },
+    "M": {
+      "item": "industrial_legacy:machine_casing"
+    }
+  },
+  "result": {
+    "item": "industrial_legacy:solar_distiller"
+  }
+}

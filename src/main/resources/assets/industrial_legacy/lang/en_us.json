@@ -562,5 +562,8 @@
   "tooltip.industrial_legacy.storage_box_inventory_size": "Inventory size: %s",
   "block.industrial_legacy.pump": "Pump",
   "container.industrial_legacy.pump": "Pump",
-  "item.industrial_legacy.mining_pipe": "Mining Pipe"
+  "item.industrial_legacy.mining_pipe": "Mining Pipe",
+  "block.industrial_legacy.solar_distiller": "Solar Distiller",
+  "container.industrial_legacy.solar_distiller": "Solar Distiller",
+  "tooltip.industrial_legacy.sky_light": "Sky light: %s%%"
 }

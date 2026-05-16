@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "industrial_legacy:block/machine/fluid/solar_distiller"
+    },
+    "facing=east": {
+      "model": "industrial_legacy:block/machine/fluid/solar_distiller",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "industrial_legacy:block/machine/fluid/solar_distiller",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "industrial_legacy:block/machine/fluid/solar_distiller",
+      "y": 270
+    }
+  }
+}

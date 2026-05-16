@@ -105,6 +105,7 @@ public final class ModItemGroups {
                         add.accept(ModBlocks.CANNER);
                         add.accept(ModBlocks.FLUID_BOTTLER);
                         add.accept(ModBlocks.PUMP);
+                        add.accept(ModBlocks.SOLAR_DISTILLER);
                         add.accept(ModBlocks.THERMAL_CENTRIFUGE);
                         add.accept(ModBlocks.ORE_WASHING_PLANT);
                         add.accept(ModBlocks.MACHINE_CASING);

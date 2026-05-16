@@ -110,6 +110,13 @@ public final class ModScreenHandlers {
             new ExtendedScreenHandlerType<>(PumpScreenHandler::new)
     );
 
+
+    public static final ScreenHandlerType<SolarDistillerScreenHandler> SOLAR_DISTILLER = Registry.register(
+            Registries.SCREEN_HANDLER,
+            new Identifier(IndustrialLegacy.MOD_ID, "solar_distiller"),
+            new ExtendedScreenHandlerType<>(SolarDistillerScreenHandler::new)
+    );
+
     public static final ScreenHandlerType<ThermalCentrifugeScreenHandler> THERMAL_CENTRIFUGE = Registry.register(
             Registries.SCREEN_HANDLER,
             new Identifier(IndustrialLegacy.MOD_ID, "thermal_centrifuge"),

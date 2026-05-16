@@ -7,7 +7,6 @@
     "industrial_legacy:iron_furnace",
     "industrial_legacy:silver_ore",
     "industrial_legacy:deepslate_silver_ore",
-    "industrial_legacy:metal_former",
     "industrial_legacy:iron_fence",
     "industrial_legacy:uranium_block",
     "industrial_legacy:lead_block",
@@ -16,7 +15,6 @@
     "industrial_legacy:steel_block",
     "industrial_legacy:silver_block",
     "industrial_legacy:iron_scaffold",
-    "industrial_legacy:reinforced_iron_scaffold",
-    "industrial_legacy:induction_furnace"
+    "industrial_legacy:reinforced_iron_scaffold"
   ]
 }
