@@ -1,7 +1,7 @@
 package com.shipovskijkorp.industriallegacy.block.entity;
 
-import com.shipovskijkorp.industriallegacy.block.ExtractorBlock;
 import com.shipovskijkorp.industriallegacy.block.entity.base.AbstractStandardMachineBlockEntity;
+import com.shipovskijkorp.industriallegacy.block.ExtractorBlock;
 import com.shipovskijkorp.industriallegacy.recipe.ExtractorRecipe;
 import com.shipovskijkorp.industriallegacy.recipe.MachineRecipeManager;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
@@ -9,21 +9,25 @@ import com.shipovskijkorp.industriallegacy.screen.ExtractorScreenHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 public class ExtractorBlockEntity extends AbstractStandardMachineBlockEntity {
-    public static final int SLOT_INPUT = AbstractStandardMachineBlockEntity.SLOT_INPUT;
-    public static final int SLOT_OUTPUT = AbstractStandardMachineBlockEntity.SLOT_OUTPUT;
-    public static final int SLOT_DISCHARGE = AbstractStandardMachineBlockEntity.SLOT_DISCHARGE;
-    public static final int SLOT_UPGRADE_0 = AbstractStandardMachineBlockEntity.SLOT_UPGRADE_0;
-    public static final int UPGRADE_SLOTS = AbstractStandardMachineBlockEntity.UPGRADE_SLOTS;
-    public static final int INV_SIZE = AbstractStandardMachineBlockEntity.SIMPLE_INV_SIZE;
+    public static final int SLOT_INPUT = 0;
+    public static final int SLOT_OUTPUT = 1;
+    public static final int SLOT_DISCHARGE = 2;
+    public static final int SLOT_UPGRADE_0 = 3;
+    public static final int UPGRADE_SLOTS = 4;
+    public static final int INV_SIZE = SLOT_UPGRADE_0 + UPGRADE_SLOTS;
+
+    private static final int[] TOP_SLOTS = new int[]{SLOT_INPUT};
+    private static final int[] SIDE_SLOTS = new int[]{SLOT_INPUT, SLOT_DISCHARGE, SLOT_UPGRADE_0, SLOT_UPGRADE_0 + 1, SLOT_UPGRADE_0 + 2, SLOT_UPGRADE_0 + 3};
+    private static final int[] BOTTOM_SLOTS = new int[]{SLOT_OUTPUT};
 
     private static final int TIER = 1;
     private static final long CAPACITY = 600L;
@@ -31,34 +35,28 @@ public class ExtractorBlockEntity extends AbstractStandardMachineBlockEntity {
     private static final int BASE_TICKS = 300;
 
     public ExtractorBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.EXTRACTOR, pos, state, INV_SIZE, CAPACITY, TIER, EU_PER_TICK, BASE_TICKS, 4);
+        super(ModBlockEntities.EXTRACTOR, pos, state, INV_SIZE, CAPACITY, TIER, EU_PER_TICK, BASE_TICKS,
+                SLOT_DISCHARGE, SLOT_UPGRADE_0, UPGRADE_SLOTS, TOP_SLOTS, SIDE_SLOTS, BOTTOM_SLOTS, new int[]{SLOT_OUTPUT});
     }
 
     public static void tick(World world, BlockPos pos, BlockState state, ExtractorBlockEntity be) {
-        be.tickElectricMachine(world, state, ExtractorBlock.LIT);
+        if (world.isClient) return;
+        boolean dirty = be.chargeFromDischargeSlot();
+        boolean active = be.processStandardMachine(world);
+        if (state.get(ExtractorBlock.LIT) != active) world.setBlockState(pos, state.with(ExtractorBlock.LIT, active), 3);
+        if (active || dirty) be.markDirty();
     }
 
-    @Nullable
     @Override
-    protected MachineOperation findOperation(World world) {
+    protected MachineOperation getOperation(World world) {
         ExtractorRecipe recipe = MachineRecipeManager.findExtractorRecipe(this).orElse(null);
         if (recipe == null) return null;
-        return operation(recipe.getOutput(world.getRegistryManager()), Math.max(1, recipe.getIngredientCount()), recipe.getTicks());
+        ItemStack result = recipe.getOutput(world.getRegistryManager()).copy();
+        int ticks = recipe.getTicks() <= 0 ? operationLength : recipe.getTicks();
+        return operation(SLOT_INPUT, recipe.getIngredientCount(), SLOT_OUTPUT, result, ticks, energyConsume);
     }
 
-    @Override
-    public Text getDisplayName() {
-        return Text.translatable("container.industrial_legacy.extractor");
-    }
-
-    @Override
-    public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
-        buf.writeBlockPos(pos);
-    }
-
-    @Nullable
-    @Override
-    public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        return new ExtractorScreenHandler(syncId, inv, this);
-    }
+    @Override public Text getDisplayName() { return Text.translatable("container.industrial_legacy.extractor"); }
+    @Override public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) { buf.writeBlockPos(pos); }
+    @Override public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) { return new ExtractorScreenHandler(syncId, inv, this); }
 }

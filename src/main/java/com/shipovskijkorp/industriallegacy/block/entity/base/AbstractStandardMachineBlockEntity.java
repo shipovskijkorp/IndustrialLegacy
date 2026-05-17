@@ -5,109 +5,183 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Shared IC2-like implementation of standard electric processing machines.
- *
- * <p>Mirrors the important part of IC2's {@code TileEntityStandardMachine}:
- * find a valid output, consume EU every tick, advance progress, perform one or
- * more operations at the end of the cycle, then reset progress. Upgrade maths is
- * intentionally centralized here so overclockers/transformer/storage upgrades can
- * be added once instead of per machine.</p>
+ * IC2-like standard machine base, matching the TileEntityStandardMachine idea:
+ * one central progress/energy loop, with per-machine recipe lookup and finish effects.
  */
 public abstract class AbstractStandardMachineBlockEntity extends AbstractElectricMachineBlockEntity {
-    protected AbstractStandardMachineBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state,
-                                                 int inventorySize, long defaultEnergyStorage, int defaultTier,
-                                                 int defaultEnergyConsume, int defaultOperationLength,
-                                                 int guiPropertyCount) {
-        super(type, pos, state, inventorySize, defaultEnergyStorage, defaultTier, defaultEnergyConsume, defaultOperationLength, guiPropertyCount);
+    protected final int baseEnergyConsume;
+    protected final int baseOperationLength;
+
+    protected int energyConsume;
+    protected int operationLength;
+    protected int operationsPerCycle = 1;
+
+    protected AbstractStandardMachineBlockEntity(
+            BlockEntityType<?> type,
+            BlockPos pos,
+            BlockState state,
+            int inventorySize,
+            long baseEnergyCapacity,
+            int baseSinkTier,
+            int baseEnergyConsume,
+            int baseOperationLength,
+            int dischargeSlot,
+            int firstUpgradeSlot,
+            int upgradeSlotCount,
+            int[] topSlots,
+            int[] sideSlots,
+            int[] bottomSlots,
+            int[] outputSlots
+    ) {
+        super(type, pos, state, inventorySize, baseEnergyCapacity, baseSinkTier, baseOperationLength,
+                dischargeSlot, firstUpgradeSlot, upgradeSlotCount, topSlots, sideSlots, bottomSlots, outputSlots);
+        this.baseEnergyConsume = baseEnergyConsume;
+        this.baseOperationLength = Math.max(1, baseOperationLength);
+        this.energyConsume = baseEnergyConsume;
+        this.operationLength = this.baseOperationLength;
+        this.maxProgress = this.operationLength;
     }
 
     @Override
-    protected boolean processMachineTick(World world) {
-        MachineOperation operation = findOperation(world);
+    protected void recalculateUpgrades() {
+        super.recalculateUpgrades();
+        this.energyConsume = baseEnergyConsume;
+        this.operationLength = baseOperationLength;
+        this.operationsPerCycle = 1;
+    }
+
+    protected MachineOperation getOperation(World world) {
+        return null;
+    }
+
+    protected boolean processStandardMachine(World world) {
+        MachineOperation operation = getOperation(world);
         if (operation == null) {
-            resetProgress();
+            if (progress != 0) progress = 0;
             return false;
         }
 
-        if (!canOutput(operation.outputs())) return false;
-        if (energy < energyConsume) return false;
+        if (!canOutput(operation.outputs)) return false;
+        if (energy < operation.euPerTick) return false;
 
-        energy -= energyConsume;
-        maxProgress = Math.max(1, operation.ticks() <= 0 ? operationLength : operation.ticks());
+        energy -= operation.euPerTick;
+        maxProgress = operation.ticks;
         progress++;
 
         if (progress >= maxProgress) {
-            completeOperations(world, operation);
+            for (int i = 0; i < operationsPerCycle; i++) {
+                if (!canConsume(operation.inputs) || !canOutput(operation.outputs)) break;
+                consume(operation.inputs);
+                insertOutputs(operation.outputs);
+                if (operation.onFinish != null) operation.onFinish.run();
+            }
             progress = 0;
         }
-
         return true;
     }
 
-    protected void completeOperations(World world, MachineOperation firstOperation) {
-        MachineOperation operation = firstOperation;
-        int count = Math.max(1, operationsPerCycle);
-        for (int i = 0; i < count && operation != null; i++) {
-            if (!canOutput(operation.outputs())) break;
-            if (!beforeCompleteOperation(world, operation)) break;
-            consumeOperationInput(operation);
-            insertOutputs(operation.outputs());
-            afterCompleteOperation(world, operation);
-            operation = findOperation(world);
+    protected boolean canConsume(List<SlotConsumption> inputs) {
+        for (SlotConsumption input : inputs) {
+            if (input.amount <= 0) continue;
+            ItemStack stack = items.get(input.slot);
+            if (stack.isEmpty() || stack.getCount() < input.amount) return false;
         }
-    }
-
-    @Nullable
-    protected abstract MachineOperation findOperation(World world);
-
-    protected boolean beforeCompleteOperation(World world, MachineOperation operation) {
         return true;
     }
 
-    protected void afterCompleteOperation(World world, MachineOperation operation) {
-    }
-
-    protected void consumeOperationInput(MachineOperation operation) {
-        int count = Math.max(0, operation.inputCount());
-        if (count > 0) items.get(getInputSlot()).decrement(count);
-    }
-
-    protected boolean canOutput(List<ItemStack> outputs) {
-        if (outputs == null || outputs.isEmpty()) return false;
-        if (outputs.size() == 1) return canOutput(outputs.get(0));
-
-        // Conservative multi-output fallback: subclasses with real multiple output
-        // slots should override this. Returning false is safer than voiding output.
-        return false;
-    }
-
-    protected void insertOutputs(List<ItemStack> outputs) {
-        if (outputs == null || outputs.isEmpty()) return;
-        insertOutput(outputs.get(0));
-    }
-
-    protected MachineOperation operation(ItemStack output, int inputCount, int ticks) {
-        return operation(output, inputCount, ticks, null);
-    }
-
-    protected MachineOperation operation(ItemStack output, int inputCount, int ticks, Object context) {
-        return new MachineOperation(List.of(output.copy()), inputCount, ticks, context);
-    }
-
-    protected MachineOperation operation(List<ItemStack> outputs, int inputCount, int ticks, Object context) {
-        List<ItemStack> copy = new ArrayList<>();
-        for (ItemStack stack : outputs) {
-            if (!stack.isEmpty()) copy.add(stack.copy());
+    protected void consume(List<SlotConsumption> inputs) {
+        for (SlotConsumption input : inputs) {
+            if (input.amount > 0) items.get(input.slot).decrement(input.amount);
         }
-        return new MachineOperation(List.copyOf(copy), inputCount, ticks, context);
     }
 
-    protected record MachineOperation(List<ItemStack> outputs, int inputCount, int ticks, Object context) {
+    protected boolean canOutput(List<SlotOutput> outputs) {
+        List<SlotSnapshot> snapshots = new ArrayList<>();
+        for (SlotOutput output : outputs) {
+            snapshots.add(new SlotSnapshot(output.slot, items.get(output.slot).copy()));
+        }
+
+        for (SlotOutput output : outputs) {
+            if (output.stack.isEmpty()) return false;
+            int remaining = output.stack.getCount();
+            for (SlotSnapshot snapshot : snapshots) {
+                if (snapshot.slot != output.slot) continue;
+                ItemStack existing = snapshot.stack;
+                if (existing.isEmpty()) {
+                    ItemStack placed = output.stack.copy();
+                    int add = Math.min(remaining, placed.getMaxCount());
+                    placed.setCount(add);
+                    snapshot.stack = placed;
+                    remaining -= add;
+                } else if (ItemStack.canCombine(existing, output.stack)) {
+                    int add = Math.min(remaining, existing.getMaxCount() - existing.getCount());
+                    if (add > 0) {
+                        existing.increment(add);
+                        remaining -= add;
+                    }
+                }
+                if (remaining <= 0) break;
+            }
+            if (remaining > 0) return false;
+        }
+        return true;
+    }
+
+    protected void insertOutputs(List<SlotOutput> outputs) {
+        for (SlotOutput output : outputs) {
+            insertOutput(output.slot, output.stack);
+        }
+    }
+
+    protected static MachineOperation operation(int inputSlot, int inputCount, int outputSlot, ItemStack output, int ticks, long euPerTick) {
+        return new MachineOperation(
+                List.of(new SlotConsumption(inputSlot, Math.max(1, inputCount))),
+                List.of(new SlotOutput(outputSlot, output.copy())),
+                Math.max(1, ticks),
+                Math.max(0L, euPerTick),
+                null
+        );
+    }
+
+    protected static MachineOperation operation(List<SlotConsumption> inputs, List<SlotOutput> outputs, int ticks, long euPerTick) {
+        return new MachineOperation(inputs, outputs, Math.max(1, ticks), Math.max(0L, euPerTick), null);
+    }
+
+    protected static MachineOperation operation(List<SlotConsumption> inputs, List<SlotOutput> outputs, int ticks, long euPerTick, Runnable onFinish) {
+        return new MachineOperation(inputs, outputs, Math.max(1, ticks), Math.max(0L, euPerTick), onFinish);
+    }
+
+    public record SlotConsumption(int slot, int amount) { }
+    public record SlotOutput(int slot, ItemStack stack) { }
+
+    protected static final class MachineOperation {
+        private final List<SlotConsumption> inputs;
+        private final List<SlotOutput> outputs;
+        private final int ticks;
+        private final long euPerTick;
+        private final Runnable onFinish;
+
+        private MachineOperation(List<SlotConsumption> inputs, List<SlotOutput> outputs, int ticks, long euPerTick, Runnable onFinish) {
+            this.inputs = inputs;
+            this.outputs = outputs;
+            this.ticks = ticks;
+            this.euPerTick = euPerTick;
+            this.onFinish = onFinish;
+        }
+    }
+
+    private static final class SlotSnapshot {
+        private final int slot;
+        private ItemStack stack;
+
+        private SlotSnapshot(int slot, ItemStack stack) {
+            this.slot = slot;
+            this.stack = stack;
+        }
     }
 }

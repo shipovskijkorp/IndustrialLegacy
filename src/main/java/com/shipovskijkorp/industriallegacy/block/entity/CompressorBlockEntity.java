@@ -1,7 +1,7 @@
 package com.shipovskijkorp.industriallegacy.block.entity;
 
-import com.shipovskijkorp.industriallegacy.block.CompressorBlock;
 import com.shipovskijkorp.industriallegacy.block.entity.base.AbstractStandardMachineBlockEntity;
+import com.shipovskijkorp.industriallegacy.block.CompressorBlock;
 import com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem;
 import com.shipovskijkorp.industriallegacy.recipe.CompressorRecipe;
 import com.shipovskijkorp.industriallegacy.recipe.MachineRecipeManager;
@@ -19,17 +19,20 @@ import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class CompressorBlockEntity extends AbstractStandardMachineBlockEntity {
-    public static final int SLOT_INPUT = AbstractStandardMachineBlockEntity.SLOT_INPUT;
-    public static final int SLOT_OUTPUT = AbstractStandardMachineBlockEntity.SLOT_OUTPUT;
-    public static final int SLOT_DISCHARGE = AbstractStandardMachineBlockEntity.SLOT_DISCHARGE;
-    public static final int SLOT_UPGRADE_0 = AbstractStandardMachineBlockEntity.SLOT_UPGRADE_0;
-    public static final int UPGRADE_SLOTS = AbstractStandardMachineBlockEntity.UPGRADE_SLOTS;
-    public static final int INV_SIZE = AbstractStandardMachineBlockEntity.SIMPLE_INV_SIZE;
+    public static final int SLOT_INPUT = 0;
+    public static final int SLOT_OUTPUT = 1;
+    public static final int SLOT_DISCHARGE = 2;
+    public static final int SLOT_UPGRADE_0 = 3;
+    public static final int UPGRADE_SLOTS = 4;
+    public static final int INV_SIZE = SLOT_UPGRADE_0 + UPGRADE_SLOTS;
 
-    private static final Object PUMP_WATER_CONTEXT = new Object();
+    private static final int[] TOP_SLOTS = new int[]{SLOT_INPUT};
+    private static final int[] SIDE_SLOTS = new int[]{SLOT_INPUT, SLOT_DISCHARGE, SLOT_UPGRADE_0, SLOT_UPGRADE_0 + 1, SLOT_UPGRADE_0 + 2, SLOT_UPGRADE_0 + 3};
+    private static final int[] BOTTOM_SLOTS = new int[]{SLOT_OUTPUT};
 
     private static final int TIER = 1;
     private static final long CAPACITY = 600L;
@@ -37,43 +40,38 @@ public class CompressorBlockEntity extends AbstractStandardMachineBlockEntity {
     private static final int BASE_TICKS = 300;
 
     public CompressorBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.COMPRESSOR, pos, state, INV_SIZE, CAPACITY, TIER, EU_PER_TICK, BASE_TICKS, 4);
+        super(ModBlockEntities.COMPRESSOR, pos, state, INV_SIZE, CAPACITY, TIER, EU_PER_TICK, BASE_TICKS,
+                SLOT_DISCHARGE, SLOT_UPGRADE_0, UPGRADE_SLOTS, TOP_SLOTS, SIDE_SLOTS, BOTTOM_SLOTS, new int[]{SLOT_OUTPUT});
     }
 
     public static void tick(World world, BlockPos pos, BlockState state, CompressorBlockEntity be) {
-        be.tickElectricMachine(world, state, CompressorBlock.LIT);
+        if (world.isClient) return;
+        boolean dirty = be.chargeFromDischargeSlot();
+        boolean active = be.processStandardMachine(world);
+        if (state.get(CompressorBlock.LIT) != active) world.setBlockState(pos, state.with(CompressorBlock.LIT, active), 3);
+        if (active || dirty) be.markDirty();
     }
 
-    @Nullable
     @Override
-    protected MachineOperation findOperation(World world) {
+    protected MachineOperation getOperation(World world) {
         CompressorRecipe recipe = MachineRecipeManager.findCompressorRecipe(this).orElse(null);
         if (recipe != null) {
-            return operation(recipe.getOutput(world.getRegistryManager()), Math.max(1, recipe.getIngredientCount()), recipe.getTicks());
+            ItemStack result = recipe.getOutput(world.getRegistryManager()).copy();
+            int ticks = recipe.getTicks() <= 0 ? operationLength : recipe.getTicks();
+            return operation(SLOT_INPUT, recipe.getIngredientCount(), SLOT_OUTPUT, result, ticks, energyConsume);
         }
 
         if (canUseAdjacentPumpRecipe(world)) {
-            return operation(new ItemStack(Items.SNOWBALL), 0, BASE_TICKS, PUMP_WATER_CONTEXT);
+            return operation(List.of(), List.of(new SlotOutput(SLOT_OUTPUT, new ItemStack(Items.SNOWBALL))), operationLength, energyConsume,
+                    () -> drainWaterFromAdjacentPumps(world, 1000, false));
         }
-
         return null;
     }
 
-    @Override
-    protected boolean beforeCompleteOperation(World world, MachineOperation operation) {
-        if (operation.context() == PUMP_WATER_CONTEXT) {
-            return drainWaterFromAdjacentPumps(world, 1000, false);
-        }
-        return true;
-    }
-
-    /**
-     * IC2 pump shortcut: if an adjacent pump can supply 1000 mB of water and the compressor
-     * input slot is empty, the compressor can compress that water into one snowball.
-     */
+    /** IC2 pump shortcut: adjacent pump water -> one snowball when input slot is empty. */
     private boolean canUseAdjacentPumpRecipe(World world) {
         return items.get(SLOT_INPUT).isEmpty()
-                && canOutput(new ItemStack(Items.SNOWBALL))
+                && canOutput(SLOT_OUTPUT, new ItemStack(Items.SNOWBALL))
                 && drainWaterFromAdjacentPumps(world, 1000, true);
     }
 
@@ -89,19 +87,7 @@ public class CompressorBlockEntity extends AbstractStandardMachineBlockEntity {
         return false;
     }
 
-    @Override
-    public Text getDisplayName() {
-        return Text.translatable("container.industrial_legacy.compressor");
-    }
-
-    @Override
-    public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
-        buf.writeBlockPos(pos);
-    }
-
-    @Nullable
-    @Override
-    public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        return new CompressorScreenHandler(syncId, inv, this);
-    }
+    @Override public Text getDisplayName() { return Text.translatable("container.industrial_legacy.compressor"); }
+    @Override public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) { buf.writeBlockPos(pos); }
+    @Override public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) { return new CompressorScreenHandler(syncId, inv, this); }
 }
