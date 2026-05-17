@@ -1,5 +1,6 @@
 package com.shipovskijkorp.industriallegacy.block.entity;
 
+import com.shipovskijkorp.industriallegacy.item.MachineUpgradeItem;
 import com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
 import com.shipovskijkorp.industriallegacy.screen.SolarDistillerScreenHandler;
@@ -219,11 +220,14 @@ public class SolarDistillerBlockEntity extends BlockEntity implements SidedInven
     }
 
     @Override public int[] getAvailableSlots(Direction side) { return side == Direction.DOWN ? BOTTOM_SLOTS : side == Direction.UP ? TOP_SLOTS : SIDE_SLOTS; }
-    @Override public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
+    @Override public boolean isValid(int slot, ItemStack stack) {
         if (slot == SLOT_WATER_INPUT) return canInsertWaterContainer(stack);
         if (slot == SLOT_DISTILLED_INPUT) return canInsertDistilledContainer(stack);
-        return slot >= SLOT_UPGRADE_0 && slot < SLOT_UPGRADE_0 + UPGRADE_SLOTS;
+        if (slot >= SLOT_UPGRADE_0 && slot < SLOT_UPGRADE_0 + UPGRADE_SLOTS) return MachineUpgradeItem.isUpgrade(stack);
+        return false;
     }
+
+    @Override public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) { return isValid(slot, stack); }
     @Override public boolean canExtract(int slot, ItemStack stack, Direction dir) { return slot == SLOT_WATER_OUTPUT || slot == SLOT_DISTILLED_OUTPUT; }
 
     @Override public Text getDisplayName() { return Text.translatable("container.industrial_legacy.solar_distiller"); }

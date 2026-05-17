@@ -3,6 +3,7 @@ package com.shipovskijkorp.industriallegacy.block.entity.base;
 import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
 import com.shipovskijkorp.industriallegacy.energy.item.ElectricItemManager;
 import com.shipovskijkorp.industriallegacy.energy.util.EuUtil;
+import com.shipovskijkorp.industriallegacy.item.MachineUpgradeItem;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -231,10 +232,16 @@ public abstract class AbstractElectricMachineBlockEntity extends BlockEntity imp
     }
 
     @Override
-    public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
+    public boolean isValid(int slot, ItemStack stack) {
         if (isOutputSlot(slot)) return false;
+        if (isUpgradeSlot(slot)) return MachineUpgradeItem.isUpgrade(stack);
         if (slot == dischargeSlot) return ElectricItemManager.isElectric(stack);
         return true;
+    }
+
+    @Override
+    public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
+        return isValid(slot, stack);
     }
 
     @Override

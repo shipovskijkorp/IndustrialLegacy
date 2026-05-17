@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TXT",
+    " E ",
+    "T T"
+  ],
+  "key": {
+    "T": {
+      "item": "industrial_legacy:dense_tin_plate"
+    },
+    "X": {
+      "item": "industrial_legacy:treetap"
+    },
+    "E": {
+      "item": "industrial_legacy:electric_motor"
+    }
+  },
+  "result": {
+    "item": "industrial_legacy:fluid_pulling_upgrade",
+    "count": 9
+  }
+}

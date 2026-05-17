@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CCC",
+    "WEW"
+  ],
+  "key": {
+    "C": {
+      "item": "industrial_legacy:heat_storage"
+    },
+    "W": {
+      "item": "industrial_legacy:cable"
+    },
+    "E": {
+      "item": "industrial_legacy:electronic_circuit"
+    }
+  },
+  "result": {
+    "item": "industrial_legacy:overclocker_upgrade",
+    "count": 2
+  }
+}

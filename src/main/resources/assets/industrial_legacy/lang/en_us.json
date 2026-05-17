@@ -592,5 +592,15 @@
   "block.industrial_legacy.brown_foam_concrete": "Brown Construction Foam Wall",
   "block.industrial_legacy.green_foam_concrete": "Green Construction Foam Wall",
   "block.industrial_legacy.red_foam_concrete": "Red Construction Foam Wall",
-  "block.industrial_legacy.black_foam_concrete": "Black Construction Foam Wall"
+  "block.industrial_legacy.black_foam_concrete": "Black Construction Foam Wall",
+  "item.industrial_legacy.overclocker_upgrade": "Overclocker Upgrade",
+  "item.industrial_legacy.transformer_upgrade": "Transformer Upgrade",
+  "item.industrial_legacy.energy_storage_upgrade": "Energy Storage Upgrade",
+  "item.industrial_legacy.redstone_inverter_upgrade": "Redstone Inverter Upgrade",
+  "item.industrial_legacy.ejector_upgrade": "Ejector Upgrade",
+  "item.industrial_legacy.advanced_ejector_upgrade": "Advanced Ejector Upgrade",
+  "item.industrial_legacy.pulling_upgrade": "Pulling Upgrade",
+  "item.industrial_legacy.advanced_pulling_upgrade": "Advanced Pulling Upgrade",
+  "item.industrial_legacy.fluid_ejector_upgrade": "Fluid Ejector Upgrade",
+  "item.industrial_legacy.fluid_pulling_upgrade": "Fluid Pulling Upgrade"
 }

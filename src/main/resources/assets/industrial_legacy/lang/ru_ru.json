@@ -592,5 +592,15 @@
   "block.industrial_legacy.brown_foam_concrete": "Коричневый пенобетон",
   "block.industrial_legacy.green_foam_concrete": "Зелёный пенобетон",
   "block.industrial_legacy.red_foam_concrete": "Красный пенобетон",
-  "block.industrial_legacy.black_foam_concrete": "Чёрный пенобетон"
+  "block.industrial_legacy.black_foam_concrete": "Чёрный пенобетон",
+  "item.industrial_legacy.overclocker_upgrade": "Улучшение «Ускоритель»",
+  "item.industrial_legacy.transformer_upgrade": "Улучшение «Трансформатор»",
+  "item.industrial_legacy.energy_storage_upgrade": "Улучшение «Энергохранитель»",
+  "item.industrial_legacy.redstone_inverter_upgrade": "Улучшение «Инвертор сигнала красного камня»",
+  "item.industrial_legacy.ejector_upgrade": "Улучшение «Выталкиватель»",
+  "item.industrial_legacy.advanced_ejector_upgrade": "Улучшение «Улучшенный выталкиватель»",
+  "item.industrial_legacy.pulling_upgrade": "Улучшение «Затягиватель»",
+  "item.industrial_legacy.advanced_pulling_upgrade": "Улучшение «Улучшенный затягиватель»",
+  "item.industrial_legacy.fluid_ejector_upgrade": "Улучшение «Выталкиватель жидкостей»",
+  "item.industrial_legacy.fluid_pulling_upgrade": "Улучшение «Затягиватель жидкостей»"
 }

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    "WTW",
+    "GEG"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "W": {
+      "item": "industrial_legacy:cable"
+    },
+    "T": {
+      "item": "industrial_legacy:mv_transformer"
+    },
+    "E": {
+      "item": "industrial_legacy:electronic_circuit"
+    }
+  },
+  "result": {
+    "item": "industrial_legacy:transformer_upgrade"
+  }
+}

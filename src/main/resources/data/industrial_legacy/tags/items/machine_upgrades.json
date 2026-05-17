@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "industrial_legacy:overclocker_upgrade",
+    "industrial_legacy:transformer_upgrade",
+    "industrial_legacy:energy_storage_upgrade",
+    "industrial_legacy:redstone_inverter_upgrade",
+    "industrial_legacy:ejector_upgrade",
+    "industrial_legacy:advanced_ejector_upgrade",
+    "industrial_legacy:pulling_upgrade",
+    "industrial_legacy:advanced_pulling_upgrade",
+    "industrial_legacy:fluid_ejector_upgrade",
+    "industrial_legacy:fluid_pulling_upgrade"
+  ]
+}

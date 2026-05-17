@@ -298,6 +298,30 @@ public final class ModItems {
     public static final Item ADVANCED_CIRCUIT = register("advanced_circuit", new Item(new Item.Settings()));
 
     public static final Item MFSU_UPGRADE_KIT = register("mfsu_upgrade_kit", new MfsuUpgradeKitItem(new Item.Settings().maxCount(16)));
+
+    // IC2 machine upgrade modules. Effects are intentionally handled later; for now
+    // these items only identify valid upgrade-slot contents.
+    public static final Item OVERCLOCKER_UPGRADE = register("overclocker_upgrade",
+            new MachineUpgradeItem(new Item.Settings(), MachineUpgradeItem.UpgradeType.OVERCLOCKER));
+    public static final Item TRANSFORMER_UPGRADE = register("transformer_upgrade",
+            new MachineUpgradeItem(new Item.Settings(), MachineUpgradeItem.UpgradeType.TRANSFORMER));
+    public static final Item ENERGY_STORAGE_UPGRADE = register("energy_storage_upgrade",
+            new MachineUpgradeItem(new Item.Settings(), MachineUpgradeItem.UpgradeType.ENERGY_STORAGE));
+    public static final Item REDSTONE_INVERTER_UPGRADE = register("redstone_inverter_upgrade",
+            new MachineUpgradeItem(new Item.Settings(), MachineUpgradeItem.UpgradeType.REDSTONE_INVERTER));
+    public static final Item EJECTOR_UPGRADE = register("ejector_upgrade",
+            new MachineUpgradeItem(new Item.Settings(), MachineUpgradeItem.UpgradeType.EJECTOR));
+    public static final Item ADVANCED_EJECTOR_UPGRADE = register("advanced_ejector_upgrade",
+            new MachineUpgradeItem(new Item.Settings(), MachineUpgradeItem.UpgradeType.ADVANCED_EJECTOR));
+    public static final Item PULLING_UPGRADE = register("pulling_upgrade",
+            new MachineUpgradeItem(new Item.Settings(), MachineUpgradeItem.UpgradeType.PULLING));
+    public static final Item ADVANCED_PULLING_UPGRADE = register("advanced_pulling_upgrade",
+            new MachineUpgradeItem(new Item.Settings(), MachineUpgradeItem.UpgradeType.ADVANCED_PULLING));
+    public static final Item FLUID_EJECTOR_UPGRADE = register("fluid_ejector_upgrade",
+            new MachineUpgradeItem(new Item.Settings(), MachineUpgradeItem.UpgradeType.FLUID_EJECTOR));
+    public static final Item FLUID_PULLING_UPGRADE = register("fluid_pulling_upgrade",
+            new MachineUpgradeItem(new Item.Settings(), MachineUpgradeItem.UpgradeType.FLUID_PULLING));
+
     public static final Item WRENCH = register("wrench", new WrenchItem(new Item.Settings()));
     public static final Item MINING_PIPE = register("mining_pipe", new Item(new Item.Settings()));
 

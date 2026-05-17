@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PPP",
+    "CBC",
+    "PEP"
+  ],
+  "key": {
+    "P": {
+      "tag": "minecraft:planks"
+    },
+    "C": {
+      "item": "industrial_legacy:cable"
+    },
+    "B": {
+      "item": "industrial_legacy:re_battery"
+    },
+    "E": {
+      "item": "industrial_legacy:electronic_circuit"
+    }
+  },
+  "result": {
+    "item": "industrial_legacy:energy_storage_upgrade"
+  }
+}
