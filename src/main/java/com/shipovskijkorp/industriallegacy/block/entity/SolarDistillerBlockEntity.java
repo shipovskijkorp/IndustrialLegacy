@@ -1,6 +1,8 @@
 package com.shipovskijkorp.industriallegacy.block.entity;
 
-import com.shipovskijkorp.industriallegacy.item.MachineUpgradeItem;
+import com.shipovskijkorp.industriallegacy.block.entity.upgrade.MachineUpgradeSupport;
+import com.shipovskijkorp.industriallegacy.block.entity.upgrade.UpgradableProperty;
+import com.shipovskijkorp.industriallegacy.block.entity.upgrade.UpgradeableFluidMachine;
 import com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
 import com.shipovskijkorp.industriallegacy.screen.SolarDistillerScreenHandler;
@@ -27,6 +29,9 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.EnumSet;
+import java.util.Set;
+
 /**
  * IC2 Experimental Solar Distiller.
  *
@@ -36,7 +41,7 @@ import org.jetbrains.annotations.Nullable;
  * - produces 1 mB distilled water per tickrate cycle when skylight > 0.5;
  * - tickrate: hot biome 36, normal 72, cold 144.
  */
-public class SolarDistillerBlockEntity extends BlockEntity implements SidedInventory, ExtendedScreenHandlerFactory {
+public class SolarDistillerBlockEntity extends BlockEntity implements SidedInventory, ExtendedScreenHandlerFactory, UpgradeableFluidMachine {
     public static final int SLOT_WATER_INPUT = 0;
     public static final int SLOT_DISTILLED_INPUT = 1;
     public static final int SLOT_WATER_OUTPUT = 2;
@@ -50,6 +55,11 @@ public class SolarDistillerBlockEntity extends BlockEntity implements SidedInven
     private static final int[] BOTTOM_SLOTS = new int[] { SLOT_WATER_OUTPUT, SLOT_DISTILLED_OUTPUT };
 
     private static final int TANK_CAPACITY_MB = 10_000;
+    private static final Set<UpgradableProperty> UPGRADABLE_PROPERTIES = EnumSet.of(
+            UpgradableProperty.ItemConsuming,
+            UpgradableProperty.ItemProducing,
+            UpgradableProperty.FluidProducing
+    );
 
     private final DefaultedList<ItemStack> items = DefaultedList.ofSize(INV_SIZE, ItemStack.EMPTY);
     private int inputWater = 0;
@@ -100,6 +110,7 @@ public class SolarDistillerBlockEntity extends BlockEntity implements SidedInven
 
         dirty |= be.processWaterInput();
         dirty |= be.processDistilledOutput();
+        dirty |= MachineUpgradeSupport.tickUpgrades(be, be, SLOT_UPGRADE_0, UPGRADE_SLOTS, UPGRADABLE_PROPERTIES);
 
         if (++be.updateTicker >= be.tickrate) {
             be.tickrate = be.getTickRate();
@@ -223,12 +234,40 @@ public class SolarDistillerBlockEntity extends BlockEntity implements SidedInven
     @Override public boolean isValid(int slot, ItemStack stack) {
         if (slot == SLOT_WATER_INPUT) return canInsertWaterContainer(stack);
         if (slot == SLOT_DISTILLED_INPUT) return canInsertDistilledContainer(stack);
-        if (slot >= SLOT_UPGRADE_0 && slot < SLOT_UPGRADE_0 + UPGRADE_SLOTS) return MachineUpgradeItem.isUpgrade(stack);
+        if (slot >= SLOT_UPGRADE_0 && slot < SLOT_UPGRADE_0 + UPGRADE_SLOTS) return MachineUpgradeSupport.isValidUpgrade(stack, UPGRADABLE_PROPERTIES);
         return false;
     }
 
     @Override public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) { return isValid(slot, stack); }
     @Override public boolean canExtract(int slot, ItemStack stack, Direction dir) { return slot == SLOT_WATER_OUTPUT || slot == SLOT_DISTILLED_OUTPUT; }
+
+
+    @Override
+    public int fillFromUpgrade(UniversalFluidCellItem.CellFluid fluid, int amountMb, boolean simulate) {
+        if (fluid != UniversalFluidCellItem.CellFluid.WATER || amountMb <= 0) return 0;
+        int accepted = Math.min(amountMb, TANK_CAPACITY_MB - inputWater);
+        if (!simulate && accepted > 0) {
+            inputWater += accepted;
+            markDirty();
+        }
+        return accepted;
+    }
+
+    @Override
+    public int drainForUpgrade(UniversalFluidCellItem.CellFluid fluid, int amountMb, boolean simulate) {
+        if (fluid != UniversalFluidCellItem.CellFluid.DISTILLED_WATER || amountMb <= 0) return 0;
+        int drained = Math.min(amountMb, distilledWater);
+        if (!simulate && drained > 0) {
+            distilledWater -= drained;
+            markDirty();
+        }
+        return drained;
+    }
+
+    @Override
+    public UniversalFluidCellItem.CellFluid getPreferredDrainFluidForUpgrade() {
+        return distilledWater > 0 ? UniversalFluidCellItem.CellFluid.DISTILLED_WATER : UniversalFluidCellItem.CellFluid.EMPTY;
+    }
 
     @Override public Text getDisplayName() { return Text.translatable("container.industrial_legacy.solar_distiller"); }
     @Override public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) { buf.writeBlockPos(pos); }

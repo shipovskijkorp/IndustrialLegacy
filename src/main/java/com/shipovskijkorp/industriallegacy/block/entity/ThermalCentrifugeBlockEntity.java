@@ -1,5 +1,8 @@
 package com.shipovskijkorp.industriallegacy.block.entity;
 
+import java.util.Set;
+import java.util.EnumSet;
+import com.shipovskijkorp.industriallegacy.block.entity.upgrade.UpgradableProperty;
 import com.shipovskijkorp.industriallegacy.block.entity.base.AbstractStandardMachineBlockEntity;
 import com.shipovskijkorp.industriallegacy.block.ThermalCentrifugeBlock;
 import com.shipovskijkorp.industriallegacy.recipe.MachineRecipeManager;
@@ -80,6 +83,7 @@ public class ThermalCentrifugeBlockEntity extends AbstractStandardMachineBlockEn
     public static void tick(World world, BlockPos pos, BlockState state, ThermalCentrifugeBlockEntity be) {
         if (world.isClient) return;
         boolean dirty = be.chargeFromDischargeSlot();
+        dirty |= be.tickUpgrades();
         boolean active = be.processTick(world);
         if (state.get(ThermalCentrifugeBlock.LIT) != active) world.setBlockState(pos, state.with(ThermalCentrifugeBlock.LIT, active), 3);
         if (active || be.heat > 0 || dirty) be.markDirty();
@@ -88,6 +92,7 @@ public class ThermalCentrifugeBlockEntity extends AbstractStandardMachineBlockEn
     private boolean processTick(World world) {
         ThermalCentrifugeRecipe recipe = MachineRecipeManager.findThermalCentrifugeRecipe(this).orElse(null);
         int targetHeat = recipe == null ? 0 : Math.min(MAX_HEAT, recipe.getHeat());
+        if (hasEffectiveRedstoneInput()) targetHeat = MAX_HEAT;
         workHeat = Math.max(1, targetHeat == 0 ? MAX_HEAT : targetHeat);
         boolean active = false;
 
@@ -183,6 +188,19 @@ public class ThermalCentrifugeBlockEntity extends AbstractStandardMachineBlockEn
             if (remaining > 0) return false;
         }
         return true;
+    }
+
+
+    @Override
+    protected Set<UpgradableProperty> getUpgradableProperties() {
+        return EnumSet.of(
+                UpgradableProperty.Processing,
+                UpgradableProperty.RedstoneSensitive,
+                UpgradableProperty.Transformer,
+                UpgradableProperty.EnergyStorage,
+                UpgradableProperty.ItemConsuming,
+                UpgradableProperty.ItemProducing
+        );
     }
 
     @Override public PropertyDelegate getGuiProps() { return props; }

@@ -1,5 +1,10 @@
 package com.shipovskijkorp.industriallegacy.block.entity;
 
+import java.util.Set;
+import java.util.EnumSet;
+import com.shipovskijkorp.industriallegacy.block.entity.upgrade.UpgradeableFluidMachine;
+import com.shipovskijkorp.industriallegacy.block.entity.upgrade.UpgradableProperty;
+import com.shipovskijkorp.industriallegacy.block.entity.upgrade.MachineUpgradeSupport;
 import com.shipovskijkorp.industriallegacy.block.entity.base.AbstractElectricMachineBlockEntity;
 import com.shipovskijkorp.industriallegacy.block.CannerBlock;
 import com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem;
@@ -21,7 +26,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class CannerBlockEntity extends AbstractElectricMachineBlockEntity {
+public class CannerBlockEntity extends AbstractElectricMachineBlockEntity implements UpgradeableFluidMachine {
     public enum Mode {
         BOTTLE_SOLID,
         EMPTY_LIQUID,
@@ -50,6 +55,9 @@ public class CannerBlockEntity extends AbstractElectricMachineBlockEntity {
     private static final int BASE_TICKS = 200;
     private static final int TANK_CAPACITY = 8000;
     private static final int CELL_MB = 1000;
+
+    private int energyConsume = EU_PER_TICK;
+    private int operationLength = BASE_TICKS;
 
     private Mode mode = Mode.BOTTLE_SOLID;
     private UniversalFluidCellItem.CellFluid inputTankFluid = UniversalFluidCellItem.CellFluid.EMPTY;
@@ -96,6 +104,7 @@ public class CannerBlockEntity extends AbstractElectricMachineBlockEntity {
     public static void tick(World world, BlockPos pos, BlockState state, CannerBlockEntity be) {
         if (world.isClient) return;
         boolean dirty = be.chargeFromDischargeSlot();
+        dirty |= be.tickUpgrades();
         boolean active = be.processTick(world);
         if (state.get(CannerBlock.LIT) != active) world.setBlockState(pos, state.with(CannerBlock.LIT, active), 3);
         if (active || dirty) be.markDirty();
@@ -108,7 +117,7 @@ public class CannerBlockEntity extends AbstractElectricMachineBlockEntity {
         if (mode == null || this.mode == mode) return;
         this.mode = mode;
         this.progress = 0;
-        this.maxProgress = BASE_TICKS;
+        this.maxProgress = operationLength;
         markDirty();
     }
 
@@ -139,9 +148,9 @@ public class CannerBlockEntity extends AbstractElectricMachineBlockEntity {
         if (recipe == null) { if (progress != 0) progress = 0; return false; }
         ItemStack out = recipe.getResultStack().copy();
         if (!canOutput(SLOT_OUTPUT, out)) return false;
-        if (energy < EU_PER_TICK) return false;
-        energy -= EU_PER_TICK;
-        maxProgress = recipe.getTicks() <= 0 ? BASE_TICKS : recipe.getTicks();
+        if (energy < energyConsume) return false;
+        energy -= energyConsume;
+        maxProgress = recipe.getTicks() <= 0 ? operationLength : recipe.getTicks();
         progress++;
         if (progress >= maxProgress) {
             items.get(SLOT_CONTAINER).decrement(recipe.getContainerCount());
@@ -159,9 +168,9 @@ public class CannerBlockEntity extends AbstractElectricMachineBlockEntity {
         if (fluid == UniversalFluidCellItem.CellFluid.EMPTY || !canAcceptInputFluid(fluid, CELL_MB)) { progress = 0; return false; }
         ItemStack empty = UniversalFluidCellItem.createStack(UniversalFluidCellItem.CellFluid.EMPTY);
         if (!canOutput(SLOT_OUTPUT, empty)) { progress = 0; return false; }
-        if (energy < EU_PER_TICK) return false;
-        energy -= EU_PER_TICK;
-        maxProgress = BASE_TICKS;
+        if (energy < energyConsume) return false;
+        energy -= energyConsume;
+        maxProgress = operationLength;
         progress++;
         if (progress >= maxProgress) {
             items.get(SLOT_CONTAINER).decrement(1);
@@ -179,9 +188,9 @@ public class CannerBlockEntity extends AbstractElectricMachineBlockEntity {
         if (inputTankAmount < CELL_MB || inputTankFluid == UniversalFluidCellItem.CellFluid.EMPTY) { progress = 0; return false; }
         ItemStack out = UniversalFluidCellItem.createStack(inputTankFluid);
         if (!canOutput(SLOT_OUTPUT, out)) { progress = 0; return false; }
-        if (energy < EU_PER_TICK) return false;
-        energy -= EU_PER_TICK;
-        maxProgress = BASE_TICKS;
+        if (energy < energyConsume) return false;
+        energy -= energyConsume;
+        maxProgress = operationLength;
         progress++;
         if (progress >= maxProgress) {
             items.get(SLOT_CONTAINER).decrement(1);
@@ -204,9 +213,9 @@ public class CannerBlockEntity extends AbstractElectricMachineBlockEntity {
         if (bottleToCell && !canOutput(SLOT_OUTPUT, bottledOutput)) { progress = 0; return false; }
         int fluidToTank = bottleToCell ? Math.max(0, recipe.getOutputAmount() - CELL_MB) : recipe.getOutputAmount();
         if (fluidToTank > 0 && !canAcceptOutputFluid(recipe.getOutputFluid(), fluidToTank)) { progress = 0; return false; }
-        if (energy < EU_PER_TICK) return false;
-        energy -= EU_PER_TICK;
-        maxProgress = recipe.getTicks() <= 0 ? BASE_TICKS : recipe.getTicks();
+        if (energy < energyConsume) return false;
+        energy -= energyConsume;
+        maxProgress = recipe.getTicks() <= 0 ? operationLength : recipe.getTicks();
         progress++;
         if (progress >= maxProgress) {
             inputTankAmount -= recipe.getInputAmount();
@@ -275,6 +284,64 @@ public class CannerBlockEntity extends AbstractElectricMachineBlockEntity {
         outputTankFluid = UniversalFluidCellItem.CellFluid.byId(nbt.getString("outputTankFluid"));
         outputTankAmount = Math.max(0, Math.min(TANK_CAPACITY, nbt.getInt("outputTankAmount")));
         sanitizeTanks();
+    }
+
+
+    @Override
+    protected Set<UpgradableProperty> getUpgradableProperties() {
+        return EnumSet.of(
+                UpgradableProperty.Processing,
+                UpgradableProperty.Transformer,
+                UpgradableProperty.EnergyStorage,
+                UpgradableProperty.ItemConsuming,
+                UpgradableProperty.ItemProducing,
+                UpgradableProperty.FluidConsuming,
+                UpgradableProperty.FluidProducing
+        );
+    }
+
+    @Override
+    protected void recalculateUpgrades() {
+        MachineUpgradeSupport.UpgradeRates rates = MachineUpgradeSupport.calculateRates(
+                this, firstUpgradeSlot, upgradeSlotCount, getUpgradableProperties(),
+                BASE_TICKS, EU_PER_TICK, baseEnergyCapacity, baseSinkTier
+        );
+        this.energyCapacity = rates.energyStorage();
+        this.sinkTier = rates.tier();
+        this.energyConsume = rates.energyDemand();
+        this.operationLength = rates.operationLength();
+        if (energy > energyCapacity) energy = energyCapacity;
+    }
+
+    @Override
+    public int fillFromUpgrade(UniversalFluidCellItem.CellFluid fluid, int amountMb, boolean simulate) {
+        if (fluid == UniversalFluidCellItem.CellFluid.EMPTY || amountMb <= 0) return 0;
+        int accepted = 0;
+        if (inputTankAmount <= 0 || inputTankFluid == UniversalFluidCellItem.CellFluid.EMPTY || inputTankFluid == fluid) {
+            accepted = Math.min(amountMb, TANK_CAPACITY - inputTankAmount);
+        }
+        if (!simulate && accepted > 0) {
+            addToInputTank(fluid, accepted);
+            markDirty();
+        }
+        return accepted;
+    }
+
+    @Override
+    public int drainForUpgrade(UniversalFluidCellItem.CellFluid fluid, int amountMb, boolean simulate) {
+        if (fluid == UniversalFluidCellItem.CellFluid.EMPTY || amountMb <= 0 || outputTankFluid != fluid) return 0;
+        int drained = Math.min(amountMb, outputTankAmount);
+        if (!simulate && drained > 0) {
+            outputTankAmount -= drained;
+            sanitizeTanks();
+            markDirty();
+        }
+        return drained;
+    }
+
+    @Override
+    public UniversalFluidCellItem.CellFluid getPreferredDrainFluidForUpgrade() {
+        return outputTankAmount > 0 ? outputTankFluid : UniversalFluidCellItem.CellFluid.EMPTY;
     }
 
     @Override public PropertyDelegate getGuiProps() { return props; }

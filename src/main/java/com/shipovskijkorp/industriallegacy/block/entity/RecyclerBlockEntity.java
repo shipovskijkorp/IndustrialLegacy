@@ -46,6 +46,7 @@ public class RecyclerBlockEntity extends AbstractStandardMachineBlockEntity {
     public static void tick(World world, BlockPos pos, BlockState state, RecyclerBlockEntity be) {
         if (world.isClient) return;
         boolean dirty = be.chargeFromDischargeSlot();
+        dirty |= be.tickUpgrades();
         boolean active = be.processTick(world);
         if (state.get(RecyclerBlock.LIT) != active) world.setBlockState(pos, state.with(RecyclerBlock.LIT, active), 3);
         if (active || dirty) be.markDirty();

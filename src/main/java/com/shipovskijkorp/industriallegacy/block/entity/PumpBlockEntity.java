@@ -1,5 +1,9 @@
 package com.shipovskijkorp.industriallegacy.block.entity;
 
+import java.util.EnumSet;
+import com.shipovskijkorp.industriallegacy.block.entity.upgrade.UpgradeableFluidMachine;
+import com.shipovskijkorp.industriallegacy.block.entity.upgrade.UpgradableProperty;
+import com.shipovskijkorp.industriallegacy.block.entity.upgrade.MachineUpgradeSupport;
 import com.shipovskijkorp.industriallegacy.block.entity.base.AbstractElectricMachineBlockEntity;
 import com.shipovskijkorp.industriallegacy.block.PumpBlock;
 import com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem;
@@ -29,7 +33,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /** IC2 Experimental Pump. */
-public class PumpBlockEntity extends AbstractElectricMachineBlockEntity {
+public class PumpBlockEntity extends AbstractElectricMachineBlockEntity implements UpgradeableFluidMachine {
     public static final int SLOT_INPUT = 0;
     public static final int SLOT_OUTPUT = 1;
     public static final int SLOT_DISCHARGE = 2;
@@ -50,6 +54,9 @@ public class PumpBlockEntity extends AbstractElectricMachineBlockEntity {
     private static final int BUCKET_MB = 1_000;
     private static final int BOTTLE_MB = 250;
     private static final int SOURCE_SEARCH_LIMIT = 64;
+
+    private int energyConsume = EU_PER_TICK;
+    private int operationLength = BASE_TICKS;
 
     private UniversalFluidCellItem.CellFluid tankFluid = UniversalFluidCellItem.CellFluid.EMPTY;
     private int tankAmount = 0;
@@ -89,6 +96,7 @@ public class PumpBlockEntity extends AbstractElectricMachineBlockEntity {
     public static void tick(World world, BlockPos pos, BlockState state, PumpBlockEntity be) {
         if (world.isClient) return;
         boolean dirty = be.chargeFromDischargeSlot();
+        dirty |= be.tickUpgrades();
         boolean active = be.processPumpCycle(state);
         dirty |= active;
         dirty |= be.processContainerSlot();
@@ -103,10 +111,10 @@ public class PumpBlockEntity extends AbstractElectricMachineBlockEntity {
     }
 
     private boolean processPumpCycle(BlockState state) {
-        maxProgress = BASE_TICKS;
+        maxProgress = operationLength;
         if (!canOperate(state)) return false;
-        if (energy < EU_PER_TICK) return false;
-        energy -= EU_PER_TICK;
+        if (energy < energyConsume) return false;
+        energy -= energyConsume;
         progress++;
         if (progress >= maxProgress) {
             progress = 0;
@@ -249,6 +257,47 @@ public class PumpBlockEntity extends AbstractElectricMachineBlockEntity {
         if (slot == SLOT_OUTPUT) return false;
         if (slot == SLOT_INPUT) return canFillFromPumpTank(stack);
         return super.canInsert(slot, stack, dir);
+    }
+
+
+    @Override
+    protected Set<UpgradableProperty> getUpgradableProperties() {
+        return EnumSet.of(
+                UpgradableProperty.Processing,
+                UpgradableProperty.Transformer,
+                UpgradableProperty.EnergyStorage,
+                UpgradableProperty.ItemConsuming,
+                UpgradableProperty.ItemProducing,
+                UpgradableProperty.FluidProducing
+        );
+    }
+
+    @Override
+    protected void recalculateUpgrades() {
+        MachineUpgradeSupport.UpgradeRates rates = MachineUpgradeSupport.calculateRates(
+                this, firstUpgradeSlot, upgradeSlotCount, getUpgradableProperties(),
+                BASE_TICKS, EU_PER_TICK, baseEnergyCapacity, baseSinkTier
+        );
+        this.energyCapacity = rates.energyStorage();
+        this.sinkTier = rates.tier();
+        this.energyConsume = rates.energyDemand();
+        this.operationLength = rates.operationLength();
+        if (energy > energyCapacity) energy = energyCapacity;
+    }
+
+    @Override
+    public int fillFromUpgrade(UniversalFluidCellItem.CellFluid fluid, int amountMb, boolean simulate) {
+        return 0;
+    }
+
+    @Override
+    public int drainForUpgrade(UniversalFluidCellItem.CellFluid fluid, int amountMb, boolean simulate) {
+        return drainTank(fluid, amountMb, simulate);
+    }
+
+    @Override
+    public UniversalFluidCellItem.CellFluid getPreferredDrainFluidForUpgrade() {
+        return tankAmount > 0 ? tankFluid : UniversalFluidCellItem.CellFluid.EMPTY;
     }
 
     @Override public PropertyDelegate getGuiProps() { return props; }

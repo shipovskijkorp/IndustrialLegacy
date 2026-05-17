@@ -603,5 +603,6 @@
   "item.industrial_legacy.advanced_pulling_upgrade": "Улучшение «Улучшенный затягиватель»",
   "item.industrial_legacy.fluid_ejector_upgrade": "Улучшение «Выталкиватель жидкостей»",
   "item.industrial_legacy.fluid_pulling_upgrade": "Улучшение «Затягиватель жидкостей»",
-  "item.industrial_legacy.remote_interface_upgrade": "Улучшение «Удалённый интерфейс»"
+  "item.industrial_legacy.remote_interface_upgrade": "Улучшение «Удалённый интерфейс»",
+  "tooltip.industrial_legacy.upgrade.side": "Сторона улучшения: %s"
 }

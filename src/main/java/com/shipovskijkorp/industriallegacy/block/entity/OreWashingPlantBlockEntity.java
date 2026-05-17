@@ -1,5 +1,9 @@
 package com.shipovskijkorp.industriallegacy.block.entity;
 
+import java.util.Set;
+import java.util.EnumSet;
+import com.shipovskijkorp.industriallegacy.block.entity.upgrade.UpgradeableFluidMachine;
+import com.shipovskijkorp.industriallegacy.block.entity.upgrade.UpgradableProperty;
 import com.shipovskijkorp.industriallegacy.block.entity.base.AbstractStandardMachineBlockEntity;
 import com.shipovskijkorp.industriallegacy.block.OreWashingPlantBlock;
 import com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem;
@@ -26,7 +30,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OreWashingPlantBlockEntity extends AbstractStandardMachineBlockEntity {
+public class OreWashingPlantBlockEntity extends AbstractStandardMachineBlockEntity implements UpgradeableFluidMachine {
     public static final int SLOT_INPUT = 0;
     public static final int SLOT_OUTPUT_0 = 1;
     public static final int SLOT_OUTPUT_1 = 2;
@@ -83,6 +87,7 @@ public class OreWashingPlantBlockEntity extends AbstractStandardMachineBlockEnti
     public static void tick(World world, BlockPos pos, BlockState state, OreWashingPlantBlockEntity be) {
         if (world.isClient) return;
         boolean dirty = be.chargeFromDischargeSlot();
+        dirty |= be.tickUpgrades();
         be.gainWater();
         boolean active = be.processTick(world);
         if (state.get(OreWashingPlantBlock.LIT) != active) world.setBlockState(pos, state.with(OreWashingPlantBlock.LIT, active), 3);
@@ -184,8 +189,46 @@ public class OreWashingPlantBlockEntity extends AbstractStandardMachineBlockEnti
         return true;
     }
 
-    @Override public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) { return slot != SLOT_OUTPUT_0 && slot != SLOT_OUTPUT_1 && slot != SLOT_OUTPUT_2 && slot != SLOT_CELL_OUTPUT; }
+    @Override public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
+        if (slot == SLOT_OUTPUT_0 || slot == SLOT_OUTPUT_1 || slot == SLOT_OUTPUT_2 || slot == SLOT_CELL_OUTPUT) return false;
+        if (slot == SLOT_WATER) return stack.getItem() instanceof UniversalFluidCellItem && UniversalFluidCellItem.getFluid(stack) == UniversalFluidCellItem.CellFluid.WATER || stack.isOf(Items.WATER_BUCKET);
+        return super.canInsert(slot, stack, dir);
+    }
     @Override public boolean canExtract(int slot, ItemStack stack, Direction dir) { return slot == SLOT_OUTPUT_0 || slot == SLOT_OUTPUT_1 || slot == SLOT_OUTPUT_2 || slot == SLOT_CELL_OUTPUT; }
+
+    @Override
+    protected Set<UpgradableProperty> getUpgradableProperties() {
+        return EnumSet.of(
+                UpgradableProperty.Processing,
+                UpgradableProperty.Transformer,
+                UpgradableProperty.EnergyStorage,
+                UpgradableProperty.ItemConsuming,
+                UpgradableProperty.ItemProducing,
+                UpgradableProperty.FluidConsuming
+        );
+    }
+
+    @Override
+    public int fillFromUpgrade(UniversalFluidCellItem.CellFluid fluid, int amountMb, boolean simulate) {
+        if (fluid != UniversalFluidCellItem.CellFluid.WATER || amountMb <= 0) return 0;
+        int accepted = Math.min(amountMb, WATER_CAPACITY - waterAmount);
+        if (!simulate && accepted > 0) {
+            waterAmount += accepted;
+            markDirty();
+        }
+        return accepted;
+    }
+
+    @Override
+    public int drainForUpgrade(UniversalFluidCellItem.CellFluid fluid, int amountMb, boolean simulate) {
+        return 0;
+    }
+
+    @Override
+    public UniversalFluidCellItem.CellFluid getPreferredDrainFluidForUpgrade() {
+        return UniversalFluidCellItem.CellFluid.EMPTY;
+    }
+
     @Override public PropertyDelegate getGuiProps() { return props; }
     public int getWaterAmount() { return waterAmount; }
     public int getWaterCapacity() { return WATER_CAPACITY; }

@@ -2,7 +2,8 @@ package com.shipovskijkorp.industriallegacy.block.entity.base;
 
 import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
 import com.shipovskijkorp.industriallegacy.energy.item.ElectricSlotHelper;
-import com.shipovskijkorp.industriallegacy.item.MachineUpgradeItem;
+import com.shipovskijkorp.industriallegacy.block.entity.upgrade.MachineUpgradeSupport;
+import com.shipovskijkorp.industriallegacy.block.entity.upgrade.UpgradableProperty;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -19,6 +20,8 @@ import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.Set;
 
 /**
  * Common IC2-like base for electric machines.
@@ -102,11 +105,39 @@ public abstract class AbstractElectricMachineBlockEntity extends BlockEntity imp
         this.outputSlots = outputSlots;
     }
 
-    /** Hook for the future upgrade system. */
+    protected Set<UpgradableProperty> getUpgradableProperties() {
+        return EnumSet.noneOf(UpgradableProperty.class);
+    }
+
+    /** Public read-only bridge for shared upgrade helpers. */
+    public final Set<UpgradableProperty> getUpgradablePropertiesView() {
+        return getUpgradableProperties();
+    }
+
+    public final int getFirstUpgradeSlot() {
+        return firstUpgradeSlot;
+    }
+
+    public final int getUpgradeSlotCount() {
+        return upgradeSlotCount;
+    }
+
     protected void recalculateUpgrades() {
-        this.energyCapacity = baseEnergyCapacity;
-        this.sinkTier = baseSinkTier;
+        MachineUpgradeSupport.UpgradeRates rates = MachineUpgradeSupport.calculateRates(
+                this, firstUpgradeSlot, upgradeSlotCount, getUpgradableProperties(),
+                maxProgress, 0, baseEnergyCapacity, baseSinkTier
+        );
+        this.energyCapacity = rates.energyStorage();
+        this.sinkTier = rates.tier();
         if (energy > energyCapacity) energy = energyCapacity;
+    }
+
+    protected final boolean tickUpgrades() {
+        return MachineUpgradeSupport.tickUpgrades(this, this, firstUpgradeSlot, upgradeSlotCount, getUpgradableProperties());
+    }
+
+    protected final boolean hasEffectiveRedstoneInput() {
+        return MachineUpgradeSupport.hasRedstoneInput(this);
     }
 
     protected final boolean chargeFromDischargeSlot() {
@@ -179,10 +210,11 @@ public abstract class AbstractElectricMachineBlockEntity extends BlockEntity imp
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
         Inventories.readNbt(nbt, items);
-        recalculateUpgrades();
-        energy = clampEnergy(nbt.getLong("energy"));
+        energy = nbt.getLong("energy");
         progress = Math.max(0, nbt.getInt("progress"));
         maxProgress = Math.max(1, nbt.contains("maxProgress") ? nbt.getInt("maxProgress") : maxProgress);
+        recalculateUpgrades();
+        energy = clampEnergy(energy);
     }
 
     @Override public int size() { return items.size(); }
@@ -192,13 +224,17 @@ public abstract class AbstractElectricMachineBlockEntity extends BlockEntity imp
     @Override
     public ItemStack removeStack(int slot, int amount) {
         ItemStack result = Inventories.splitStack(items, slot, amount);
-        if (!result.isEmpty()) markDirty();
+        if (!result.isEmpty()) {
+            if (isUpgradeSlot(slot)) recalculateUpgrades();
+            markDirty();
+        }
         return result;
     }
 
     @Override
     public ItemStack removeStack(int slot) {
         ItemStack result = Inventories.removeStack(items, slot);
+        if (isUpgradeSlot(slot)) recalculateUpgrades();
         markDirty();
         return result;
     }
@@ -207,6 +243,7 @@ public abstract class AbstractElectricMachineBlockEntity extends BlockEntity imp
     public void setStack(int slot, ItemStack stack) {
         items.set(slot, stack);
         if (stack.getCount() > stack.getMaxCount()) stack.setCount(stack.getMaxCount());
+        if (isUpgradeSlot(slot)) recalculateUpgrades();
         markDirty();
     }
 
@@ -219,6 +256,7 @@ public abstract class AbstractElectricMachineBlockEntity extends BlockEntity imp
     @Override
     public void clear() {
         for (int i = 0; i < items.size(); i++) items.set(i, ItemStack.EMPTY);
+        recalculateUpgrades();
     }
 
     @Override
@@ -231,7 +269,7 @@ public abstract class AbstractElectricMachineBlockEntity extends BlockEntity imp
     @Override
     public boolean isValid(int slot, ItemStack stack) {
         if (isOutputSlot(slot)) return false;
-        if (isUpgradeSlot(slot)) return MachineUpgradeItem.isUpgrade(stack);
+        if (isUpgradeSlot(slot)) return MachineUpgradeSupport.isValidUpgrade(stack, getUpgradableProperties());
         if (slot == dischargeSlot) return ElectricSlotHelper.canDischarge(stack, sinkTier, true);
         return true;
     }

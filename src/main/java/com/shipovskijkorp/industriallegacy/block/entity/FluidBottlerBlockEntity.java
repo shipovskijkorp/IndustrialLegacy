@@ -1,5 +1,10 @@
 package com.shipovskijkorp.industriallegacy.block.entity;
 
+import java.util.Set;
+import java.util.EnumSet;
+import com.shipovskijkorp.industriallegacy.block.entity.upgrade.UpgradeableFluidMachine;
+import com.shipovskijkorp.industriallegacy.block.entity.upgrade.UpgradableProperty;
+import com.shipovskijkorp.industriallegacy.block.entity.upgrade.MachineUpgradeSupport;
 import com.shipovskijkorp.industriallegacy.block.entity.base.AbstractElectricMachineBlockEntity;
 import com.shipovskijkorp.industriallegacy.block.FluidBottlerBlock;
 import com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem;
@@ -28,7 +33,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 /** IC2 Experimental Fluid Bottler / Bottling Plant. */
-public class FluidBottlerBlockEntity extends AbstractElectricMachineBlockEntity {
+public class FluidBottlerBlockEntity extends AbstractElectricMachineBlockEntity implements UpgradeableFluidMachine {
     public static final int SLOT_DRAIN = 0;
     public static final int SLOT_FILL = 1;
     public static final int SLOT_OUTPUT = 2;
@@ -49,6 +54,9 @@ public class FluidBottlerBlockEntity extends AbstractElectricMachineBlockEntity 
     private static final int CELL_MB = 1_000;
     private static final int BUCKET_MB = 1_000;
     private static final int BOTTLE_MB = 250;
+
+    private int energyConsume = EU_PER_TICK;
+    private int operationLength = BASE_TICKS;
 
     private UniversalFluidCellItem.CellFluid tankFluid = UniversalFluidCellItem.CellFluid.EMPTY;
     private int tankAmount = 0;
@@ -88,6 +96,7 @@ public class FluidBottlerBlockEntity extends AbstractElectricMachineBlockEntity 
     public static void tick(World world, BlockPos pos, BlockState state, FluidBottlerBlockEntity be) {
         if (world.isClient) return;
         boolean dirty = be.chargeFromDischargeSlot();
+        dirty |= be.tickUpgrades();
         boolean active = be.processTick();
         if (state.get(FluidBottlerBlock.LIT) != active) world.setBlockState(pos, state.with(FluidBottlerBlock.LIT, active), Block.NOTIFY_ALL);
         if (active || dirty) be.markDirty();
@@ -106,10 +115,10 @@ public class FluidBottlerBlockEntity extends AbstractElectricMachineBlockEntity 
 
     private boolean processTick() {
         TransferAction action = findAction();
-        if (action == null) { progress = 0; maxProgress = BASE_TICKS; return false; }
-        if (energy < EU_PER_TICK) return false;
-        energy -= EU_PER_TICK;
-        maxProgress = BASE_TICKS;
+        if (action == null) { progress = 0; maxProgress = operationLength; return false; }
+        if (energy < energyConsume) return false;
+        energy -= energyConsume;
+        maxProgress = operationLength;
         progress++;
         if (progress >= maxProgress) {
             action.apply();
@@ -268,6 +277,64 @@ public class FluidBottlerBlockEntity extends AbstractElectricMachineBlockEntity 
         if (slot == SLOT_DRAIN) return canDrainContainer(stack);
         if (slot == SLOT_FILL) return canFillContainer(stack);
         return super.canInsert(slot, stack, dir);
+    }
+
+
+    @Override
+    protected Set<UpgradableProperty> getUpgradableProperties() {
+        return EnumSet.of(
+                UpgradableProperty.Processing,
+                UpgradableProperty.Transformer,
+                UpgradableProperty.EnergyStorage,
+                UpgradableProperty.ItemConsuming,
+                UpgradableProperty.ItemProducing,
+                UpgradableProperty.FluidConsuming,
+                UpgradableProperty.FluidProducing
+        );
+    }
+
+    @Override
+    protected void recalculateUpgrades() {
+        MachineUpgradeSupport.UpgradeRates rates = MachineUpgradeSupport.calculateRates(
+                this, firstUpgradeSlot, upgradeSlotCount, getUpgradableProperties(),
+                BASE_TICKS, EU_PER_TICK, baseEnergyCapacity, baseSinkTier
+        );
+        this.energyCapacity = rates.energyStorage();
+        this.sinkTier = rates.tier();
+        this.energyConsume = rates.energyDemand();
+        this.operationLength = rates.operationLength();
+        if (energy > energyCapacity) energy = energyCapacity;
+    }
+
+    @Override
+    public int fillFromUpgrade(UniversalFluidCellItem.CellFluid fluid, int amountMb, boolean simulate) {
+        if (!canAcceptTankFluid(fluid, amountMb)) {
+            if (fluid == UniversalFluidCellItem.CellFluid.EMPTY || amountMb <= 0) return 0;
+            if (tankAmount > 0 && tankFluid != fluid) return 0;
+        }
+        int accepted = Math.min(amountMb, TANK_CAPACITY_MB - tankAmount);
+        if (!simulate && accepted > 0) {
+            addTankFluid(fluid, accepted);
+            markDirty();
+        }
+        return accepted;
+    }
+
+    @Override
+    public int drainForUpgrade(UniversalFluidCellItem.CellFluid fluid, int amountMb, boolean simulate) {
+        if (fluid == UniversalFluidCellItem.CellFluid.EMPTY || amountMb <= 0 || tankFluid != fluid) return 0;
+        int drained = Math.min(amountMb, tankAmount);
+        if (!simulate && drained > 0) {
+            tankAmount -= drained;
+            sanitizeTank();
+            markDirty();
+        }
+        return drained;
+    }
+
+    @Override
+    public UniversalFluidCellItem.CellFluid getPreferredDrainFluidForUpgrade() {
+        return tankAmount > 0 ? tankFluid : UniversalFluidCellItem.CellFluid.EMPTY;
     }
 
     @Override public PropertyDelegate getGuiProps() { return props; }

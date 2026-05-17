@@ -1,5 +1,7 @@
 package com.shipovskijkorp.industriallegacy.block.entity.base;
 
+import com.shipovskijkorp.industriallegacy.block.entity.upgrade.MachineUpgradeSupport;
+import com.shipovskijkorp.industriallegacy.block.entity.upgrade.UpgradableProperty;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.ItemStack;
@@ -7,7 +9,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * IC2-like standard machine base, matching the TileEntityStandardMachine idea:
@@ -48,11 +52,32 @@ public abstract class AbstractStandardMachineBlockEntity extends AbstractElectri
     }
 
     @Override
+    protected Set<UpgradableProperty> getUpgradableProperties() {
+        return EnumSet.of(
+                UpgradableProperty.Processing,
+                UpgradableProperty.Transformer,
+                UpgradableProperty.EnergyStorage,
+                UpgradableProperty.ItemConsuming,
+                UpgradableProperty.ItemProducing
+        );
+    }
+
+    @Override
     protected void recalculateUpgrades() {
-        super.recalculateUpgrades();
-        this.energyConsume = baseEnergyConsume;
-        this.operationLength = baseOperationLength;
-        this.operationsPerCycle = 1;
+        int oldMaxProgress = Math.max(1, this.maxProgress);
+        int oldProgress = this.progress;
+        MachineUpgradeSupport.UpgradeRates rates = MachineUpgradeSupport.calculateRates(
+                this, firstUpgradeSlot, upgradeSlotCount, getUpgradableProperties(),
+                baseOperationLength, baseEnergyConsume, baseEnergyCapacity, baseSinkTier
+        );
+        this.energyCapacity = rates.energyStorage();
+        this.sinkTier = rates.tier();
+        this.energyConsume = rates.energyDemand();
+        this.operationLength = rates.operationLength();
+        this.operationsPerCycle = rates.operationsPerTick();
+        this.maxProgress = this.operationLength;
+        this.progress = Math.max(0, (int) Math.floor((double) oldProgress / (double) oldMaxProgress * (double) this.maxProgress + 0.1));
+        if (energy > energyCapacity) energy = energyCapacity;
     }
 
     protected MachineOperation getOperation(World world) {

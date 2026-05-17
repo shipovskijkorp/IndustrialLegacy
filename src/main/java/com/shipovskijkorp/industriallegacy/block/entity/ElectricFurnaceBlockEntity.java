@@ -83,6 +83,7 @@ public class ElectricFurnaceBlockEntity extends AbstractStandardMachineBlockEnti
     public static void tick(World world, BlockPos pos, BlockState state, ElectricFurnaceBlockEntity be) {
         if (world.isClient) return;
         boolean dirty = be.chargeFromDischargeSlot();
+        dirty |= be.tickUpgrades();
         boolean active = be.processStandardMachine(world);
         if (state.get(ElectricFurnaceBlock.LIT) != active) world.setBlockState(pos, state.with(ElectricFurnaceBlock.LIT, active), 3);
         if (active || dirty) be.markDirty();

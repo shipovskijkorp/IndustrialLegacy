@@ -1,5 +1,8 @@
 package com.shipovskijkorp.industriallegacy.block.entity;
 
+import java.util.Set;
+import java.util.EnumSet;
+import com.shipovskijkorp.industriallegacy.block.entity.upgrade.UpgradableProperty;
 import com.shipovskijkorp.industriallegacy.block.entity.base.AbstractElectricMachineBlockEntity;
 import com.shipovskijkorp.industriallegacy.block.InductionFurnaceBlock;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
@@ -82,6 +85,7 @@ public class InductionFurnaceBlockEntity extends AbstractElectricMachineBlockEnt
         if (world.isClient) return;
 
         boolean dirty = be.chargeFromDischargeSlot();
+        dirty |= be.tickUpgrades();
         boolean newActive = state.get(InductionFurnaceBlock.LIT);
         if (be.heat == 0) newActive = false;
 
@@ -92,7 +96,7 @@ public class InductionFurnaceBlockEntity extends AbstractElectricMachineBlockEnt
         }
 
         boolean canOperate = be.canOperate(world);
-        boolean redstone = world.isReceivingRedstonePower(pos);
+        boolean redstone = be.hasEffectiveRedstoneInput();
 
         if ((canOperate || redstone) && be.useEnergy(HEATUP_EU_PER_TICK)) {
             if (be.heat < MAX_HEAT) be.heat++;
@@ -178,6 +182,12 @@ public class InductionFurnaceBlockEntity extends AbstractElectricMachineBlockEnt
     }
 
     public int getComparatorOutput() { return heat * 15 / MAX_HEAT; }
+
+    @Override
+    protected Set<UpgradableProperty> getUpgradableProperties() {
+        return EnumSet.of(UpgradableProperty.RedstoneSensitive, UpgradableProperty.ItemConsuming, UpgradableProperty.ItemProducing);
+    }
+
     @Override public PropertyDelegate getGuiProps() { return props; }
 
     @Override protected void writeNbt(NbtCompound nbt) { super.writeNbt(nbt); nbt.putInt("heat", heat); }

@@ -45,6 +45,7 @@ public class SolidCannerBlockEntity extends AbstractStandardMachineBlockEntity {
     public static void tick(World world, BlockPos pos, BlockState state, SolidCannerBlockEntity be) {
         if (world.isClient) return;
         boolean dirty = be.chargeFromDischargeSlot();
+        dirty |= be.tickUpgrades();
         boolean active = be.processStandardMachine(world);
         if (state.get(SolidCannerBlock.LIT) != active) world.setBlockState(pos, state.with(SolidCannerBlock.LIT, active), 3);
         if (active || dirty) be.markDirty();

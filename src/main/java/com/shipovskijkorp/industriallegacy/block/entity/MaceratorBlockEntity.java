@@ -42,6 +42,7 @@ public class MaceratorBlockEntity extends AbstractStandardMachineBlockEntity {
     public static void tick(World world, BlockPos pos, BlockState state, MaceratorBlockEntity be) {
         if (world.isClient) return;
         boolean dirty = be.chargeFromDischargeSlot();
+        dirty |= be.tickUpgrades();
         boolean active = be.processStandardMachine(world);
         if (state.get(MaceratorBlock.LIT) != active) world.setBlockState(pos, state.with(MaceratorBlock.LIT, active), 3);
         if (active || dirty) be.markDirty();
