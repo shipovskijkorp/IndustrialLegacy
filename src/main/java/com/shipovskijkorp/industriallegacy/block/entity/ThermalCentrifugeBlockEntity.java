@@ -1,26 +1,20 @@
 package com.shipovskijkorp.industriallegacy.block.entity;
 
 import com.shipovskijkorp.industriallegacy.block.ThermalCentrifugeBlock;
-import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
+import com.shipovskijkorp.industriallegacy.block.entity.base.AbstractElectricMachineBlockEntity;
 import com.shipovskijkorp.industriallegacy.recipe.MachineRecipeManager;
 import com.shipovskijkorp.industriallegacy.recipe.ThermalCentrifugeRecipe;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
 import com.shipovskijkorp.industriallegacy.screen.ThermalCentrifugeScreenHandler;
-import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventories;
-import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
-import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -30,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ThermalCentrifugeBlockEntity extends BlockEntity implements SidedInventory, IEuEnergyStorage, ExtendedScreenHandlerFactory {
+public class ThermalCentrifugeBlockEntity extends AbstractElectricMachineBlockEntity {
     public static final int SLOT_INPUT = 0;
     public static final int SLOT_OUTPUT_0 = 1;
     public static final int SLOT_OUTPUT_1 = 2;
@@ -51,52 +45,25 @@ public class ThermalCentrifugeBlockEntity extends BlockEntity implements SidedIn
     private static final int BASE_TICKS = 500;
     private static final int MAX_HEAT = 5000;
 
-    private final DefaultedList<ItemStack> items = DefaultedList.ofSize(INV_SIZE, ItemStack.EMPTY);
-    private long energy = 0L;
-    private int progress = 0;
-    private int maxProgress = BASE_TICKS;
     private int heat = 0;
     private int workHeat = MAX_HEAT;
 
-    private final PropertyDelegate props = new PropertyDelegate() {
-        @Override public int size() { return 6; }
-        @Override public int get(int i) {
-            return switch (i) {
-                case 0 -> (int) Math.min(Integer.MAX_VALUE, energy);
-                case 1 -> (int) Math.min(Integer.MAX_VALUE, CAPACITY);
-                case 2 -> progress;
-                case 3 -> maxProgress;
-                case 4 -> heat;
-                case 5 -> workHeat;
-                default -> 0;
-            };
-        }
-        @Override public void set(int i, int value) {
-            switch (i) {
-                case 0 -> energy = Math.max(0L, Math.min(CAPACITY, value));
-                case 2 -> progress = Math.max(0, value);
-                case 3 -> maxProgress = Math.max(1, value);
-                case 4 -> heat = Math.max(0, Math.min(MAX_HEAT, value));
-                case 5 -> workHeat = Math.max(1, value);
-                default -> { }
-            }
-        }
-    };
-
     public ThermalCentrifugeBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.THERMAL_CENTRIFUGE, pos, state);
+        super(ModBlockEntities.THERMAL_CENTRIFUGE, pos, state, INV_SIZE, CAPACITY, TIER, EU_PER_TICK_PROCESS, BASE_TICKS, 6);
     }
 
     public static void tick(World world, BlockPos pos, BlockState state, ThermalCentrifugeBlockEntity be) {
         if (world.isClient) return;
-        boolean active = be.processTick(world);
+        boolean dirty = be.chargeFromDischargeSlot();
+        boolean active = be.processMachineTick(world);
         if (state.get(ThermalCentrifugeBlock.LIT) != active) {
             world.setBlockState(pos, state.with(ThermalCentrifugeBlock.LIT, active), 3);
         }
-        if (active || be.heat > 0) be.markDirty();
+        if (dirty || active || be.heat > 0) be.markDirty();
     }
 
-    private boolean processTick(World world) {
+    @Override
+    protected boolean processMachineTick(World world) {
         ThermalCentrifugeRecipe recipe = findRecipe(world).orElse(null);
         int targetHeat = recipe == null ? 0 : Math.min(MAX_HEAT, recipe.getHeat());
         workHeat = Math.max(1, targetHeat == 0 ? MAX_HEAT : targetHeat);
@@ -115,26 +82,26 @@ public class ThermalCentrifugeBlockEntity extends BlockEntity implements SidedIn
             if (heat >= targetHeat) {
                 List<ItemStack> outputs = recipe.getResults();
                 if (canOutput(outputs)) {
-                    if (energy >= EU_PER_TICK_PROCESS) {
-                        energy -= EU_PER_TICK_PROCESS;
-                        maxProgress = recipe.getTicks() <= 0 ? BASE_TICKS : recipe.getTicks();
+                    if (energy >= energyConsume) {
+                        energy -= energyConsume;
+                        maxProgress = recipe.getTicks() <= 0 ? operationLength : recipe.getTicks();
                         progress++;
                         active = true;
 
                         if (progress >= maxProgress) {
-                            items.get(SLOT_INPUT).decrement(recipe.getInputCount());
+                            items.get(SLOT_INPUT).decrement(Math.max(1, recipe.getInputCount()));
                             insertOutputs(outputs);
                             progress = 0;
                         }
                     }
                 } else {
-                    progress = 0;
+                    resetProgress();
                 }
             } else {
-                progress = 0;
+                resetProgress();
             }
         } else {
-            progress = 0;
+            resetProgress();
             if (heat > 0) heat--;
         }
 
@@ -205,60 +172,54 @@ public class ThermalCentrifugeBlockEntity extends BlockEntity implements SidedIn
         }
     }
 
-    @Override protected void writeNbt(NbtCompound nbt) {
-        super.writeNbt(nbt);
-        Inventories.writeNbt(nbt, items);
-        nbt.putLong("energy", energy);
-        nbt.putInt("progress", progress);
-        nbt.putInt("maxProgress", maxProgress);
+    @Override protected int getInputSlot() { return SLOT_INPUT; }
+    @Override protected int getOutputSlot() { return SLOT_OUTPUT_0; }
+    @Override protected int getDischargeSlot() { return SLOT_DISCHARGE; }
+    @Override protected int getFirstUpgradeSlot() { return SLOT_UPGRADE_0; }
+    @Override protected int getUpgradeSlotCount() { return UPGRADE_SLOTS; }
+    @Override protected int[] getTopSlots() { return TOP_SLOTS; }
+    @Override protected int[] getSideSlots() { return SIDE_SLOTS; }
+    @Override protected int[] getBottomSlots() { return BOTTOM_SLOTS; }
+
+    @Override
+    protected boolean isOutputSlot(int slot) {
+        return slot == SLOT_OUTPUT_0 || slot == SLOT_OUTPUT_1 || slot == SLOT_OUTPUT_2;
+    }
+
+    @Override
+    protected boolean canExtractFromMachineSlot(int slot, ItemStack stack, Direction dir) {
+        return isOutputSlot(slot);
+    }
+
+    @Override
+    protected int getExtraGuiProperty(int index) {
+        return switch (index) {
+            case 4 -> heat;
+            case 5 -> workHeat;
+            default -> 0;
+        };
+    }
+
+    @Override
+    protected void setExtraGuiProperty(int index, int value) {
+        switch (index) {
+            case 4 -> heat = Math.max(0, Math.min(MAX_HEAT, value));
+            case 5 -> workHeat = Math.max(1, value);
+            default -> { }
+        }
+    }
+
+    @Override
+    protected void writeMachineNbt(NbtCompound nbt) {
         nbt.putInt("heat", heat);
         nbt.putInt("workHeat", workHeat);
     }
 
-    @Override public void readNbt(NbtCompound nbt) {
-        super.readNbt(nbt);
-        Inventories.readNbt(nbt, items);
-        energy = Math.max(0L, Math.min(CAPACITY, nbt.getLong("energy")));
-        progress = Math.max(0, nbt.getInt("progress"));
-        maxProgress = Math.max(1, nbt.getInt("maxProgress"));
+    @Override
+    protected void readMachineNbt(NbtCompound nbt) {
         heat = Math.max(0, Math.min(MAX_HEAT, nbt.getInt("heat")));
         workHeat = Math.max(1, nbt.getInt("workHeat"));
     }
-
-    @Override public int size() { return items.size(); }
-    @Override public boolean isEmpty() { return items.stream().allMatch(ItemStack::isEmpty); }
-    @Override public ItemStack getStack(int slot) { return items.get(slot); }
-    @Override public ItemStack removeStack(int slot, int amount) { ItemStack out = Inventories.splitStack(items, slot, amount); if (!out.isEmpty()) markDirty(); return out; }
-    @Override public ItemStack removeStack(int slot) { ItemStack out = Inventories.removeStack(items, slot); markDirty(); return out; }
-    @Override public void setStack(int slot, ItemStack stack) { items.set(slot, stack); if (stack.getCount() > stack.getMaxCount()) stack.setCount(stack.getMaxCount()); markDirty(); }
-    @Override public void clear() { for (int i = 0; i < items.size(); i++) items.set(i, ItemStack.EMPTY); }
-
-    @Override
-    public boolean canPlayerUse(PlayerEntity player) {
-        return world != null && world.getBlockEntity(pos) == this && player.squaredDistanceTo(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5) <= 64.0;
-    }
-
-    @Override public int[] getAvailableSlots(Direction side) { return side == Direction.UP ? TOP_SLOTS : side == Direction.DOWN ? BOTTOM_SLOTS : SIDE_SLOTS; }
-    @Override public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) { return slot != SLOT_OUTPUT_0 && slot != SLOT_OUTPUT_1 && slot != SLOT_OUTPUT_2; }
-    @Override public boolean canExtract(int slot, ItemStack stack, Direction dir) { return slot == SLOT_OUTPUT_0 || slot == SLOT_OUTPUT_1 || slot == SLOT_OUTPUT_2; }
-
-    @Override public long getEuStored() { return energy; }
-    @Override public long getEuCapacity() { return CAPACITY; }
-    @Override public int getSinkTier() { return TIER; }
-    @Override public int getSourceTier() { return 0; }
-    @Override public boolean canInsert(Direction from) { return true; }
-    @Override public boolean canExtract(Direction to) { return false; }
-    @Override public long insertEu(long amount, Direction from, boolean simulate) {
-        if (amount <= 0) return 0;
-        long free = CAPACITY - energy;
-        if (free <= 0) return 0;
-        long accepted = Math.min(amount, free);
-        if (!simulate && accepted > 0) { energy += accepted; markDirty(); }
-        return accepted;
-    }
-    @Override public long extractEu(long amount, Direction to, boolean simulate) { return 0; }
-
-    public PropertyDelegate getGuiProps() { return props; }
 
     @Override public Text getDisplayName() { return Text.translatable("container.industrial_legacy.thermal_centrifuge"); }
     @Override public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) { buf.writeBlockPos(pos); }
