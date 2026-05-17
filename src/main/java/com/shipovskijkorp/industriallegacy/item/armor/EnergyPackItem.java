@@ -107,6 +107,11 @@ public final class EnergyPackItem extends ArmorItem implements IElectricItem {
     @Override public long getTransferLimit(ItemStack stack) { return TRANSFER_LIMIT_EU_T; }
     @Override public int getTier(ItemStack stack) { return TIER; }
 
+    @Override
+    public boolean canProvideEnergy(ItemStack stack) {
+        return true;
+    }
+
     @Override public boolean isItemBarVisible(ItemStack stack) { return getEnergy(stack) < CAPACITY_EU; }
 
     @Override

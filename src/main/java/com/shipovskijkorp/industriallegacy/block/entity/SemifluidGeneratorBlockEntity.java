@@ -2,7 +2,7 @@ package com.shipovskijkorp.industriallegacy.block.entity;
 
 import com.shipovskijkorp.industriallegacy.block.SemifluidGeneratorBlock;
 import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
-import com.shipovskijkorp.industriallegacy.energy.item.ElectricItemManager;
+import com.shipovskijkorp.industriallegacy.energy.item.ElectricSlotHelper;
 import com.shipovskijkorp.industriallegacy.energy.net.EuNetwork;
 import com.shipovskijkorp.industriallegacy.energy.util.EuUtil;
 import com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem;
@@ -183,18 +183,9 @@ public class SemifluidGeneratorBlockEntity extends BlockEntity implements SidedI
     }
 
     private boolean chargeItem() {
+        // IC2 TileEntityBaseGenerator uses InvSlotCharge tier 1.
         ItemStack charge = items.get(SLOT_CHARGE);
-        if (charge.isEmpty() || !ElectricItemManager.isElectric(charge) || charge.getCount() != 1) return false;
-        if (energy <= 0L) return false;
-
-        long maxMove = Math.min(production, ElectricItemManager.getTransferLimit(charge));
-        if (maxMove <= 0L) return false;
-
-        long free = ElectricItemManager.getFree(charge);
-        long move = Math.min(maxMove, Math.min(energy, free));
-        if (move <= 0L) return false;
-
-        long accepted = ElectricItemManager.charge(charge, move, false);
+        long accepted = ElectricSlotHelper.chargeFromStorage(charge, energy, 1, false);
         if (accepted > 0L) {
             energy -= accepted;
             return true;
@@ -294,9 +285,15 @@ public class SemifluidGeneratorBlockEntity extends BlockEntity implements SidedI
     }
 
     @Override public int[] getAvailableSlots(Direction side) { return side == Direction.DOWN ? BOTTOM_SLOTS : side == Direction.UP ? TOP_SLOTS : SIDE_SLOTS; }
+    @Override public boolean isValid(int slot, ItemStack stack) {
+        if (slot == SLOT_CHARGE) return ElectricSlotHelper.canCharge(stack, 1);
+        if (slot == SLOT_OUTPUT) return false;
+        if (slot == SLOT_FLUID) return isAcceptedFuelCell(stack);
+        return false;
+    }
     @Override public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
         if (slot == SLOT_OUTPUT) return false;
-        if (slot == SLOT_CHARGE) return ElectricItemManager.isElectric(stack);
+        if (slot == SLOT_CHARGE) return ElectricSlotHelper.canCharge(stack, 1);
         if (slot == SLOT_FLUID) return isAcceptedFuelCell(stack);
         return false;
     }

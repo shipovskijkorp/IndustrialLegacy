@@ -321,6 +321,8 @@ public final class ModItems {
             new MachineUpgradeItem(new Item.Settings(), MachineUpgradeItem.UpgradeType.FLUID_EJECTOR));
     public static final Item FLUID_PULLING_UPGRADE = register("fluid_pulling_upgrade",
             new MachineUpgradeItem(new Item.Settings(), MachineUpgradeItem.UpgradeType.FLUID_PULLING));
+    public static final Item REMOTE_INTERFACE_UPGRADE = register("remote_interface_upgrade",
+            new MachineUpgradeItem(new Item.Settings(), MachineUpgradeItem.UpgradeType.REMOTE_INTERFACE));
 
     public static final Item WRENCH = register("wrench", new WrenchItem(new Item.Settings()));
     public static final Item MINING_PIPE = register("mining_pipe", new Item(new Item.Settings()));

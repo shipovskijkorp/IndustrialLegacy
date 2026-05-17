@@ -1,7 +1,7 @@
 package com.shipovskijkorp.industriallegacy.screen;
 
+import com.shipovskijkorp.industriallegacy.screen.slot.FilteredSlot;
 import com.shipovskijkorp.industriallegacy.block.entity.SolarPanelBlockEntity;
-import com.shipovskijkorp.industriallegacy.energy.item.ElectricItemManager;
 import com.shipovskijkorp.industriallegacy.registry.ModScreenHandlers;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -43,11 +43,7 @@ public class SolarPanelScreenHandler extends ScreenHandler {
         this.inv = inv;
         this.props = props;
 
-        this.addSlot(new Slot(inv, SolarPanelBlockEntity.SLOT_CHARGE, 80, 26) {
-            @Override public boolean canInsert(ItemStack stack) {
-                return ElectricItemManager.isElectric(stack);
-            }
-        });
+        this.addSlot(new FilteredSlot(inv, SolarPanelBlockEntity.SLOT_CHARGE, 80, 26));
 
         int startX = 8;
         int startY = 84;

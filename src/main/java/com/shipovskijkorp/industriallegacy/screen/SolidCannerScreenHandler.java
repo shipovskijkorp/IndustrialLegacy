@@ -1,5 +1,6 @@
 package com.shipovskijkorp.industriallegacy.screen;
 
+import com.shipovskijkorp.industriallegacy.screen.slot.FilteredSlot;
 import com.shipovskijkorp.industriallegacy.block.entity.SolidCannerBlockEntity;
 import com.shipovskijkorp.industriallegacy.registry.ModScreenHandlers;
 import net.minecraft.entity.player.PlayerEntity;
@@ -36,9 +37,9 @@ public class SolidCannerScreenHandler extends ScreenHandler {
         this.addSlot(new Slot(this.inventory, SolidCannerBlockEntity.SLOT_OUTPUT, 116, 36) {
             @Override public boolean canInsert(net.minecraft.item.ItemStack stack) { return false; }
         });
-        this.addSlot(new Slot(this.inventory, SolidCannerBlockEntity.SLOT_DISCHARGE, 8, 62));
+        this.addSlot(new FilteredSlot(this.inventory, SolidCannerBlockEntity.SLOT_DISCHARGE, 8, 62));
         for (int i = 0; i < SolidCannerBlockEntity.UPGRADE_SLOTS; i++) {
-            this.addSlot(new Slot(this.inventory, SolidCannerBlockEntity.SLOT_UPGRADE_0 + i, 152, 8 + i * 18));
+            this.addSlot(new FilteredSlot(this.inventory, SolidCannerBlockEntity.SLOT_UPGRADE_0 + i, 152, 8 + i * 18));
         }
 
         int invX = 8;

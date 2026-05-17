@@ -1,5 +1,6 @@
 package com.shipovskijkorp.industriallegacy.screen;
 
+import com.shipovskijkorp.industriallegacy.screen.slot.FilteredSlot;
 import com.shipovskijkorp.industriallegacy.block.entity.GeneratorBlockEntity;
 import com.shipovskijkorp.industriallegacy.registry.ModScreenHandlers;
 import net.minecraft.entity.player.PlayerEntity;
@@ -46,7 +47,7 @@ public class GeneratorScreenHandler extends ScreenHandler {
         this.props = props;
 
         // IL coords (generator.xml)
-        this.addSlot(new Slot(inv, GeneratorBlockEntity.SLOT_CHARGE, 57, 17)); // charge
+        this.addSlot(new FilteredSlot(inv, GeneratorBlockEntity.SLOT_CHARGE, 57, 17)); // charge
         this.addSlot(new Slot(inv, GeneratorBlockEntity.SLOT_FUEL, 57, 53) {
             @Override
             public boolean canInsert(net.minecraft.item.ItemStack stack) {

@@ -1,5 +1,6 @@
 package com.shipovskijkorp.industriallegacy.screen;
 
+import com.shipovskijkorp.industriallegacy.screen.slot.FilteredSlot;
 import com.shipovskijkorp.industriallegacy.block.entity.RecyclerBlockEntity;
 import com.shipovskijkorp.industriallegacy.registry.ModScreenHandlers;
 import net.minecraft.entity.player.PlayerEntity;
@@ -39,10 +40,10 @@ public class RecyclerScreenHandler extends ScreenHandler {
         this.addSlot(new Slot(inv, RecyclerBlockEntity.SLOT_OUTPUT, 116, 35) {
             @Override public boolean canInsert(ItemStack stack) { return false; }
         });
-        this.addSlot(new Slot(inv, RecyclerBlockEntity.SLOT_DISCHARGE, 56, 53));
+        this.addSlot(new FilteredSlot(inv, RecyclerBlockEntity.SLOT_DISCHARGE, 56, 53));
 
         for (int i = 0; i < RecyclerBlockEntity.UPGRADE_SLOTS; i++) {
-            this.addSlot(new Slot(inv, RecyclerBlockEntity.SLOT_UPGRADE_0 + i, 152, 8 + i * 18));
+            this.addSlot(new FilteredSlot(inv, RecyclerBlockEntity.SLOT_UPGRADE_0 + i, 152, 8 + i * 18));
         }
 
         int startX = 7;

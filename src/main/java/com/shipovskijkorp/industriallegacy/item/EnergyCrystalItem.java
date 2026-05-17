@@ -85,6 +85,11 @@ public final class EnergyCrystalItem extends Item implements IElectricItem {
     }
 
     @Override
+    public boolean canProvideEnergy(ItemStack stack) {
+        return true;
+    }
+
+    @Override
     public boolean isItemBarVisible(ItemStack stack) {
         long cap = getCapacity(stack);
         if (cap <= 0L) return false;

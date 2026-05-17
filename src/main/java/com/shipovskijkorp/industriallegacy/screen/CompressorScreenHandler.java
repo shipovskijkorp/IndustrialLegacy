@@ -1,5 +1,6 @@
 package com.shipovskijkorp.industriallegacy.screen;
 
+import com.shipovskijkorp.industriallegacy.screen.slot.FilteredSlot;
 import com.shipovskijkorp.industriallegacy.block.entity.CompressorBlockEntity;
 import com.shipovskijkorp.industriallegacy.registry.ModScreenHandlers;
 import net.minecraft.entity.player.PlayerEntity;
@@ -56,11 +57,11 @@ public class CompressorScreenHandler extends ScreenHandler {
         this.addSlot(new Slot(this.inventory, CompressorBlockEntity.SLOT_OUTPUT, 116, 35) {
             @Override public boolean canInsert(net.minecraft.item.ItemStack stack) { return false; }
         });
-        this.addSlot(new Slot(this.inventory, CompressorBlockEntity.SLOT_DISCHARGE, 56, 53));
+        this.addSlot(new FilteredSlot(this.inventory, CompressorBlockEntity.SLOT_DISCHARGE, 56, 53));
 
         // upgrades (right side)
         for (int i = 0; i < CompressorBlockEntity.UPGRADE_SLOTS; i++) {
-            this.addSlot(new Slot(this.inventory, CompressorBlockEntity.SLOT_UPGRADE_0 + i, 152, 8 + i * 18));
+            this.addSlot(new FilteredSlot(this.inventory, CompressorBlockEntity.SLOT_UPGRADE_0 + i, 152, 8 + i * 18));
         }
 
         // Player inventory frames (IC2-style position)

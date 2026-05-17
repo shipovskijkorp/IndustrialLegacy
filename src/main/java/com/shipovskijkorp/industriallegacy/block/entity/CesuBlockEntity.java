@@ -5,7 +5,7 @@ import com.shipovskijkorp.industriallegacy.block.CesuBlock;
 import com.shipovskijkorp.industriallegacy.energy.net.EuNetwork;
 import com.shipovskijkorp.industriallegacy.energy.util.EuUtil;
 import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
-import com.shipovskijkorp.industriallegacy.energy.item.ElectricItemManager;
+import com.shipovskijkorp.industriallegacy.energy.item.ElectricSlotHelper;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -189,38 +189,20 @@ public class CesuBlockEntity extends BlockEntity implements SidedInventory, IEuE
     private void chargeDischargeItems() {
         if (world == null) return;
 
-        // Slot 0: charge (BatBox -> item)
+        // Slot 0: charge (storage -> item), IC2 InvSlotCharge.
         ItemStack charge = items.get(SLOT_CHARGE);
-        if (!charge.isEmpty() && ElectricItemManager.isElectric(charge) && charge.getCount() == 1) {
-            long maxMove = Math.min((long) outputEuT, ElectricItemManager.getTransferLimit(charge));
-            long can = Math.min(maxMove, energy);
-            long free = ElectricItemManager.getFree(charge);
-            long move = Math.min(can, free);
-
-            if (move > 0L) {
-                long accepted = ElectricItemManager.charge(charge, move, false);
-                if (accepted > 0L) {
-                    energy -= accepted;
-                    markDirtyAndSync();
-                }
-            }
+        long charged = ElectricSlotHelper.chargeFromStorage(charge, energy, tier, false);
+        if (charged > 0L) {
+            energy -= charged;
+            markDirtyAndSync();
         }
 
-        // Slot 1: discharge (item -> BatBox)
+        // Slot 1: discharge (item/single-use energy item -> storage), IC2 InvSlotDischarge.
         ItemStack discharge = items.get(SLOT_DISCHARGE);
-        if (!discharge.isEmpty() && ElectricItemManager.isElectric(discharge) && discharge.getCount() == 1) {
-            long maxMove = Math.min((long) outputEuT, ElectricItemManager.getTransferLimit(discharge));
-            long free = getEuFree();
-            long stored = ElectricItemManager.getEnergy(discharge);
-            long move = Math.min(maxMove, Math.min(free, stored));
-
-            if (move > 0L) {
-                long extracted = ElectricItemManager.discharge(discharge, move, false);
-                if (extracted > 0L) {
-                    energy = Math.min(capacity, energy + extracted);
-                    markDirtyAndSync();
-                }
-            }
+        long extracted = ElectricSlotHelper.dischargeIntoStorage(discharge, getEuFree(), tier, true, false);
+        if (extracted > 0L) {
+            energy = Math.min(capacity, energy + extracted);
+            markDirtyAndSync();
         }
     }
 
@@ -284,8 +266,9 @@ public class CesuBlockEntity extends BlockEntity implements SidedInventory, IEuE
 
     @Override
     public boolean isValid(int slot, ItemStack stack) {
-        // Only electric items in both slots.
-        return ElectricItemManager.isElectric(stack);
+        if (slot == SLOT_CHARGE) return ElectricSlotHelper.canCharge(stack, tier);
+        if (slot == SLOT_DISCHARGE) return ElectricSlotHelper.canDischarge(stack, tier, true);
+        return false;
     }
 
     public void setStack(int slot, ItemStack stack) {
@@ -320,8 +303,8 @@ public class CesuBlockEntity extends BlockEntity implements SidedInventory, IEuE
 
     @Override
     public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
-        if (!ElectricItemManager.isElectric(stack)) return false;
-        // IL-like: charge slot is UP, discharge slot is DOWN.
+        if (!isValid(slot, stack)) return false;
+        // IC2 TileEntityElectricBlock: charge slot prefers UP, discharge slot prefers BOTTOM.
         if (slot == SLOT_CHARGE) return dir == null || dir == Direction.UP;
         if (slot == SLOT_DISCHARGE) return dir == null || dir == Direction.DOWN;
         return false;

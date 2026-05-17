@@ -20,7 +20,8 @@ public class MachineUpgradeItem extends Item {
         PULLING,
         ADVANCED_PULLING,
         FLUID_EJECTOR,
-        FLUID_PULLING
+        FLUID_PULLING,
+        REMOTE_INTERFACE
     }
 
     private final UpgradeType type;

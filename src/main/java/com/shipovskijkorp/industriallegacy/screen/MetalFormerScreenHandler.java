@@ -1,5 +1,6 @@
 package com.shipovskijkorp.industriallegacy.screen;
 
+import com.shipovskijkorp.industriallegacy.screen.slot.FilteredSlot;
 import com.shipovskijkorp.industriallegacy.block.entity.MetalFormerBlockEntity;
 import com.shipovskijkorp.industriallegacy.registry.ModScreenHandlers;
 import net.minecraft.entity.player.PlayerEntity;
@@ -40,10 +41,10 @@ public class MetalFormerScreenHandler extends ScreenHandler {
         this.addSlot(new Slot(inv, MetalFormerBlockEntity.SLOT_OUTPUT, 116, 35) {
             @Override public boolean canInsert(net.minecraft.item.ItemStack stack) { return false; }
         });
-        this.addSlot(new Slot(inv, MetalFormerBlockEntity.SLOT_DISCHARGE, 17, 53));
+        this.addSlot(new FilteredSlot(inv, MetalFormerBlockEntity.SLOT_DISCHARGE, 17, 53));
 
         for (int i = 0; i < MetalFormerBlockEntity.UPGRADE_SLOTS; i++) {
-            this.addSlot(new Slot(inv, MetalFormerBlockEntity.SLOT_UPGRADE_0 + i, 152, 8 + i * 18));
+            this.addSlot(new FilteredSlot(inv, MetalFormerBlockEntity.SLOT_UPGRADE_0 + i, 152, 8 + i * 18));
         }
 
         int invX = 8;

@@ -602,5 +602,6 @@
   "item.industrial_legacy.pulling_upgrade": "Pulling Upgrade",
   "item.industrial_legacy.advanced_pulling_upgrade": "Advanced Pulling Upgrade",
   "item.industrial_legacy.fluid_ejector_upgrade": "Fluid Ejector Upgrade",
-  "item.industrial_legacy.fluid_pulling_upgrade": "Fluid Pulling Upgrade"
+  "item.industrial_legacy.fluid_pulling_upgrade": "Fluid Pulling Upgrade",
+  "item.industrial_legacy.remote_interface_upgrade": "Remote Interface Upgrade"
 }

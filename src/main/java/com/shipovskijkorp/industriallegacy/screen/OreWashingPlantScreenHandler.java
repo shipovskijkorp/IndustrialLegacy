@@ -1,5 +1,6 @@
 package com.shipovskijkorp.industriallegacy.screen;
 
+import com.shipovskijkorp.industriallegacy.screen.slot.FilteredSlot;
 import com.shipovskijkorp.industriallegacy.block.entity.OreWashingPlantBlockEntity;
 import com.shipovskijkorp.industriallegacy.registry.ModScreenHandlers;
 import net.minecraft.entity.player.PlayerEntity;
@@ -24,8 +25,8 @@ public class OreWashingPlantScreenHandler extends ScreenHandler {
         this.addSlot(new Slot(this.inventory, OreWashingPlantBlockEntity.SLOT_OUTPUT_0, 86, 62) { @Override public boolean canInsert(net.minecraft.item.ItemStack stack) { return false; } });
         this.addSlot(new Slot(this.inventory, OreWashingPlantBlockEntity.SLOT_OUTPUT_1, 104, 62) { @Override public boolean canInsert(net.minecraft.item.ItemStack stack) { return false; } });
         this.addSlot(new Slot(this.inventory, OreWashingPlantBlockEntity.SLOT_OUTPUT_2, 122, 62) { @Override public boolean canInsert(net.minecraft.item.ItemStack stack) { return false; } });
-        this.addSlot(new Slot(this.inventory, OreWashingPlantBlockEntity.SLOT_DISCHARGE, 8, 62));
-        for (int i=0;i<OreWashingPlantBlockEntity.UPGRADE_SLOTS;i++) this.addSlot(new Slot(this.inventory, OreWashingPlantBlockEntity.SLOT_UPGRADE_0+i, 152, 8+i*18));
+        this.addSlot(new FilteredSlot(this.inventory, OreWashingPlantBlockEntity.SLOT_DISCHARGE, 8, 62));
+        for (int i=0;i<OreWashingPlantBlockEntity.UPGRADE_SLOTS;i++) this.addSlot(new FilteredSlot(this.inventory, OreWashingPlantBlockEntity.SLOT_UPGRADE_0+i, 152, 8+i*18));
         int invX=8, invY=84;
         for(int row=0;row<3;row++) for(int col=0;col<9;col++) this.addSlot(new Slot(playerInv, col+row*9+9, invX+col*18, invY+row*18));
         for(int col=0;col<9;col++) this.addSlot(new Slot(playerInv, col, invX+col*18, invY+58));

@@ -3,6 +3,7 @@ package com.shipovskijkorp.industriallegacy.block.entity;
 import com.shipovskijkorp.industriallegacy.block.ChargepadBlock;
 import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
 import com.shipovskijkorp.industriallegacy.energy.item.ElectricItemManager;
+import com.shipovskijkorp.industriallegacy.energy.item.ElectricSlotHelper;
 import com.shipovskijkorp.industriallegacy.energy.net.EuNetwork;
 import com.shipovskijkorp.industriallegacy.energy.util.EuUtil;
 import com.shipovskijkorp.industriallegacy.registry.ModParticles;
@@ -162,29 +163,17 @@ public abstract class AbstractChargepadBlockEntity extends BlockEntity implement
 
     private void chargeDischargeSlots() {
         ItemStack charge = items.get(SLOT_CHARGE);
-        if (!charge.isEmpty() && charge.getCount() == 1 && ElectricItemManager.isElectric(charge)) {
-            long maxMove = Math.min((long) outputEuT, ElectricItemManager.getTransferLimit(charge));
-            long move = Math.min(Math.min(maxMove, energy), ElectricItemManager.getFree(charge));
-            if (move > 0L) {
-                long accepted = ElectricItemManager.charge(charge, move, false);
-                if (accepted > 0L) {
-                    energy -= accepted;
-                    markDirtyAndSync();
-                }
-            }
+        long charged = ElectricSlotHelper.chargeFromStorage(charge, energy, tier, false);
+        if (charged > 0L) {
+            energy -= charged;
+            markDirtyAndSync();
         }
 
         ItemStack discharge = items.get(SLOT_DISCHARGE);
-        if (!discharge.isEmpty() && discharge.getCount() == 1 && ElectricItemManager.isElectric(discharge)) {
-            long maxMove = Math.min((long) outputEuT, ElectricItemManager.getTransferLimit(discharge));
-            long move = Math.min(maxMove, Math.min(getEuFree(), ElectricItemManager.getEnergy(discharge)));
-            if (move > 0L) {
-                long extracted = ElectricItemManager.discharge(discharge, move, false);
-                if (extracted > 0L) {
-                    energy = Math.min(capacity, energy + extracted);
-                    markDirtyAndSync();
-                }
-            }
+        long extracted = ElectricSlotHelper.dischargeIntoStorage(discharge, getEuFree(), tier, true, false);
+        if (extracted > 0L) {
+            energy = Math.min(capacity, energy + extracted);
+            markDirtyAndSync();
         }
     }
 
@@ -352,8 +341,15 @@ public abstract class AbstractChargepadBlockEntity extends BlockEntity implement
     }
 
     @Override
+    public boolean isValid(int slot, ItemStack stack) {
+        if (slot == SLOT_CHARGE) return ElectricSlotHelper.canCharge(stack, tier);
+        if (slot == SLOT_DISCHARGE) return ElectricSlotHelper.canDischarge(stack, tier, true);
+        return false;
+    }
+
+    @Override
     public boolean canInsert(int slot, ItemStack stack, Direction dir) {
-        return ElectricItemManager.isElectric(stack) && (slot == SLOT_CHARGE || slot == SLOT_DISCHARGE);
+        return isValid(slot, stack);
     }
 
     @Override

@@ -169,6 +169,11 @@ public final class ChargingBatteryItem extends Item implements IElectricItem, IM
     }
 
     @Override
+    public boolean canProvideEnergy(ItemStack stack) {
+        return true;
+    }
+
+    @Override
     public boolean isItemBarVisible(ItemStack stack) {
         return getEnergy(stack) < capacityEu;
     }

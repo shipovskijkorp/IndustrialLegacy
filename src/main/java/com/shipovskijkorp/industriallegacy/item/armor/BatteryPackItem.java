@@ -124,6 +124,11 @@ public class BatteryPackItem extends ArmorItem implements IElectricItem {
     }
 
     @Override
+    public boolean canProvideEnergy(ItemStack stack) {
+        return true;
+    }
+
+    @Override
     public boolean isItemBarVisible(ItemStack stack) {
         return getEnergy(stack) < capacityEu;
     }

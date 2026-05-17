@@ -1,5 +1,6 @@
 package com.shipovskijkorp.industriallegacy.screen;
 
+import com.shipovskijkorp.industriallegacy.screen.slot.FilteredSlot;
 import com.shipovskijkorp.industriallegacy.block.entity.InductionFurnaceBlockEntity;
 import com.shipovskijkorp.industriallegacy.registry.ModScreenHandlers;
 import net.minecraft.entity.player.PlayerEntity;
@@ -48,9 +49,9 @@ public class InductionFurnaceScreenHandler extends ScreenHandler {
         this.addSlot(new Slot(inv, InductionFurnaceBlockEntity.SLOT_OUTPUT_B, 129, 35) {
             @Override public boolean canInsert(net.minecraft.item.ItemStack stack) { return false; }
         });
-        this.addSlot(new Slot(inv, InductionFurnaceBlockEntity.SLOT_DISCHARGE, 50, 52));
+        this.addSlot(new FilteredSlot(inv, InductionFurnaceBlockEntity.SLOT_DISCHARGE, 50, 52));
         for (int i = 0; i < InductionFurnaceBlockEntity.UPGRADE_SLOTS; i++) {
-            this.addSlot(new Slot(inv, InductionFurnaceBlockEntity.SLOT_UPGRADE_0 + i, 151, 25 + i * 18));
+            this.addSlot(new FilteredSlot(inv, InductionFurnaceBlockEntity.SLOT_UPGRADE_0 + i, 151, 25 + i * 18));
         }
 
         int startX = 8;

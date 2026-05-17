@@ -2,7 +2,7 @@ package com.shipovskijkorp.industriallegacy.block.entity;
 
 import com.shipovskijkorp.industriallegacy.config.ILConfig;
 import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
-import com.shipovskijkorp.industriallegacy.energy.item.ElectricItemManager;
+import com.shipovskijkorp.industriallegacy.energy.item.ElectricSlotHelper;
 import com.shipovskijkorp.industriallegacy.energy.net.EuNetwork;
 import com.shipovskijkorp.industriallegacy.energy.util.EuUtil;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
@@ -145,11 +145,9 @@ public class SolarPanelBlockEntity extends BlockEntity implements SidedInventory
     }
 
     private void chargeItem() {
+        // IC2 TileEntityBaseGenerator uses InvSlotCharge tier 1.
         ItemStack charge = items.get(SLOT_CHARGE);
-        if (charge.isEmpty() || !ElectricItemManager.isElectric(charge) || charge.getCount() != 1 || energy <= 0L) return;
-
-        long maxMove = Math.min(energy, ElectricItemManager.getTransferLimit(charge));
-        long accepted = ElectricItemManager.charge(charge, maxMove, false);
+        long accepted = ElectricSlotHelper.chargeFromStorage(charge, energy, 1, false);
         if (accepted > 0L) {
             energy -= accepted;
             markDirty();
@@ -197,7 +195,8 @@ public class SolarPanelBlockEntity extends BlockEntity implements SidedInventory
     @Override public boolean canPlayerUse(PlayerEntity player) { return world != null && world.getBlockEntity(pos) == this && player.squaredDistanceTo(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5) <= 64.0; }
     @Override public void clear() { items.clear(); }
     @Override public int[] getAvailableSlots(Direction side) { return ALL_SLOTS; }
-    @Override public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) { return slot == SLOT_CHARGE && ElectricItemManager.isElectric(stack); }
+    @Override public boolean isValid(int slot, ItemStack stack) { return slot == SLOT_CHARGE && ElectricSlotHelper.canCharge(stack, 1); }
+    @Override public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) { return isValid(slot, stack); }
     @Override public boolean canExtract(int slot, ItemStack stack, Direction dir) { return slot == SLOT_CHARGE; }
 
     @Override public Text getDisplayName() { return Text.translatable("container.industrial_legacy.solar_panel"); }

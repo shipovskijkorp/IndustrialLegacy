@@ -86,6 +86,11 @@ public final class AdvancedReBatteryItem extends Item implements IElectricItem {
         return TIER;
     }
 
+    @Override
+    public boolean canProvideEnergy(ItemStack stack) {
+        return true;
+    }
+
     // --- UI ---
 
     @Override

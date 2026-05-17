@@ -329,6 +329,19 @@ public final class ModItemGroups {
                         add.accept(ModItems.ADVANCED_CIRCUIT);
                         add.accept(ModItems.MFSU_UPGRADE_KIT);
 
+                        // Machine upgrades
+                        add.accept(ModItems.OVERCLOCKER_UPGRADE);
+                        add.accept(ModItems.TRANSFORMER_UPGRADE);
+                        add.accept(ModItems.ENERGY_STORAGE_UPGRADE);
+                        add.accept(ModItems.REDSTONE_INVERTER_UPGRADE);
+                        add.accept(ModItems.EJECTOR_UPGRADE);
+                        add.accept(ModItems.ADVANCED_EJECTOR_UPGRADE);
+                        add.accept(ModItems.PULLING_UPGRADE);
+                        add.accept(ModItems.ADVANCED_PULLING_UPGRADE);
+                        add.accept(ModItems.FLUID_EJECTOR_UPGRADE);
+                        add.accept(ModItems.FLUID_PULLING_UPGRADE);
+                        add.accept(ModItems.REMOTE_INTERFACE_UPGRADE);
+
                         // Reactor components
                         add.accept(ModItems.HEAT_EXCHANGER);
                         add.accept(ModItems.REACTOR_HEAT_EXCHANGER);

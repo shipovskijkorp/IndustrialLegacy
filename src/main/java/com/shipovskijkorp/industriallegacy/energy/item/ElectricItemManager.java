@@ -37,12 +37,27 @@ public final class ElectricItemManager {
         return ei.getTier(stack);
     }
 
+    public static boolean canProvideEnergy(ItemStack stack) {
+        return stack != null && !stack.isEmpty()
+                && stack.getItem() instanceof IElectricItem ei
+                && ei.canProvideEnergy(stack);
+    }
+
     /** @return accepted EU */
     public static long charge(ItemStack stack, long amount, boolean simulate) {
-        if (!(stack.getItem() instanceof IElectricItem ei)) return 0L;
-        if (amount <= 0L) return 0L;
+        return charge(stack, amount, Integer.MAX_VALUE, false, simulate);
+    }
 
-        long limit = Math.min(amount, ei.getTransferLimit(stack));
+    /**
+     * IC2-like charge with tier and transfer-limit controls.
+     *
+     * @return accepted EU
+     */
+    public static long charge(ItemStack stack, long amount, int tier, boolean ignoreTransferLimit, boolean simulate) {
+        if (stack == null || stack.isEmpty() || !(stack.getItem() instanceof IElectricItem ei)) return 0L;
+        if (amount <= 0L || stack.getCount() > 1 || ei.getTier(stack) > tier) return 0L;
+
+        long limit = ignoreTransferLimit ? amount : Math.min(amount, ei.getTransferLimit(stack));
         long free = Math.max(0L, ei.getCapacity(stack) - ei.getEnergy(stack));
         long accepted = Math.min(limit, free);
 
@@ -54,10 +69,20 @@ public final class ElectricItemManager {
 
     /** @return extracted EU */
     public static long discharge(ItemStack stack, long amount, boolean simulate) {
-        if (!(stack.getItem() instanceof IElectricItem ei)) return 0L;
-        if (amount <= 0L) return 0L;
+        return discharge(stack, amount, Integer.MAX_VALUE, false, false, simulate);
+    }
 
-        long limit = Math.min(amount, ei.getTransferLimit(stack));
+    /**
+     * IC2-like discharge with tier, transfer-limit and external-provider controls.
+     *
+     * @return extracted EU
+     */
+    public static long discharge(ItemStack stack, long amount, int tier, boolean ignoreTransferLimit, boolean externally, boolean simulate) {
+        if (stack == null || stack.isEmpty() || !(stack.getItem() instanceof IElectricItem ei)) return 0L;
+        if (amount <= 0L || stack.getCount() > 1 || ei.getTier(stack) > tier) return 0L;
+        if (externally && !ei.canProvideEnergy(stack)) return 0L;
+
+        long limit = ignoreTransferLimit ? amount : Math.min(amount, ei.getTransferLimit(stack));
         long stored = Math.max(0L, ei.getEnergy(stack));
         long extracted = Math.min(limit, stored);
 

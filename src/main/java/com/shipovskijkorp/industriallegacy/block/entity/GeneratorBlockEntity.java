@@ -4,7 +4,7 @@ import com.shipovskijkorp.industriallegacy.block.GeneratorBlock;
 import com.shipovskijkorp.industriallegacy.config.ILConfig;
 import com.shipovskijkorp.industriallegacy.energy.net.EuNetwork;
 import com.shipovskijkorp.industriallegacy.energy.util.EuUtil;
-import com.shipovskijkorp.industriallegacy.energy.item.ElectricItemManager;
+import com.shipovskijkorp.industriallegacy.energy.item.ElectricSlotHelper;
 import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
 import com.shipovskijkorp.industriallegacy.registry.ModBlockEntities;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
@@ -185,19 +185,9 @@ public class GeneratorBlockEntity extends BlockEntity implements SidedInventory,
     }
 
     private void chargeItem() {
-        // Slot 0: charge (Generator buffer -> item), IC2-like.
+        // IC2 TileEntityBaseGenerator uses InvSlotCharge tier 1.
         ItemStack charge = items.get(SLOT_CHARGE);
-        if (charge.isEmpty() || !ElectricItemManager.isElectric(charge) || charge.getCount() != 1) return;
-        if (energy <= 0L) return;
-
-        long maxMove = Math.min((long) production, ElectricItemManager.getTransferLimit(charge));
-        if (maxMove <= 0L) return;
-
-        long free = ElectricItemManager.getFree(charge);
-        long move = Math.min(maxMove, Math.min(energy, free));
-        if (move <= 0L) return;
-
-        long accepted = ElectricItemManager.charge(charge, move, false);
+        long accepted = ElectricSlotHelper.chargeFromStorage(charge, energy, 1, false);
         if (accepted > 0L) {
             energy -= accepted;
             markDirty();
@@ -312,16 +302,21 @@ public class GeneratorBlockEntity extends BlockEntity implements SidedInventory,
     }
 
     @Override
+    public boolean isValid(int slot, ItemStack stack) {
+        if (slot == SLOT_CHARGE) return ElectricSlotHelper.canCharge(stack, 1);
+        if (slot == SLOT_FUEL) return isValidFuel(stack);
+        return false;
+    }
+
+    @Override
     public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
         if (slot == SLOT_FUEL) {
             // fuel from sides only
             if (dir == null || dir == Direction.UP || dir == Direction.DOWN) return false;
-            Integer burnTime = FuelRegistry.INSTANCE.get(stack.getItem());
-            return burnTime != null && burnTime > 0 && !stack.isOf(Items.LAVA_BUCKET);
+            return isValid(slot, stack);
         }
         if (slot == SLOT_CHARGE) {
-            // reserve for later electric items
-            return dir == Direction.UP;
+            return (dir == null || dir == Direction.UP) && isValid(slot, stack);
         }
         return false;
     }

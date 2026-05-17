@@ -1,5 +1,6 @@
 package com.shipovskijkorp.industriallegacy.screen;
 
+import com.shipovskijkorp.industriallegacy.screen.slot.FilteredSlot;
 import com.shipovskijkorp.industriallegacy.block.entity.MaceratorBlockEntity;
 import com.shipovskijkorp.industriallegacy.registry.ModScreenHandlers;
 import net.minecraft.entity.player.PlayerEntity;
@@ -36,11 +37,11 @@ public class MaceratorScreenHandler extends ScreenHandler {
                 return false;
             }
         });
-        this.addSlot(new Slot(inv, MaceratorBlockEntity.SLOT_DISCHARGE, 56, 53));
+        this.addSlot(new FilteredSlot(inv, MaceratorBlockEntity.SLOT_DISCHARGE, 56, 53));
 
         // upgrade slots (right side, 4x1)
         for (int i = 0; i < MaceratorBlockEntity.UPGRADE_SLOTS; i++) {
-            this.addSlot(new Slot(inv, MaceratorBlockEntity.SLOT_UPGRADE_0 + i, 152, 8 + i * 18));
+            this.addSlot(new FilteredSlot(inv, MaceratorBlockEntity.SLOT_UPGRADE_0 + i, 152, 8 + i * 18));
         }
 
         // player inv

@@ -1,8 +1,7 @@
 package com.shipovskijkorp.industriallegacy.block.entity.base;
 
 import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
-import com.shipovskijkorp.industriallegacy.energy.item.ElectricItemManager;
-import com.shipovskijkorp.industriallegacy.energy.util.EuUtil;
+import com.shipovskijkorp.industriallegacy.energy.item.ElectricSlotHelper;
 import com.shipovskijkorp.industriallegacy.item.MachineUpgradeItem;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
@@ -113,13 +112,11 @@ public abstract class AbstractElectricMachineBlockEntity extends BlockEntity imp
     protected final boolean chargeFromDischargeSlot() {
         if (dischargeSlot < 0 || dischargeSlot >= items.size()) return false;
         ItemStack discharge = items.get(dischargeSlot);
-        if (discharge.isEmpty() || !ElectricItemManager.isElectric(discharge) || discharge.getCount() != 1) return false;
         long free = energyCapacity - energy;
         if (free <= 0L) return false;
-        long maxMove = Math.min(free, EuUtil.powerFromTier(sinkTier));
-        long extracted = ElectricItemManager.discharge(discharge, maxMove, false);
+        long extracted = ElectricSlotHelper.dischargeIntoStorage(discharge, free, sinkTier, true, false);
         if (extracted > 0L) {
-            energy += extracted;
+            energy = Math.min(energyCapacity, energy + extracted);
             return true;
         }
         return false;
@@ -235,7 +232,7 @@ public abstract class AbstractElectricMachineBlockEntity extends BlockEntity imp
     public boolean isValid(int slot, ItemStack stack) {
         if (isOutputSlot(slot)) return false;
         if (isUpgradeSlot(slot)) return MachineUpgradeItem.isUpgrade(stack);
-        if (slot == dischargeSlot) return ElectricItemManager.isElectric(stack);
+        if (slot == dischargeSlot) return ElectricSlotHelper.canDischarge(stack, sinkTier, true);
         return true;
     }
 

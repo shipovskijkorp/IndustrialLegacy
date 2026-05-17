@@ -1,5 +1,6 @@
 package com.shipovskijkorp.industriallegacy.screen;
 
+import com.shipovskijkorp.industriallegacy.screen.slot.FilteredSlot;
 import com.shipovskijkorp.industriallegacy.block.entity.GeoGeneratorBlockEntity;
 import com.shipovskijkorp.industriallegacy.registry.ModScreenHandlers;
 import net.minecraft.entity.player.PlayerEntity;
@@ -49,7 +50,7 @@ public class GeoGeneratorScreenHandler extends ScreenHandler {
                 return false;
             }
         });
-        this.addSlot(new Slot(inv, GeoGeneratorBlockEntity.SLOT_CHARGE, 117, 49));
+        this.addSlot(new FilteredSlot(inv, GeoGeneratorBlockEntity.SLOT_CHARGE, 117, 49));
 
         int startX = 8;
         int startY = 84;

@@ -1,5 +1,6 @@
 package com.shipovskijkorp.industriallegacy.screen;
 
+import com.shipovskijkorp.industriallegacy.screen.slot.FilteredSlot;
 import com.shipovskijkorp.industriallegacy.block.entity.PumpBlockEntity;
 import com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem;
 import com.shipovskijkorp.industriallegacy.registry.ModScreenHandlers;
@@ -49,9 +50,9 @@ public class PumpScreenHandler extends ScreenHandler {
         this.addSlot(new Slot(inv, PumpBlockEntity.SLOT_OUTPUT, 132, 34) {
             @Override public boolean canInsert(net.minecraft.item.ItemStack stack) { return false; }
         });
-        this.addSlot(new Slot(inv, PumpBlockEntity.SLOT_DISCHARGE, 8, 44));
+        this.addSlot(new FilteredSlot(inv, PumpBlockEntity.SLOT_DISCHARGE, 8, 44));
         for (int i = 0; i < PumpBlockEntity.UPGRADE_SLOTS; i++) {
-            this.addSlot(new Slot(inv, PumpBlockEntity.SLOT_UPGRADE_0 + i, 152, 8 + i * 18));
+            this.addSlot(new FilteredSlot(inv, PumpBlockEntity.SLOT_UPGRADE_0 + i, 152, 8 + i * 18));
         }
 
         int invX = 8;

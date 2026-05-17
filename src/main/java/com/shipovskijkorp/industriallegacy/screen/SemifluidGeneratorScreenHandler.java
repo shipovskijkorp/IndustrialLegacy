@@ -1,5 +1,6 @@
 package com.shipovskijkorp.industriallegacy.screen;
 
+import com.shipovskijkorp.industriallegacy.screen.slot.FilteredSlot;
 import com.shipovskijkorp.industriallegacy.block.entity.SemifluidGeneratorBlockEntity;
 import com.shipovskijkorp.industriallegacy.registry.ModScreenHandlers;
 import net.minecraft.entity.player.PlayerEntity;
@@ -50,7 +51,7 @@ public class SemifluidGeneratorScreenHandler extends ScreenHandler {
         this.addSlot(new Slot(inv, SemifluidGeneratorBlockEntity.SLOT_OUTPUT, 27, 53) {
             @Override public boolean canInsert(net.minecraft.item.ItemStack stack) { return false; }
         });
-        this.addSlot(new Slot(inv, SemifluidGeneratorBlockEntity.SLOT_CHARGE, 115, 49));
+        this.addSlot(new FilteredSlot(inv, SemifluidGeneratorBlockEntity.SLOT_CHARGE, 115, 49));
 
         int startX = 8;
         int startY = 84;

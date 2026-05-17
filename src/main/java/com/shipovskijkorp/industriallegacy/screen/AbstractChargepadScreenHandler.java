@@ -1,7 +1,6 @@
 package com.shipovskijkorp.industriallegacy.screen;
 
 import com.shipovskijkorp.industriallegacy.block.entity.AbstractChargepadBlockEntity;
-import com.shipovskijkorp.industriallegacy.energy.item.ElectricItemManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
@@ -101,13 +100,16 @@ public abstract class AbstractChargepadScreenHandler extends ScreenHandler {
     }
 
     protected static final class NonStackingElectricSlot extends Slot {
+        private final int inventoryIndex;
+
         protected NonStackingElectricSlot(Inventory inventory, int index, int x, int y) {
             super(inventory, index, x, y);
+            this.inventoryIndex = index;
         }
 
         @Override
         public boolean canInsert(ItemStack stack) {
-            return ElectricItemManager.isElectric(stack);
+            return this.inventory.isValid(this.inventoryIndex, stack);
         }
 
         @Override

@@ -1,5 +1,6 @@
 package com.shipovskijkorp.industriallegacy.screen;
 
+import com.shipovskijkorp.industriallegacy.screen.slot.FilteredSlot;
 import com.shipovskijkorp.industriallegacy.block.entity.ThermalCentrifugeBlockEntity;
 import com.shipovskijkorp.industriallegacy.registry.ModScreenHandlers;
 import net.minecraft.entity.player.PlayerEntity;
@@ -30,12 +31,12 @@ public class ThermalCentrifugeScreenHandler extends ScreenHandler {
         }
 
         this.addSlot(new Slot(this.inventory, ThermalCentrifugeBlockEntity.SLOT_INPUT, 11, 21));
-        this.addSlot(new Slot(this.inventory, ThermalCentrifugeBlockEntity.SLOT_DISCHARGE, 11, 60));
+        this.addSlot(new FilteredSlot(this.inventory, ThermalCentrifugeBlockEntity.SLOT_DISCHARGE, 11, 60));
         this.addSlot(new Slot(this.inventory, ThermalCentrifugeBlockEntity.SLOT_OUTPUT_0, 124, 18) { @Override public boolean canInsert(net.minecraft.item.ItemStack stack) { return false; } });
         this.addSlot(new Slot(this.inventory, ThermalCentrifugeBlockEntity.SLOT_OUTPUT_1, 124, 36) { @Override public boolean canInsert(net.minecraft.item.ItemStack stack) { return false; } });
         this.addSlot(new Slot(this.inventory, ThermalCentrifugeBlockEntity.SLOT_OUTPUT_2, 124, 54) { @Override public boolean canInsert(net.minecraft.item.ItemStack stack) { return false; } });
         for (int i = 0; i < ThermalCentrifugeBlockEntity.UPGRADE_SLOTS; i++) {
-            this.addSlot(new Slot(this.inventory, ThermalCentrifugeBlockEntity.SLOT_UPGRADE_0 + i, 152, 8 + i * 18));
+            this.addSlot(new FilteredSlot(this.inventory, ThermalCentrifugeBlockEntity.SLOT_UPGRADE_0 + i, 152, 8 + i * 18));
         }
 
         int invX = 8;

@@ -1,5 +1,6 @@
 package com.shipovskijkorp.industriallegacy.screen;
 
+import com.shipovskijkorp.industriallegacy.screen.slot.FilteredSlot;
 import com.shipovskijkorp.industriallegacy.block.entity.SolarDistillerBlockEntity;
 import com.shipovskijkorp.industriallegacy.registry.ModScreenHandlers;
 import net.minecraft.entity.player.PlayerEntity;
@@ -55,7 +56,7 @@ public class SolarDistillerScreenHandler extends ScreenHandler {
             @Override public boolean canInsert(ItemStack stack) { return false; }
         });
         for (int i = 0; i < SolarDistillerBlockEntity.UPGRADE_SLOTS; i++) {
-            this.addSlot(new Slot(inv, SolarDistillerBlockEntity.SLOT_UPGRADE_0 + i, 152, 8 + i * 18));
+            this.addSlot(new FilteredSlot(inv, SolarDistillerBlockEntity.SLOT_UPGRADE_0 + i, 152, 8 + i * 18));
         }
 
         int invX = 8;
