@@ -11,6 +11,9 @@ import com.shipovskijkorp.industriallegacy.recipe.ElectricMotorRecipe;
 import com.shipovskijkorp.industriallegacy.recipe.ElectronicCircuitRecipe;
 import com.shipovskijkorp.industriallegacy.recipe.HammerPlateRecipe;
 import com.shipovskijkorp.industriallegacy.recipe.InsulateCableRecipe;
+import com.shipovskijkorp.industriallegacy.recipe.IniShapedCraftingRecipe;
+import com.shipovskijkorp.industriallegacy.recipe.IniShapelessCraftingRecipe;
+import com.shipovskijkorp.industriallegacy.recipe.IlCraftingIngredient;
 import com.shipovskijkorp.industriallegacy.recipe.LuminatorRecipe;
 import com.shipovskijkorp.industriallegacy.recipe.MfeRecipe;
 import com.shipovskijkorp.industriallegacy.recipe.ReBatteryRecipe;
@@ -32,7 +35,11 @@ final class IlSpecialCraftingRecipeFactory {
     static List<IlSpecialCraftingRecipe> create(RecipeManager manager) {
         List<IlSpecialCraftingRecipe> out = new ArrayList<>();
         for (Recipe<?> recipe : manager.values()) {
-            if (recipe instanceof HammerPlateRecipe hammer) {
+            if (recipe instanceof IniShapedCraftingRecipe iniShaped) {
+                out.add(fromIniShaped(iniShaped));
+            } else if (recipe instanceof IniShapelessCraftingRecipe iniShapeless) {
+                out.add(fromIniShapeless(iniShapeless));
+            } else if (recipe instanceof HammerPlateRecipe hammer) {
                 out.add(shapeless(hammer.getId(), hammer.resultStack(), IlJeiUtil.ingredient(hammer.tool(), 1), IlJeiUtil.ingredient(hammer.material(), 1)));
             } else if (recipe instanceof CutterCableRecipe cutter) {
                 out.add(shapeless(cutter.getId(), cutter.resultStack(), IlJeiUtil.ingredient(cutter.tool(), 1), IlJeiUtil.ingredient(cutter.material(), 1)));
@@ -100,6 +107,36 @@ final class IlSpecialCraftingRecipeFactory {
         return out;
     }
 
+
+
+
+    private static IlSpecialCraftingRecipe fromIniShaped(IniShapedCraftingRecipe recipe) {
+        List<List<ItemStack>> grid = new ArrayList<>(9);
+        for (int i = 0; i < 9; i++) grid.add(List.of());
+        int width = recipe.patternWidth();
+        int height = recipe.patternHeight();
+        List<IlCraftingIngredient> inputs = recipe.inputs();
+        for (int y = 0; y < height && y < 3; y++) {
+            for (int x = 0; x < width && x < 3; x++) {
+                int src = x + y * width;
+                int dst = x + y * 3;
+                if (src >= 0 && src < inputs.size()) {
+                    grid.set(dst, inputs.get(src).previewStacks());
+                }
+            }
+        }
+        return new IlSpecialCraftingRecipe(recipe.getId(), grid, recipe.resultStack(), false);
+    }
+
+    private static IlSpecialCraftingRecipe fromIniShapeless(IniShapelessCraftingRecipe recipe) {
+        List<List<ItemStack>> grid = new ArrayList<>(9);
+        for (int i = 0; i < 9; i++) grid.add(List.of());
+        List<IlCraftingIngredient> inputs = recipe.inputs();
+        for (int i = 0; i < inputs.size() && i < 9; i++) {
+            grid.set(i, inputs.get(i).previewStacks());
+        }
+        return new IlSpecialCraftingRecipe(recipe.getId(), grid, recipe.resultStack(), true);
+    }
 
     private static void addTransformerRecipe(List<IlSpecialCraftingRecipe> out, TransformerRecipe recipe) {
         switch (recipe.variant()) {

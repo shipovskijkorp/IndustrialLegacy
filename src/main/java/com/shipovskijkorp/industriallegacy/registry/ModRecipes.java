@@ -107,6 +107,18 @@ public final class ModRecipes {
             new CableVariantCraftingRecipeSerializer()
     );
 
+    public static final RecipeSerializer<IniShapedCraftingRecipe> INI_SHAPED_SERIALIZER = Registry.register(
+            Registries.RECIPE_SERIALIZER,
+            new Identifier(IndustrialLegacy.MOD_ID, "ini_shaped"),
+            new IniShapedCraftingRecipeSerializer()
+    );
+
+    public static final RecipeSerializer<IniShapelessCraftingRecipe> INI_SHAPELESS_SERIALIZER = Registry.register(
+            Registries.RECIPE_SERIALIZER,
+            new Identifier(IndustrialLegacy.MOD_ID, "ini_shapeless"),
+            new IniShapelessCraftingRecipeSerializer()
+    );
+
 
     public static final RecipeSerializer<BatBoxRecipe> BATBOX_SERIALIZER = Registry.register(
             Registries.RECIPE_SERIALIZER,
