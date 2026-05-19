@@ -39,31 +39,53 @@ public final class CraftingRecipeIniLoader {
 
     private CraftingRecipeIniLoader() {}
 
+    private static String category(String resourcePath) {
+        return RecipeLoadTracker.categoryName(resourcePath);
+    }
+
+    private static String recipeName(String resourcePath, Line line) {
+        return category(resourcePath) + ":" + line.number() + " -> " + line.text();
+    }
+
+    private static String recipeName(String resourcePath, int number, String raw) {
+        return category(resourcePath) + ":" + number + " -> " + raw.trim();
+    }
+
     public static List<Recipe<?>> loadBuiltinRecipes() {
         List<Recipe<?>> recipes = new ArrayList<>();
         recipes.addAll(loadShaped(SHAPED_PATH));
         recipes.addAll(loadShapeless(SHAPELESS_PATH));
         recipes.addAll(loadFurnace(FURNACE_PATH));
         IndustrialLegacy.LOGGER.info("Loaded IC2-style crafting .ini recipes: {} total", recipes.size());
+        RecipeLoadTracker.logFailuresIfAny();
         return recipes;
     }
 
     private static List<Recipe<?>> loadShaped(String resourcePath) {
         List<Recipe<?>> recipes = new ArrayList<>();
         List<Line> lines = loadLines(resourcePath);
+        String category = category(resourcePath);
         for (int i = 0; i < lines.size(); i++) {
             Line line = lines.get(i);
             try {
                 int equals = line.text.indexOf('=');
-                if (equals < 0) continue;
+                if (equals < 0) {
+                    RecipeLoadTracker.failed(category, recipeName(resourcePath, line), "missing '=' separator");
+                    continue;
+                }
                 String left = line.text.substring(0, equals).trim();
                 String right = stripAttributes(line.text.substring(equals + 1).trim());
                 Shape shape = parseShape(left);
                 ItemStack output = parseOutput(right);
-                if (shape == null || output.isEmpty()) continue;
+                if (shape == null || output.isEmpty()) {
+                    RecipeLoadTracker.failed(category, recipeName(resourcePath, line), "empty shaped input or output after parsing");
+                    continue;
+                }
                 Identifier id = new Identifier(IndustrialLegacy.MOD_ID, "ini/shaped/" + sanitize(output) + "_" + i);
                 recipes.add(new IniShapedCraftingRecipe(id, CraftingRecipeCategory.MISC, shape.width, shape.height, shape.inputs, output));
+                RecipeLoadTracker.loaded(category);
             } catch (RuntimeException e) {
+                RecipeLoadTracker.failed(category, recipeName(resourcePath, line), e);
                 IndustrialLegacy.LOGGER.debug("Skipping shaped ini recipe {}:{} -> {}", resourcePath, line.number, e.getMessage());
             }
         }
@@ -73,20 +95,32 @@ public final class CraftingRecipeIniLoader {
     private static List<Recipe<?>> loadShapeless(String resourcePath) {
         List<Recipe<?>> recipes = new ArrayList<>();
         List<Line> lines = loadLines(resourcePath);
+        String category = category(resourcePath);
         for (int i = 0; i < lines.size(); i++) {
             Line line = lines.get(i);
             try {
-                if (line.text.contains("@filler")) continue;
+                if (line.text.contains("@filler")) {
+                    RecipeLoadTracker.failed(category, recipeName(resourcePath, line), "@filler repair recipes are not supported by the crafting ini loader yet");
+                    continue;
+                }
                 int equals = line.text.indexOf('=');
-                if (equals < 0) continue;
+                if (equals < 0) {
+                    RecipeLoadTracker.failed(category, recipeName(resourcePath, line), "missing '=' separator");
+                    continue;
+                }
                 String left = stripAttributes(line.text.substring(0, equals).trim());
                 String right = stripAttributes(line.text.substring(equals + 1).trim());
                 List<IlCraftingIngredient> inputs = parseShapelessInputs(left);
                 ItemStack output = parseOutput(right);
-                if (inputs.isEmpty() || output.isEmpty()) continue;
+                if (inputs.isEmpty() || output.isEmpty()) {
+                    RecipeLoadTracker.failed(category, recipeName(resourcePath, line), "empty shapeless input or output after parsing");
+                    continue;
+                }
                 Identifier id = new Identifier(IndustrialLegacy.MOD_ID, "ini/shapeless/" + sanitize(output) + "_" + i);
                 recipes.add(new IniShapelessCraftingRecipe(id, CraftingRecipeCategory.MISC, inputs, output));
+                RecipeLoadTracker.loaded(category);
             } catch (RuntimeException e) {
+                RecipeLoadTracker.failed(category, recipeName(resourcePath, line), e);
                 IndustrialLegacy.LOGGER.debug("Skipping shapeless ini recipe {}:{} -> {}", resourcePath, line.number, e.getMessage());
             }
         }
@@ -96,22 +130,34 @@ public final class CraftingRecipeIniLoader {
     private static List<Recipe<?>> loadFurnace(String resourcePath) {
         List<Recipe<?>> recipes = new ArrayList<>();
         List<Line> lines = loadLines(resourcePath);
+        String category = category(resourcePath);
         for (int i = 0; i < lines.size(); i++) {
             Line line = lines.get(i);
             try {
                 int equals = line.text.indexOf('=');
-                if (equals < 0) continue;
+                if (equals < 0) {
+                    RecipeLoadTracker.failed(category, recipeName(resourcePath, line), "missing '=' separator");
+                    continue;
+                }
                 String left = line.text.substring(0, equals).trim();
                 String rightRaw = line.text.substring(equals + 1).trim();
                 float xp = parseFloatAttribute(rightRaw, "xp", 0.0f);
                 String right = stripAttributes(rightRaw);
                 IlCraftingIngredient input = parseIngredient(left);
-                if (input.isEmpty() || !input.isVanillaOnly()) continue;
+                if (input.isEmpty() || !input.isVanillaOnly()) {
+                    RecipeLoadTracker.failed(category, recipeName(resourcePath, line), "furnace input is empty or requires IL-only matching");
+                    continue;
+                }
                 ItemStack output = parseOutput(right);
-                if (output.isEmpty()) continue;
+                if (output.isEmpty()) {
+                    RecipeLoadTracker.failed(category, recipeName(resourcePath, line), "empty furnace output after parsing");
+                    continue;
+                }
                 Identifier id = new Identifier(IndustrialLegacy.MOD_ID, "ini/furnace/" + sanitize(left) + "_to_" + sanitize(output) + "_" + i);
                 recipes.add(new SmeltingRecipe(id, "", CookingRecipeCategory.MISC, input.asVanillaIngredient(), output, xp, FURNACE_COOK_TIME));
+                RecipeLoadTracker.loaded(category);
             } catch (RuntimeException e) {
+                RecipeLoadTracker.failed(category, recipeName(resourcePath, line), e);
                 IndustrialLegacy.LOGGER.debug("Skipping furnace ini recipe {}:{} -> {}", resourcePath, line.number, e.getMessage());
             }
         }
@@ -119,11 +165,15 @@ public final class CraftingRecipeIniLoader {
     }
 
     private static List<Line> loadLines(String resourcePath) {
+        String category = category(resourcePath);
+        RecipeLoadTracker.beginCategory(category);
+
         List<Line> lines = new ArrayList<>();
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         InputStream stream = loader.getResourceAsStream(resourcePath);
         if (stream == null) stream = CraftingRecipeIniLoader.class.getClassLoader().getResourceAsStream(resourcePath);
         if (stream == null) {
+            RecipeLoadTracker.failed(category, resourcePath, "missing ini resource");
             IndustrialLegacy.LOGGER.warn("Missing IC2-style crafting recipe ini: {}", resourcePath);
             return lines;
         }
@@ -135,9 +185,11 @@ public final class CraftingRecipeIniLoader {
                 number++;
                 String text = stripComment(raw).trim();
                 if (text.isEmpty()) continue;
+                RecipeLoadTracker.discovered(category);
                 lines.add(new Line(number, text));
             }
         } catch (IOException e) {
+            RecipeLoadTracker.failed(category, resourcePath, e);
             IndustrialLegacy.LOGGER.warn("Failed to read IC2-style crafting recipe ini {}", resourcePath, e);
         }
         return lines;
@@ -171,7 +223,15 @@ public final class CraftingRecipeIniLoader {
             String row = rows[y];
             for (int x = 0; x < width; x++) {
                 char c = x < row.length() ? row.charAt(x) : ' ';
-                inputs.add(c == ' ' ? IlCraftingIngredient.empty() : keys.getOrDefault(c, IlCraftingIngredient.empty()));
+                if (c == ' ') {
+                    inputs.add(IlCraftingIngredient.empty());
+                } else {
+                    IlCraftingIngredient ingredient = keys.get(c);
+                    if (ingredient == null || ingredient.isEmpty()) {
+                        throw new IllegalArgumentException("missing or empty ingredient for shaped key '" + c + "'");
+                    }
+                    inputs.add(ingredient);
+                }
             }
         }
         return new Shape(width, height, inputs);

@@ -61,6 +61,7 @@ public final class MachineRecipeManager {
                 metalFormerExtrudingRecipes.size(), metalFormerRollingRecipes.size(), metalFormerCuttingRecipes.size(),
                 canningRecipes.size(), canningEnrichRecipes.size(), thermalCentrifugeRecipes.size(), oreWashingRecipes.size(),
                 canningEmptyLiquidRecipes.size(), canningBottleLiquidRecipes.size());
+        RecipeLoadTracker.logFailuresIfAny();
     }
 
     public static List<MaceratorRecipe> getMaceratorRecipes() {

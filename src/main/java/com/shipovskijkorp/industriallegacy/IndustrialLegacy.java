@@ -1,5 +1,6 @@
 package com.shipovskijkorp.industriallegacy;
 
+import com.shipovskijkorp.industriallegacy.command.IlCommands;
 import com.shipovskijkorp.industriallegacy.energy.grid.EnergyNetLocal;
 import com.shipovskijkorp.industriallegacy.block.entity.CableBlockEntity;
 import com.shipovskijkorp.industriallegacy.energy.api.IEuEnergyStorage;
@@ -44,6 +45,7 @@ public class IndustrialLegacy implements ModInitializer {
         ModWorldGen.register();
         ModItemGroups.register();
         ModPackets.registerServerReceivers();
+        IlCommands.register();
 
         ServerTickEvents.START_SERVER_TICK.register(server -> {
             for (var player : server.getPlayerManager().getPlayerList()) {

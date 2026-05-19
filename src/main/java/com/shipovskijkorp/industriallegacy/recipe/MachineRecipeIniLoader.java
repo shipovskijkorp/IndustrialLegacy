@@ -38,19 +38,41 @@ final class MachineRecipeIniLoader {
 
     private MachineRecipeIniLoader() {}
 
+    private static String category(String resourcePath) {
+        return RecipeLoadTracker.categoryName(resourcePath);
+    }
+
+    private static String recipeName(String resourcePath, ParsedLine line) {
+        return recipeName(resourcePath, line.number(), line.raw());
+    }
+
+    private static String recipeName(String resourcePath, int number, String raw) {
+        return category(resourcePath) + ":" + number + " -> " + raw.trim();
+    }
+
+    private static void fail(String category, String resourcePath, ParsedLine line, String reason) {
+        RecipeLoadTracker.failed(category, recipeName(resourcePath, line), reason);
+    }
+
     static List<MaceratorRecipe> loadMacerator(String resourcePath) {
         List<ParsedLine> lines = loadLines(resourcePath, DEFAULT_TICKS);
         List<MaceratorRecipe> recipes = new ArrayList<>();
+        String category = category(resourcePath);
         for (int i = 0; i < lines.size(); i++) {
             ParsedLine line = lines.get(i);
             try {
                 ParsedInput input = parseInput(line.input());
                 ParsedStack output = parseOutput(line.output());
-                if (input == null || output == null) continue;
+                if (input == null || output == null) {
+                    fail(category, resourcePath, line, "empty input or output after parsing");
+                    continue;
+                }
 
                 Identifier id = new Identifier(IndustrialLegacy.MOD_ID, "ini/macerator/" + sanitizeId(line.input()) + "_to_" + sanitizeId(line.output()) + "_" + i);
                 recipes.add(new MaceratorRecipe(id, input.ingredient(), input.count(), output.stack(), line.ticks()));
+                RecipeLoadTracker.loaded(category);
             } catch (RuntimeException e) {
+                RecipeLoadTracker.failed(category, recipeName(resourcePath, line), e);
                 IndustrialLegacy.LOGGER.warn("Skipping macerator ini recipe {}:{} -> {}: {}",
                         resourcePath, line.number(), line.raw(), e.getMessage());
             }
@@ -61,16 +83,22 @@ final class MachineRecipeIniLoader {
     static List<CompressorRecipe> loadCompressor(String resourcePath) {
         List<ParsedLine> lines = loadLines(resourcePath, DEFAULT_TICKS);
         List<CompressorRecipe> recipes = new ArrayList<>();
+        String category = category(resourcePath);
         for (int i = 0; i < lines.size(); i++) {
             ParsedLine line = lines.get(i);
             try {
                 ParsedInput input = parseInput(line.input());
                 ParsedStack output = parseOutput(line.output());
-                if (input == null || output == null) continue;
+                if (input == null || output == null) {
+                    fail(category, resourcePath, line, "empty input or output after parsing");
+                    continue;
+                }
 
                 Identifier id = new Identifier(IndustrialLegacy.MOD_ID, "ini/compressor/" + sanitizeId(line.input()) + "_to_" + sanitizeId(line.output()) + "_" + i);
                 recipes.add(new CompressorRecipe(id, input.ingredient(), input.count(), output.stack(), line.ticks(), input.requiredFluid()));
+                RecipeLoadTracker.loaded(category);
             } catch (RuntimeException e) {
+                RecipeLoadTracker.failed(category, recipeName(resourcePath, line), e);
                 IndustrialLegacy.LOGGER.warn("Skipping compressor ini recipe {}:{} -> {}: {}",
                         resourcePath, line.number(), line.raw(), e.getMessage());
             }
@@ -82,16 +110,22 @@ final class MachineRecipeIniLoader {
     static List<ExtractorRecipe> loadExtractor(String resourcePath) {
         List<ParsedLine> lines = loadLines(resourcePath, DEFAULT_TICKS);
         List<ExtractorRecipe> recipes = new ArrayList<>();
+        String category = category(resourcePath);
         for (int i = 0; i < lines.size(); i++) {
             ParsedLine line = lines.get(i);
             try {
                 ParsedInput input = parseInput(line.input());
                 ParsedStack output = parseOutput(line.output());
-                if (input == null || output == null) continue;
+                if (input == null || output == null) {
+                    fail(category, resourcePath, line, "empty input or output after parsing");
+                    continue;
+                }
 
                 Identifier id = new Identifier(IndustrialLegacy.MOD_ID, "ini/extractor/" + sanitizeId(line.input()) + "_to_" + sanitizeId(line.output()) + "_" + i);
                 recipes.add(new ExtractorRecipe(id, input.ingredient(), input.count(), output.stack(), line.ticks(), input.requiredFluid()));
+                RecipeLoadTracker.loaded(category);
             } catch (RuntimeException e) {
+                RecipeLoadTracker.failed(category, recipeName(resourcePath, line), e);
                 IndustrialLegacy.LOGGER.warn("Skipping extractor ini recipe {}:{} -> {}: {}",
                         resourcePath, line.number(), line.raw(), e.getMessage());
             }
@@ -102,16 +136,22 @@ final class MachineRecipeIniLoader {
     static List<MetalFormerRecipe> loadMetalFormer(String resourcePath, RecipeType<?> type, RecipeSerializer<?> serializer, String modeId) {
         List<ParsedLine> lines = loadLines(resourcePath, DEFAULT_METAL_FORMER_TICKS);
         List<MetalFormerRecipe> recipes = new ArrayList<>();
+        String category = category(resourcePath);
         for (int i = 0; i < lines.size(); i++) {
             ParsedLine line = lines.get(i);
             try {
                 ParsedInput input = parseInput(line.input());
                 ParsedStack output = parseOutput(line.output());
-                if (input == null || output == null) continue;
+                if (input == null || output == null) {
+                    fail(category, resourcePath, line, "empty input or output after parsing");
+                    continue;
+                }
 
                 Identifier id = new Identifier(IndustrialLegacy.MOD_ID, "ini/metal_former/" + modeId + "/" + sanitizeId(line.input()) + "_to_" + sanitizeId(line.output()) + "_" + i);
                 recipes.add(new MetalFormerRecipe(id, input.ingredient(), output.stack(), line.ticks(), input.count(), type, serializer));
+                RecipeLoadTracker.loaded(category);
             } catch (RuntimeException e) {
+                RecipeLoadTracker.failed(category, recipeName(resourcePath, line), e);
                 IndustrialLegacy.LOGGER.warn("Skipping metal former {} ini recipe {}:{} -> {}: {}",
                         modeId, resourcePath, line.number(), line.raw(), e.getMessage());
             }
@@ -122,6 +162,7 @@ final class MachineRecipeIniLoader {
     static List<CanningRecipe> loadCanning(String resourcePath) {
         List<ParsedLine> lines = loadLines(resourcePath, DEFAULT_CANNING_TICKS);
         List<CanningRecipe> recipes = new ArrayList<>();
+        String category = category(resourcePath);
         for (int i = 0; i < lines.size(); i++) {
             ParsedLine line = lines.get(i);
             try {
@@ -129,11 +170,16 @@ final class MachineRecipeIniLoader {
                 ParsedInput container = parseInput(pair[0]);
                 ParsedInput fill = parseInput(pair[1]);
                 ParsedStack output = parseOutput(line.output());
-                if (container == null || fill == null || output == null) continue;
+                if (container == null || fill == null || output == null) {
+                    fail(category, resourcePath, line, "empty canning input or output after parsing");
+                    continue;
+                }
 
                 Identifier id = new Identifier(IndustrialLegacy.MOD_ID, "ini/canning/" + sanitizeId(pair[0]) + "_with_" + sanitizeId(pair[1]) + "_to_" + sanitizeId(line.output()) + "_" + i);
                 recipes.add(new CanningRecipe(id, container.ingredient(), container.count(), fill.ingredient(), fill.count(), output.stack(), line.ticks()));
+                RecipeLoadTracker.loaded(category);
             } catch (RuntimeException e) {
+                RecipeLoadTracker.failed(category, recipeName(resourcePath, line), e);
                 IndustrialLegacy.LOGGER.warn("Skipping canning ini recipe {}:{} -> {}: {}",
                         resourcePath, line.number(), line.raw(), e.getMessage());
             }
@@ -144,6 +190,7 @@ final class MachineRecipeIniLoader {
     static List<CanningEnrichRecipe> loadCanningEnrich(String resourcePath) {
         List<ParsedLine> lines = loadLines(resourcePath, DEFAULT_CANNING_TICKS);
         List<CanningEnrichRecipe> recipes = new ArrayList<>();
+        String category = category(resourcePath);
         for (int i = 0; i < lines.size(); i++) {
             ParsedLine line = lines.get(i);
             try {
@@ -151,11 +198,16 @@ final class MachineRecipeIniLoader {
                 ParsedFluid inputFluid = parseFluid(pair[0]);
                 ParsedInput additive = parseInput(pair[1]);
                 ParsedFluid outputFluid = parseFluid(line.output());
-                if (inputFluid == null || additive == null || outputFluid == null) continue;
+                if (inputFluid == null || additive == null || outputFluid == null) {
+                    fail(category, resourcePath, line, "empty canning enrich input or output after parsing");
+                    continue;
+                }
 
                 Identifier id = new Identifier(IndustrialLegacy.MOD_ID, "ini/canning_enrich/" + sanitizeId(pair[0]) + "_with_" + sanitizeId(pair[1]) + "_to_" + sanitizeId(line.output()) + "_" + i);
                 recipes.add(new CanningEnrichRecipe(id, inputFluid.fluid(), inputFluid.amount(), additive.ingredient(), additive.count(), outputFluid.fluid(), outputFluid.amount(), line.ticks()));
+                RecipeLoadTracker.loaded(category);
             } catch (RuntimeException e) {
+                RecipeLoadTracker.failed(category, recipeName(resourcePath, line), e);
                 IndustrialLegacy.LOGGER.warn("Skipping canning enrich ini recipe {}:{} -> {}: {}",
                         resourcePath, line.number(), line.raw(), e.getMessage());
             }
@@ -166,17 +218,23 @@ final class MachineRecipeIniLoader {
     static List<ThermalCentrifugeRecipe> loadThermalCentrifuge(String resourcePath) {
         List<ParsedLine> lines = loadLines(resourcePath, DEFAULT_THERMAL_CENTRIFUGE_TICKS);
         List<ThermalCentrifugeRecipe> recipes = new ArrayList<>();
+        String category = category(resourcePath);
         for (int i = 0; i < lines.size(); i++) {
             ParsedLine line = lines.get(i);
             try {
                 ParsedInput input = parseInput(line.input());
                 List<ItemStack> outputs = parseOutputs(line.output());
-                if (input == null || outputs.isEmpty()) continue;
+                if (input == null || outputs.isEmpty()) {
+                    fail(category, resourcePath, line, "empty input or output list after parsing");
+                    continue;
+                }
 
                 int heat = parseIntAttribute(line.output(), "heat", DEFAULT_THERMAL_CENTRIFUGE_HEAT);
                 Identifier id = new Identifier(IndustrialLegacy.MOD_ID, "ini/thermal_centrifuge/" + sanitizeId(line.input()) + "_to_" + sanitizeId(outputWithoutAttributes(line.output())) + "_" + i);
                 recipes.add(new ThermalCentrifugeRecipe(id, input.ingredient(), input.count(), outputs, line.ticks(), heat));
+                RecipeLoadTracker.loaded(category);
             } catch (RuntimeException e) {
+                RecipeLoadTracker.failed(category, recipeName(resourcePath, line), e);
                 IndustrialLegacy.LOGGER.warn("Skipping thermal centrifuge ini recipe {}:{} -> {}: {}",
                         resourcePath, line.number(), line.raw(), e.getMessage());
             }
@@ -187,17 +245,23 @@ final class MachineRecipeIniLoader {
     static List<OreWashingRecipe> loadOreWashing(String resourcePath) {
         List<ParsedLine> lines = loadLines(resourcePath, DEFAULT_ORE_WASHING_TICKS);
         List<OreWashingRecipe> recipes = new ArrayList<>();
+        String category = category(resourcePath);
         for (int i = 0; i < lines.size(); i++) {
             ParsedLine line = lines.get(i);
             try {
                 ParsedInput input = parseInput(line.input());
                 List<ItemStack> outputs = parseOutputs(line.output());
-                if (input == null || outputs.isEmpty()) continue;
+                if (input == null || outputs.isEmpty()) {
+                    fail(category, resourcePath, line, "empty input or output list after parsing");
+                    continue;
+                }
 
                 int waterAmount = parseIntAttribute(line.output(), "fluid", DEFAULT_ORE_WASHING_WATER);
                 Identifier id = new Identifier(IndustrialLegacy.MOD_ID, "ini/ore_washing/" + sanitizeId(line.input()) + "_to_" + sanitizeId(outputWithoutAttributes(line.output())) + "_" + i);
                 recipes.add(new OreWashingRecipe(id, input.ingredient(), input.count(), outputs, line.ticks(), waterAmount));
+                RecipeLoadTracker.loaded(category);
             } catch (RuntimeException e) {
+                RecipeLoadTracker.failed(category, recipeName(resourcePath, line), e);
                 IndustrialLegacy.LOGGER.warn("Skipping ore washing ini recipe {}:{} -> {}: {}",
                         resourcePath, line.number(), line.raw(), e.getMessage());
             }
@@ -206,6 +270,9 @@ final class MachineRecipeIniLoader {
     }
 
     private static List<ParsedLine> loadLines(String resourcePath, int defaultTicks) {
+        String category = category(resourcePath);
+        RecipeLoadTracker.beginCategory(category);
+
         List<ParsedLine> result = new ArrayList<>();
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         InputStream stream = loader.getResourceAsStream(resourcePath);
@@ -213,6 +280,7 @@ final class MachineRecipeIniLoader {
             stream = MachineRecipeIniLoader.class.getClassLoader().getResourceAsStream(resourcePath);
         }
         if (stream == null) {
+            RecipeLoadTracker.failed(category, resourcePath, "missing ini resource");
             IndustrialLegacy.LOGGER.warn("Missing IC2-style recipe ini: {}", resourcePath);
             return result;
         }
@@ -222,10 +290,27 @@ final class MachineRecipeIniLoader {
             int number = 0;
             while ((line = reader.readLine()) != null) {
                 number++;
-                ParsedLine parsed = parseLine(line, number, defaultTicks);
-                if (parsed != null) result.add(parsed);
+                String noComment = line;
+                int comment = noComment.indexOf(';');
+                if (comment >= 0) noComment = noComment.substring(0, comment);
+                if (noComment.trim().isEmpty()) continue;
+
+                RecipeLoadTracker.discovered(category);
+                try {
+                    ParsedLine parsed = parseLine(line, number, defaultTicks);
+                    if (parsed != null) {
+                        result.add(parsed);
+                    } else {
+                        RecipeLoadTracker.failed(category, recipeName(resourcePath, number, line), "invalid recipe line");
+                    }
+                } catch (RuntimeException e) {
+                    RecipeLoadTracker.failed(category, recipeName(resourcePath, number, line), e);
+                    IndustrialLegacy.LOGGER.warn("Skipping malformed ini recipe {}:{} -> {}: {}",
+                            resourcePath, number, line.trim(), e.getMessage());
+                }
             }
         } catch (IOException e) {
+            RecipeLoadTracker.failed(category, resourcePath, e);
             IndustrialLegacy.LOGGER.warn("Failed to read IC2-style recipe ini {}", resourcePath, e);
         }
         return result;
