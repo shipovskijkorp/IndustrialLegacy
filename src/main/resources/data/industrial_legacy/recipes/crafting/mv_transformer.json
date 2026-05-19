@@ -1,8 +1,0 @@
-{
-  "type": "industrial_legacy:transformer",
-  "category": "redstone",
-  "variant": "mv",
-  "result": {
-    "item": "industrial_legacy:mv_transformer"
-  }
-}

@@ -1,7 +1,0 @@
-{
-  "type": "industrial_legacy:hammer_plate",
-  "category": "misc",
-  "tool": {"item": "industrial_legacy:forge_hammer"},
-  "material": {"item": "industrial_legacy:gold_plate"},
-  "result": {"item": "industrial_legacy:gold_casing", "count": 1}
-}

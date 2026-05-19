@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:crafting_shapeless",
-  "ingredients": [
-    { "item": "industrial_legacy:painter_brown" }
-  ],
-  "result": {
-    "item": "industrial_legacy:painter"
-  }
-}

@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "ingredient": {
-    "item": "industrial_legacy:crushed_tin_ore"
-  },
-  "result": "industrial_legacy:tin_ingot",
-  "experience": 0.7,
-  "cookingtime": 200
-}
