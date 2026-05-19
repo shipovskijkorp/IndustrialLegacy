@@ -22,13 +22,14 @@ public final class IlCommands {
         RecipeLoadTracker.RecipeLoadSummary summary = RecipeLoadTracker.snapshot();
         ServerCommandSource source = context.getSource();
 
-        source.sendFeedback(() -> Text.literal("Обнаружено рецептов: " + summary.discovered()
-                + " Успешно загружено: " + summary.loaded()
-                + " Провалено: " + summary.failed()), false);
+        source.sendFeedback(() -> Text.literal("Recipes discovered: " + summary.discovered()
+                + " loaded: " + summary.loaded()
+                + " failed: " + summary.failed()
+                + " skipped: " + summary.skipped()), false);
 
         for (RecipeLoadTracker.CategoryStats category : summary.categories()) {
             source.sendFeedback(() -> Text.literal(category.category() + " "
-                    + category.discovered() + "/" + category.loaded() + "/" + category.failed()), false);
+                    + category.discovered() + "/" + category.loaded() + "/" + category.failed() + "/" + category.skipped()), false);
         }
 
         return Math.max(1, summary.loaded());

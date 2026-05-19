@@ -32,6 +32,12 @@ public final class RecipeLoadTracker {
         category(category).loaded++;
     }
 
+    public static synchronized void skipped(String category, String recipeName, String reason) {
+        MutableCategoryStats stats = category(category);
+        stats.skipped++;
+        stats.skips.add(new Skip(category, recipeName, reason == null || reason.isBlank() ? "skipped" : reason));
+    }
+
     public static synchronized void failed(String category, String recipeName, Throwable error) {
         failed(category, recipeName, error == null ? "unknown error" : error.getMessage());
     }
@@ -46,18 +52,22 @@ public final class RecipeLoadTracker {
         int discovered = 0;
         int loaded = 0;
         int failed = 0;
+        int skipped = 0;
         List<CategoryStats> categories = new ArrayList<>();
         List<Failure> failures = new ArrayList<>();
+        List<Skip> skips = new ArrayList<>();
 
         for (MutableCategoryStats stats : CATEGORIES.values()) {
             discovered += stats.discovered;
             loaded += stats.loaded;
             failed += stats.failed;
-            categories.add(new CategoryStats(stats.category, stats.discovered, stats.loaded, stats.failed));
+            skipped += stats.skipped;
+            categories.add(new CategoryStats(stats.category, stats.discovered, stats.loaded, stats.failed, stats.skipped));
             failures.addAll(stats.failures);
+            skips.addAll(stats.skips);
         }
 
-        return new RecipeLoadSummary(discovered, loaded, failed, List.copyOf(categories), List.copyOf(failures));
+        return new RecipeLoadSummary(discovered, loaded, failed, skipped, List.copyOf(categories), List.copyOf(failures), List.copyOf(skips));
     }
 
     public static void logFailuresIfAny() {
@@ -90,20 +100,24 @@ public final class RecipeLoadTracker {
         private int discovered;
         private int loaded;
         private int failed;
+        private int skipped;
         private final List<Failure> failures = new ArrayList<>();
+        private final List<Skip> skips = new ArrayList<>();
 
         private MutableCategoryStats(String category) {
             this.category = category;
         }
     }
 
-    public record CategoryStats(String category, int discovered, int loaded, int failed) {}
+    public record CategoryStats(String category, int discovered, int loaded, int failed, int skipped) {}
     public record Failure(String category, String recipeName, String reason) {}
+    public record Skip(String category, String recipeName, String reason) {}
 
-    public record RecipeLoadSummary(int discovered, int loaded, int failed, List<CategoryStats> categories, List<Failure> failures) {
+    public record RecipeLoadSummary(int discovered, int loaded, int failed, int skipped, List<CategoryStats> categories, List<Failure> failures, List<Skip> skips) {
         public RecipeLoadSummary {
             categories = Collections.unmodifiableList(new ArrayList<>(categories));
             failures = Collections.unmodifiableList(new ArrayList<>(failures));
+            skips = Collections.unmodifiableList(new ArrayList<>(skips));
         }
     }
 }

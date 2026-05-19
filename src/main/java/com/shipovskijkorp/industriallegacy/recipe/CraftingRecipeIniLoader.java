@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 /** Loads IC2-style shaped/shapeless/furnace .ini recipes into vanilla recipe tables. */
 public final class CraftingRecipeIniLoader {
@@ -36,6 +37,139 @@ public final class CraftingRecipeIniLoader {
     private static final String SHAPELESS_PATH = "data/industrial_legacy/il_recipes/shapeless_recipes.ini";
     private static final String FURNACE_PATH = "data/industrial_legacy/il_recipes/furnace.ini";
     private static final int FURNACE_COOK_TIME = 200;
+    /**
+     * The bundled files are intentionally copied from IC2 and still contain recipes for
+     * blocks/items that Industrial Legacy has not ported yet. Those lines are not
+     * recipe load failures for the current mod state, so keep them out of discovered/failed
+     * stats until the corresponding content exists. Real parse failures for supported
+     * recipes are still reported by RecipeLoadTracker.
+     */
+    private static final Set<String> UNPORTED_RECIPE_TOKENS = Set.of(
+            "advanced_miner",
+            "advanced_scanner",
+            "barrel",
+            "batch_crafter",
+            "blast_furnace",
+            "block_cutter",
+            "block_cutting_blade_diamond",
+            "block_cutting_blade_iron",
+            "block_cutting_blade_steel",
+            "broken_rubber_boat",
+            "bronze_rotor_blade",
+            "bronze_shaft",
+            "bronze_tank",
+            "carbon_boat",
+            "carbon_rotor_blade",
+            "chunk_loader",
+            "coffee",
+            "coin",
+            "coke_kiln",
+            "coke_kiln_grate",
+            "coke_kiln_hatch",
+            "cold_coffee",
+            "condenser",
+            "copper_boiler",
+            "cover_pump_lv",
+            "cover_pump_mv",
+            "crop_harvester",
+            "crop_stick",
+            "cropmatron",
+            "cropnalyzer",
+            "crowbar",
+            "crystal_memory",
+            "dark_coffee",
+            "dynamite",
+            "dynamite_sticky",
+            "electric_boat",
+            "electric_heat_generator",
+            "electric_kinetic_generator",
+            "electrolyzer",
+            "emerald_dust",
+            "empty",
+            "energy_o_mat",
+            "fermenter",
+            "fluid_distributor",
+            "fluid_heat_generator",
+            "fluid_regulator",
+            "frequency_transmitter",
+            "industrial_diamond",
+            "industrial_workbench",
+            "iodine_tablet",
+            "iridium_tank",
+            "iron_rotor_blade",
+            "iron_tank",
+            "item_buffer",
+            "item_buffer_2",
+            "itnt",
+            "jetpack_attachment_plate",
+            "kinetic_generator",
+            "liquid_heat_exchanger",
+            "magnetizer",
+            "manual_kinetic_generator",
+            "matter_generator",
+            "meter",
+            "miner",
+            "nuke",
+            "obscurator",
+            "pattern_storage",
+            "personal_chest",
+            "raw_crystal_memory",
+            "rci_lzh",
+            "rci_rsh",
+            "reactor_access_hatch",
+            "reactor_fluid_port",
+            "reactor_redstone_port",
+            "reactor_vessel",
+            "refractory_bricks",
+            "reinforced_door",
+            "remote",
+            "replicator",
+            "rotor_bronze",
+            "rotor_carbon",
+            "rotor_iron",
+            "rotor_steel",
+            "rotor_wood",
+            "rt_heat_generator",
+            "rubber_boat",
+            "scanner",
+            "single_use_battery",
+            "small_diamond_dust",
+            "solid_heat_generator",
+            "sorting_machine",
+            "steam_generator",
+            "steam_kinetic_generator",
+            "steam_repressurizer",
+            "steam_turbine",
+            "steam_turbine_blade",
+            "steel_rotor_blade",
+            "steel_shaft",
+            "steel_tank",
+            "stirling_generator",
+            "stirling_kinetic_generator",
+            "tank",
+            "teleporter",
+            "terraformer",
+            "tesla_coil",
+            "tfbp",
+            "tfbp_blank",
+            "tfbp_chilling",
+            "tfbp_cultivation",
+            "tfbp_desertification",
+            "tfbp_flatification",
+            "tfbp_irrigation",
+            "tfbp_mushroom",
+            "trade_o_mat",
+            "water_generator",
+            "water_kinetic_generator",
+            "weeding_trowel",
+            "weighted_fluid_distributor",
+            "weighted_item_distributor",
+            "wind_generator",
+            "wind_kinetic_generator",
+            "wind_meter",
+            "wood_rotor_blade"
+    );
+
 
     private CraftingRecipeIniLoader() {}
 
@@ -100,7 +234,9 @@ public final class CraftingRecipeIniLoader {
             Line line = lines.get(i);
             try {
                 if (line.text.contains("@filler")) {
-                    RecipeLoadTracker.failed(category, recipeName(resourcePath, line), "@filler repair recipes are not supported by the crafting ini loader yet");
+                    Recipe<?> fillerRecipe = parseFillerRepairRecipe(resourcePath, line, i);
+                    recipes.add(fillerRecipe);
+                    RecipeLoadTracker.loaded(category);
                     continue;
                 }
                 int equals = line.text.indexOf('=');
@@ -186,6 +322,12 @@ public final class CraftingRecipeIniLoader {
                 String text = stripComment(raw).trim();
                 if (text.isEmpty()) continue;
                 RecipeLoadTracker.discovered(category);
+                if (referencesUnportedRecipeToken(text)) {
+                    String name = recipeName(resourcePath, number, text);
+                    RecipeLoadTracker.skipped(category, name, "references unported IC2 content");
+                    IndustrialLegacy.LOGGER.debug("Skipping unported IC2 recipe {}:{} -> {}", resourcePath, number, text);
+                    continue;
+                }
                 lines.add(new Line(number, text));
             }
         } catch (IOException e) {
@@ -193,6 +335,41 @@ public final class CraftingRecipeIniLoader {
             IndustrialLegacy.LOGGER.warn("Failed to read IC2-style crafting recipe ini {}", resourcePath, e);
         }
         return lines;
+    }
+
+    private static Recipe<?> parseFillerRepairRecipe(String resourcePath, Line line, int index) {
+        int equals = line.text.indexOf('=');
+        if (equals < 0) throw new IllegalArgumentException("missing '=' separator");
+
+        String leftRaw = line.text.substring(0, equals).trim();
+        int filler = leftRaw.indexOf("@filler");
+        if (filler < 0) throw new IllegalArgumentException("missing @filler marker");
+
+        int repairAmount = parseFillerAmount(leftRaw.substring(filler));
+        String left = leftRaw.substring(0, filler).trim();
+        String right = stripAttributes(line.text.substring(equals + 1).trim());
+        List<IlCraftingIngredient> repairItems = parseShapelessInputs(left);
+        ItemStack target = parseOutput(right);
+        if (repairItems.isEmpty() || target.isEmpty()) {
+            throw new IllegalArgumentException("empty @filler repair input or output after parsing");
+        }
+
+        Identifier id = new Identifier(IndustrialLegacy.MOD_ID, "ini/filler/" + sanitize(target) + "_" + index);
+        return new IniFillerRepairRecipe(id, CraftingRecipeCategory.MISC, repairItems, target, repairAmount);
+    }
+
+    private static int parseFillerAmount(String fillerText) {
+        int star = fillerText.indexOf('*');
+        if (star < 0) return 1;
+        int end = star + 1;
+        while (end < fillerText.length() && Character.isDigit(fillerText.charAt(end))) {
+            end++;
+        }
+        try {
+            return Math.max(1, Integer.parseInt(fillerText.substring(star + 1, end)));
+        } catch (RuntimeException ignored) {
+            return 1;
+        }
     }
 
     private static Shape parseShape(String left) {
@@ -524,6 +701,7 @@ public final class CraftingRecipeIniLoader {
             case "sheet_rubber" -> "rubber_sheet";
             case "sheet_wool" -> "wool_sheet";
             case "solar_generator" -> "solar_panel";
+            case "sulfur_dust" -> "sulfur";
             case "wrench_new" -> "wrench";
             default -> local;
         };
@@ -643,6 +821,29 @@ public final class CraftingRecipeIniLoader {
             case "60k" -> "industrial_legacy:hex_heat_storage";
             default -> "industrial_legacy:heat_storage";
         };
+    }
+
+    private static boolean referencesUnportedRecipeToken(String text) {
+        int from = 0;
+        while (true) {
+            int idx = text.indexOf("industrial_legacy:", from);
+            if (idx < 0) return false;
+            int start = idx + "industrial_legacy:".length();
+            int end = start;
+            while (end < text.length()) {
+                char c = text.charAt(end);
+                if (Character.isWhitespace(c) || c == '|' || c == '=') break;
+                end++;
+            }
+            String local = text.substring(start, end);
+            int at = local.indexOf('@');
+            if (at >= 0) local = local.substring(0, at);
+            int star = local.lastIndexOf('*');
+            if (star >= 0) local = local.substring(0, star);
+            if (local.startsWith("pipe_type:")) return true;
+            if (UNPORTED_RECIPE_TOKENS.contains(local)) return true;
+            from = end;
+        }
     }
 
     private static String camelToTag(String value) {

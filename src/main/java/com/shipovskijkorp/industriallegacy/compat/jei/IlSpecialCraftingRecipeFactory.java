@@ -13,6 +13,7 @@ import com.shipovskijkorp.industriallegacy.recipe.HammerPlateRecipe;
 import com.shipovskijkorp.industriallegacy.recipe.InsulateCableRecipe;
 import com.shipovskijkorp.industriallegacy.recipe.IniShapedCraftingRecipe;
 import com.shipovskijkorp.industriallegacy.recipe.IniShapelessCraftingRecipe;
+import com.shipovskijkorp.industriallegacy.recipe.IniFillerRepairRecipe;
 import com.shipovskijkorp.industriallegacy.recipe.IlCraftingIngredient;
 import com.shipovskijkorp.industriallegacy.recipe.LuminatorRecipe;
 import com.shipovskijkorp.industriallegacy.recipe.MfeRecipe;
@@ -39,6 +40,8 @@ final class IlSpecialCraftingRecipeFactory {
                 out.add(fromIniShaped(iniShaped));
             } else if (recipe instanceof IniShapelessCraftingRecipe iniShapeless) {
                 out.add(fromIniShapeless(iniShapeless));
+            } else if (recipe instanceof IniFillerRepairRecipe fillerRepair) {
+                out.add(fromIniFillerRepair(fillerRepair));
             } else if (recipe instanceof HammerPlateRecipe hammer) {
                 out.add(shapeless(hammer.getId(), hammer.resultStack(), IlJeiUtil.ingredient(hammer.tool(), 1), IlJeiUtil.ingredient(hammer.material(), 1)));
             } else if (recipe instanceof CutterCableRecipe cutter) {
@@ -136,6 +139,17 @@ final class IlSpecialCraftingRecipeFactory {
             grid.set(i, inputs.get(i).previewStacks());
         }
         return new IlSpecialCraftingRecipe(recipe.getId(), grid, recipe.resultStack(), true);
+    }
+
+    private static IlSpecialCraftingRecipe fromIniFillerRepair(IniFillerRepairRecipe recipe) {
+        List<List<ItemStack>> grid = new ArrayList<>(9);
+        for (int i = 0; i < 9; i++) grid.add(List.of());
+        grid.set(0, List.of(recipe.targetStack()));
+        List<IlCraftingIngredient> inputs = recipe.repairItems();
+        for (int i = 0; i < inputs.size() && i < 8; i++) {
+            grid.set(i + 1, inputs.get(i).previewStacks());
+        }
+        return new IlSpecialCraftingRecipe(recipe.getId(), grid, recipe.targetStack(), true);
     }
 
     private static void addTransformerRecipe(List<IlSpecialCraftingRecipe> out, TransformerRecipe recipe) {

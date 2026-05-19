@@ -119,6 +119,12 @@ public final class ModRecipes {
             new IniShapelessCraftingRecipeSerializer()
     );
 
+    public static final RecipeSerializer<IniFillerRepairRecipe> INI_FILLER_REPAIR_SERIALIZER = Registry.register(
+            Registries.RECIPE_SERIALIZER,
+            new Identifier(IndustrialLegacy.MOD_ID, "ini_filler_repair"),
+            new IniFillerRepairRecipeSerializer()
+    );
+
 
     public static final RecipeSerializer<BatBoxRecipe> BATBOX_SERIALIZER = Registry.register(
             Registries.RECIPE_SERIALIZER,
