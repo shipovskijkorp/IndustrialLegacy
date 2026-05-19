@@ -40,11 +40,13 @@ public class ThermalCentrifugeBlockEntity extends AbstractStandardMachineBlockEn
     private static final int[] BOTTOM_SLOTS = new int[] { SLOT_OUTPUT_0, SLOT_OUTPUT_1, SLOT_OUTPUT_2 };
 
     private static final int TIER = 2;
-    private static final long CAPACITY = 10000L;
+    // IC2 Exp 2.8.222: TileEntityCentrifuge extends TileEntityStandardMachine(48, 500, 3, 2),
+    // so the base buffer is 48 EU/t * 500 ticks = 24000 EU.
+    private static final long CAPACITY = 24000L;
     private static final int EU_PER_TICK_PROCESS = 48;
     private static final int EU_PER_HEAT_TICK = 1;
     private static final int BASE_TICKS = 500;
-    private static final int MAX_HEAT = 10000;
+    private static final int MAX_HEAT = 5000;
 
     private int heat = 0;
     private int workHeat = MAX_HEAT;
@@ -68,7 +70,7 @@ public class ThermalCentrifugeBlockEntity extends AbstractStandardMachineBlockEn
                 case 2 -> progress = Math.max(0, value);
                 case 3 -> maxProgress = Math.max(1, value);
                 case 4 -> heat = Math.max(0, Math.min(MAX_HEAT, value));
-                case 5 -> workHeat = Math.max(1, value);
+                case 5 -> workHeat = Math.max(1, Math.min(MAX_HEAT, value));
                 default -> { }
             }
         }
@@ -91,45 +93,51 @@ public class ThermalCentrifugeBlockEntity extends AbstractStandardMachineBlockEn
 
     private boolean processTick(World world) {
         ThermalCentrifugeRecipe recipe = MachineRecipeManager.findThermalCentrifugeRecipe(this).orElse(null);
-        int targetHeat = recipe == null ? 0 : Math.min(MAX_HEAT, recipe.getHeat());
-        if (hasEffectiveRedstoneInput()) targetHeat = MAX_HEAT;
-        workHeat = Math.max(1, targetHeat == 0 ? MAX_HEAT : targetHeat);
+        int recipeHeat = recipe == null ? 0 : Math.min(MAX_HEAT, recipe.getHeat());
+        boolean redstoneHeat = hasEffectiveRedstoneInput();
         boolean active = false;
 
-        if (recipe != null) {
-            if (heat < targetHeat && energy >= EU_PER_HEAT_TICK) {
-                energy -= EU_PER_HEAT_TICK;
-                heat++;
-                active = true;
-            } else if (heat > targetHeat) {
-                heat--;
+        if (redstoneHeat) {
+            workHeat = MAX_HEAT;
+        } else if (recipe != null) {
+            workHeat = Math.max(1, recipeHeat);
+            if (heat > recipeHeat) {
+                heat = recipeHeat;
             }
+        }
 
-            if (heat >= targetHeat) {
-                List<ItemStack> outputs = recipe.getResults();
-                if (canOutputStacks(outputs)) {
-                    if (energy >= energyConsume) {
-                        energy -= energyConsume;
-                        maxProgress = recipe.getTicks() <= 0 ? operationLength : recipe.getTicks();
-                        progress++;
-                        active = true;
-                        if (progress >= maxProgress) {
-                            items.get(SLOT_INPUT).decrement(recipe.getInputCount());
-                            insertOutputStacks(outputs);
-                            progress = 0;
-                        }
+        if (recipe != null && heat >= recipeHeat) {
+            List<ItemStack> outputs = recipe.getResults();
+            if (canOutputStacks(outputs)) {
+                if (energy >= energyConsume) {
+                    energy -= energyConsume;
+                    maxProgress = recipe.getTicks() <= 0 ? operationLength : recipe.getTicks();
+                    progress++;
+                    active = true;
+                    if (progress >= maxProgress) {
+                        items.get(SLOT_INPUT).decrement(recipe.getInputCount());
+                        insertOutputStacks(outputs);
+                        progress = 0;
                     }
-                } else {
-                    progress = 0;
                 }
             } else {
                 progress = 0;
             }
         } else {
             progress = 0;
-            if (heat > 0) heat--;
         }
 
+        int heatRequested = redstoneHeat ? MAX_HEAT : recipe == null ? -1 : recipeHeat;
+        if (heatRequested >= 0 && heat < MAX_HEAT && heat - 1 < heatRequested && energy >= EU_PER_HEAT_TICK) {
+            energy -= EU_PER_HEAT_TICK;
+            heat++;
+            active = true;
+        } else if (heat > 0) {
+            heat--;
+        }
+
+        heat = Math.max(0, Math.min(MAX_HEAT, heat));
+        workHeat = Math.max(1, Math.min(MAX_HEAT, workHeat));
         return active || (recipe != null && heat > 0);
     }
 
@@ -205,7 +213,7 @@ public class ThermalCentrifugeBlockEntity extends AbstractStandardMachineBlockEn
 
     @Override public PropertyDelegate getGuiProps() { return props; }
     @Override protected void writeNbt(NbtCompound nbt) { super.writeNbt(nbt); nbt.putInt("heat", heat); nbt.putInt("workHeat", workHeat); }
-    @Override public void readNbt(NbtCompound nbt) { super.readNbt(nbt); heat = Math.max(0, Math.min(MAX_HEAT, nbt.getInt("heat"))); workHeat = Math.max(1, nbt.getInt("workHeat")); }
+    @Override public void readNbt(NbtCompound nbt) { super.readNbt(nbt); heat = Math.max(0, Math.min(MAX_HEAT, nbt.getInt("heat"))); workHeat = Math.max(1, Math.min(MAX_HEAT, nbt.getInt("workHeat"))); }
 
     @Override public Text getDisplayName() { return Text.translatable("container.industrial_legacy.thermal_centrifuge"); }
     @Override public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) { buf.writeBlockPos(pos); }
