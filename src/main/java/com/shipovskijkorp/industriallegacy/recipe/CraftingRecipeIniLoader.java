@@ -283,25 +283,43 @@ public final class CraftingRecipeIniLoader {
                     Items.ACACIA_PLANKS, Items.DARK_OAK_PLANKS, Items.MANGROVE_PLANKS, Items.CHERRY_PLANKS,
                     Items.BAMBOO_PLANKS, Items.CRIMSON_PLANKS, Items.WARPED_PLANKS));
             case "stickWood" -> IlCraftingIngredient.of(Ingredient.ofItems(Items.STICK));
+            case "logWood" -> IlCraftingIngredient.of(Ingredient.ofItems(
+                    Blocks.OAK_LOG, Blocks.SPRUCE_LOG, Blocks.BIRCH_LOG, Blocks.JUNGLE_LOG,
+                    Blocks.ACACIA_LOG, Blocks.DARK_OAK_LOG, Blocks.MANGROVE_LOG, Blocks.CHERRY_LOG,
+                    Blocks.CRIMSON_STEM, Blocks.WARPED_STEM));
+            case "chestWood" -> IlCraftingIngredient.of(Ingredient.ofItems(Items.CHEST, Items.TRAPPED_CHEST));
+            case "treeLeaves" -> groupIngredient("tree_leaves");
+            case "treeSapling" -> groupIngredient("tree_saplings");
             case "itemRubber" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.RUBBER));
             case "craftingToolForgeHammer" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.FORGE_HAMMER));
             case "craftingToolWireCutter" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.CUTTER));
             case "circuitBasic" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.ELECTRONIC_CIRCUIT));
             case "circuitAdvanced" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.ADVANCED_CIRCUIT));
             case "ingotCopper" -> IlCraftingIngredient.of(Ingredient.ofItems(Items.COPPER_INGOT));
+            case "ingotIron" -> IlCraftingIngredient.of(Ingredient.ofItems(Items.IRON_INGOT));
             case "ingotTin" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.TIN_INGOT));
             case "ingotLead" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.LEAD_INGOT));
             case "ingotSilver" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.SILVER_INGOT));
             case "ingotBronze" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.BRONZE_INGOT));
             case "ingotSteel", "ingotRefinedIron" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.STEEL_INGOT));
+            case "ingotUranium" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.URANIUM));
+            case "ingotPlutonium" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.PLUTONIUM));
+            case "nuggetUranium235" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.SMALL_URANIUM_235));
+            case "nuggetIridium" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.IRIDIUM_SHARD));
+            case "gemDiamond" -> IlCraftingIngredient.of(Ingredient.ofItems(Items.DIAMOND));
+            case "gemIridium" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.IRIDIUM));
             case "plateCopper" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.COPPER_PLATE));
             case "plateTin" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.TIN_PLATE));
             case "plateBronze" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.BRONZE_PLATE));
             case "plateGold" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.GOLD_PLATE));
             case "plateIron" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.IRON_PLATE));
             case "plateLead" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.LEAD_PLATE));
+            case "plateLapis" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.LAPIS_PLATE));
             case "plateSteel" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.STEEL_PLATE));
+            case "plateDenseCopper" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.DENSE_COPPER_PLATE));
+            case "plateDenseIron" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.DENSE_IRON_PLATE));
             case "plateDenseLead" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.DENSE_LEAD_PLATE));
+            case "plateDenseTin" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.DENSE_TIN_PLATE));
             case "dustCoal" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.COAL_DUST));
             case "dustCopper" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.COPPER_DUST));
             case "dustTin" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.TIN_DUST));
@@ -309,6 +327,14 @@ public final class CraftingRecipeIniLoader {
             case "dustGold" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.GOLD_DUST));
             case "dustIron" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.IRON_DUST));
             case "dustBronze" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.BRONZE_DUST));
+            case "dustDiamond" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.DIAMOND_DUST));
+            case "dustHydratedCoal" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.COAL_FUEL_DUST));
+            case "dustLapis" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.LAPIS_DUST));
+            case "dustObsidian" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.OBSIDIAN_DUST));
+            case "dustSiliconDioxide" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.SILICON_DIOXIDE));
+            case "dustSilver" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.SILVER_DUST));
+            case "dustStone" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.STONE_DUST));
+            case "dustSulfur" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.SULFUR));
             case "materialScrap" -> IlCraftingIngredient.of(Ingredient.ofItems(ModItems.SCRAP));
             case "dyeBlack" -> IlCraftingIngredient.of(Ingredient.ofItems(Items.BLACK_DYE));
             case "dyeBlue" -> IlCraftingIngredient.of(Ingredient.ofItems(Items.BLUE_DYE));
@@ -355,6 +381,8 @@ public final class CraftingRecipeIniLoader {
     private static String normalizeToken(String token) {
         String mapped = mapLegacyMinecraftToken(token);
         if (!mapped.equals(token)) return mapped;
+        mapped = mapIndustrialLegacyAlias(token);
+        if (!mapped.equals(token)) return mapped;
         if (!token.startsWith("ic2:")) return token;
 
         if (token.startsWith("ic2:cable#")) return "industrial_legacy:cable#" + token.substring("ic2:cable#".length());
@@ -362,7 +390,7 @@ public final class CraftingRecipeIniLoader {
         if (token.equals("ic2:fluid_cell")) return "industrial_legacy:fluid_cell";
 
         int hash = token.indexOf('#');
-        if (hash < 0) return token.replace("ic2:", "industrial_legacy:");
+        if (hash < 0) return mapIndustrialLegacyAlias(token.replace("ic2:", "industrial_legacy:"));
         String base = token.substring(4, hash);
         String variant = token.substring(hash + 1);
         String id = switch (base) {
@@ -411,7 +439,36 @@ public final class CraftingRecipeIniLoader {
             case "upgrade_kit" -> "industrial_legacy:" + variant + "_upgrade_kit";
             default -> "industrial_legacy:" + base + "_" + variant;
         };
-        return id == null ? token.replace("ic2:", "industrial_legacy:").replace('#', '_') : id;
+        String mappedId = id == null ? token.replace("ic2:", "industrial_legacy:").replace('#', '_') : id;
+        return mapIndustrialLegacyAlias(mappedId);
+    }
+
+    private static String mapIndustrialLegacyAlias(String token) {
+        if (!token.startsWith("industrial_legacy:")) return token;
+        if (token.startsWith("industrial_legacy:cable#")) return token;
+        String local = token.substring("industrial_legacy:".length());
+        String mapped = switch (local) {
+            case "alloy_ingot" -> "mixed_metal_ingot";
+            case "centrifuge" -> "thermal_centrifuge";
+            case "circuit" -> "electronic_circuit";
+            case "copper_block" -> "minecraft:copper_block";
+            case "crushed_silver_ore" -> "silver_crushed_ore";
+            case "fence_iron" -> "iron_fence";
+            case "luminator_flat" -> "luminator";
+            case "mining_pipe_pipe" -> "mining_pipe";
+            case "plating" -> "reactor_plating";
+            case "rubber_wood" -> "rubber_log";
+            case "scaffold_iron" -> "iron_scaffold";
+            case "scaffold_wood" -> "scaffold";
+            case "sheet_resin" -> "resin_sheet";
+            case "sheet_rubber" -> "rubber_sheet";
+            case "sheet_wool" -> "wool_sheet";
+            case "solar_generator" -> "solar_panel";
+            case "wrench_new" -> "wrench";
+            default -> local;
+        };
+        if (mapped.startsWith("minecraft:")) return mapped;
+        return "industrial_legacy:" + mapped;
     }
 
     private static String mapLegacyMinecraftToken(String token) {
@@ -447,6 +504,8 @@ public final class CraftingRecipeIniLoader {
             case "minecraft:waterlily" -> "minecraft:lily_pad";
             case "minecraft:brick_block" -> "minecraft:bricks";
             case "minecraft:wool" -> "minecraft:white_wool";
+            case "minecraft:carpet" -> "minecraft:white_carpet";
+            case "minecraft:tallgrass" -> "minecraft:grass";
             case "minecraft:wooden_slab" -> "minecraft:oak_slab";
             default -> base;
         };
