@@ -72,6 +72,26 @@ public final class ModBlocks {
             b -> new EnergyMachineBlockItem(b, new Item.Settings(), 1)
     );
 
+
+    public static final Block KINETIC_GENERATOR = register(
+            "kinetic_generator",
+            new KineticGeneratorBlock(FabricBlockSettings.create()
+                    .strength(2.0f)
+                    .sounds(BlockSoundGroup.METAL)
+                    .requiresTool()
+                    .luminance(state -> state.get(KineticGeneratorBlock.LIT) ? 13 : 0)),
+            b -> new EnergyMachineBlockItem(b, new Item.Settings(), 2)
+    );
+
+    public static final Block WIND_KINETIC_GENERATOR = register(
+            "wind_kinetic_generator",
+            new WindKineticGeneratorBlock(FabricBlockSettings.create()
+                    .strength(2.0f)
+                    .sounds(BlockSoundGroup.METAL)
+                    .requiresTool()),
+            b -> new BlockItem(b, new Item.Settings())
+    );
+
     public static final Block BATBOX = register(
             "batbox",
             new BatBoxBlock(FabricBlockSettings.create()

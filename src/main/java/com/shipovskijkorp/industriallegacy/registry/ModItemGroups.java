@@ -76,6 +76,8 @@ public final class ModItemGroups {
                         add.accept(ModBlocks.SOLAR_PANEL);
                         add.accept(ModBlocks.RT_GENERATOR);
                         add.accept(ModBlocks.SEMIFLUID_GENERATOR);
+                        add.accept(ModBlocks.KINETIC_GENERATOR);
+                        add.accept(ModBlocks.WIND_KINETIC_GENERATOR);
                         add.accept(ModBlocks.BATBOX);
                         add.accept(ModBlocks.CESU);
                         add.accept(ModBlocks.MFE);
@@ -193,6 +195,7 @@ public final class ModItemGroups {
                         entries.add(FoamSprayerItem.createFilledStack());
                         added.add(ModItems.FOAM_SPRAYER);
                         add.accept(ModItems.CF_PACK);
+                        add.accept(ModItems.WIND_METER);
                         entries.add(FoamPackItem.createFilledStack());
                         added.add(ModItems.CF_PACK);
                         add.accept(ModItems.WRENCH);
@@ -277,6 +280,7 @@ public final class ModItemGroups {
                         addCharged.accept(ModItems.ELECTRIC_TREETAP);
                         addCharged.accept(ModItems.ELECTRIC_HOE);
                         addCharged.accept(ModItems.ELECTRIC_WRENCH);
+                        addCharged.accept(ModItems.WIND_METER);
 
                         // Hazmat / utility armor
                         add.accept(ModItems.HAZMAT_HELMET);
@@ -374,6 +378,16 @@ add.accept(ModItems.LZH_CONDENSATOR);
                         add.accept(ModItems.SLAG);
                         add.accept(ModItems.COIL);
                         add.accept(ModItems.ELECTRIC_MOTOR);
+                        add.accept(ModItems.WOOD_ROTOR_BLADE);
+                        add.accept(ModItems.BRONZE_ROTOR_BLADE);
+                        add.accept(ModItems.IRON_ROTOR_BLADE);
+                        add.accept(ModItems.STEEL_ROTOR_BLADE);
+                        add.accept(ModItems.CARBON_ROTOR_BLADE);
+                        add.accept(ModItems.ROTOR_WOOD);
+                        add.accept(ModItems.ROTOR_BRONZE);
+                        add.accept(ModItems.ROTOR_IRON);
+                        add.accept(ModItems.ROTOR_STEEL);
+                        add.accept(ModItems.ROTOR_CARBON);
 
                         // Carbon chain (if present)
                         add.accept(ModItems.CARBON_FIBRE);

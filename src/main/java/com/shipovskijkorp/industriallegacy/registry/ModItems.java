@@ -32,6 +32,7 @@ import com.shipovskijkorp.industriallegacy.item.tool.IridiumDrillItem;
 import com.shipovskijkorp.industriallegacy.item.tool.MiningLaserItem;
 import com.shipovskijkorp.industriallegacy.item.tool.NanoSaberItem;
 import com.shipovskijkorp.industriallegacy.item.tool.ToolboxItem;
+import com.shipovskijkorp.industriallegacy.item.tool.WindMeterItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ArmorItem;
@@ -61,6 +62,7 @@ public final class ModItems {
     public static final Item TREETAP = register("treetap", new TreetapItem(new FabricItemSettings().maxDamage(64)));
     public static final Item FORGE_HAMMER = register("forge_hammer", new Item(new FabricItemSettings().maxCount(1).maxDamage(79)));
     public static final Item CUTTER = register("cutter", new Item(new FabricItemSettings().maxCount(1).maxDamage(60)));
+    public static final Item WIND_METER = register("wind_meter", new WindMeterItem(new Item.Settings()));
     public static final Item FOAM_SPRAYER = register("foam_sprayer", new FoamSprayerItem(new Item.Settings()));
     public static final Item CF_PACK = register("cf_pack", new FoamPackItem(new Item.Settings()));
 
@@ -252,6 +254,17 @@ public final class ModItems {
     public static final Item DEPLETED_ISOTOPE_FUEL_ROD = register("depleted_isotope_fuel_rod", new DepletedIsotopeFuelRodItem(new Item.Settings(), 10000));
     public static final Item COIL = register("coil", new Item(new Item.Settings()));
     public static final Item ELECTRIC_MOTOR = register("electric_motor", new Item(new Item.Settings()));
+    public static final Item WOOD_ROTOR_BLADE = register("wood_rotor_blade", new Item(new Item.Settings()));
+    public static final Item BRONZE_ROTOR_BLADE = register("bronze_rotor_blade", new Item(new Item.Settings()));
+    public static final Item IRON_ROTOR_BLADE = register("iron_rotor_blade", new Item(new Item.Settings()));
+    public static final Item STEEL_ROTOR_BLADE = register("steel_rotor_blade", new Item(new Item.Settings()));
+    public static final Item CARBON_ROTOR_BLADE = register("carbon_rotor_blade", new Item(new Item.Settings()));
+    public static final Item ROTOR_WOOD = register("rotor_wood", new WindRotorItem(new Item.Settings(), 5, 10_800, 0.25f, 10, 60, "textures/item/rotor/wood_rotor_model.png"));
+    public static final Item ROTOR_BRONZE = register("rotor_bronze", new WindRotorItem(new Item.Settings(), 7, 86_400, 0.5f, 14, 75, "textures/item/rotor/bronze_rotor_model.png"));
+    public static final Item ROTOR_IRON = register("rotor_iron", new WindRotorItem(new Item.Settings(), 7, 86_400, 0.5f, 14, 75, "textures/item/rotor/iron_rotor_model.png"));
+    public static final Item ROTOR_STEEL = register("rotor_steel", new WindRotorItem(new Item.Settings(), 9, 172_800, 0.75f, 17, 90, "textures/item/rotor/steel_rotor_model.png"));
+    public static final Item ROTOR_CARBON = register("rotor_carbon", new WindRotorItem(new Item.Settings(), 11, 604_800, 1.0f, 20, 110, "textures/item/rotor/carbon_rotor_model.png"));
+
 
     // Crop-ish / misc (often referenced in IC2 experimental configs)
     public static final Item COFFEE_BEANS = register("coffee_beans", new Item(new Item.Settings()));

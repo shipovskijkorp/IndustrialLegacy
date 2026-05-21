@@ -55,11 +55,8 @@ public final class CraftingRecipeIniLoader {
             "block_cutting_blade_iron",
             "block_cutting_blade_steel",
             "broken_rubber_boat",
-            "bronze_rotor_blade",
-            "bronze_shaft",
             "bronze_tank",
             "carbon_boat",
-            "carbon_rotor_blade",
             "chunk_loader",
             "coffee",
             "coin",
@@ -96,13 +93,11 @@ public final class CraftingRecipeIniLoader {
             "industrial_workbench",
             "iodine_tablet",
             "iridium_tank",
-            "iron_rotor_blade",
             "iron_tank",
             "item_buffer",
             "item_buffer_2",
             "itnt",
             "jetpack_attachment_plate",
-            "kinetic_generator",
             "liquid_heat_exchanger",
             "magnetizer",
             "manual_kinetic_generator",
@@ -124,11 +119,6 @@ public final class CraftingRecipeIniLoader {
             "reinforced_door",
             "remote",
             "replicator",
-            "rotor_bronze",
-            "rotor_carbon",
-            "rotor_iron",
-            "rotor_steel",
-            "rotor_wood",
             "rt_heat_generator",
             "rubber_boat",
             "scanner",
@@ -141,8 +131,6 @@ public final class CraftingRecipeIniLoader {
             "steam_repressurizer",
             "steam_turbine",
             "steam_turbine_blade",
-            "steel_rotor_blade",
-            "steel_shaft",
             "steel_tank",
             "stirling_generator",
             "stirling_kinetic_generator",
@@ -164,10 +152,7 @@ public final class CraftingRecipeIniLoader {
             "weeding_trowel",
             "weighted_fluid_distributor",
             "weighted_item_distributor",
-            "wind_generator",
-            "wind_kinetic_generator",
-            "wind_meter",
-            "wood_rotor_blade"
+            "wind_generator"
     );
 
 
@@ -693,6 +678,8 @@ public final class CraftingRecipeIniLoader {
             case "fence_iron" -> "iron_fence";
             case "luminator_flat" -> "luminator";
             case "mining_pipe_pipe" -> "mining_pipe";
+            case "bronze_shaft" -> "bronze_rod";
+            case "steel_shaft" -> "steel_rod";
             case "plating" -> "reactor_plating";
             case "rubber_wood" -> "rubber_log";
             case "scaffold_iron" -> "iron_scaffold";

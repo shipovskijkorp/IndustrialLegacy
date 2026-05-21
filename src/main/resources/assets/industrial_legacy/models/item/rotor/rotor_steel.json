@@ -1,6 +1,6 @@
 {
-	"parent": "ic2:item/default",
+	"parent": "item/generated",
 	"textures": {
-		"layer0": "ic2:items/rotor/steel_rotor"
+		"layer0": "industrial_legacy:item/rotor/steel_rotor"
 	}
 }

@@ -46,6 +46,19 @@ public final class ModBlockEntities {
             FabricBlockEntityTypeBuilder.create(SemifluidGeneratorBlockEntity::new, ModBlocks.SEMIFLUID_GENERATOR).build()
     );
 
+
+    public static final BlockEntityType<KineticGeneratorBlockEntity> KINETIC_GENERATOR = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE,
+            id("kinetic_generator"),
+            FabricBlockEntityTypeBuilder.create(KineticGeneratorBlockEntity::new, ModBlocks.KINETIC_GENERATOR).build()
+    );
+
+    public static final BlockEntityType<WindKineticGeneratorBlockEntity> WIND_KINETIC_GENERATOR = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE,
+            id("wind_kinetic_generator"),
+            FabricBlockEntityTypeBuilder.create(WindKineticGeneratorBlockEntity::new, ModBlocks.WIND_KINETIC_GENERATOR).build()
+    );
+
     public static final BlockEntityType<LvTransformerBlockEntity> LV_TRANSFORMER =
             Registry.register(Registries.BLOCK_ENTITY_TYPE,
                     id("lv_transformer"),

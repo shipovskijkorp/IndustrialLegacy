@@ -62,6 +62,10 @@ public final class ILConfig {
                 
                 [balance/energy/generator]
                 generator = 1.0
+                Kinetic = 1.0
+                
+                [balance/energy/kineticgenerator]
+                wind = 1.0
                 
                 [misc]
                 allowBurningScrap = false

@@ -4,6 +4,7 @@ import com.shipovskijkorp.industriallegacy.IndustrialLegacy;
 import com.shipovskijkorp.industriallegacy.client.particle.ChargepadParticle;
 import com.shipovskijkorp.industriallegacy.client.render.CableBlockEntityRenderer;
 import com.shipovskijkorp.industriallegacy.client.render.MiningLaserEntityRenderer;
+import com.shipovskijkorp.industriallegacy.client.render.WindKineticGeneratorBlockEntityRenderer;
 import com.shipovskijkorp.industriallegacy.client.screen.*;
 import com.shipovskijkorp.industriallegacy.energy.item.ElectricItemManager;
 import com.shipovskijkorp.industriallegacy.item.CableItem;
@@ -103,6 +104,7 @@ public class IndustrialLegacyClient implements ClientModInitializer {
         registerChargePredicate(ModItems.QUANTUM_BOOTS);
         registerChargePredicate(ModItems.NANO_SABER);
         registerChargePredicate(ModItems.MINING_LASER);
+        registerChargePredicate(ModItems.WIND_METER);
         registerChargePredicate(ModItems.ENERGY_PACK);
 
         registerModelPredicate(ModItems.FLUID_CELL, "cell",
@@ -127,6 +129,8 @@ public class IndustrialLegacyClient implements ClientModInitializer {
         HandledScreens.register(ModScreenHandlers.SOLAR_PANEL, SolarPanelScreen::new);
         HandledScreens.register(ModScreenHandlers.RT_GENERATOR, RTGeneratorScreen::new);
         HandledScreens.register(ModScreenHandlers.SEMIFLUID_GENERATOR, SemifluidGeneratorScreen::new);
+        HandledScreens.register(ModScreenHandlers.KINETIC_GENERATOR, KineticGeneratorScreen::new);
+        HandledScreens.register(ModScreenHandlers.WIND_KINETIC_GENERATOR, WindKineticGeneratorScreen::new);
         HandledScreens.register(ModScreenHandlers.ELECTRIC_FURNACE, ElectricFurnaceScreen::new);
         HandledScreens.register(ModScreenHandlers.INDUCTION_FURNACE, InductionFurnaceScreen::new);
         HandledScreens.register(ModScreenHandlers.BATBOX, BatBoxScreen::new);
@@ -165,6 +169,7 @@ public class IndustrialLegacyClient implements ClientModInitializer {
 
     private static void registerRenderers() {
         BlockEntityRendererFactories.register(ModBlockEntities.CABLE, CableBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(ModBlockEntities.WIND_KINETIC_GENERATOR, WindKineticGeneratorBlockEntityRenderer::new);
         EntityRendererRegistry.register(ModEntities.MINING_LASER, MiningLaserEntityRenderer::new);
     }
 

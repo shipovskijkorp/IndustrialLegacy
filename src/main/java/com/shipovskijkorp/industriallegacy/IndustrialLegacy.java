@@ -18,6 +18,7 @@ import com.shipovskijkorp.industriallegacy.registry.ModRecipes;
 import com.shipovskijkorp.industriallegacy.registry.ModScreenHandlers;
 import com.shipovskijkorp.industriallegacy.registry.ModStatusEffects;
 import com.shipovskijkorp.industriallegacy.worldgen.ModWorldGen;
+import com.shipovskijkorp.industriallegacy.world.WindSimulation;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents;
@@ -54,7 +55,10 @@ public class IndustrialLegacy implements ModInitializer {
             }
         });
 
-        ServerTickEvents.END_WORLD_TICK.register(world -> EnergyNetLocal.get(world).onWorldTickEnd(world));
+        ServerTickEvents.END_WORLD_TICK.register(world -> {
+            WindSimulation.get(world).tick(world);
+            EnergyNetLocal.get(world).onWorldTickEnd(world);
+        });
 
         ServerChunkEvents.CHUNK_LOAD.register((world, chunk) -> {
             if (chunk.getBlockEntities().values().stream().anyMatch(be -> be instanceof CableBlockEntity || be instanceof IEuEnergyStorage)) {
