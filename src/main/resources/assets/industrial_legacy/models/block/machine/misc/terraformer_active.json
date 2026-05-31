@@ -1,8 +1,0 @@
-{
-	"parent": "block/cube_bottom_top",
-	"textures": {
-		"side": "industrial_legacy:blocks/machine/misc/terraformer_sides_active",
-		"bottom": "industrial_legacy:blocks/machine/misc/terraformer_bottom",
-		"top": "industrial_legacy:blocks/machine/misc/terraformer_top"
-	}
-}

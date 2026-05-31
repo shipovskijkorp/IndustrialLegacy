@@ -1,6 +1,0 @@
-{
-	"parent": "block/torch_wall",
-	"textures": {
-		"torch": "industrial_legacy:blocks/explosive/dynamite"
-	}
-}

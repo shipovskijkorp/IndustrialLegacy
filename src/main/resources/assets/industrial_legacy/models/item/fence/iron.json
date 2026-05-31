@@ -1,6 +1,0 @@
-{
-	"parent": "block/fence_inventory",
-	"textures": {
-		"texture": "industrial_legacy:blocks/fence_iron"
-	}
-}

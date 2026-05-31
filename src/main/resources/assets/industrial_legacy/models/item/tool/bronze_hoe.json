@@ -1,6 +1,0 @@
-{
-	"parent": "industrial_legacy:item/tool/default",
-	"textures": {
-		"layer0": "industrial_legacy:items/tool/bronze_hoe"
-	}
-}

@@ -1,7 +1,0 @@
-{
-	"parent": "block/cube_column",
-	"textures": {
-		"side": "industrial_legacy:blocks/barrel_sides",
-		"end": "industrial_legacy:blocks/barrel_bottomtop"
-	}
-}

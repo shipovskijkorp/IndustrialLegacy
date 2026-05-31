@@ -1,8 +1,0 @@
-{
-	"parent": "industrial_legacy:block/machine/uu/mass_fabricator",
-	"textures": {
-		"east": "industrial_legacy:blocks/machine/uu/mass_fabricator_right_active",
-		"south": "industrial_legacy:blocks/machine/uu/mass_fabricator_back_active",
-		"west": "industrial_legacy:blocks/machine/uu/mass_fabricator_left_active"
-	}
-}

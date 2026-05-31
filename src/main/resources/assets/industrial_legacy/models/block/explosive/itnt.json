@@ -1,8 +1,0 @@
-{
-	"parent": "block/cube_bottom_top",
-	"textures": {
-		"side": "industrial_legacy:blocks/explosive/itnt_sides",
-		"bottom": "industrial_legacy:blocks/explosive/itnt_bottom",
-		"top": "industrial_legacy:blocks/explosive/itnt_top"
-	}
-}

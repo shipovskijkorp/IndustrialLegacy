@@ -1,7 +1,0 @@
-{
-	"parent": "block/cube_column",
-	"textures": {
-		"side": "industrial_legacy:blocks/machine/misc/tesla_coil_sides",
-		"end": "industrial_legacy:blocks/machine/misc/tesla_coil_bottomtop"
-	}
-}
