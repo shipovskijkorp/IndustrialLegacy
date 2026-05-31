@@ -6,9 +6,9 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.PersistentState;
 
 /**
- * IC2 Experimental style per-world wind simulation.
+ * IL Experimental style per-world wind simulation.
  *
- * <p>Source of truth: ic2.core.WindSim from IC2 2.8.222-ex112.</p>
+ * <p>Source of truth: industrial_legacy.core.WindSim from IL 2.8.222-ex112.</p>
  */
 public final class WindSimulation extends PersistentState {
     private static final String STATE_ID = "industrial_legacy_wind";

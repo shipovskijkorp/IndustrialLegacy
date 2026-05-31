@@ -11,7 +11,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-/** IC2 Experimental Pump GUI recreated from assets/ic2/guidef/pump.xml. */
+/** IL Experimental Pump GUI recreated from assets/industrial_legacy/guidef/pump.xml. */
 public class PumpScreen extends HandledScreen<PumpScreenHandler> {
     private static final int GUI_W = 176;
     private static final int GUI_H = 166;

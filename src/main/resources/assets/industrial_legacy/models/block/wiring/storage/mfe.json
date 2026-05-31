@@ -1,12 +1,12 @@
 {
 	"parent": "block/cube",
 	"textures": {
-		"particle": "ic2:blocks/wiring/storage/mfe_leftright",
-		"down": "ic2:blocks/wiring/storage/mfe_bottomtop",
-		"up": "ic2:blocks/wiring/storage/mfe_bottomtop",
-		"north": "ic2:blocks/wiring/storage/mfe_front",
-		"east": "ic2:blocks/wiring/storage/mfe_leftright",
-		"south": "ic2:blocks/wiring/storage/mfe_back",
-		"west": "ic2:blocks/wiring/storage/mfe_leftright"
+		"particle": "industrial_legacy:blocks/wiring/storage/mfe_leftright",
+		"down": "industrial_legacy:blocks/wiring/storage/mfe_bottomtop",
+		"up": "industrial_legacy:blocks/wiring/storage/mfe_bottomtop",
+		"north": "industrial_legacy:blocks/wiring/storage/mfe_front",
+		"east": "industrial_legacy:blocks/wiring/storage/mfe_leftright",
+		"south": "industrial_legacy:blocks/wiring/storage/mfe_back",
+		"west": "industrial_legacy:blocks/wiring/storage/mfe_leftright"
 	}
 }

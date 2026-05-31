@@ -27,7 +27,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 /**
- * IC2 Experimental mining laser with all original firing modes.
+ * IL Experimental mining laser with all original firing modes.
  */
 public final class MiningLaserItem extends Item implements IElectricItem, IModeSwitchableItem {
     public static final long CAPACITY_EU = 300_000L;

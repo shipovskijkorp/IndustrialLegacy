@@ -28,7 +28,7 @@ public class MetalFormerScreen extends HandledScreen<MetalFormerScreenHandler> {
     private static final int MODE_BUTTON_W = 20;
     private static final int MODE_BUTTON_H = 20;
 
-    // IC2 GuiMetalFormer + GaugeStyle.ProgressMetalFormer:
+    // IL GuiMetalFormer + GaugeStyle.ProgressMetalFormer:
     // widget at 52,39 and fill from common.png at 200,19 size 46x9.
     private static final int PROGRESS_X = 52;
     private static final int PROGRESS_Y = 39;

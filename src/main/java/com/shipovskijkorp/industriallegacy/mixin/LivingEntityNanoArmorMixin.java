@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 /**
- * IC2-like NanoSuit damage absorption.
+ * IL-like NanoSuit damage absorption.
  *
  * Forge special armor combines same-priority armor pieces additively, so we base each piece on the original
  * incoming damage and then clamp the combined absorbed amount.

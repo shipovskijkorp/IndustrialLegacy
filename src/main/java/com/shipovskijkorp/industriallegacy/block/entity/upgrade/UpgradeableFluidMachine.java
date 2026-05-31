@@ -2,7 +2,7 @@ package com.shipovskijkorp.industriallegacy.block.entity.upgrade;
 
 import com.shipovskijkorp.industriallegacy.item.UniversalFluidCellItem;
 
-/** Minimal internal tank bridge used by IC2-style fluid ejector/pulling upgrades. */
+/** Minimal internal tank bridge used by IL-style fluid ejector/pulling upgrades. */
 public interface UpgradeableFluidMachine {
     /** Fill an internal input tank from an upgrade transfer. Returns accepted mB. */
     int fillFromUpgrade(UniversalFluidCellItem.CellFluid fluid, int amountMb, boolean simulate);

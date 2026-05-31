@@ -1,12 +1,12 @@
 {
 	"pools": [
 		{
-			"name": "ic2",
+			"name": "industrial_legacy",
 			"rolls": 1,
 			"entries": [
 				{
 					"type": "item",
-					"name": "ic2:treetap",
+					"name": "industrial_legacy:treetap",
 					"weight": 8
 				},
 				{

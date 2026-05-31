@@ -155,7 +155,7 @@ public class MaceratorRecipeSerializer implements RecipeSerializer<MaceratorReci
             case "plateDenseSteel" -> Ingredient.ofItems(ModItems.DENSE_STEEL_PLATE);
             case "plateDenseTin" -> Ingredient.ofItems(ModItems.DENSE_TIN_PLATE);
 
-            default -> throw new JsonParseException("Unsupported IC2 OreDict mapping in macerator recipe: " + name);
+            default -> throw new JsonParseException("Unsupported IL OreDict mapping in macerator recipe: " + name);
         };
     }
 

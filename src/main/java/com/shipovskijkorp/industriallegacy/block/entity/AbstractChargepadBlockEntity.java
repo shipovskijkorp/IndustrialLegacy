@@ -33,7 +33,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-/** Shared IC2-style charge pad implementation. */
+/** Shared IL-style charge pad implementation. */
 public abstract class AbstractChargepadBlockEntity extends BlockEntity implements SidedInventory, IEuEnergyStorage, ExtendedScreenHandlerFactory, RedstoneModeCycleTarget {
     protected static final int SLOT_CHARGE = 0;
     protected static final int SLOT_DISCHARGE = 1;

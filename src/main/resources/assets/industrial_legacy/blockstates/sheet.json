@@ -5,9 +5,9 @@
 	},
 	"variants": {
 		"type": {
-			"resin": { "model": "ic2:resin_sheet" },
-			"rubber": { "model": "ic2:rubber_sheet" },
-			"wool": { "model": "ic2:wool_sheet" }
+			"resin": { "model": "industrial_legacy:resin_sheet" },
+			"rubber": { "model": "industrial_legacy:rubber_sheet" },
+			"wool": { "model": "industrial_legacy:wool_sheet" }
 		},
 		"inventory": [{}]
 	}

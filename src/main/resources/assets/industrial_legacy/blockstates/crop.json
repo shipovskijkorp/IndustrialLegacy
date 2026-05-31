@@ -4,7 +4,7 @@
 		"transform": "forge:default-block"
 	},
 	"variants": {
-		"normal": { "model": "ic2:crop/crop" },
+		"normal": { "model": "industrial_legacy:crop/crop" },
 		"inventory": [{}]
 	}
 }

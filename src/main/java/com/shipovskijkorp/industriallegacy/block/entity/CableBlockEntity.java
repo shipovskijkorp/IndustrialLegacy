@@ -38,7 +38,7 @@ public class CableBlockEntity extends BlockEntity {
     private int redstoneLevel = 0;
     private int comparatorLevel = 0;
 
-    // IC2 colored cable state. -1/black means uncolored and acts as a wildcard.
+    // IL colored cable state. -1/black means uncolored and acts as a wildcard.
     private int color = -1;
 
     // Copper cable oxidation (IL extension; only for COPPER + insulation=0)
@@ -148,7 +148,7 @@ public class CableBlockEntity extends BlockEntity {
     }
 
     /**
-     * Force-sync derived state. IC2 splitter cables are present in the energy net only while
+     * Force-sync derived state. IL splitter cables are present in the energy net only while
      * they are not receiving redstone; detector cables start inactive until energy is detected.
      */
     public void refreshDerivedState() {
@@ -173,14 +173,14 @@ public class CableBlockEntity extends BlockEntity {
 
         CableKind kind = cb.getKind();
 
-        // Splitter: IC2 unloads the cable from EnergyNet while redstone-powered and reloads it
+        // Splitter: IL unloads the cable from EnergyNet while redstone-powered and reloads it
         // when power is removed. In this port the active flag mirrors that net membership.
         if (kind == CableKind.SPLITTER) {
             be.syncSplitterActive(world);
             return;
         }
 
-        // Detector: IC2 samples NodeStats every 32 ticks. It does not sum the whole 32-tick
+        // Detector: IL samples NodeStats every 32 ticks. It does not sum the whole 32-tick
         // window, so we read the latest previous-tick snapshot at the sample moment.
         if (kind != CableKind.DETECTOR) {
             return;
@@ -197,7 +197,7 @@ public class CableBlockEntity extends BlockEntity {
         boolean newActive = energy > 0.0;
         int newRs = newActive ? 15 : 0;
 
-        // IC2: Util.map(energyIn / (conductorBreakdownEnergy - 1), 1, 15), cast to int.
+        // IL: Util.map(energyIn / (conductorBreakdownEnergy - 1), 1, 15), cast to int.
         double denom = Math.max(1.0, cb.getKind().getConductorBreakdownEnergy() - 1.0);
         double ratio = energy / denom;
         if (Double.isNaN(ratio) || ratio < 0.0) ratio = 0.0;
@@ -213,7 +213,7 @@ public class CableBlockEntity extends BlockEntity {
             return;
         }
 
-        // IC2 removes/loads the splitter energy tile when redstone toggles. In this port that
+        // IL removes/loads the splitter energy tile when redstone toggles. In this port that
         // means both the EU graph and all neighboring cable render states must be refreshed.
         com.shipovskijkorp.industriallegacy.energy.net.EuNetwork.invalidate(world, pos);
         for (net.minecraft.util.math.Direction direction : net.minecraft.util.math.Direction.values()) {

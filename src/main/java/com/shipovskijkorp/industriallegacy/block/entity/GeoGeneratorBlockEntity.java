@@ -156,7 +156,7 @@ public class GeoGeneratorBlockEntity extends net.minecraft.block.entity.BlockEnt
     }
 
     private boolean chargeItem() {
-        // IC2 TileEntityBaseGenerator uses InvSlotCharge tier 1.
+        // IL TileEntityBaseGenerator uses InvSlotCharge tier 1.
         ItemStack charge = items.get(SLOT_CHARGE);
         long accepted = ElectricSlotHelper.chargeFromStorage(charge, energy, 1, false);
         if (accepted > 0L) {

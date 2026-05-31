@@ -19,12 +19,12 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 /**
- * IC2 Experimental biogas Jetpack.
+ * IL Experimental biogas Jetpack.
  *
  * Source values: ItemArmorJetpack(FluidName.biogas, capacity=30,000 mB),
  * power=1.0, dropPercentage=0.2, hoverMultiplier=0.2, worldHeightDivisor=1.0.
  * Refilling is intentionally left to the future canning/bottling machine; the
- * item already stores IC2-like biogas NBT so that machine can fill it later.
+ * item already stores IL-like biogas NBT so that machine can fill it later.
  */
 public final class BiogasJetpackItem extends ArmorItem implements IFlightChestItem {
     public static final int CAPACITY_MB = 30_000;
@@ -43,7 +43,7 @@ public final class BiogasJetpackItem extends ArmorItem implements IFlightChestIt
     private static final String NBT_AMOUNT = "Amount";
     private static final String NBT_LEGACY_FUEL = "fuelMb";
     private static final String BIOGAS_ID = "industrial_legacy:biogas";
-    private static final String IC2_BIOGAS_ID = "ic2:biogas";
+    private static final String IL_BIOGAS_ID = "industrial_legacy:biogas";
 
     public BiogasJetpackItem(Settings settings) {
         super(ModArmorMaterials.JETPACK, Type.CHESTPLATE, settings.maxCount(1));
@@ -63,7 +63,7 @@ public final class BiogasJetpackItem extends ArmorItem implements IFlightChestIt
         if (nbt.contains(NBT_FLUID, NbtElement.COMPOUND_TYPE)) {
             NbtCompound fluid = nbt.getCompound(NBT_FLUID);
             String fluidName = fluid.getString(NBT_FLUID_NAME);
-            if (BIOGAS_ID.equals(fluidName) || IC2_BIOGAS_ID.equals(fluidName) || ModFluids.BIOGAS.id().toString().equals(fluidName)) {
+            if (BIOGAS_ID.equals(fluidName) || IL_BIOGAS_ID.equals(fluidName) || ModFluids.BIOGAS.id().toString().equals(fluidName)) {
                 return MathHelper.clamp(fluid.getInt(NBT_AMOUNT), 0, CAPACITY_MB);
             }
         }

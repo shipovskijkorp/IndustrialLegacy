@@ -1,6 +1,6 @@
 {
-	"parent": "ic2:item/default",
+	"parent": "industrial_legacy:item/default",
 	"textures": {
-		"layer0": "ic2:items/bcTrigger/capacitor_has_energy"
+		"layer0": "industrial_legacy:items/bcTrigger/capacitor_has_energy"
 	}
 }

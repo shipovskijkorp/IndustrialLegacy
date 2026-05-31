@@ -22,10 +22,10 @@ import java.util.List;
 import com.shipovskijkorp.industriallegacy.util.EnergyDisplayUtil;
 
 /**
- * IC2 Experimental Nightvision Goggles (ported semantics):
+ * IL Experimental Nightvision Goggles (ported semantics):
  * - Electric item: 200,000 EU, tier 1, transfer 200 EU/t
  * - When active: consumes 1 EU/t and applies Night Vision in darkness,
- *   but applies Blindness in bright conditions (skylight > 8), like IC2.
+ *   but applies Blindness in bright conditions (skylight > 8), like IL.
  *
  * Toggle is controlled by a global keybind (default N) via a server packet.
  */
@@ -128,7 +128,7 @@ public final class NightVisionGogglesItem extends ArmorItem implements IElectric
 
         if (!isNightVisionActive(stack)) return;
 
-        // Consume 1 EU per tick (IC2-like)
+        // Consume 1 EU per tick (IL-like)
         long used = ElectricItemManager.discharge(stack, 1L, false);
         if (used < 1L) {
             // Out of power: auto-disable

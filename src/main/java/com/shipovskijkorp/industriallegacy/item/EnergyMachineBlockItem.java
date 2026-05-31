@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 /**
- * Block item with IC2-style power-tier tooltip and optional stored-energy tooltip.
+ * Block item with IL-style power-tier tooltip and optional stored-energy tooltip.
  */
 public class EnergyMachineBlockItem extends BlockItem {
     public static final String NBT_ENERGY = "energy";

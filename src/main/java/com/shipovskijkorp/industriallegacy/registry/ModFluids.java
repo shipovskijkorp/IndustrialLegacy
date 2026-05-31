@@ -44,38 +44,38 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * IC2 fluid registrations.
+ * IL fluid registrations.
  *
- * <p>IndustrialCraft 2 2.8 registers these fluids in BlocksItems.initFluids():
+ * <p>classic industrial tech 2.8 registers these fluids in BlocksItems.initFluids():
  * uu_matter, construction_foam, coolant, creosote, hot_coolant, pahoehoe_lava, biomass,
  * biogas, distilled_water, superheated_steam, steam, hot_water, weed_ex, air,
- * hydrogen, oxygen, heavy_water and milk. Deuterium exists in the enum, but IC2 does
+ * hydrogen, oxygen, heavy_water and milk. Deuterium exists in the enum, but IL does
  * not register it in this version, so it is intentionally not registered here.</p>
  */
 public final class ModFluids {
     public static final Identifier AIR_ID = id("air");
 
-    private static final Map<Identifier, Ic2FluidEntry> ENTRIES_BY_ID = new LinkedHashMap<>();
-    private static final List<Ic2FluidEntry> ENTRIES = new ArrayList<>();
+    private static final Map<Identifier, LegacyFluidEntry> ENTRIES_BY_ID = new LinkedHashMap<>();
+    private static final List<LegacyFluidEntry> ENTRIES = new ArrayList<>();
 
-    public static final Ic2FluidEntry UU_MATTER = registerIc2("uu_matter", 0xFF3B0533, 3000, 3000, 0, 300, false, true, false);
-    public static final Ic2FluidEntry CONSTRUCTION_FOAM = registerIc2("construction_foam", 0xFF202020, 10000, 50000, 0, 300, false, true, false);
-    public static final Ic2FluidEntry COOLANT = registerIc2("coolant", 0xFF145A6A, 1000, 3000, 0, 300, false, true, false);
-    public static final Ic2FluidEntry CREOSOTE = registerIc2("creosote", 0xFF3D390A, 10000, 50000, 0, 300, false, true, false);
-    public static final Ic2FluidEntry HOT_COOLANT = registerIc2("hot_coolant", 0xFFB52834, 1000, 3000, 0, 1200, false, true, false);
-    public static final Ic2FluidEntry PAHOEHOE_LAVA = registerIc2("pahoehoe_lava", 0xFF7B746C, 50000, 250000, 10, 1200, false, false, false);
-    public static final Ic2FluidEntry BIOMASS = registerIc2("biomass", 0xFF376F25, 1000, 3000, 0, 300, false, true, false);
-    public static final Ic2FluidEntry BIOGAS = registerIc2("biogas", 0xFFA7984C, 1000, 3000, 0, 300, true, false, true);
-    public static final Ic2FluidEntry DISTILLED_WATER = registerIc2("distilled_water", 0xFF4356F5, 1000, 1000, 0, 300, false, true, false);
-    public static final Ic2FluidEntry SUPERHEATED_STEAM = registerIc2("superheated_steam", 0xFFCAD1D1, -3000, 100, 0, 600, true, false, false);
-    public static final Ic2FluidEntry STEAM = registerIc2("steam", 0xFFBCBCBC, -800, 300, 0, 420, true, false, false);
-    public static final Ic2FluidEntry HOT_WATER = registerIc2("hot_water", 0xFF46DEFF, 1000, 1000, 0, 350, false, true, false);
-    public static final Ic2FluidEntry WEED_EX = registerIc2("weed_ex", 0xFF074F14, 1000, 1000, 0, 300, false, false, false);
-    public static final Ic2FluidEntry AIR = registerIc2("air", 0xFFDCDCDC, 0, 500, 0, 300, true, false, true);
-    public static final Ic2FluidEntry HYDROGEN = registerIc2("hydrogen", 0xFFDCDCDC, 0, 500, 0, 300, true, false, false);
-    public static final Ic2FluidEntry OXYGEN = registerIc2("oxygen", 0xFFDCDCDC, 0, 500, 0, 300, true, false, false);
-    public static final Ic2FluidEntry HEAVY_WATER = registerIc2("heavy_water", 0xFF4356F5, 1000, 1000, 0, 300, false, true, false);
-    public static final Ic2FluidEntry MILK = registerIc2("milk", 0xFFFCFCFC, 1050, 1000, 0, 300, false, true, false);
+    public static final LegacyFluidEntry UU_MATTER = registerLegacy("uu_matter", 0xFF3B0533, 3000, 3000, 0, 300, false, true, false);
+    public static final LegacyFluidEntry CONSTRUCTION_FOAM = registerLegacy("construction_foam", 0xFF202020, 10000, 50000, 0, 300, false, true, false);
+    public static final LegacyFluidEntry COOLANT = registerLegacy("coolant", 0xFF145A6A, 1000, 3000, 0, 300, false, true, false);
+    public static final LegacyFluidEntry CREOSOTE = registerLegacy("creosote", 0xFF3D390A, 10000, 50000, 0, 300, false, true, false);
+    public static final LegacyFluidEntry HOT_COOLANT = registerLegacy("hot_coolant", 0xFFB52834, 1000, 3000, 0, 1200, false, true, false);
+    public static final LegacyFluidEntry PAHOEHOE_LAVA = registerLegacy("pahoehoe_lava", 0xFF7B746C, 50000, 250000, 10, 1200, false, false, false);
+    public static final LegacyFluidEntry BIOMASS = registerLegacy("biomass", 0xFF376F25, 1000, 3000, 0, 300, false, true, false);
+    public static final LegacyFluidEntry BIOGAS = registerLegacy("biogas", 0xFFA7984C, 1000, 3000, 0, 300, true, false, true);
+    public static final LegacyFluidEntry DISTILLED_WATER = registerLegacy("distilled_water", 0xFF4356F5, 1000, 1000, 0, 300, false, true, false);
+    public static final LegacyFluidEntry SUPERHEATED_STEAM = registerLegacy("superheated_steam", 0xFFCAD1D1, -3000, 100, 0, 600, true, false, false);
+    public static final LegacyFluidEntry STEAM = registerLegacy("steam", 0xFFBCBCBC, -800, 300, 0, 420, true, false, false);
+    public static final LegacyFluidEntry HOT_WATER = registerLegacy("hot_water", 0xFF46DEFF, 1000, 1000, 0, 350, false, true, false);
+    public static final LegacyFluidEntry WEED_EX = registerLegacy("weed_ex", 0xFF074F14, 1000, 1000, 0, 300, false, false, false);
+    public static final LegacyFluidEntry AIR = registerLegacy("air", 0xFFDCDCDC, 0, 500, 0, 300, true, false, true);
+    public static final LegacyFluidEntry HYDROGEN = registerLegacy("hydrogen", 0xFFDCDCDC, 0, 500, 0, 300, true, false, false);
+    public static final LegacyFluidEntry OXYGEN = registerLegacy("oxygen", 0xFFDCDCDC, 0, 500, 0, 300, true, false, false);
+    public static final LegacyFluidEntry HEAVY_WATER = registerLegacy("heavy_water", 0xFF4356F5, 1000, 1000, 0, 300, false, true, false);
+    public static final LegacyFluidEntry MILK = registerLegacy("milk", 0xFFFCFCFC, 1050, 1000, 0, 300, false, true, false);
 
     private ModFluids() {}
 
@@ -83,31 +83,31 @@ public final class ModFluids {
         // classload triggers static registration
     }
 
-    public static Collection<Ic2FluidEntry> entries() {
+    public static Collection<LegacyFluidEntry> entries() {
         return List.copyOf(ENTRIES);
     }
 
-    public static Ic2FluidEntry getEntry(String rawId) {
+    public static LegacyFluidEntry getEntry(String rawId) {
         Identifier identifier = normalizeIdentifier(rawId);
         return identifier == null ? null : ENTRIES_BY_ID.get(identifier);
     }
 
     public static Block getFluidBlock(String rawId) {
-        Ic2FluidEntry entry = getEntry(rawId);
+        LegacyFluidEntry entry = getEntry(rawId);
         return entry == null ? null : entry.block();
     }
 
     public static int getFluidColor(String rawId, int fallbackArgb) {
-        Ic2FluidEntry entry = getEntry(rawId);
+        LegacyFluidEntry entry = getEntry(rawId);
         return entry == null ? fallbackArgb : entry.tintArgb();
     }
 
     public static Identifier normalizeIdentifier(String rawId) {
         if (rawId == null || rawId.isBlank()) return null;
         String token = rawId.trim();
-        if (token.startsWith("ic2:") && token.length() > 4) {
+        if (token.startsWith("industrial_legacy:") && token.length() > 4) {
             token = IndustrialLegacy.MOD_ID + ":" + token.substring(4);
-        } else if (token.startsWith("ic2") && token.length() > 3 && token.indexOf(':') < 0) {
+        } else if (token.startsWith("industrial_legacy") && token.length() > 3 && token.indexOf(':') < 0) {
             token = IndustrialLegacy.MOD_ID + ":" + token.substring(3);
         } else if (token.indexOf(':') < 0) {
             token = IndustrialLegacy.MOD_ID + ":" + token;
@@ -115,9 +115,9 @@ public final class ModFluids {
         return Identifier.tryParse(token);
     }
 
-    private static Ic2FluidEntry registerIc2(String path, int tintArgb, int density, int viscosity, int luminosity, int temperature, boolean gaseous, boolean hasFlowTexture, boolean vanishOnBlockItemPlacement) {
+    private static LegacyFluidEntry registerLegacy(String path, int tintArgb, int density, int viscosity, int luminosity, int temperature, boolean gaseous, boolean hasFlowTexture, boolean vanishOnBlockItemPlacement) {
         Identifier identifier = id(path);
-        Ic2FluidEntry entry = new Ic2FluidEntry(identifier, tintArgb, density, viscosity, luminosity, temperature, gaseous, hasFlowTexture, vanishOnBlockItemPlacement);
+        LegacyFluidEntry entry = new LegacyFluidEntry(identifier, tintArgb, density, viscosity, luminosity, temperature, gaseous, hasFlowTexture, vanishOnBlockItemPlacement);
 
         entry.still = Registry.register(Registries.FLUID, identifier, new Still(entry));
         entry.flowing = Registry.register(Registries.FLUID, id("flowing_" + path), new Flowing(entry));
@@ -141,7 +141,7 @@ public final class ModFluids {
         return new Identifier(IndustrialLegacy.MOD_ID, path);
     }
 
-    public static final class Ic2FluidEntry {
+    public static final class LegacyFluidEntry {
         private final Identifier id;
         private final int tintArgb;
         private final int density;
@@ -156,7 +156,7 @@ public final class ModFluids {
         private FluidBlock block;
         private Item item;
 
-        private Ic2FluidEntry(Identifier id, int tintArgb, int density, int viscosity, int luminosity, int temperature, boolean gaseous, boolean hasFlowTexture, boolean vanishOnBlockItemPlacement) {
+        private LegacyFluidEntry(Identifier id, int tintArgb, int density, int viscosity, int luminosity, int temperature, boolean gaseous, boolean hasFlowTexture, boolean vanishOnBlockItemPlacement) {
             this.id = id;
             this.tintArgb = tintArgb;
             this.density = density;
@@ -190,9 +190,9 @@ public final class ModFluids {
     }
 
     private abstract static class BaseFluid extends FlowableFluid {
-        protected final Ic2FluidEntry entry;
+        protected final LegacyFluidEntry entry;
 
-        protected BaseFluid(Ic2FluidEntry entry) {
+        protected BaseFluid(LegacyFluidEntry entry) {
             this.entry = entry;
         }
 
@@ -280,7 +280,7 @@ public final class ModFluids {
     }
 
     public static final class Flowing extends BaseFluid {
-        private Flowing(Ic2FluidEntry entry) {
+        private Flowing(LegacyFluidEntry entry) {
             super(entry);
         }
 
@@ -302,7 +302,7 @@ public final class ModFluids {
     }
 
     public static final class Still extends BaseFluid {
-        private Still(Ic2FluidEntry entry) {
+        private Still(LegacyFluidEntry entry) {
             super(entry);
         }
 
@@ -318,9 +318,9 @@ public final class ModFluids {
     }
 
     private static final class IndustrialFluidBlock extends FluidBlock {
-        private final Ic2FluidEntry entry;
+        private final LegacyFluidEntry entry;
 
-        private IndustrialFluidBlock(FlowableFluid fluid, Ic2FluidEntry entry, AbstractBlock.Settings settings) {
+        private IndustrialFluidBlock(FlowableFluid fluid, LegacyFluidEntry entry, AbstractBlock.Settings settings) {
             super(fluid, settings);
             this.entry = entry;
         }
@@ -394,7 +394,7 @@ public final class ModFluids {
             }
 
             // Only when the preferred upward path is blocked do flowing gas blocks spread
-            // sideways to search for a new upward path, matching IC2's inverted fluid flow.
+            // sideways to search for a new upward path, matching IL's inverted fluid flow.
             if (level < GAS_MAX_LEVEL) {
                 spreadGasHorizontally(world, pos, level + 1);
             }

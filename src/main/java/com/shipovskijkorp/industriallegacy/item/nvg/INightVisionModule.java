@@ -5,7 +5,7 @@ import net.minecraft.nbt.NbtCompound;
 
 /**
  * Marker + helpers for items that provide Night Vision when enabled.
- * Toggle state is stored in item NBT ("active") to match IC2 semantics.
+ * Toggle state is stored in item NBT ("active") to match IL semantics.
  */
 public interface INightVisionModule {
 

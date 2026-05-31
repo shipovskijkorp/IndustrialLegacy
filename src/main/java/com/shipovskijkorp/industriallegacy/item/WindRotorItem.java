@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-/** IC2 Experimental wind kinetic rotor. */
+/** IL Experimental wind kinetic rotor. */
 public final class WindRotorItem extends Item {
     private final int diameter;
     private final float efficiency;

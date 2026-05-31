@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * IC2 ItemBatteryChargeHotbar equivalent.
+ * IL ItemBatteryChargeHotbar equivalent.
  *
  * <p>Stores EU like the other IL electric items and, while enabled, charges the
  * player's hotbar every 10 ticks. Right click or the common mode-switch key cycles

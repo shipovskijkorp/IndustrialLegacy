@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 /**
- * IC2 Experimental Electric Jetpack port.
+ * IL Experimental Electric Jetpack port.
  *
  * Flight behaviour stays jetpack-specific, while hover toggling and input
  * routing are handled through the generic chest-flight capability.

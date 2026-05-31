@@ -1,5 +1,5 @@
 {
-	"parent": "ic2:block/shape/cube_backface",
+	"parent": "industrial_legacy:block/shape/cube_backface",
 	"textures": {
 		"down": "#end",
 		"up": "#end",

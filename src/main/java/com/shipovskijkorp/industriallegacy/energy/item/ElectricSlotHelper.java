@@ -5,22 +5,22 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 
 /**
- * IC2-like charge/discharge slot rules.
+ * IL-like charge/discharge slot rules.
  *
- * <p>Source of truth: IC2 1.12.2 InvSlotCharge and InvSlotDischarge.</p>
+ * <p>Source of truth: IL 1.12.2 InvSlotCharge and InvSlotDischarge.</p>
  */
 public final class ElectricSlotHelper {
     private ElectricSlotHelper() {}
 
     /**
-     * IC2 InvSlotCharge.accepts: item must be chargeable by this tier.
+     * IL InvSlotCharge.accepts: item must be chargeable by this tier.
      */
     public static boolean canCharge(ItemStack stack, int tier) {
         return ElectricItemManager.charge(stack, Long.MAX_VALUE, tier, true, true) > 0L;
     }
 
     /**
-     * IC2 InvSlotDischarge.accepts: energy-value item or externally dischargeable electric item.
+     * IL InvSlotDischarge.accepts: energy-value item or externally dischargeable electric item.
      */
     public static boolean canDischarge(ItemStack stack, int tier) {
         return canDischarge(stack, tier, true);
@@ -34,7 +34,7 @@ public final class ElectricSlotHelper {
     }
 
     /**
-     * IC2 Info.itemInfo.getEnergyValue equivalent for items currently present in IL.
+     * IL Info.itemInfo.getEnergyValue equivalent for items currently present in IL.
      */
     public static long getEnergyValue(ItemStack stack) {
         if (stack == null || stack.isEmpty()) return 0L;

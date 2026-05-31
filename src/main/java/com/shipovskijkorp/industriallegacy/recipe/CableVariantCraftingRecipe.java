@@ -16,10 +16,10 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
 /**
- * IC2 detector/splitter cable crafting.
+ * IL detector/splitter cable crafting.
  *
  * <p>Vanilla shaped recipes can't express the NBT-backed cable variants used by IL, so these
- * two IC2 cable recipes are implemented as special crafting recipes.</p>
+ * two IL cable recipes are implemented as special crafting recipes.</p>
  */
 public final class CableVariantCraftingRecipe extends SpecialCraftingRecipe {
     private final CableKind resultKind;
@@ -52,14 +52,14 @@ public final class CableVariantCraftingRecipe extends SpecialCraftingRecipe {
         };
     }
 
-    /** IC2: " C |RIR| R ". */
+    /** IL: " C |RIR| R ". */
     private static boolean matchesDetector(RecipeInputInventory inv) {
         return empty(inv, 0) && inv.getStack(1).isOf(ModItems.ELECTRONIC_CIRCUIT) && empty(inv, 2)
                 && inv.getStack(3).isOf(Items.REDSTONE) && isInsulatedIronCable(inv.getStack(4)) && inv.getStack(5).isOf(Items.REDSTONE)
                 && empty(inv, 6) && inv.getStack(7).isOf(Items.REDSTONE) && empty(inv, 8);
     }
 
-    /** IC2: " R |ILI| R ". */
+    /** IL: " R |ILI| R ". */
     private static boolean matchesSplitter(RecipeInputInventory inv) {
         return empty(inv, 0) && inv.getStack(1).isOf(Items.REDSTONE) && empty(inv, 2)
                 && isInsulatedIronCable(inv.getStack(3)) && inv.getStack(4).isOf(Items.LEVER) && isInsulatedIronCable(inv.getStack(5))

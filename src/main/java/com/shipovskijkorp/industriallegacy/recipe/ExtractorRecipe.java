@@ -13,9 +13,9 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
 /**
- * IC2 Extractor machine recipe: one input stack -> one output stack.
+ * IL Extractor machine recipe: one input stack -> one output stack.
  *
- * <p>The optional requiredFluid field is used for IC2 fluid-cell recipes such as
+ * <p>The optional requiredFluid field is used for IL fluid-cell recipes such as
  * compressed air cell -> empty cell while keeping normal item ingredients simple.</p>
  */
 public class ExtractorRecipe implements Recipe<Inventory> {

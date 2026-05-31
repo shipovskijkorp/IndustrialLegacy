@@ -21,7 +21,7 @@ public interface IElectricItem {
     int getTier(ItemStack stack);
 
     /**
-     * IC2 IElectricItem.canProvideEnergy equivalent.
+     * IL IElectricItem.canProvideEnergy equivalent.
      * Batteries and energy packs return true; tools/armor normally return false.
      */
     default boolean canProvideEnergy(ItemStack stack) {

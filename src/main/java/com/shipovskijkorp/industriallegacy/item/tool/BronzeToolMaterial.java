@@ -5,7 +5,7 @@ import net.minecraft.item.ToolMaterial;
 import net.minecraft.recipe.Ingredient;
 
 /**
- * IC2 bronze tool material.
+ * IL bronze tool material.
  *
  * Harvest level 2, durability 350, mining speed 6, material attack damage 2, enchantability 13.
  */

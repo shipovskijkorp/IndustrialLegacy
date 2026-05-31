@@ -14,7 +14,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-/** IC2-style luminator storage + logic. */
+/** IL-style luminator storage + logic. */
 public class LuminatorBlockEntity extends BlockEntity implements IEuEnergyStorage {
     private static final long MANUAL_CHARGE_CAPACITY_EU = 10_000L;
     private static final long QUARTERS_PER_EU = 4L;
@@ -108,7 +108,7 @@ public class LuminatorBlockEntity extends BlockEntity implements IEuEnergyStorag
 
         BlockEntity supportBe = world.getBlockEntity(supportPos);
 
-        // IC2 accepts any adjacent IEnergyEmitter, not only a specific output face.
+        // IL accepts any adjacent IEnergyEmitter, not only a specific output face.
         // In IL the closest equivalents are EU storages/machines/transformers and cables.
         if (supportBe instanceof IEuEnergyStorage) {
             return true;

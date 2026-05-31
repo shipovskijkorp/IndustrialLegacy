@@ -33,7 +33,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * Mining laser projectile with IC2-like range/power/block-breaking behaviour.
+ * Mining laser projectile with IL-like range/power/block-breaking behaviour.
  */
 public class MiningLaserEntity extends Entity {
     private static final String NBT_RANGE = "Range";

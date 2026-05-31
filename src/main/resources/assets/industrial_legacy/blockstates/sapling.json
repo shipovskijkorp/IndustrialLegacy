@@ -5,7 +5,7 @@
 	},
 	"variants": {
 		"normal": {
-			"model": "ic2:resource/rubber_sapling"
+			"model": "industrial_legacy:resource/rubber_sapling"
 		},
 		"inventory": [{}]
 	}

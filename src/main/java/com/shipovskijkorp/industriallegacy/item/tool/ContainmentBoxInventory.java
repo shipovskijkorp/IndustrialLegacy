@@ -12,7 +12,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.collection.DefaultedList;
 
 /**
- * IC2-style handheld containment box inventory.
+ * IL-style handheld containment box inventory.
  * Data is stored directly in the item stack NBT of the box held in the selected hand.
  */
 public final class ContainmentBoxInventory implements Inventory {

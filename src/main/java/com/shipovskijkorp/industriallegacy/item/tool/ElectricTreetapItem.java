@@ -15,7 +15,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-/** IC2 Experimental electric treetap: 50 EU/use, 10 000 EU capacity, tier 1. */
+/** IL Experimental electric treetap: 50 EU/use, 10 000 EU capacity, tier 1. */
 public final class ElectricTreetapItem extends AbstractElectricToolItem {
     public ElectricTreetapItem(Settings settings) {
         super(settings, 50L, 0, 10_000L, 100L, 1, 1.0f);

@@ -4,7 +4,7 @@ import com.shipovskijkorp.industriallegacy.reactor.api.IReactor;
 import com.shipovskijkorp.industriallegacy.reactor.api.IReactorComponent;
 import net.minecraft.item.ItemStack;
 
-/** IC2 iridium neutron reflector. Reflects pulses without taking damage. */
+/** IL iridium neutron reflector. Reflects pulses without taking damage. */
 public class IridiumReflectorItem extends AbstractReactorComponentItem {
     public IridiumReflectorItem(Settings settings) {
         super(settings);

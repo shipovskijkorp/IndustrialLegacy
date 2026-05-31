@@ -153,7 +153,7 @@ public final class IndustrialLegacyJeiPlugin implements IModPlugin {
 
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
-        // IC2 guidef recipe buttons are transparent overlays on machine progress gauges.
+        // IL guidef recipe buttons are transparent overlays on machine progress gauges.
         // JEI renders the hover hint and opens the matching category from these areas.
         registration.addRecipeClickArea(MaceratorScreen.class, 80, 38, 21, 11, IlJeiRecipeTypes.MACERATOR);
         registration.addRecipeClickArea(CompressorScreen.class, 80, 35, 22, 15, IlJeiRecipeTypes.COMPRESSOR);

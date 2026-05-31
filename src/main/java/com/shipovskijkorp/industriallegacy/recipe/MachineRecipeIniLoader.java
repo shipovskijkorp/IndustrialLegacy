@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-/** Parser for the compact IC2-style machine recipe .ini format used by IL. */
+/** Parser for the compact IL-style machine recipe .ini format used by IL. */
 final class MachineRecipeIniLoader {
     private static final int DEFAULT_TICKS = 300;
     private static final int DEFAULT_METAL_FORMER_TICKS = 200;
@@ -281,7 +281,7 @@ final class MachineRecipeIniLoader {
         }
         if (stream == null) {
             RecipeLoadTracker.failed(category, resourcePath, "missing ini resource");
-            IndustrialLegacy.LOGGER.warn("Missing IC2-style recipe ini: {}", resourcePath);
+            IndustrialLegacy.LOGGER.warn("Missing IL-style recipe ini: {}", resourcePath);
             return result;
         }
 
@@ -311,7 +311,7 @@ final class MachineRecipeIniLoader {
             }
         } catch (IOException e) {
             RecipeLoadTracker.failed(category, resourcePath, e);
-            IndustrialLegacy.LOGGER.warn("Failed to read IC2-style recipe ini {}", resourcePath, e);
+            IndustrialLegacy.LOGGER.warn("Failed to read IL-style recipe ini {}", resourcePath, e);
         }
         return result;
     }
@@ -510,7 +510,7 @@ final class MachineRecipeIniLoader {
                 count = Math.max(1, Integer.parseInt(maybeCount));
                 token = token.substring(0, star).trim();
             } catch (NumberFormatException ignored) {
-                // Star can also be IC2 wildcard metadata in old configs; keep token unchanged.
+                // Star can also be IL wildcard metadata in old configs; keep token unchanged.
             }
         }
         return new CountedToken(token, count);

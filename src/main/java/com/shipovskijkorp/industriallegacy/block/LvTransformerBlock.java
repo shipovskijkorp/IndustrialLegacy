@@ -32,7 +32,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * IC2-like LV Transformer.
+ * IL-like LV Transformer.
  *
  * <p>The block facing marks the transformer special side. In step-down mode the facing side is the
  * high-voltage input. In step-up mode the facing side is the high-voltage output.</p>

@@ -1,6 +1,6 @@
 {
-	"parent": "ic2:item/default",
+	"parent": "industrial_legacy:item/default",
 	"textures": {
-		"layer0": "ic2:items/upgrade/energy_storage"
+		"layer0": "industrial_legacy:items/upgrade/energy_storage"
 	}
 }

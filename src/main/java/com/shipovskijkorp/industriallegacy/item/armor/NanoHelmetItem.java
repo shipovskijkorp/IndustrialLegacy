@@ -13,9 +13,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 /**
- * NanoSuit helmet provides night vision (IC2-like) when toggled on.
+ * NanoSuit helmet provides night vision (IL-like) when toggled on.
  *
- * IC2 Exp behaviour:
+ * IL Exp behaviour:
  * - consumes 1 EU/t when active
  * - in bright light (> 8), applies blindness instead of night vision
  */

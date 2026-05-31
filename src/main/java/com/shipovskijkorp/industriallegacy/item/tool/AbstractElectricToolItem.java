@@ -21,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 /**
- * IC2-style electric tool base.
+ * IL-style electric tool base.
  *
  * The tool does not use vanilla durability. Its visible bar is the stored EU,
  * and block/entity operations consume EU instead of damaging the item.

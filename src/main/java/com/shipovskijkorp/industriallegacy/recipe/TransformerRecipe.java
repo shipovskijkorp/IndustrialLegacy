@@ -18,11 +18,11 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
 /**
- * IC2 transformer crafting.
+ * IL transformer crafting.
  *
  * <p>Vanilla shaped recipes can't express Industrial Legacy cable variants because cables are
- * one NBT-backed item. This recipe keeps the IC2 shaped patterns while matching the exact cable
- * kind/insulation required by the original IC2 recipes.</p>
+ * one NBT-backed item. This recipe keeps the IL shaped patterns while matching the exact cable
+ * kind/insulation required by the original IL recipes.</p>
  */
 public final class TransformerRecipe extends SpecialCraftingRecipe {
     public enum Variant {
@@ -91,14 +91,14 @@ public final class TransformerRecipe extends SpecialCraftingRecipe {
         };
     }
 
-    /** IC2: "PCP|PcP|PCP", C = insulated tin cable, c = coil. */
+    /** IL: "PCP|PcP|PCP", C = insulated tin cable, c = coil. */
     private static boolean matchesLv(RecipeInputInventory inv) {
         return isPlanks(inv.getStack(0)) && isCable(inv.getStack(1), CableKind.TIN, 1) && isPlanks(inv.getStack(2))
                 && isPlanks(inv.getStack(3)) && inv.getStack(4).isOf(ModItems.COIL) && isPlanks(inv.getStack(5))
                 && isPlanks(inv.getStack(6)) && isCable(inv.getStack(7), CableKind.TIN, 1) && isPlanks(inv.getStack(8));
     }
 
-    /** IC2: "C|M|C"; allow any column in the 3x3 crafting grid, like vanilla shaped recipes. */
+    /** IL: "C|M|C"; allow any column in the 3x3 crafting grid, like vanilla shaped recipes. */
     private static boolean matchesMv(RecipeInputInventory inv) {
         for (int x = 0; x < 3; x++) {
             if (columnMatchesMv(inv, x)) return true;
@@ -126,14 +126,14 @@ public final class TransformerRecipe extends SpecialCraftingRecipe {
         return true;
     }
 
-    /** IC2: " c |CEB| c ". */
+    /** IL: " c |CEB| c ". */
     private static boolean matchesHv(RecipeInputInventory inv) {
         return inv.getStack(0).isEmpty() && isCable(inv.getStack(1), CableKind.GOLD, 2) && inv.getStack(2).isEmpty()
                 && inv.getStack(3).isOf(ModItems.ELECTRONIC_CIRCUIT) && inv.getStack(4).isOf(ModBlocks.MV_TRANSFORMER.asItem()) && inv.getStack(5).isOf(ModItems.ADVANCED_RE_BATTERY)
                 && inv.getStack(6).isEmpty() && isCable(inv.getStack(7), CableKind.GOLD, 2) && inv.getStack(8).isEmpty();
     }
 
-    /** IC2: " c |CED| c ". */
+    /** IL: " c |CED| c ". */
     private static boolean matchesEv(RecipeInputInventory inv) {
         return inv.getStack(0).isEmpty() && isCable(inv.getStack(1), CableKind.IRON, 3) && inv.getStack(2).isEmpty()
                 && inv.getStack(3).isOf(ModItems.ADVANCED_CIRCUIT) && inv.getStack(4).isOf(ModBlocks.HV_TRANSFORMER.asItem()) && inv.getStack(5).isOf(ModItems.LAPOTRON_CRYSTAL)

@@ -1,7 +1,7 @@
 {
   "parent": "block/door_bottom_rh",
   "textures": {
-    "bottom": "ic2:blocks/reinforced_door_bottom",
-    "top": "ic2:blocks/reinforced_door_top"
+    "bottom": "industrial_legacy:blocks/reinforced_door_bottom",
+    "top": "industrial_legacy:blocks/reinforced_door_top"
   }
 }

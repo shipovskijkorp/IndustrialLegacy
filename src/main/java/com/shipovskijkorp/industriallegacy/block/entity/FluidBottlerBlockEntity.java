@@ -32,7 +32,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-/** IC2 Experimental Fluid Bottler / Bottling Plant. */
+/** IL Experimental Fluid Bottler / Bottling Plant. */
 public class FluidBottlerBlockEntity extends AbstractElectricMachineBlockEntity implements UpgradeableFluidMachine {
     public static final int SLOT_DRAIN = 0;
     public static final int SLOT_FILL = 1;

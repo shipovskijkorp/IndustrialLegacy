@@ -23,17 +23,17 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 /**
- * IC2 Experimental wrench behaviour.
+ * IL Experimental wrench behaviour.
  *
- * <p>Right click first tries to rotate an IC2 machine:</p>
+ * <p>Right click first tries to rotate an IL machine:</p>
  * <ul>
  *     <li>normal use: make the machine face the clicked side;</li>
  *     <li>sneak use: make the machine face the opposite of the clicked side;</li>
- *     <li>horizontal-only machines reject vertical facings, like IC2 machines whose supported
+ *     <li>horizontal-only machines reject vertical facings, like IL machines whose supported
  *     facing set does not contain UP/DOWN.</li>
  * </ul>
  *
- * <p>If rotation does not change the block, the wrench attempts IC2-style machine removal.</p>
+ * <p>If rotation does not change the block, the wrench attempts IL-style machine removal.</p>
  * <ul>
  *     <li>rotation costs 1 durability;</li>
  *     <li>removal costs 10 durability;</li>

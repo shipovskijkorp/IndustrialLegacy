@@ -49,7 +49,7 @@ public final class ElectricItemManager {
     }
 
     /**
-     * IC2-like charge with tier and transfer-limit controls.
+     * IL-like charge with tier and transfer-limit controls.
      *
      * @return accepted EU
      */
@@ -73,7 +73,7 @@ public final class ElectricItemManager {
     }
 
     /**
-     * IC2-like discharge with tier, transfer-limit and external-provider controls.
+     * IL-like discharge with tier, transfer-limit and external-provider controls.
      *
      * @return extracted EU
      */

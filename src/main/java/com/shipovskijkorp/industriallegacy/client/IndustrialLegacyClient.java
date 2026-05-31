@@ -174,7 +174,7 @@ public class IndustrialLegacyClient implements ClientModInitializer {
     }
 
     private static void registerFluidRenderers() {
-        for (ModFluids.Ic2FluidEntry entry : ModFluids.entries()) {
+        for (ModFluids.LegacyFluidEntry entry : ModFluids.entries()) {
             FluidRenderHandlerRegistry.INSTANCE.register(entry.still(), entry.flowing(),
                     new SimpleFluidRenderHandler(entry.stillTexture(), entry.flowingTexture(), entry.tintRgb()));
             BlockRenderLayerMap.INSTANCE.putFluids(RenderLayer.getTranslucent(), entry.still(), entry.flowing());
@@ -211,7 +211,7 @@ public class IndustrialLegacyClient implements ClientModInitializer {
         }, ModItems.FLUID_CELL);
 
         // minecraft:block/water_still is a grayscale/tintable texture. Without an
-        // item color provider the IC2-style flat water sheet renders gray in GUIs.
+        // item color provider the IL-style flat water sheet renders gray in GUIs.
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> tintIndex == 0 ? 0x3F76E4 : 0xFFFFFF,
                 ModItems.WATER_SHEET);
 

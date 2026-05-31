@@ -29,7 +29,7 @@ public class MaceratorScreenHandler extends ScreenHandler {
         this.props = props;
         this.addProperties(props);
 
-        // machine slots (IC2 classic layout)
+        // machine slots (IL classic layout)
         this.addSlot(new Slot(inv, MaceratorBlockEntity.SLOT_INPUT, 56, 17));
         this.addSlot(new Slot(inv, MaceratorBlockEntity.SLOT_OUTPUT, 116, 35) {
             @Override

@@ -20,9 +20,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 /**
- * IC2-style electric backpack base.
+ * IL-style electric backpack base.
  *
- * The original IC2 batpack family is chest armor with zero armor protection that can
+ * The original IL batpack family is chest armor with zero armor protection that can
  * provide EU to carried or worn electric items:
  * - BatPack: 60,000 EU, 100 EU/t, tier 1
  * - Advanced BatPack: 600,000 EU, 1,000 EU/t, tier 2

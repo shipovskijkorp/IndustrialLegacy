@@ -24,7 +24,7 @@ import java.util.EnumSet;
 import java.util.Set;
 
 /**
- * Common IC2-like base for electric machines.
+ * Common IL-like base for electric machines.
  *
  * Keeps every machine on its own BlockEntityType/registry id, but centralizes the shared
  * TileEntityElectricMachine-style state: inventory, EU buffer, discharge slot, sided IO

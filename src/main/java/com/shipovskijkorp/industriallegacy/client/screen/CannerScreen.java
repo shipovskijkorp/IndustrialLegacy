@@ -103,7 +103,7 @@ public class CannerScreen extends HandledScreen<CannerScreenHandler> {
         IlGuiDraw.drawDefaultBackground(ctx, x, y, this.backgroundWidth, this.backgroundHeight);
         IlGuiDraw.drawInfoButton(ctx, x + 4, y + 4);
 
-        // Center IC2 canner layout without the old baked outer frame / slot artwork.
+        // Center IL canner layout without the old baked outer frame / slot artwork.
         ctx.drawTexture(BACKGROUND, x + CENTER_PANEL_X, y + CENTER_PANEL_Y, CENTER_PANEL_X, CENTER_PANEL_Y, CENTER_PANEL_W, CENTER_PANEL_H, TEX_W, TEX_H);
 
         // Slot frames are drawn from code so they can be pixel-aligned independently.

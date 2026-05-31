@@ -11,7 +11,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-/** IC2 Solar Helmet: charges the chest armor item from skylight. */
+/** IL Solar Helmet: charges the chest armor item from skylight. */
 public final class SolarHelmetItem extends ArmorItem {
     private static final String NBT_SOLAR_BUFFER = "solarBuffer";
 

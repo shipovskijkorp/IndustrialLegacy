@@ -11,7 +11,7 @@ import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.util.math.BlockPos;
 
-/** Shared container layout for IC2-style charge pads. */
+/** Shared container layout for IL-style charge pads. */
 public abstract class AbstractChargepadScreenHandler extends ScreenHandler {
     public static final int SLOT_COUNT = 2;
     public static final int PROP_COUNT = 3;

@@ -16,19 +16,19 @@ import java.util.List;
 import com.shipovskijkorp.industriallegacy.util.EnergyDisplayUtil;
 
 /**
- * IC2 Experimental NanoSuit armor (electric).
+ * IL Experimental NanoSuit armor (electric).
  *
- * IMPORTANT: Damage absorption is handled in a mixin (IC2-like),
+ * IMPORTANT: Damage absorption is handled in a mixin (IL-like),
  * not via vanilla armor protection values.
  */
 public class NanoArmorItem extends ArmorItem implements IElectricItem {
 
-    public static final long CAPACITY_EU = 1_000_000L; // IC2 Exp NanoSuit
+    public static final long CAPACITY_EU = 1_000_000L; // IL Exp NanoSuit
     public static final long TRANSFER_LIMIT_EU_T = 1600L;
     public static final int TIER = 3;
 
-    public static final double DAMAGE_ABSORPTION_RATIO = 0.9; // IC2: ItemArmorNanoSuit.getDamageAbsorptionRatio()
-    public static final int ENERGY_PER_DAMAGE = 5000;         // IC2: ItemArmorNanoSuit.getEnergyPerDamage()
+    public static final double DAMAGE_ABSORPTION_RATIO = 0.9; // IL: ItemArmorNanoSuit.getDamageAbsorptionRatio()
+    public static final int ENERGY_PER_DAMAGE = 5000;         // IL: ItemArmorNanoSuit.getEnergyPerDamage()
 
     private static final String NBT_ENERGY = "energy";
 

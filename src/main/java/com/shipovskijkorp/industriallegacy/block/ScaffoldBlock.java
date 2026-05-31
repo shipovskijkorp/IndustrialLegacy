@@ -36,9 +36,9 @@ import java.util.Queue;
 import java.util.Set;
 
 /**
- * IC2 Experimental scaffold behavior port.
+ * IL Experimental scaffold behavior port.
  *
- * <p>IC2 stores these as one metadata block. IL keeps separate registry ids, but the
+ * <p>IL stores these as one metadata block. IL keeps separate registry ids, but the
  * support, reinforcement, drops and climbing behavior are intentionally shared.</p>
  */
 public class ScaffoldBlock extends Block {
@@ -72,7 +72,7 @@ public class ScaffoldBlock extends Block {
 
     @Override
     public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-        // IC2's metadata block checked placement support using the weakest scaffold type.
+        // IL's metadata block checked placement support using the weakest scaffold type.
         return hasSupport(world, pos, ScaffoldType.WOOD);
     }
 

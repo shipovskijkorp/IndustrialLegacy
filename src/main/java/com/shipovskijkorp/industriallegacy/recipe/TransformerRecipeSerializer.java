@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 
 /**
- * Serializer for IC2 transformer special recipes.
+ * Serializer for IL transformer special recipes.
  *
  * JSON format:
  * {

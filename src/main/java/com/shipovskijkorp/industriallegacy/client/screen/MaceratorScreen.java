@@ -10,7 +10,7 @@ import com.shipovskijkorp.industriallegacy.util.EnergyDisplayUtil;
 
 public class MaceratorScreen extends HandledScreen<MaceratorScreenHandler> {
 
-    // From guidef/macerator.xml (IC2 classic layout)
+    // From guidef/macerator.xml (IL classic layout)
     private static final int SLOT_IN_X = 55;
     private static final int SLOT_IN_Y = 16;
 

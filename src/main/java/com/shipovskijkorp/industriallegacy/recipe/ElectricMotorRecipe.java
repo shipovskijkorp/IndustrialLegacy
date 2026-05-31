@@ -13,7 +13,7 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
 /**
- * IC2 electric motor recipe, supports both mirrored variants.
+ * IL electric motor recipe, supports both mirrored variants.
  */
 public final class ElectricMotorRecipe extends SpecialCraftingRecipe {
     private final ItemStack result;

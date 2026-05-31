@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier;
 /**
  * Geothermal Generator GUI.
  *
- * Rebuilt from the IC2 gui definition:
+ * Rebuilt from the IL gui definition:
  * - gui size 176x166
  * - title centered at y=6
  * - fluid slot x=26 y=16
@@ -97,10 +97,10 @@ public class GeoGeneratorScreen extends HandledScreen<GeoGeneratorScreenHandler>
         final int x = this.x;
         final int y = this.y;
 
-        // Standard IC2/IL outer frame.
+        // Standard IL/IL outer frame.
         IlGuiDraw.drawDefaultBackground(context, x, y, this.backgroundWidth, this.backgroundHeight);
 
-        // Exact static geo generator interior from IC2 texture: top-left 176x166 region only.
+        // Exact static geo generator interior from IL texture: top-left 176x166 region only.
         context.drawTexture(BACKGROUND, x, y, 0, 0, this.backgroundWidth, this.backgroundHeight, TEX_W, TEX_H);
 
         // Exact guidef widgets.
@@ -114,7 +114,7 @@ public class GeoGeneratorScreen extends HandledScreen<GeoGeneratorScreenHandler>
     }
 
     /**
-     * Draw only the fill of the IC2 energy bar. The frame is already in the static geo texture.
+     * Draw only the fill of the IL energy bar. The frame is already in the static geo texture.
      */
     private static void drawEnergyBarFill(DrawContext context, int x, int y, float ratio) {
         ratio = Math.max(0.0f, Math.min(1.0f, ratio));
@@ -124,7 +124,7 @@ public class GeoGeneratorScreen extends HandledScreen<GeoGeneratorScreenHandler>
     }
 
     /**
-     * Draw IC2 TankGauge.Normal exactly at guidef coordinates.
+     * Draw IL TankGauge.Normal exactly at guidef coordinates.
      */
     private static void drawFluidTank(DrawContext context, int x, int y, int amount, int capacity) {
         if (amount <= 0 || capacity <= 0) {

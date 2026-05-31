@@ -5,7 +5,7 @@ import net.minecraft.block.GlassBlock;
 import net.minecraft.sound.BlockSoundGroup;
 
 /**
- * Reinforced glass (IC2-like): explosion resistant glass block.
+ * Reinforced glass (IL-like): explosion resistant glass block.
  */
 public class ReinforcedGlassBlock extends GlassBlock {
     public ReinforcedGlassBlock() {

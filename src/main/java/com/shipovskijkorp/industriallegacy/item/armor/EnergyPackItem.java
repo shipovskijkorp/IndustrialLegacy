@@ -20,10 +20,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 /**
- * IC2 Experimental Energypack.
+ * IL Experimental Energypack.
  *
  * Source values: ItemArmorEnergypack(maxCharge=2,000,000 EU, transfer=1,000 EU/t, tier=3).
- * Forge IC2 exposes this as an external armor energy provider; IL mirrors that by feeding
+ * Forge IL exposes this as an external armor energy provider; IL mirrors that by feeding
  * carried/worn electric items from the equipped chest slot.
  */
 public final class EnergyPackItem extends ArmorItem implements IElectricItem {
@@ -46,7 +46,7 @@ public final class EnergyPackItem extends ArmorItem implements IElectricItem {
 
         long remaining = Math.min(getTransferLimit(stack), getEnergy(stack));
 
-        // Hotbar first, then main inventory, then the other armor pieces. This makes tools feel like IC2,
+        // Hotbar first, then main inventory, then the other armor pieces. This makes tools feel like IL,
         // while still allowing the solar helmet/static boots to feed chest storage and this pack to feed back.
         for (int i = 0; i < player.getInventory().main.size() && remaining > 0L && getEnergy(stack) > 0L; i++) {
             remaining -= transferTo(stack, player.getInventory().main.get(i), remaining);

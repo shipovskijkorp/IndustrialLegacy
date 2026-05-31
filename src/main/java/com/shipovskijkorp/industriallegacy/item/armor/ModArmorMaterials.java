@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * Utility armor materials.
  *
- * Armor values are kept explicit so IL can mirror IC2 item stats on 1.20.1.
+ * Armor values are kept explicit so IL can mirror IL item stats on 1.20.1.
  */
 public final class ModArmorMaterials {
     private ModArmorMaterials() {}
@@ -42,7 +42,7 @@ public final class ModArmorMaterials {
     public static final ArmorMaterial ADVANCED_BATPACK = zeroUtilityMaterial("advbatpack", SoundEvents.ITEM_ARMOR_EQUIP_IRON);
     public static final ArmorMaterial ENERGYPACK = zeroUtilityMaterial("energypack", SoundEvents.ITEM_ARMOR_EQUIP_IRON);
 
-    /** IC2 bronze armor: factor 15, reductions {boots=2, legs=5, chest=6, helmet=2}, enchantability 9. */
+    /** IL bronze armor: factor 15, reductions {boots=2, legs=5, chest=6, helmet=2}, enchantability 9. */
     public static final ArmorMaterial BRONZE = exactMaterial(
             "bronze",
             Map.of(
@@ -64,7 +64,7 @@ public final class ModArmorMaterials {
             () -> Ingredient.ofItems(ModItems.BRONZE_INGOT)
     );
 
-    /** IC2 composite vest (alloy chestplate): factor 50, reductions {boots=4, legs=7, chest=9, helmet=4}, enchantability 12, toughness 2. */
+    /** IL composite vest (alloy chestplate): factor 50, reductions {boots=4, legs=7, chest=9, helmet=4}, enchantability 12, toughness 2. */
     public static final ArmorMaterial ALLOY = exactMaterial(
             "alloy",
             Map.of(

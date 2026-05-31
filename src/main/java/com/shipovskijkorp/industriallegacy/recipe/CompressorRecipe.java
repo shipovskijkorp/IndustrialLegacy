@@ -21,7 +21,7 @@ public class CompressorRecipe implements Recipe<Inventory> {
     /**
      * How many items are required in the input slot.
      *
-     * IC2 machine configs frequently require 2/4/9 items (e.g. 9 plates -> dense plate).
+     * IL machine configs frequently require 2/4/9 items (e.g. 9 plates -> dense plate).
      */
     private final int ingredientCount;
     private final ItemStack output;

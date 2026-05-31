@@ -1,6 +1,6 @@
 {
   "parent": "industrial_legacy:item/default",
   "textures": {
-    "layer0": "industrial_legacy:items/reactor/iridium_reflector"
+    "layer0": "industrial_legacy:blocks/crop/stick"
   }
 }

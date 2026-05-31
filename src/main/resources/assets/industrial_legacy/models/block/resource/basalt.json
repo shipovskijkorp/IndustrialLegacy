@@ -1,6 +1,6 @@
 {
 	"parent": "block/cube_all",
 	"textures": {
-		"all": "ic2:blocks/resource/basalt"
+		"all": "industrial_legacy:blocks/resource/basalt"
 	}
 }

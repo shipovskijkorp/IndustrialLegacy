@@ -79,7 +79,7 @@ public class CableBlock extends BlockWithEntity {
             return false;
         }
 
-        // IC2 splitter cables unload from the EnergyNet while redstone-powered. Visually this
+        // IL splitter cables unload from the EnergyNet while redstone-powered. Visually this
         // also removes all cable arms, because the inactive splitter is no longer a network node.
         if (!isCableConnectionOpen(world, pos, thisCable) || !isCableConnectionOpen(world, otherPos, otherCable)) {
             return false;
@@ -476,7 +476,7 @@ public class CableBlock extends BlockWithEntity {
 
     @Override
     public boolean emitsRedstonePower(BlockState state) {
-        // IC2 exposes a redstone component for both detector and splitter cables.
+        // IL exposes a redstone component for both detector and splitter cables.
         // Splitter emits level 0, but this lets redstone dust connect to it as an input.
         return kind == CableKind.DETECTOR || kind == CableKind.SPLITTER;
     }
@@ -493,7 +493,7 @@ public class CableBlock extends BlockWithEntity {
 
     @Override
     public int getStrongRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction) {
-        // IC2's RedstoneEmitter is weak-power only.
+        // IL's RedstoneEmitter is weak-power only.
         return 0;
     }
 

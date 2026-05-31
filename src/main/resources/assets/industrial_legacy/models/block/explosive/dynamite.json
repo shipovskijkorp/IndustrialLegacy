@@ -1,6 +1,6 @@
 {
 	"parent": "block/torch",
 	"textures": {
-		"torch": "ic2:blocks/explosive/dynamite"
+		"torch": "industrial_legacy:blocks/explosive/dynamite"
 	}
 }

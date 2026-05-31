@@ -17,13 +17,13 @@ import com.shipovskijkorp.industriallegacy.util.EnergyDisplayUtil;
 /**
  * IL Energy Crystal (energy_crystal).
  *
- * IC2 1.12.2 Experimental source-of-truth (BlocksItems):
+ * IL 1.12.2 Experimental source-of-truth (BlocksItems):
  * - capacity: 1,000,000 EU
  * - transferLimit: 2,048 EU/t
  * - tier: 3
  * - stack: 1
  *
- * Energy is stored in NBT. Newly crafted crystal is empty (0 EU), matching IC2 durability-state @27.
+ * Energy is stored in NBT. Newly crafted crystal is empty (0 EU), matching IL durability-state @27.
  */
 public final class EnergyCrystalItem extends Item implements IElectricItem {
 

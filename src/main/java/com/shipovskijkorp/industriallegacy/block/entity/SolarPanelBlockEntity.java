@@ -145,7 +145,7 @@ public class SolarPanelBlockEntity extends BlockEntity implements SidedInventory
     }
 
     private void chargeItem() {
-        // IC2 TileEntityBaseGenerator uses InvSlotCharge tier 1.
+        // IL TileEntityBaseGenerator uses InvSlotCharge tier 1.
         ItemStack charge = items.get(SLOT_CHARGE);
         long accepted = ElectricSlotHelper.chargeFromStorage(charge, energy, 1, false);
         if (accepted > 0L) {

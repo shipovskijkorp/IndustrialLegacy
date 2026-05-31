@@ -57,7 +57,7 @@ public final class CanningEnrichJeiCategory implements IRecipeCategory<CanningEn
                 .addItemStacks(IlJeiUtil.ingredient(recipe.getAdditive(), recipe.getAdditiveCount()));
 
         // The canner tanks are drawn manually, but JEI still needs ingredients to
-        // index recipe lookups. This makes flat IC2-style fluid items behave like
+        // index recipe lookups. This makes flat IL-style fluid items behave like
         // normal item ingredients: opening recipes for milk/biomass/coolant/etc.
         // can find the enrich-liquid recipes that actually create those fluids.
         builder.addInvisibleIngredients(RecipeIngredientRole.INPUT)

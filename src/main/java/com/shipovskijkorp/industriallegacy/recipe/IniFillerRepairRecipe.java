@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * IC2 @filler shapeless repair recipe.
+ * IL @filler shapeless repair recipe.
  *
  * The original INI syntax uses an implicit damaged output item as one ingredient:
  *   redstone @filler*10000 = rsh_condensator

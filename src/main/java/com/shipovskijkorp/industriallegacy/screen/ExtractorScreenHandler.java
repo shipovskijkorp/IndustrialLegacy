@@ -14,7 +14,7 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
 
 /**
- * Extractor screen handler (IC2-style layout).
+ * Extractor screen handler (IL-style layout).
  *
  * Slots:
  *  0 input, 1 output, 2 discharge, 3..6 upgrades
@@ -52,7 +52,7 @@ public class ExtractorScreenHandler extends ScreenHandler {
 
         // Machine inventory
         // NOTE: HandledScreen draws the slot background at (slot.x - 1, slot.y - 1),
-        // so these coordinates are (frame + 1) to match IC2-style frames.
+        // so these coordinates are (frame + 1) to match IL-style frames.
         this.addSlot(new Slot(this.inventory, ExtractorBlockEntity.SLOT_INPUT, 56, 17));
         this.addSlot(new Slot(this.inventory, ExtractorBlockEntity.SLOT_OUTPUT, 116, 35) {
             @Override public boolean canInsert(net.minecraft.item.ItemStack stack) { return false; }
@@ -64,7 +64,7 @@ public class ExtractorScreenHandler extends ScreenHandler {
             this.addSlot(new FilteredSlot(this.inventory, ExtractorBlockEntity.SLOT_UPGRADE_0 + i, 152, 8 + i * 18));
         }
 
-        // Player inventory frames (IC2-style position)
+        // Player inventory frames (IL-style position)
         final int invX = 7;
         final int invY = 83;
         // main inventory

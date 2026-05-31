@@ -10,7 +10,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 
 /**
- * IC2 experimental Semifluid Generator dynamic GUI recreated from assets/ic2/guidef/semifluid_generator.xml.
+ * IL experimental Semifluid Generator dynamic GUI recreated from assets/industrial_legacy/guidef/semifluid_generator.xml.
  *
  * Source-truth layout:
  * - gui 176x166

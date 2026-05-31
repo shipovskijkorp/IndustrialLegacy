@@ -1,8 +1,8 @@
 {
 	"parent": "block/cube_bottom_top",
 	"textures": {
-		"side": "ic2:blocks/machine/misc/teleporter_sides_active",
-		"bottom": "ic2:blocks/machine/misc/teleporter_bottom",
-		"top": "ic2:blocks/machine/misc/teleporter_top_active"
+		"side": "industrial_legacy:blocks/machine/misc/teleporter_sides_active",
+		"bottom": "industrial_legacy:blocks/machine/misc/teleporter_bottom",
+		"top": "industrial_legacy:blocks/machine/misc/teleporter_top_active"
 	}
 }

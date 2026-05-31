@@ -238,7 +238,7 @@ public final class ModItemGroups {
                                 entries.add(UniversalFluidCellItem.createStack(fluid));
                             }
                         }
-                        for (ModFluids.Ic2FluidEntry fluid : ModFluids.entries()) {
+                        for (ModFluids.LegacyFluidEntry fluid : ModFluids.entries()) {
                             add.accept(fluid.item());
                         }
                         add.accept(ModItems.BATPACK);
@@ -547,7 +547,7 @@ add.accept(ModItems.LZH_CONDENSATOR);
                         add.accept(ModItems.WEED);
                         add.accept(ModItems.BOBS_YER_UNCLE_RANKS_BERRY);
 
-                        // Advanced alloys (IC2 chain)
+                        // Advanced alloys (IL chain)
                         add.accept(ModItems.MIXED_METAL_INGOT);
                         add.accept(ModItems.ADVANCED_ALLOY);
 

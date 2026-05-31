@@ -2,7 +2,7 @@ package com.shipovskijkorp.industriallegacy.energy.kinetic;
 
 import net.minecraft.util.math.Direction;
 
-/** Minimal IC2-like kinetic source interface measured in KU. */
+/** Minimal IL-like kinetic source interface measured in KU. */
 public interface IKineticSource {
     int getConnectionBandwidth(Direction side);
 

@@ -28,7 +28,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/** IC2 Experimental CF sprayer: 8000 mB capacity, 100 mB per foam block, normal/single mode. */
+/** IL Experimental CF sprayer: 8000 mB capacity, 100 mB per foam block, normal/single mode. */
 public class FoamSprayerItem extends Item implements IModeSwitchableItem {
     private static final String NBT_FOAM = "foam";
     private static final String NBT_MODE = "mode";
@@ -120,7 +120,7 @@ public class FoamSprayerItem extends Item implements IModeSwitchableItem {
         return amount;
     }
 
-    /** IC2 drains the worn CF pack first, then the sprayer itself. */
+    /** IL drains the worn CF pack first, then the sprayer itself. */
     private static void drainFoam(PlayerEntity player, ItemStack sprayer, int amountMb) {
         int remaining = Math.max(0, amountMb);
         ItemStack chest = player.getEquippedStack(EquipmentSlot.CHEST);

@@ -18,7 +18,7 @@ import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
 /**
- * Modern equivalent of IC2's old RenderCrossed laser renderer.
+ * Modern equivalent of IL's old RenderCrossed laser renderer.
  */
 @Environment(EnvType.CLIENT)
 public final class MiningLaserEntityRenderer extends EntityRenderer<MiningLaserEntity> {
@@ -44,7 +44,7 @@ public final class MiningLaserEntityRenderer extends EntityRenderer<MiningLaserE
 
         VertexConsumer vc = vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(TEXTURE));
 
-        // Back cap (same atlas slice as the old IC2 renderer).
+        // Back cap (same atlas slice as the old IL renderer).
         quad(matrices, vc,
                 -7.0f, -2.0f, -2.0f,
                 -7.0f, -2.0f,  2.0f,

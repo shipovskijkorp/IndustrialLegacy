@@ -50,7 +50,7 @@ final class IlJeiUtil {
             return ItemStack.EMPTY;
         }
 
-        ModFluids.Ic2FluidEntry entry = ModFluids.getEntry(fluid.id);
+        ModFluids.LegacyFluidEntry entry = ModFluids.getEntry(fluid.id);
         return entry == null ? ItemStack.EMPTY : new ItemStack(entry.item());
     }
 

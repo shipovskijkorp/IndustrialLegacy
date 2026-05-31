@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 
 import java.util.Set;
 
-/** IC2-style machine upgrade item. */
+/** IL-style machine upgrade item. */
 public class MachineUpgradeItem extends Item {
     public enum UpgradeType {
         OVERCLOCKER(false),

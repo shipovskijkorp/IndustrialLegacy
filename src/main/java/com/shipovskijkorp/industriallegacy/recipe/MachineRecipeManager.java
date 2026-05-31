@@ -56,7 +56,7 @@ public final class MachineRecipeManager {
         canningBottleLiquidRecipes = Collections.unmodifiableList(CanningFluidRecipe.createBottleLiquidRecipes());
 
         IndustrialLegacy.LOGGER.info(
-                "Loaded IC2-style .ini recipes: {} macerator, {} compressor, {} extractor, {} metal former extruding, {} rolling, {} cutting, {} canning, {} canning enrich, {} thermal centrifuge, {} ore washing, {} canning empty liquid, {} canning bottle liquid",
+                "Loaded IL-style .ini recipes: {} macerator, {} compressor, {} extractor, {} metal former extruding, {} rolling, {} cutting, {} canning, {} canning enrich, {} thermal centrifuge, {} ore washing, {} canning empty liquid, {} canning bottle liquid",
                 maceratorRecipes.size(), compressorRecipes.size(), extractorRecipes.size(),
                 metalFormerExtrudingRecipes.size(), metalFormerRollingRecipes.size(), metalFormerCuttingRecipes.size(),
                 canningRecipes.size(), canningEnrichRecipes.size(), thermalCentrifugeRecipes.size(), oreWashingRecipes.size(),

@@ -189,7 +189,7 @@ public class BatBoxBlockEntity extends BlockEntity implements SidedInventory, IE
     private void chargeDischargeItems() {
         if (world == null) return;
 
-        // Slot 0: charge (storage -> item), IC2 InvSlotCharge.
+        // Slot 0: charge (storage -> item), IL InvSlotCharge.
         ItemStack charge = items.get(SLOT_CHARGE);
         long charged = ElectricSlotHelper.chargeFromStorage(charge, energy, tier, false);
         if (charged > 0L) {
@@ -197,7 +197,7 @@ public class BatBoxBlockEntity extends BlockEntity implements SidedInventory, IE
             markDirtyAndSync();
         }
 
-        // Slot 1: discharge (item/single-use energy item -> storage), IC2 InvSlotDischarge.
+        // Slot 1: discharge (item/single-use energy item -> storage), IL InvSlotDischarge.
         ItemStack discharge = items.get(SLOT_DISCHARGE);
         long extracted = ElectricSlotHelper.dischargeIntoStorage(discharge, getEuFree(), tier, true, false);
         if (extracted > 0L) {
@@ -304,7 +304,7 @@ public class BatBoxBlockEntity extends BlockEntity implements SidedInventory, IE
     @Override
     public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
         if (!isValid(slot, stack)) return false;
-        // IC2 TileEntityElectricBlock: charge slot prefers UP, discharge slot prefers BOTTOM.
+        // IL TileEntityElectricBlock: charge slot prefers UP, discharge slot prefers BOTTOM.
         if (slot == SLOT_CHARGE) return dir == null || dir == Direction.UP;
         if (slot == SLOT_DISCHARGE) return dir == null || dir == Direction.DOWN;
         return false;

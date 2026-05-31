@@ -15,7 +15,7 @@ import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 
-/** IC2 chainsaw semantics: axe + sword + shears style electric tool. */
+/** IL chainsaw semantics: axe + sword + shears style electric tool. */
 public final class ElectricChainsawItem extends AbstractElectricToolItem implements IModeSwitchableItem {
     private static final String NBT_DISABLE_SHEAR = "disableShear";
     private static final double ATTACK_DAMAGE = 9.0;

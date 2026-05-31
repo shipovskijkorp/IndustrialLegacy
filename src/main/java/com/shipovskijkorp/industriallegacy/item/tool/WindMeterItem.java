@@ -15,7 +15,7 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-/** IC2 Experimental wind meter: 50 EU/use, 10k EU capacity, tier 1. */
+/** IL Experimental wind meter: 50 EU/use, 10k EU capacity, tier 1. */
 public final class WindMeterItem extends AbstractElectricToolItem {
     private static final long COST = 50L;
 

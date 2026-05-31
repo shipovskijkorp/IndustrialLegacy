@@ -3,7 +3,7 @@ package com.shipovskijkorp.industriallegacy.reactor.api;
 import net.minecraft.item.ItemStack;
 
 /**
- * Minimal-but-useful IC2-like reactor component interface.
+ * Minimal-but-useful IL-like reactor component interface.
  */
 public interface IReactorComponent {
 

@@ -40,7 +40,7 @@ public class ThermalCentrifugeBlockEntity extends AbstractStandardMachineBlockEn
     private static final int[] BOTTOM_SLOTS = new int[] { SLOT_OUTPUT_0, SLOT_OUTPUT_1, SLOT_OUTPUT_2 };
 
     private static final int TIER = 2;
-    // IC2 Exp 2.8.222: TileEntityCentrifuge extends TileEntityStandardMachine(48, 500, 3, 2),
+    // IL Exp 2.8.222: TileEntityCentrifuge extends TileEntityStandardMachine(48, 500, 3, 2),
     // so the base buffer is 48 EU/t * 500 ticks = 24000 EU.
     private static final long CAPACITY = 24000L;
     private static final int EU_PER_TICK_PROCESS = 48;

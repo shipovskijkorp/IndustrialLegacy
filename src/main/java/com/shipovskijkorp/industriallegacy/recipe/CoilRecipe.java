@@ -15,7 +15,7 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
 /**
- * IC2 coil recipe.
+ * IL coil recipe.
  * Pattern:
  *  CCC
  *  CXC

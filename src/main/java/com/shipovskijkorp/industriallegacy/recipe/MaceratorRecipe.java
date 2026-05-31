@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 /**
  * Simple machine recipe: one input -> one output, plus per-recipe tick cost.
  *
- * <p>IC2 macerator recipes sometimes require multiple input items (for example
+ * <p>IL macerator recipes sometimes require multiple input items (for example
  * plant matter or tin cans). We store the required input count explicitly so
  * both datapack formats and the runtime machine logic stay in sync.</p>
  */

@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import net.minecraft.entity.damage.DamageTypes;
 
 /**
- * IC2-like hazmat suit absorption and rubber boots fall protection.
+ * IL-like hazmat suit absorption and rubber boots fall protection.
  */
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityHazmatArmorMixin {

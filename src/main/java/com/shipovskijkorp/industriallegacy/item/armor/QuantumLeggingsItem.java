@@ -11,7 +11,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
- * Quantum leggings speed boost, following IC2 logic closely.
+ * Quantum leggings speed boost, following IL logic closely.
  */
 public final class QuantumLeggingsItem extends QuantumArmorItem {
     private static final String NBT_SPEED_TICKER = "speedTicker";

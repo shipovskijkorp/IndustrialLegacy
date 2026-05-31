@@ -5,22 +5,22 @@
 	},
 	"variants": {
 		"type": {
-			"black": { "model": "ic2:cf/wall_black" },
-			"blue": { "model": "ic2:cf/wall_blue" },
-			"brown": { "model": "ic2:cf/wall_brown" },
-			"cyan": { "model": "ic2:cf/wall_cyan" },
-			"gray": { "model": "ic2:cf/wall_gray" },
-			"green": { "model": "ic2:cf/wall_green" },
-			"light_blue": { "model": "ic2:cf/wall_light_blue" },
-			"light_gray": { "model": "ic2:cf/wall_light_gray" },
-			"lime": { "model": "ic2:cf/wall_lime" },
-			"magenta": { "model": "ic2:cf/wall_magenta" },
-			"orange": { "model": "ic2:cf/wall_orange" },
-			"pink": { "model": "ic2:cf/wall_pink" },
-			"purple": { "model": "ic2:cf/wall_purple" },
-			"red": { "model": "ic2:cf/wall_red" },
-			"white": { "model": "ic2:cf/wall_white" },
-			"yellow": { "model": "ic2:cf/wall_yellow" }
+			"black": { "model": "industrial_legacy:cf/wall_black" },
+			"blue": { "model": "industrial_legacy:cf/wall_blue" },
+			"brown": { "model": "industrial_legacy:cf/wall_brown" },
+			"cyan": { "model": "industrial_legacy:cf/wall_cyan" },
+			"gray": { "model": "industrial_legacy:cf/wall_gray" },
+			"green": { "model": "industrial_legacy:cf/wall_green" },
+			"light_blue": { "model": "industrial_legacy:cf/wall_light_blue" },
+			"light_gray": { "model": "industrial_legacy:cf/wall_light_gray" },
+			"lime": { "model": "industrial_legacy:cf/wall_lime" },
+			"magenta": { "model": "industrial_legacy:cf/wall_magenta" },
+			"orange": { "model": "industrial_legacy:cf/wall_orange" },
+			"pink": { "model": "industrial_legacy:cf/wall_pink" },
+			"purple": { "model": "industrial_legacy:cf/wall_purple" },
+			"red": { "model": "industrial_legacy:cf/wall_red" },
+			"white": { "model": "industrial_legacy:cf/wall_white" },
+			"yellow": { "model": "industrial_legacy:cf/wall_yellow" }
 		},
 		"inventory": [{}]
 	}

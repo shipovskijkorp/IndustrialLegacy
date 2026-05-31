@@ -15,7 +15,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-/** Shared GUI for IC2-style charge pads. */
+/** Shared GUI for IL-style charge pads. */
 public abstract class AbstractChargepadScreen<T extends AbstractChargepadScreenHandler> extends HandledScreen<T> {
     private static final Identifier BACKGROUND =
             new Identifier(IndustrialLegacy.MOD_ID, "textures/gui/guichargepadblock.png");

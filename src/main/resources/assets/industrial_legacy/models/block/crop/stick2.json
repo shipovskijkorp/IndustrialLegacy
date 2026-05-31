@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "ic2:blocks/crop/stick2"
+    "all": "industrial_legacy:blocks/crop/stick2"
   }
 }

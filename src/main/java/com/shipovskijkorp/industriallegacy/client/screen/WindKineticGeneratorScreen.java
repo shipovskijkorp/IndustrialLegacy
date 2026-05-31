@@ -10,7 +10,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 
-/** IC2-experimental 2.8.222 wind kinetic generator GUI port. */
+/** IL-experimental 2.8.222 wind kinetic generator GUI port. */
 public class WindKineticGeneratorScreen extends HandledScreen<WindKineticGeneratorScreenHandler> {
     private static final Identifier TEXTURE = new Identifier(IndustrialLegacy.MOD_ID, "textures/gui/guiwindkineticgenerator.png");
 
@@ -36,7 +36,7 @@ public class WindKineticGeneratorScreen extends HandledScreen<WindKineticGenerat
     @Override
     protected void init() {
         super.init();
-        this.titleX = (this.backgroundWidth - this.textRenderer.getWidth(getIc2Title())) / 2;
+        this.titleX = (this.backgroundWidth - this.textRenderer.getWidth(getLegacyTitle())) / 2;
         this.titleY = 6;
         this.playerInventoryTitleX = 8;
         this.playerInventoryTitleY = 166;
@@ -67,7 +67,7 @@ public class WindKineticGeneratorScreen extends HandledScreen<WindKineticGenerat
 
     @Override
     protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
-        Text title = getIc2Title();
+        Text title = getLegacyTitle();
         context.drawText(this.textRenderer, title, (this.backgroundWidth - this.textRenderer.getWidth(title)) / 2, 6, TITLE_COLOR, false);
 
         Text firstLine = getFirstStatusLine();
@@ -85,7 +85,7 @@ public class WindKineticGeneratorScreen extends HandledScreen<WindKineticGenerat
                 TEXTURE_WIDTH, TEXTURE_HEIGHT);
     }
 
-    private Text getIc2Title() {
+    private Text getLegacyTitle() {
         return Text.translatable("gui.industrial_legacy.wind_kinetic_generator.name");
     }
 

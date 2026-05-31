@@ -66,10 +66,10 @@ public final class ModItems {
     public static final Item FOAM_SPRAYER = register("foam_sprayer", new FoamSprayerItem(new Item.Settings()));
     public static final Item CF_PACK = register("cf_pack", new FoamPackItem(new Item.Settings()));
 
-    // IC2 electric tools
+    // IL electric tools
     public static final Item POWER_UNIT = register("power_unit", new Item(new Item.Settings()));
     public static final Item DRILL = register("drill", new ElectricDrillItem(new Item.Settings(), 50L, 2, 30_000L, 100L, 1, 8.0f));
-    /** Alias for clarity: IC2 registry id is drill. */
+    /** Alias for clarity: IL registry id is drill. */
     public static final Item MINING_DRILL = DRILL;
     public static final Item DIAMOND_DRILL = register("diamond_drill", new ElectricDrillItem(new Item.Settings(), 80L, 3, 30_000L, 100L, 1, 16.0f));
     public static final Item IRIDIUM_DRILL = register("iridium_drill", new IridiumDrillItem(new Item.Settings()));
@@ -109,9 +109,9 @@ public final class ModItems {
     public static final Item STICKY_RESIN = register("sticky_resin", new StickyResinItem(new FabricItemSettings()));
     public static final Item RUBBER = register("rubber", new Item(new FabricItemSettings()));
 
-    /** IC2 semantics: sulfur is a dust item. */
+    /** IL semantics: sulfur is a dust item. */
     public static final Item SULFUR = register("sulfur", new Item(new Item.Settings()));
-    /** Alias for clarity: in IC2, sulfur is a dust item. */
+    /** Alias for clarity: in IL, sulfur is a dust item. */
     public static final Item SULFUR_DUST = SULFUR;
 
     // --- Ingots ---
@@ -164,7 +164,7 @@ public final class ModItems {
     public static final Item PURIFIED_SILVER_ORE = register("silver_purified_crushed_ore", new Item(new Item.Settings()));
     public static final Item PURIFIED_TIN_ORE = register("tin_purified_crushed_ore", new Item(new Item.Settings()));
 
-    // --- Dusts (IC2: dust.*) ---
+    // --- Dusts (IL: dust.*) ---
     public static final Item BRONZE_DUST = register("bronze_dust", new Item(new Item.Settings()));
     public static final Item CLAY_DUST = register("clay_dust", new Item(new Item.Settings()));
     public static final Item COAL_DUST = register("coal_dust", new Item(new Item.Settings()));
@@ -203,7 +203,7 @@ public final class ModItems {
     public static final Item SMALL_SULFUR_DUST = register("small_sulfur_dust", new Item(new Item.Settings()));
     public static final Item SMALL_TIN_DUST = register("small_tin_dust", new Item(new Item.Settings()));
 
-    // --- IC2 crafting materials (needed for experimental recipes) ---
+    // --- IL crafting materials (needed for experimental recipes) ---
     public static final Item BIO_CHAFF = register("bio_chaff", new Item(new Item.Settings()));
     public static final Item CF_POWDER = register("cf_powder", new Item(new Item.Settings()));
     public static final Item PLANT_BALL = register("plant_ball", new Item(new Item.Settings()));
@@ -266,7 +266,7 @@ public final class ModItems {
     public static final Item ROTOR_CARBON = register("rotor_carbon", new WindRotorItem(new Item.Settings(), 11, 604_800, 1.0f, 20, 110, "textures/item/rotor/carbon_rotor_model.png"));
 
 
-    // Crop-ish / misc (often referenced in IC2 experimental configs)
+    // Crop-ish / misc (often referenced in IL experimental configs)
     public static final Item COFFEE_BEANS = register("coffee_beans", new Item(new Item.Settings()));
     public static final Item COFFEE_POWDER = register("coffee_powder", new Item(new Item.Settings()));
     public static final Item GRIN_POWDER = register("grin_powder", new Item(new Item.Settings()));
@@ -276,7 +276,7 @@ public final class ModItems {
     // --- Materials (IL resources; split into separate IDs in IL) ---
     public static final Item IRIDIUM_SHARD = register("iridium_shard", new Item(new Item.Settings()));
 
-    // --- Reactor components (IC2) ---
+    // --- Reactor components (IL) ---
     public static final Item HEAT_EXCHANGER = register("heat_exchanger", new HeatExchangerItem(new Item.Settings(), 2500, 12, 4));
     public static final Item REACTOR_HEAT_EXCHANGER = register("reactor_heat_exchanger", new HeatExchangerItem(new Item.Settings(), 5000, 0, 72));
     public static final Item COMPONENT_HEAT_EXCHANGER = register("component_heat_exchanger", new HeatExchangerItem(new Item.Settings(), 5000, 36, 0));
@@ -307,12 +307,12 @@ public final class ModItems {
     public static final Item ADVANCED_ALLOY = register("advanced_alloy", new Item(new Item.Settings()));
     public static final Item ELECTRONIC_CIRCUIT = register("electronic_circuit", new Item(new Item.Settings()));
 
-    /** IC2: Advanced Circuit. */
+    /** IL: Advanced Circuit. */
     public static final Item ADVANCED_CIRCUIT = register("advanced_circuit", new Item(new Item.Settings()));
 
     public static final Item MFSU_UPGRADE_KIT = register("mfsu_upgrade_kit", new MfsuUpgradeKitItem(new Item.Settings().maxCount(16)));
 
-    // IC2 machine upgrade modules. Effects are intentionally handled later; for now
+    // IL machine upgrade modules. Effects are intentionally handled later; for now
     // these items only identify valid upgrade-slot contents.
     public static final Item OVERCLOCKER_UPGRADE = register("overclocker_upgrade",
             new MachineUpgradeItem(new Item.Settings(), MachineUpgradeItem.UpgradeType.OVERCLOCKER));
@@ -359,32 +359,32 @@ public final class ModItems {
     public static final Item HAZMAT_LEGGINGS = register("hazmat_leggings", new HazmatArmorItem(net.minecraft.item.ArmorItem.Type.LEGGINGS, new Item.Settings().maxCount(1)));
     public static final Item RUBBER_BOOTS = register("rubber_boots", new HazmatArmorItem(net.minecraft.item.ArmorItem.Type.BOOTS, new Item.Settings().maxCount(1)));
 
-    // IC2 bronze armor
+    // IL bronze armor
     public static final Item BRONZE_HELMET = register("bronze_helmet", new ArmorItem(ModArmorMaterials.BRONZE, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1)));
     public static final Item BRONZE_CHESTPLATE = register("bronze_chestplate", new ArmorItem(ModArmorMaterials.BRONZE, ArmorItem.Type.CHESTPLATE, new Item.Settings().maxCount(1)));
     public static final Item BRONZE_LEGGINGS = register("bronze_leggings", new ArmorItem(ModArmorMaterials.BRONZE, ArmorItem.Type.LEGGINGS, new Item.Settings().maxCount(1)));
     public static final Item BRONZE_BOOTS = register("bronze_boots", new ArmorItem(ModArmorMaterials.BRONZE, ArmorItem.Type.BOOTS, new Item.Settings().maxCount(1)));
 
-    // IC2 Composite Vest
+    // IL Composite Vest
     public static final Item ALLOY_CHESTPLATE = register("alloy_chestplate", new ArmorItem(ModArmorMaterials.ALLOY, ArmorItem.Type.CHESTPLATE, new Item.Settings().maxCount(1)));
 
-    // NanoSuit armor (IC2 Exp)
+    // NanoSuit armor (IL Exp)
     public static final Item NANO_HELMET = register("nano_helmet", new NanoHelmetItem(new Item.Settings().maxCount(1)));
     public static final Item NANO_CHESTPLATE = register("nano_chestplate", new NanoArmorItem(net.minecraft.item.ArmorItem.Type.CHESTPLATE, new Item.Settings().maxCount(1)));
     public static final Item NANO_LEGGINGS = register("nano_leggings", new NanoArmorItem(net.minecraft.item.ArmorItem.Type.LEGGINGS, new Item.Settings().maxCount(1)));
     public static final Item NANO_BOOTS = register("nano_boots", new NanoArmorItem(net.minecraft.item.ArmorItem.Type.BOOTS, new Item.Settings().maxCount(1)));
 
-    // QuantumSuit armor (IC2 Exp)
+    // QuantumSuit armor (IL Exp)
     public static final Item QUANTUM_HELMET = register("quantum_helmet", new QuantumHelmetItem(new Item.Settings().maxCount(1)));
     public static final Item QUANTUM_CHESTPLATE = register("quantum_chestplate", new QuantumChestplateItem(new Item.Settings().maxCount(1)));
     public static final Item QUANTUM_LEGGINGS = register("quantum_leggings", new QuantumLeggingsItem(new Item.Settings().maxCount(1)));
     public static final Item QUANTUM_BOOTS = register("quantum_boots", new QuantumBootsItem(new Item.Settings().maxCount(1)));
 
-    /** IC2: Nano Saber (electric sword). */
+    /** IL: Nano Saber (electric sword). */
     public static final Item NANO_SABER = register("nano_saber", new NanoSaberItem(new Item.Settings().maxCount(1)));
-    /** IC2: Mining Laser (electric mining tool). */
+    /** IL: Mining Laser (electric mining tool). */
     public static final Item MINING_LASER = register("mining_laser", new MiningLaserItem(new Item.Settings().maxCount(1)));
-    // IC2 bronze tools
+    // IL bronze tools
     public static final Item BRONZE_SWORD = register("bronze_sword", new SwordItem(BronzeToolMaterial.INSTANCE, 5, -2.4f, new Item.Settings()));
     public static final Item BRONZE_PICKAXE = register("bronze_pickaxe", new PickaxeItem(BronzeToolMaterial.INSTANCE, 1, -2.8f, new Item.Settings()));
     public static final Item BRONZE_SHOVEL = register("bronze_shovel", new ShovelItem(BronzeToolMaterial.INSTANCE, 1.5f, -3.0f, new Item.Settings()));

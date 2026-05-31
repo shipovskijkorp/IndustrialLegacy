@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 import net.minecraft.util.collection.DefaultedList;
 
 /**
- * IC2 electronic circuit recipe (two shaped variants).
+ * IL electronic circuit recipe (two shaped variants).
  *
  * Ingredients:
  *  C = copper cable (insulation=1)

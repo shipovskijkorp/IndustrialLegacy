@@ -1,8 +1,8 @@
 {
 	"parent": "block/cube_bottom_top",
 	"textures": {
-		"side": "ic2:blocks/explosive/nuke_sides",
-		"bottom": "ic2:blocks/explosive/nuke_bottom",
-		"top": "ic2:blocks/explosive/nuke_top"
+		"side": "industrial_legacy:blocks/explosive/nuke_sides",
+		"bottom": "industrial_legacy:blocks/explosive/nuke_bottom",
+		"top": "industrial_legacy:blocks/explosive/nuke_top"
 	}
 }

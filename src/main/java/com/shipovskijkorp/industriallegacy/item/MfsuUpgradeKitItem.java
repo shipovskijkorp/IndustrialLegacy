@@ -17,7 +17,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-/** IC2-like MFE -> MFSU upgrade kit. */
+/** IL-like MFE -> MFSU upgrade kit. */
 public class MfsuUpgradeKitItem extends Item {
     public MfsuUpgradeKitItem(Settings settings) {
         super(settings);

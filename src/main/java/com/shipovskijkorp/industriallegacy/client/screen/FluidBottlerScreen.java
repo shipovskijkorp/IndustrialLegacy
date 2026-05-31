@@ -12,7 +12,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 /**
- * IC2 experimental Fluid Bottler GUI.
+ * IL experimental Fluid Bottler GUI.
  *
  * Source-truth layout:
  * - GuiFluidBottler: GUIBottler.png, ySize 184

@@ -25,7 +25,7 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-/** IC2 construction foam block. Non-solid while wet; random-ticks into CF wall/reinforced stone. */
+/** IL construction foam block. Non-solid while wet; random-ticks into CF wall/reinforced stone. */
 public class ConstructionFoamBlock extends Block {
     public static final EnumProperty<FoamType> TYPE = EnumProperty.of("type", FoamType.class);
 
@@ -65,7 +65,7 @@ public class ConstructionFoamBlock extends Block {
         }
     }
 
-    /** Mirrors IC2 BlockFoam#getHardenChance: 1 / (hardenTime * (16 - light) * 20). */
+    /** Mirrors IL BlockFoam#getHardenChance: 1 / (hardenTime * (16 - light) * 20). */
     public static float getHardenChance(World world, BlockPos pos, BlockState state, FoamType type) {
         int light = getNeighborAwareLight(world, pos, state);
         int lightPenalty = Math.max(1, 16 - light);

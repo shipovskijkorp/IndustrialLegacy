@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * IC2-like standard machine base, matching the TileEntityStandardMachine idea:
+ * IL-like standard machine base, matching the TileEntityStandardMachine idea:
  * one central progress/energy loop, with per-machine recipe lookup and finish effects.
  */
 public abstract class AbstractStandardMachineBlockEntity extends AbstractElectricMachineBlockEntity {

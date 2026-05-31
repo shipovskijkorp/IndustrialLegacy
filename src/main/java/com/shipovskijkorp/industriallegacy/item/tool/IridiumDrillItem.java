@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * IC2 iridium drill: diamond drill tier with permanent Fortune III and a
+ * IL iridium drill: diamond drill tier with permanent Fortune III and a
  * mode switch that toggles Silk Touch while preserving Fortune III.
  */
 public final class IridiumDrillItem extends ElectricDrillItem implements IModeSwitchableItem {

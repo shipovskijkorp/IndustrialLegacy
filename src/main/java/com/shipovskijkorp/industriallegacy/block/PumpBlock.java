@@ -45,7 +45,7 @@ public class PumpBlock extends BlockWithEntity {
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        // IC2 pump uses the front face as the intake side, so make it face the placer.
+        // IL pump uses the front face as the intake side, so make it face the placer.
         return getDefaultState().with(FACING, ctx.getPlayerLookDirection().getOpposite()).with(LIT, false);
     }
 

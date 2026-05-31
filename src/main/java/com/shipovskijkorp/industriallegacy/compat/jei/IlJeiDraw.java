@@ -71,7 +71,7 @@ final class IlJeiDraw {
     }
 
     static void progressMetalFormer(DrawContext ctx, int x, int y) {
-        // IC2 GaugeStyle.ProgressMetalFormer:
+        // IL GaugeStyle.ProgressMetalFormer:
         // background common.png (192,0) 64x16 at offset (-8,-3), fill common.png (200,19) 46x9.
         ctx.drawTexture(COMMON, x - 8, y - 3, 192, 0, 64, 16, TEX, TEX);
         int w = animatedSize(46, 66);
@@ -204,7 +204,7 @@ final class IlJeiDraw {
     }
 
     static void drawOreWashingPlantFrame(DrawContext ctx) {
-        // IC2 DynamicCategory renders guidef nodes with xOffset=0 and yOffset=-16.
+        // IL DynamicCategory renders guidef nodes with xOffset=0 and yOffset=-16.
         ctx.drawTexture(ORE_WASHER, 37, 0, 37, 16, 87, 63, TEX, TEX);
 
         slot(ctx, 37, 0);

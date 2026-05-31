@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Applies IC2-style over-voltage side effects: conductor meltdown, insulation breakdown,
+ * Applies IL-style over-voltage side effects: conductor meltdown, insulation breakdown,
  * entity shocks, and sink explosions.
  */
 final class OverVoltageProcessor {
@@ -29,7 +29,7 @@ final class OverVoltageProcessor {
         if (!(world instanceof ServerWorld sw)) return;
         if (packet <= 0.0) return;
 
-        // IC2 gates the whole cable-effects pass behind misc/enableEnetCableMeltdown.
+        // IL gates the whole cable-effects pass behind misc/enableEnetCableMeltdown.
         if (!ILConfig.getBool("misc/enableEnetCableMeltdown", true)) return;
 
         IdentityHashMap<LivingEntity, Double> localShockEnergyMap = new IdentityHashMap<>();
@@ -43,11 +43,11 @@ final class OverVoltageProcessor {
             CableKind kind = cb.getKind();
             int insulation = cb.getInsulation();
 
-            // IC2: conductor breaks only when packet is strictly above capacity + 1.
+            // IL: conductor breaks only when packet is strictly above capacity + 1.
             if (packet > kind.getConductorBreakdownEnergy()) {
                 cablesToRemove.add(p);
             } else if (insulation > 0 && packet > kind.getInsulationBreakdownEnergy()) {
-                // IC2: insulation is stripped by insulation breakdown energy, not by shock absorption.
+                // IL: insulation is stripped by insulation breakdown energy, not by shock absorption.
                 cablesToStrip.add(p);
             }
 
@@ -92,7 +92,7 @@ final class OverVoltageProcessor {
     private static void recordShockEnergy(ServerWorld world, BlockPos pos, int shockEnergy, Map<LivingEntity, Double> localShockEnergyMap) {
         if (shockEnergy <= 0) return;
 
-        // IC2 checks a 3x3x3 area around each conducted cable block.
+        // IL checks a 3x3x3 area around each conducted cable block.
         Box box = new Box(pos).expand(1.0D);
         for (LivingEntity entity : world.getEntitiesByClass(LivingEntity.class, box, LivingEntity::isAlive)) {
             Double previous = localShockEnergyMap.get(entity);

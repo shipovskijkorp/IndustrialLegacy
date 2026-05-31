@@ -10,6 +10,6 @@
 	</environment>
 	<energygauge x="59" y="37"/>
 	<gauge name="progress" x="80" y="35" style="progressarrow"/>
-	<button x="6" y="50" width="20" height="20" icon="minecraft:experience_bottle" event="0">{ic2.IronFurnace.gui.xp}</button>
+	<button x="6" y="50" width="20" height="20" icon="minecraft:experience_bottle" event="0">{industrial_legacy.IronFurnace.gui.xp}</button>
 	<playerInventory x="7" y="83"/>
 </gui>

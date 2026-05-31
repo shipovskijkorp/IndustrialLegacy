@@ -69,7 +69,7 @@ public class CompressorBlockEntity extends AbstractStandardMachineBlockEntity {
         return null;
     }
 
-    /** IC2 pump shortcut: adjacent pump water -> one snowball when input slot is empty. */
+    /** IL pump shortcut: adjacent pump water -> one snowball when input slot is empty. */
     private boolean canUseAdjacentPumpRecipe(World world) {
         return items.get(SLOT_INPUT).isEmpty()
                 && canOutput(SLOT_OUTPUT, new ItemStack(Items.SNOWBALL))

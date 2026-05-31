@@ -9,7 +9,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
- * Quantum chestplate provides jetpack flight with IC2 quantum parameters.
+ * Quantum chestplate provides jetpack flight with IL quantum parameters.
  */
 public final class QuantumChestplateItem extends QuantumArmorItem implements IFlightChestItem {
     private static final float POWER = 1.0f;

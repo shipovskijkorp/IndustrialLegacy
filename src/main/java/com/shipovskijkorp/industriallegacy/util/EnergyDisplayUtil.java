@@ -5,7 +5,7 @@ import java.math.RoundingMode;
 import java.util.Locale;
 
 /**
- * IC2-style EU formatting helpers.
+ * IL-style EU formatting helpers.
  */
 public final class EnergyDisplayUtil {
     private static final String[] SI = {"", "k", "M", "G", "T", "P", "E"};

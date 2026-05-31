@@ -1,6 +1,6 @@
 {
-	"parent": "ic2:item/default",
+	"parent": "industrial_legacy:item/default",
 	"textures": {
-		"layer0": "ic2:items/boat/broken_rubber_boat"
+		"layer0": "industrial_legacy:items/boat/broken_rubber_boat"
 	}
 }

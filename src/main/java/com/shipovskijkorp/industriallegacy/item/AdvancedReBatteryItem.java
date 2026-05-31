@@ -17,7 +17,7 @@ import com.shipovskijkorp.industriallegacy.util.EnergyDisplayUtil;
 /**
  * IL Advanced Battery (advanced_re_battery)
  *
- * IC2-like parameters:
+ * IL-like parameters:
  * - capacity: 100,000 EU
  * - transferLimit: 256 EU/t
  * - tier: 2

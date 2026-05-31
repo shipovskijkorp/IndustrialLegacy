@@ -32,7 +32,7 @@ import java.util.ArrayDeque;
 import java.util.HashSet;
 import java.util.Set;
 
-/** IC2 Experimental Pump. */
+/** IL Experimental Pump. */
 public class PumpBlockEntity extends AbstractElectricMachineBlockEntity implements UpgradeableFluidMachine {
     public static final int SLOT_INPUT = 0;
     public static final int SLOT_OUTPUT = 1;

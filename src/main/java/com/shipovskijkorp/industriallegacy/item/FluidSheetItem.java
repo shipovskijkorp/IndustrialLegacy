@@ -12,7 +12,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-/** IC2 misc_resource water_sheet/lava_sheet style flat fluid placer. */
+/** IL misc_resource water_sheet/lava_sheet style flat fluid placer. */
 public class FluidSheetItem extends Item {
     private final Block fluidBlock;
 

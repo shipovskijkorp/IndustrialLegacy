@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
- * IC2 Quantum boots fall event: cancel all fall damage if charge covers max((int)distance - 10, 0).
+ * IL Quantum boots fall event: cancel all fall damage if charge covers max((int)distance - 10, 0).
  */
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityQuantumBootsFallMixin {

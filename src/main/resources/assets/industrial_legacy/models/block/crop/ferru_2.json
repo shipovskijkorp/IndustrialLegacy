@@ -1,6 +1,6 @@
 {
 	"parent": "block/cube_all",
 	"textures": {
-		"all": "ic2:blocks/crop/ferru_2"
+		"all": "industrial_legacy:blocks/crop/ferru_2"
 	}
 }

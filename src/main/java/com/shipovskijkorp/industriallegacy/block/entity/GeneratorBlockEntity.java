@@ -131,7 +131,7 @@ public class GeneratorBlockEntity extends BlockEntity implements SidedInventory,
 
         boolean active = be.gainEnergy();
 
-        // Charge electric item in the charge slot (IC2-like).
+        // Charge electric item in the charge slot (IL-like).
         be.chargeItem();
 
         // Very simple direct-adjacency output (temporary until full cable/grid net exists).
@@ -185,7 +185,7 @@ public class GeneratorBlockEntity extends BlockEntity implements SidedInventory,
     }
 
     private void chargeItem() {
-        // IC2 TileEntityBaseGenerator uses InvSlotCharge tier 1.
+        // IL TileEntityBaseGenerator uses InvSlotCharge tier 1.
         ItemStack charge = items.get(SLOT_CHARGE);
         long accepted = ElectricSlotHelper.chargeFromStorage(charge, energy, 1, false);
         if (accepted > 0L) {

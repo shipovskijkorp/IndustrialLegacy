@@ -24,7 +24,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * IC2-like LV Transformer.
+ * IL-like LV Transformer.
  *
  * <p>Default mode is redstone controlled. When powered it step-ups LV to MV. When unpowered it
  * step-downs MV to LV. The facing side is the special side.</p>
@@ -33,7 +33,7 @@ public class MvTransformerBlockEntity extends BlockEntity implements IEuEnergySt
     private static final int DEFAULT_TIER = 2; // LV
     private static final long LV_PACKET = EuUtil.powerFromTier(DEFAULT_TIER);
     private static final long MV_PACKET = EuUtil.powerFromTier(DEFAULT_TIER + 1);
-    private static final long CAPACITY = LV_PACKET * 8L; // IC2 Energy component size
+    private static final long CAPACITY = LV_PACKET * 8L; // IL Energy component size
     private static final int STEP_DOWN_PACKET_COUNT = 4;
 
     private enum Mode {
@@ -108,7 +108,7 @@ public class MvTransformerBlockEntity extends BlockEntity implements IEuEnergySt
             configuredMode = Mode.VALUES[event];
             updateTransformMode(false);
         } else if (event == 3) {
-            // IC2 sends event 3 when clicking the current-mode wrench icon. It is intentionally a no-op.
+            // IL sends event 3 when clicking the current-mode wrench icon. It is intentionally a no-op.
         }
     }
 

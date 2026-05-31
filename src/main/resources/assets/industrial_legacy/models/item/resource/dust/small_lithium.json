@@ -1,5 +1,5 @@
 {
-	"parent": "ic2:item/default",
+	"parent": "industrial_legacy:item/default",
 	"textures": {
 		"layer0": "industrial_legacy:item/resource/dust/small_lithium"
 	}

@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * IL Lapotron Crystal (lapotron_crystal).
  *
- * IC2 Experimental source-of-truth (BlocksItems):
+ * IL Experimental source-of-truth (BlocksItems):
  * - capacity: 10,000,000 EU
  * - transferLimit: 8,092 EU/t
  * - tier: 4

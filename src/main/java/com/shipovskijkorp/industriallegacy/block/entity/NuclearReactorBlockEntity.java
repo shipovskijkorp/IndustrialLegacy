@@ -661,10 +661,10 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
         }
 
         serverWorld.removeBlock(pos, false);
-        doIc2StyleNuclearExplosion(serverWorld, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, boomPower);
+        doLegacyStyleNuclearExplosion(serverWorld, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, boomPower);
     }
 
-    private void doIc2StyleNuclearExplosion(ServerWorld serverWorld, double centerX, double centerY, double centerZ, float power) {
+    private void doLegacyStyleNuclearExplosion(ServerWorld serverWorld, double centerX, double centerY, double centerZ, float power) {
         if (power <= 0.0f) return;
 
         double maxDistance = power / 0.4;
@@ -706,7 +706,7 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
             mutablePos.set(blockX, blockY, blockZ);
 
             BlockState state = world.getBlockState(mutablePos);
-            double absorption = getIc2ExplosionAbsorption(state, world, mutablePos);
+            double absorption = getLegacyExplosionAbsorption(state, world, mutablePos);
             if (absorption < 0.0) {
                 break;
             }
@@ -741,7 +741,7 @@ public class NuclearReactorBlockEntity extends BlockEntity implements SidedInven
         }
     }
 
-    private double getIc2ExplosionAbsorption(BlockState state, World world, BlockPos pos) {
+    private double getLegacyExplosionAbsorption(BlockState state, World world, BlockPos pos) {
         double ret = 0.5;
         if (state.isAir()) {
             return ret;

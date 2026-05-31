@@ -45,7 +45,7 @@ import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
 /**
- * IC2-style charge pad block.
+ * IL-style charge pad block.
  *
  * - horizontal facing only
  * - low profile (15/16 block high)

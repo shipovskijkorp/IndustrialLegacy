@@ -1,7 +1,7 @@
 {
 	"parent": "block/cube_column",
 	"textures": {
-		"side": "ic2:blocks/barrel_sides",
-		"end": "ic2:blocks/barrel_bottomtop"
+		"side": "industrial_legacy:blocks/barrel_sides",
+		"end": "industrial_legacy:blocks/barrel_bottomtop"
 	}
 }

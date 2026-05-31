@@ -4,7 +4,7 @@
     <slot name="input" x="26" y="16"/>
     <slot name="output" x="111" y="34" style="large"/>
     <slot name="discharge" x="26" y="52"/>
-    <tooltip text="ic2.BlockCutter.gui.bladeslot">
+    <tooltip text="industrial_legacy.BlockCutter.gui.bladeslot">
 		<slot name="cutterInputSlot" x="70" y="35" style="plain" />
     </tooltip>
     <environment name="game">
@@ -12,8 +12,8 @@
         <button type="recipe" x="55" y="33" width="15" height="19" event="block_cutter"></button>
         <button type="recipe" x="86" y="33" width="15" height="19" event="block_cutter"></button>
         <only if="isBladeTooWeak">
-	        <tooltip text="ic2.BlockCutter.gui.bladeTooWeak">
-				<image x="63" y="54" src="ic2:textures/gui/GUIBlockCutter" width="30" height="26" basesize="256" u="176" v="34" />
+	        <tooltip text="industrial_legacy.BlockCutter.gui.bladeTooWeak">
+				<image x="63" y="54" src="industrial_legacy:textures/gui/GUIBlockCutter" width="30" height="26" basesize="256" u="176" v="34" />
 	        </tooltip>
         </only>
     </environment>

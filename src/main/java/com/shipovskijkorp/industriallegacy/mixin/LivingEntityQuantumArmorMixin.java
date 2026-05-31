@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
- * IC2-like QuantumSuit absorption, wired into the armor reduction stage,
+ * IL-like QuantumSuit absorption, wired into the armor reduction stage,
  * which is much closer to old Forge ISpecialArmor#getProperties behavior.
  *
  * Normal damage:

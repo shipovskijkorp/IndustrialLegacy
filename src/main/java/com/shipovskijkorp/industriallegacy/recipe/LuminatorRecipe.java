@@ -16,7 +16,7 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
 /**
- * IC2 Experimental Luminator recipe (shaped_recipes.ini):
+ * IL Experimental Luminator recipe (shaped_recipes.ini):
  *
  * pattern:
  *  "ICI"

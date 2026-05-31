@@ -28,9 +28,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 /**
- * IC2 Experimental storage boxes.
+ * IL Experimental storage boxes.
  *
- * <p>Source truth: TileEntityStorageBox and subclasses in IC2 2.8.222-ex112.
+ * <p>Source truth: TileEntityStorageBox and subclasses in IL 2.8.222-ex112.
  * These blocks keep their inventory in the dropped block item.</p>
  */
 public final class StorageBoxBlock extends BlockWithEntity {

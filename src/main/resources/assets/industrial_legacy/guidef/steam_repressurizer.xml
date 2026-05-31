@@ -7,8 +7,8 @@
 	<fluidtank name="output" type="plain" x="123" y="19" width="38" height="47"/>
 
 	<only if="valid" inverted="true">
-		<text y="19" align="center">{ic2.SteamRepressurizer.te.top}</text>
-		<text y="63" align="center">{ic2.SteamRepressurizer.te.bottom}</text>
+		<text y="19" align="center">{industrial_legacy.SteamRepressurizer.te.top}</text>
+		<text y="63" align="center">{industrial_legacy.SteamRepressurizer.te.bottom}</text>
 	</only>
 
 	<playerInventory x="7" y="83"/>

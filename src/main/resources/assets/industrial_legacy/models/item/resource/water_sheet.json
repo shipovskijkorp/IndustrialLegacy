@@ -1,5 +1,5 @@
 {
-	"parent": "ic2:item/default",
+	"parent": "industrial_legacy:item/default",
 	"textures": {
 		"layer0": "minecraft:blocks/water_still"
 	}

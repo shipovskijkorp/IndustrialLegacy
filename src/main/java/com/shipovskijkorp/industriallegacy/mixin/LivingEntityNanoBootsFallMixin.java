@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
- * IC2 Exp nano boots fall protection:
+ * IL Exp nano boots fall protection:
  * - if (fallDamage = (int)distance - 3) < 8 and enough energy (energyPerDamage * fallDamage)
  *   then discharge and cancel fall damage.
  */
@@ -28,7 +28,7 @@ public abstract class LivingEntityNanoBootsFallMixin {
         int fallDamage = (int) fallDistance - 3;
         if (fallDamage < 0) fallDamage = 0;
 
-        if (fallDamage >= 8) return; // IC2: no cancel for 8+
+        if (fallDamage >= 8) return; // IL: no cancel for 8+
 
         long energyCost = (long) NanoArmorItem.ENERGY_PER_DAMAGE * (long) fallDamage;
         if (energyCost <= 0L) return;

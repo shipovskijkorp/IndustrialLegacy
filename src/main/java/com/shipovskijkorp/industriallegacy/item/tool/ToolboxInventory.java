@@ -18,7 +18,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.collection.DefaultedList;
 
 /**
- * IC2-style handheld toolbox inventory.
+ * IL-style handheld toolbox inventory.
  * Stores data in the toolbox item NBT and allows tools/electric hand tools.
  */
 public final class ToolboxInventory implements Inventory {

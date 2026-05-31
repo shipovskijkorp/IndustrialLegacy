@@ -42,7 +42,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 /**
- * IC2-style luminator.
+ * IL-style luminator.
  *
  * <p>Wall/ceiling/floor mounted 1-pixel-thick light that:</p>
  * <ul>

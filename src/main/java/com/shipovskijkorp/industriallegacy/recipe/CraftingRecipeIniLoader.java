@@ -31,14 +31,14 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-/** Loads IC2-style shaped/shapeless/furnace .ini recipes into vanilla recipe tables. */
+/** Loads IL-style shaped/shapeless/furnace .ini recipes into vanilla recipe tables. */
 public final class CraftingRecipeIniLoader {
     private static final String SHAPED_PATH = "data/industrial_legacy/il_recipes/shaped_recipes.ini";
     private static final String SHAPELESS_PATH = "data/industrial_legacy/il_recipes/shapeless_recipes.ini";
     private static final String FURNACE_PATH = "data/industrial_legacy/il_recipes/furnace.ini";
     private static final int FURNACE_COOK_TIME = 200;
     /**
-     * The bundled files are intentionally copied from IC2 and still contain recipes for
+     * The bundled files are intentionally copied from IL and still contain recipes for
      * blocks/items that Industrial Legacy has not ported yet. Those lines are not
      * recipe load failures for the current mod state, so keep them out of discovered/failed
      * stats until the corresponding content exists. Real parse failures for supported
@@ -175,7 +175,7 @@ public final class CraftingRecipeIniLoader {
         recipes.addAll(loadShaped(SHAPED_PATH));
         recipes.addAll(loadShapeless(SHAPELESS_PATH));
         recipes.addAll(loadFurnace(FURNACE_PATH));
-        IndustrialLegacy.LOGGER.info("Loaded IC2-style crafting .ini recipes: {} total", recipes.size());
+        IndustrialLegacy.LOGGER.info("Loaded IL-style crafting .ini recipes: {} total", recipes.size());
         RecipeLoadTracker.logFailuresIfAny();
         return recipes;
     }
@@ -295,7 +295,7 @@ public final class CraftingRecipeIniLoader {
         if (stream == null) stream = CraftingRecipeIniLoader.class.getClassLoader().getResourceAsStream(resourcePath);
         if (stream == null) {
             RecipeLoadTracker.failed(category, resourcePath, "missing ini resource");
-            IndustrialLegacy.LOGGER.warn("Missing IC2-style crafting recipe ini: {}", resourcePath);
+            IndustrialLegacy.LOGGER.warn("Missing IL-style crafting recipe ini: {}", resourcePath);
             return lines;
         }
 
@@ -309,15 +309,15 @@ public final class CraftingRecipeIniLoader {
                 RecipeLoadTracker.discovered(category);
                 if (referencesUnportedRecipeToken(text)) {
                     String name = recipeName(resourcePath, number, text);
-                    RecipeLoadTracker.skipped(category, name, "references unported IC2 content");
-                    IndustrialLegacy.LOGGER.debug("Skipping unported IC2 recipe {}:{} -> {}", resourcePath, number, text);
+                    RecipeLoadTracker.skipped(category, name, "references unported IL content");
+                    IndustrialLegacy.LOGGER.debug("Skipping unported IL recipe {}:{} -> {}", resourcePath, number, text);
                     continue;
                 }
                 lines.add(new Line(number, text));
             }
         } catch (IOException e) {
             RecipeLoadTracker.failed(category, resourcePath, e);
-            IndustrialLegacy.LOGGER.warn("Failed to read IC2-style crafting recipe ini {}", resourcePath, e);
+            IndustrialLegacy.LOGGER.warn("Failed to read IL-style crafting recipe ini {}", resourcePath, e);
         }
         return lines;
     }
@@ -425,7 +425,7 @@ public final class CraftingRecipeIniLoader {
         if (token.startsWith("Fluid:")) return fluidIngredient(token.substring("Fluid:".length()));
         if (token.startsWith("FluidCell:")) return IlCraftingIngredient.fluidCell(UniversalFluidCellItem.CellFluid.byId(token.substring("FluidCell:".length())));
         if (token.startsWith("industrial_legacy:cable#")) return cableIngredient(token.substring("industrial_legacy:cable#".length()));
-        if (token.startsWith("ic2:cable#")) return cableIngredient(token.substring("ic2:cable#".length()));
+        if (token.startsWith("industrial_legacy:cable#")) return cableIngredient(token.substring("industrial_legacy:cable#".length()));
 
         Item item = resolveItem(token);
         if (item == null) return IlCraftingIngredient.empty();
@@ -446,8 +446,8 @@ public final class CraftingRecipeIniLoader {
             stack.setCount(count);
             return stack;
         }
-        if (token.startsWith("ic2:cable#")) {
-            ItemStack stack = parseCableStack(token.substring("ic2:cable#".length()));
+        if (token.startsWith("industrial_legacy:cable#")) {
+            ItemStack stack = parseCableStack(token.substring("industrial_legacy:cable#".length()));
             stack.setCount(count);
             return stack;
         }
@@ -605,14 +605,14 @@ public final class CraftingRecipeIniLoader {
         if (!mapped.equals(token)) return mapped;
         mapped = mapIndustrialLegacyAlias(token);
         if (!mapped.equals(token)) return mapped;
-        if (!token.startsWith("ic2:")) return token;
+        if (!token.startsWith("industrial_legacy:")) return token;
 
-        if (token.startsWith("ic2:cable#")) return "industrial_legacy:cable#" + token.substring("ic2:cable#".length());
-        if (token.startsWith("ic2:fluid_cell#")) return "FluidCell:" + token.substring("ic2:fluid_cell#".length());
-        if (token.equals("ic2:fluid_cell")) return "industrial_legacy:fluid_cell";
+        if (token.startsWith("industrial_legacy:cable#")) return "industrial_legacy:cable#" + token.substring("industrial_legacy:cable#".length());
+        if (token.startsWith("industrial_legacy:fluid_cell#")) return "FluidCell:" + token.substring("industrial_legacy:fluid_cell#".length());
+        if (token.equals("industrial_legacy:fluid_cell")) return "industrial_legacy:fluid_cell";
 
         int hash = token.indexOf('#');
-        if (hash < 0) return mapIndustrialLegacyAlias(token.replace("ic2:", "industrial_legacy:"));
+        if (hash < 0) return mapIndustrialLegacyAlias(token.replace("industrial_legacy:", "industrial_legacy:"));
         String base = token.substring(4, hash);
         String variant = token.substring(hash + 1);
         String id = switch (base) {
@@ -661,7 +661,7 @@ public final class CraftingRecipeIniLoader {
             case "upgrade_kit" -> "industrial_legacy:" + variant + "_upgrade_kit";
             default -> "industrial_legacy:" + base + "_" + variant;
         };
-        String mappedId = id == null ? token.replace("ic2:", "industrial_legacy:").replace('#', '_') : id;
+        String mappedId = id == null ? token.replace("industrial_legacy:", "industrial_legacy:").replace('#', '_') : id;
         return mapIndustrialLegacyAlias(mappedId);
     }
 

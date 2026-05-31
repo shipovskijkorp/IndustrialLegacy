@@ -1,7 +1,7 @@
 {
 	"pools": [
 		{
-			"name": "ic2",
+			"name": "industrial_legacy",
 			"rolls": {
 				"min": 1,
 				"max": 3
@@ -10,7 +10,7 @@
 				{
 					"type": "item",
 					"entryName": "copper_ingot",
-					"name": "ic2:ingot",
+					"name": "industrial_legacy:ingot",
 					"weight": 9,
 					"functions": [
 						{
@@ -29,7 +29,7 @@
 				{
 					"type": "item",
 					"entryName": "tin_ingot",
-					"name": "ic2:ingot",
+					"name": "industrial_legacy:ingot",
 					"weight": 8,
 					"functions": [
 						{
@@ -48,7 +48,7 @@
 				{
 					"type": "item",
 					"entryName": "iridium_ore",
-					"name": "ic2:misc_resource",
+					"name": "industrial_legacy:misc_resource",
 					"weight": 1,
 					"functions": [
 						{
@@ -67,7 +67,7 @@
 				{
 					"type": "item",
 					"entryName": "iridium_shard",
-					"name": "ic2:misc_resource",
+					"name": "industrial_legacy:misc_resource",
 					"weight": 8,
 					"functions": [
 						{
@@ -85,32 +85,32 @@
 				},
 				{
 					"type": "item",
-					"name": "ic2:bronze_pickaxe",
+					"name": "industrial_legacy:bronze_pickaxe",
 					"weight": 3
 				},
 				{
 					"type": "item",
-					"name": "ic2:bronze_sword",
+					"name": "industrial_legacy:bronze_sword",
 					"weight": 3
 				},
 				{
 					"type": "item",
-					"name": "ic2:bronze_helmet",
+					"name": "industrial_legacy:bronze_helmet",
 					"weight": 3
 				},
 				{
 					"type": "item",
-					"name": "ic2:bronze_chestplate",
+					"name": "industrial_legacy:bronze_chestplate",
 					"weight": 3
 				},
 				{
 					"type": "item",
-					"name": "ic2:bronze_leggings",
+					"name": "industrial_legacy:bronze_leggings",
 					"weight": 3
 				},
 				{
 					"type": "item",
-					"name": "ic2:bronze_boots",
+					"name": "industrial_legacy:bronze_boots",
 					"weight": 3
 				},
 				{

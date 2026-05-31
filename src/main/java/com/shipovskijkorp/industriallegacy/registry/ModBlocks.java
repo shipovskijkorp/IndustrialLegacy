@@ -404,7 +404,7 @@ public final class ModBlocks {
             new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).requiresTool())
     );
 
-    /** IC2-like Advanced Machine Block used for higher tier machine recipes. */
+    /** IL-like Advanced Machine Block used for higher tier machine recipes. */
     public static final Block ADVANCED_MACHINE = register(
             "advanced_machine",
             new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).requiresTool())
@@ -441,7 +441,7 @@ public final class ModBlocks {
             new Block(FabricBlockSettings.copyOf(Blocks.IRON_BLOCK).requiresTool())
     );
 
-    /** Reinforced stone (IC2 resource#reinforced_stone): 80 hardness, 180 blast resistance. */
+    /** Reinforced stone (IL resource#reinforced_stone): 80 hardness, 180 blast resistance. */
     public static final Block REINFORCED_STONE = register(
             "reinforced_stone",
             new Block(FabricBlockSettings.copyOf(Blocks.STONE).strength(80.0f, 180.0f).requiresTool())
@@ -616,7 +616,7 @@ public final class ModBlocks {
             new FenceBlock(FabricBlockSettings.copyOf(Blocks.IRON_BARS).sounds(BlockSoundGroup.METAL).requiresTool())
     );
 
-    /** IC2-like Luminator: face-mounted electric lamp with internal 10k EU buffer. */
+    /** IL-like Luminator: face-mounted electric lamp with internal 10k EU buffer. */
     public static final Block LUMINATOR = register(
             "luminator",
             new LuminatorBlock(FabricBlockSettings.create()

@@ -8,7 +8,7 @@ import net.minecraft.item.ItemUsageContext;
 import net.minecraft.util.ActionResult;
 import net.minecraft.world.World;
 
-/** IC2 Experimental electric wrench: 100 EU per wrench damage, 12 000 EU capacity, tier 1. */
+/** IL Experimental electric wrench: 100 EU per wrench damage, 12 000 EU capacity, tier 1. */
 public final class ElectricWrenchItem extends AbstractElectricToolItem {
     private static final long EU_PER_WRENCH_DAMAGE = 100L;
     private static final int ROTATE_DAMAGE = 1;

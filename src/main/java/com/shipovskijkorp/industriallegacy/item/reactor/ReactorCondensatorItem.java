@@ -4,10 +4,10 @@ import com.shipovskijkorp.industriallegacy.reactor.api.IReactor;
 import net.minecraft.item.ItemStack;
 
 /**
- * IC2 RSH/LZH condensator semantics.
+ * IL RSH/LZH condensator semantics.
  * Stores positive heat up to capacity, never self-destructs from overflow,
  * and returns leftover heat once full. Negative heat is ignored here and must
- * be removed via recharge recipes, matching IC2 behaviour.
+ * be removed via recharge recipes, matching IL behaviour.
  */
 public class ReactorCondensatorItem extends AbstractDamageableReactorComponentItem {
     public ReactorCondensatorItem(Settings settings, int maxHeat) {

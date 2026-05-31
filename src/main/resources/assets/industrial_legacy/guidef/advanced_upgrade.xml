@@ -17,13 +17,13 @@
     <slothologram x="115" y="56" index="7" name="filter" stack="1"/>
     <slothologram x="133" y="56" index="8" name="filter" stack="1"/>
 
-    <button x="10" y="18" width="50" height="20" event="meta">{ic2.upgrade.advancedGUI.meta}</button>
+    <button x="10" y="18" width="50" height="20" event="meta">{industrial_legacy.upgrade.advancedGUI.meta}</button>
     <image x="65" y="21" basesize="256" u="192" v="62" width="14" height="14" src="textures/gui/common"/>
     <only if="meta">
     	<image x="65" y="21" basesize="256" u="206" v="62" width="14" height="14" src="textures/gui/common"/>
     </only>
 
-    <button x="10" y="40" width="50" height="20" event="energy">{ic2.upgrade.advancedGUI.energy}</button>
+    <button x="10" y="40" width="50" height="20" event="energy">{industrial_legacy.upgrade.advancedGUI.energy}</button>
     <image x="65" y="43" width="14" height="14" basesize="256" u="192" v="62" src="textures/gui/common"/>
     <only if="energy">
     	<image x="65" y="43" width="14" height="14" basesize="256" u="206" v="62" src="textures/gui/common"/>

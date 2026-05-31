@@ -11,7 +11,7 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.DefaultParticleType;
 
 /**
- * Direct 1.20 analogue of IC2's EntityIC2FX used by chargepads:
+ * Direct 1.20 analogue of IL's EntityILFX used by chargepads:
  * - blue tint 0.2,0.2,1.0
  * - alpha 0.6
  * - gravity 0

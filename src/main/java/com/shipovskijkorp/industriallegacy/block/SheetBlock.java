@@ -15,7 +15,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 
-/** IC2-style 1/8-block sheets: resin/latex, rubber and wool. */
+/** IL-style 1/8-block sheets: resin/latex, rubber and wool. */
 public class SheetBlock extends Block {
     private static final VoxelShape SHAPE = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 2.0, 16.0);
     private static final Direction[] SUPPORT_AXES = {Direction.EAST, Direction.SOUTH};

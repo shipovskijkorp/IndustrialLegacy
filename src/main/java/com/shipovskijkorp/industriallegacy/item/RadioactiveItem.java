@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 
 
 /**
- * Simple IC2-like radioactive inventory item.
+ * Simple IL-like radioactive inventory item.
  *
  * Radiation is applied while carried by a living entity unless the entity wears
  * a full hazmat-equivalent suit.

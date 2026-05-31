@@ -31,7 +31,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-/** IC2-style painter/paint roller. The uncolored painter is colorless; colored painters have 32 uses. */
+/** IL-style painter/paint roller. The uncolored painter is colorless; colored painters have 32 uses. */
 public final class PainterItem extends Item implements IModeSwitchableItem {
     private static final String NBT_AUTO_REFILL = "autoRefill";
     private static final String[] COLOR_PREFIXES = new String[] {

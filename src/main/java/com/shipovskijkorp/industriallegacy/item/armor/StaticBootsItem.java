@@ -10,7 +10,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-/** IC2 Static Boots: walking charges the chest armor item. */
+/** IL Static Boots: walking charges the chest armor item. */
 public final class StaticBootsItem extends ArmorItem {
     private static final String NBT_X = "static_x";
     private static final String NBT_Z = "static_z";

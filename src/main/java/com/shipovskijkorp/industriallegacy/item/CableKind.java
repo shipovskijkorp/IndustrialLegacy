@@ -23,7 +23,7 @@ public enum CableKind {
     /** Maximum insulation level stored in NBT. */
     public final int maxInsulation;
 
-    /** IC2: minimum insulation required before this cable type can carry a color. */
+    /** IL: minimum insulation required before this cable type can carry a color. */
     public final int minColoredInsulation;
 
     /** Base rendered thickness (0..1 block units). */

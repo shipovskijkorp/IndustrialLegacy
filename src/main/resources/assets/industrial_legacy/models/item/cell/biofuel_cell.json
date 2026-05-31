@@ -1,6 +1,6 @@
 {
-	"parent": "ic2:item/default",
+	"parent": "industrial_legacy:item/default",
 	"textures": {
-		"layer0": "ic2:items/cell/ref_bio_cell"
+		"layer0": "industrial_legacy:items/cell/ref_bio_cell"
 	}
 }

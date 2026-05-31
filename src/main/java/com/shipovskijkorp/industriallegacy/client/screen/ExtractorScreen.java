@@ -9,7 +9,7 @@ import net.minecraft.text.Text;
 import com.shipovskijkorp.industriallegacy.util.EnergyDisplayUtil;
 
 /**
- * IC2-like Extractor GUI (guidef/extractor.xml).
+ * IL-like Extractor GUI (guidef/extractor.xml).
  *
  * Slots:
  *  - input:     (55,16)
@@ -50,7 +50,7 @@ public class ExtractorScreen extends HandledScreen<ExtractorScreenHandler> {
     @Override
     protected void init() {
         super.init();
-        // Center title like IC2
+        // Center title like IL
         this.titleX = (this.backgroundWidth - this.textRenderer.getWidth(this.title)) / 2;
         this.playerInventoryTitleX = 8;
         this.playerInventoryTitleY = 72;
@@ -75,7 +75,7 @@ public class ExtractorScreen extends HandledScreen<ExtractorScreenHandler> {
         final int x = this.x;
         final int y = this.y;
 
-        // Base panel (IC2 style)
+        // Base panel (IL style)
         IlGuiDraw.drawDefaultBackground(ctx, x, y, backgroundWidth, backgroundHeight);
 
         // Info button (top-left) cosmetic
@@ -100,7 +100,7 @@ public class ExtractorScreen extends HandledScreen<ExtractorScreenHandler> {
         float pRatio = handler.getMaxProgress() <= 0 ? 0f : (handler.getProgress() / (float) handler.getMaxProgress());
         IlGuiDraw.drawProgressDrop(ctx, x + PROGRESS_X, y + PROGRESS_Y, pRatio);
 
-        // Player slot frames (IC2 style offset)
+        // Player slot frames (IL style offset)
         int invX = x + 6;
         int invY = y + 82;
         for (int row = 0; row < 3; row++) {

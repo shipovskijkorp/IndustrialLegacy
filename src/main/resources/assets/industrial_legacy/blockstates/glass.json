@@ -5,7 +5,7 @@
 	},
 	"variants": {
 		"type": {
-			"reinforced": { "model": "ic2:reinforced_glass" }
+			"reinforced": { "model": "industrial_legacy:reinforced_glass" }
 		},
 		"inventory": [{}]
 	}

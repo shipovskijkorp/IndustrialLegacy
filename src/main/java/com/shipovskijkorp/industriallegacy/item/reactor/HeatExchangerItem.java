@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * IC2 ItemReactorHeatSwitch port (1.12.2 Experimental semantics).
+ * IL ItemReactorHeatSwitch port (1.12.2 Experimental semantics).
  *
  * Params:
  * - maxHeat: internal heat storage

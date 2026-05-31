@@ -4,7 +4,7 @@ import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * IC2-like reactor core interface used by reactor components.
+ * IL-like reactor core interface used by reactor components.
  */
 public interface IReactor {
     @Nullable ItemStack getItemAt(int x, int y);

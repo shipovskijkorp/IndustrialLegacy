@@ -26,7 +26,7 @@ import java.util.List;
 import com.shipovskijkorp.industriallegacy.util.EnergyDisplayUtil;
 
 /**
- * IC2 Experimental Nano Saber (electric sword).
+ * IL Experimental Nano Saber (electric sword).
  *
  * Visuals:
  * - model swap via predicate industrial_legacy:active (0/1) to nano_saber_active model
@@ -55,7 +55,7 @@ public final class NanoSaberItem extends SwordItem implements IElectricItem {
     private static final float ATTACK_SPEED = -2.4f;
 
     public NanoSaberItem(Settings settings) {
-        // Diamond sword base damage is 3; +1 => 4 (IC2 inactive)
+        // Diamond sword base damage is 3; +1 => 4 (IL inactive)
         super(ToolMaterials.DIAMOND, 1, ATTACK_SPEED, settings.maxCount(1));
     }
 
@@ -136,7 +136,7 @@ public final class NanoSaberItem extends SwordItem implements IElectricItem {
         ei.setEnergy(stack, energy);
     }
 
-    // ---------------- IC2-like behaviour ----------------
+    // ---------------- IL-like behaviour ----------------
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {

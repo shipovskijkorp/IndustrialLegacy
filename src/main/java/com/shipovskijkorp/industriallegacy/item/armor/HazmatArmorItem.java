@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 /**
- * IC2 Experimental hazmat armor port.
+ * IL Experimental hazmat armor port.
  *
  * Pieces:
  * - hazmat helmet (scuba helmet)

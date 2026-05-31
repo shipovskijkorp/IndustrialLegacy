@@ -1,6 +1,6 @@
 package com.shipovskijkorp.industriallegacy.block.entity.upgrade;
 
-/** IC2 Experimental upgrade property flags. */
+/** IL Experimental upgrade property flags. */
 public enum UpgradableProperty {
     Processing,
     Augmentable,

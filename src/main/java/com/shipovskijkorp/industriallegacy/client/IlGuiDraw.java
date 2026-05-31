@@ -5,7 +5,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.Identifier;
 
 /**
- * Shared IC2-ish GUI drawing helpers backed by {@code textures/gui/common.png}.
+ * Shared IL-ish GUI drawing helpers backed by {@code textures/gui/common.png}.
  *
  * IMPORTANT: Keep this class API stable because multiple screens call it.
  */
@@ -23,7 +23,7 @@ public final class IlGuiDraw {
     private IlGuiDraw() {}
 
     /**
-     * Default framed GUI background (IC2/IL style).
+     * Default framed GUI background (IL/IL style).
      * Draws a panel frame extending 16px outside the GUI rect.
      */
     public static void drawDefaultBackground(DrawContext ctx, int x, int y, int w, int h) {
@@ -89,7 +89,7 @@ public final class IlGuiDraw {
         ctx.drawTexture(COMMON, x, y, 103, 7, 18, 18, TEX_W, TEX_H);
     }
 
-    /** Large slot frame (26x26) used for output slots in IC2-style GUIs. */
+    /** Large slot frame (26x26) used for output slots in IL-style GUIs. */
     public static void drawSlotLarge(DrawContext ctx, int x, int y) {
         // common.png: large slot frame at (99,35) size 26x26
         ctx.drawTexture(COMMON, x, y, 99, 35, 26, 26, TEX_W, TEX_H);
@@ -151,7 +151,7 @@ public final class IlGuiDraw {
         ctx.drawTexture(COMMON, x, dstY, 112, srcY, 13, h, TEX_W, TEX_H);
     }
 
-    // --- Macerator-specific primitives (IC2 classic layout) ---
+    // --- Macerator-specific primitives (IL classic layout) ---
 
     /**
      * Energy bolt gauge for Macerator (16x16 background + 7x13 fill).
@@ -160,7 +160,7 @@ public final class IlGuiDraw {
     public static void drawEnergyBolt(DrawContext ctx, int x, int y, float ratio) {
         ratio = clamp01(ratio);
 
-        // background: common.png (96,64) 16x16, with offset (-4,-1) in IC2 xml
+        // background: common.png (96,64) 16x16, with offset (-4,-1) in IL xml
         ctx.drawTexture(COMMON, x - 4, y - 1, 96, 64, 16, 16, TEX_W, TEX_H);
 
         // fill: common.png (116,65) 7x13, fills bottom->top
@@ -199,7 +199,7 @@ public final class IlGuiDraw {
     }
 
     /**
-     * Recycler progress (IC2 progressrecycler). Uses:
+     * Recycler progress (IL progressrecycler). Uses:
      * background common.png (128,64) 32x16 offset(-5,0),
      * fill common.png (133,80) 18x15.
      */
@@ -215,8 +215,8 @@ public final class IlGuiDraw {
     }
 
     /**
-     * IC2 progressarrow gauge used by electric, iron and induction furnaces.
-     * Matches GaugeStyle.ProgressArrow from the IC2 source:
+     * IL progressarrow gauge used by electric, iron and induction furnaces.
+     * Matches GaugeStyle.ProgressArrow from the IL source:
      * background common.png (160,0) 32x16 at (-5,0), fill common.png (165,16) 22x15.
      */
     public static void drawProgressArrow(DrawContext ctx, int x, int y, float ratio) {
@@ -232,7 +232,7 @@ public final class IlGuiDraw {
 
 
     /**
-     * IC2 progressdrop gauge used by the extractor and pump.
+     * IL progressdrop gauge used by the extractor and pump.
      * Matches GaugeStyle.ProgressDrop:
      * background common.png (160,96) 32x16 at offset (-5,0), fill common.png (165,112) 22x15.
      */
@@ -250,7 +250,7 @@ public final class IlGuiDraw {
     public static void drawProgressTriangle(DrawContext ctx, int x, int y, float ratio) {
         ratio = clamp01(ratio);
 
-        // IC2 classic "progresstriangle": background (160,64 32x16) at (-5,0), fill (165,80 22x15) at (0,1)
+        // IL classic "progresstriangle": background (160,64 32x16) at (-5,0), fill (165,80 22x15) at (0,1)
         drawTex(ctx, x - 5, y, 160, 64, 32, 16);
         int w = (int) Math.floor(22.0f * ratio);
         if (w <= 0) return;
@@ -261,7 +261,7 @@ public final class IlGuiDraw {
 
 
     /**
-     * IC2 normal fluid tank gauge.
+     * IL normal fluid tank gauge.
      *
      * Matches TankGauge.createNormal():
      * - full/filled background: common.png (6,100) 20x55
@@ -290,10 +290,10 @@ public final class IlGuiDraw {
     }
 
     /**
-     * IC2 progressorewasher gauge. Unlike most machine gauges this one lives in
+     * IL progressorewasher gauge. Unlike most machine gauges this one lives in
      * GUIOreWashingPlant.png, not common.png.
      *
-     * IC2 GaugeStyle.ProgressOreWasher:
+     * IL GaugeStyle.ProgressOreWasher:
      * background: texture (102,38) 20x19 at offset (-1,-1)
      * fill:       texture (177,118) 18x18, left-to-right
      */

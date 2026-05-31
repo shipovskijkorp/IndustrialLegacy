@@ -4,7 +4,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.registry.tag.BlockTags;
 
-/** IC2 mining drill / diamond drill semantics: pickaxe + shovel electric tool. */
+/** IL mining drill / diamond drill semantics: pickaxe + shovel electric tool. */
 public class ElectricDrillItem extends AbstractElectricToolItem {
     public ElectricDrillItem(Settings settings, long operationEnergyCost, int harvestLevel,
                              long capacityEu, long transferLimitEu, int tier, float efficiency) {

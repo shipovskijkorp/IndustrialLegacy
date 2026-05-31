@@ -36,7 +36,7 @@ import com.shipovskijkorp.industriallegacy.item.EnergyMachineBlockItem;
 import net.minecraft.entity.player.PlayerEntity;
 
 /**
- * CESU (МЭСН) storage block (IC2 Exp semantics).
+ * CESU (МЭСН) storage block (IL Exp semantics).
  *
  * Output side = {@link #FACING}.
  */

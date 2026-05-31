@@ -15,9 +15,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 /**
- * IC2-like reactor component which stores its internal heat as custom NBT damage.
+ * IL-like reactor component which stores its internal heat as custom NBT damage.
  *
- * This mirrors IC2's AbstractDamageableReactorComponent / ItemGradualInt semantics:
+ * This mirrors IL's AbstractDamageableReactorComponent / ItemGradualInt semantics:
  * - durability bar is always visible
  * - more stored heat means less remaining durability in the bar
  * - tooltip always shows remaining durability

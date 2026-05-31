@@ -33,9 +33,9 @@ import java.util.EnumSet;
 import java.util.Set;
 
 /**
- * IC2 Experimental Solar Distiller.
+ * IL Experimental Solar Distiller.
  *
- * Source truth: TileEntitySolarDestiller, IC2 2.8.222-ex112:
+ * Source truth: TileEntitySolarDestiller, IL 2.8.222-ex112:
  * - input water tank 10000 mB;
  * - output distilled water tank 10000 mB;
  * - produces 1 mB distilled water per tickrate cycle when skylight > 0.5;

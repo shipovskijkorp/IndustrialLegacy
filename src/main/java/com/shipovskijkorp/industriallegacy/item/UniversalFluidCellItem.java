@@ -110,12 +110,12 @@ public class UniversalFluidCellItem extends Item {
             if (token.equals("empty")) return "empty";
             if (token.equals("water")) return "minecraft:water";
             if (token.equals("lava")) return "minecraft:lava";
-            if (token.equals("ic2water")) return "minecraft:water";
-            if (token.equals("ic2lava")) return "minecraft:lava";
-            if (token.startsWith("ic2:") && token.length() > 4) {
+            if (token.equals("industrial_legacywater")) return "minecraft:water";
+            if (token.equals("industrial_legacylava")) return "minecraft:lava";
+            if (token.startsWith("industrial_legacy:") && token.length() > 4) {
                 return IndustrialLegacy.MOD_ID + ":" + token.substring(4);
             }
-            if (token.startsWith("ic2") && token.length() > 3 && token.indexOf(':') < 0) {
+            if (token.startsWith("industrial_legacy") && token.length() > 3 && token.indexOf(':') < 0) {
                 return IndustrialLegacy.MOD_ID + ":" + token.substring(3);
             }
             if (token.indexOf(':') < 0) {

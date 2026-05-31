@@ -9,7 +9,7 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
 /**
- * IC2-like filled tin can.
+ * IL-like filled tin can.
  *
  * A stack of filled cans restores one hunger point per can consumed and returns
  * the same number of empty tin cans to the player inventory.

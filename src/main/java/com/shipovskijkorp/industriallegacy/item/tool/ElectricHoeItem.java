@@ -12,7 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
-/** IC2 Experimental electric hoe: 50 EU/use, 10 000 EU capacity, tier 1, iron-level. */
+/** IL Experimental electric hoe: 50 EU/use, 10 000 EU capacity, tier 1, iron-level. */
 public final class ElectricHoeItem extends AbstractElectricToolItem {
     public ElectricHoeItem(Settings settings) {
         super(settings, 50L, 2, 10_000L, 100L, 1, 16.0f);

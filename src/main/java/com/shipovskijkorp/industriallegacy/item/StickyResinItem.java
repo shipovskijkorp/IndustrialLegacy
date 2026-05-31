@@ -10,7 +10,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
-/** Sticky resin places a resin/latex sheet when used on the top face of a block, like IC2. */
+/** Sticky resin places a resin/latex sheet when used on the top face of a block, like IL. */
 public class StickyResinItem extends Item {
     public StickyResinItem(Settings settings) {
         super(settings);

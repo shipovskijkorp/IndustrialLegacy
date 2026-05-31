@@ -18,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 /**
- * IC2 Experimental QuantumSuit electric armor base.
+ * IL Experimental QuantumSuit electric armor base.
  */
 public class QuantumArmorItem extends ArmorItem implements IElectricItem {
     public static final long CAPACITY_EU = 10_000_000L;

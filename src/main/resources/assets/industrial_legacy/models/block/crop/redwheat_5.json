@@ -1,6 +1,6 @@
 {
 	"parent": "block/cube_all",
 	"textures": {
-		"all": "ic2:blocks/crop/redwheat_5"
+		"all": "industrial_legacy:blocks/crop/redwheat_5"
 	}
 }

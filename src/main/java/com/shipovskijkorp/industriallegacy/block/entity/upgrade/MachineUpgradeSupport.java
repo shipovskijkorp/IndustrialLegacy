@@ -15,8 +15,8 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 /**
- * Shared IC2 upgrade math and tick-side transfer logic.
- * Source truth: IC2 2.8.222-ex112 ItemUpgradeModule + InvSlotUpgrade.
+ * Shared IL upgrade math and tick-side transfer logic.
+ * Source truth: IL 2.8.222-ex112 ItemUpgradeModule + InvSlotUpgrade.
  */
 public final class MachineUpgradeSupport {
     private MachineUpgradeSupport() {}

@@ -33,9 +33,9 @@ import java.util.EnumMap;
 import java.util.Map;
 
 /**
- * IC2 Experimental Semifluid Generator.
+ * IL Experimental Semifluid Generator.
  *
- * Source truth: TileEntitySemifluidGenerator, IC2 2.8.222-ex112:
+ * Source truth: TileEntitySemifluidGenerator, IL 2.8.222-ex112:
  * - TileEntityBaseGenerator(32.0, 1, 32000)
  * - fluid tank capacity: 10000 mB
  * - biomass: 8 EU/mB at 8 EU/t
@@ -68,7 +68,7 @@ public class SemifluidGeneratorBlockEntity extends BlockEntity implements SidedI
     private final DefaultedList<ItemStack> items = DefaultedList.ofSize(INV_SIZE, ItemStack.EMPTY);
 
     private long energy = 0L;
-    /** Remaining converted fuel, in EU, matching IC2's TileEntityBaseGenerator.fuel field. */
+    /** Remaining converted fuel, in EU, matching IL's TileEntityBaseGenerator.fuel field. */
     private int fuel = 0;
     private long production = 32L;
     private UniversalFluidCellItem.CellFluid tankFluid = UniversalFluidCellItem.CellFluid.EMPTY;
@@ -183,7 +183,7 @@ public class SemifluidGeneratorBlockEntity extends BlockEntity implements SidedI
     }
 
     private boolean chargeItem() {
-        // IC2 TileEntityBaseGenerator uses InvSlotCharge tier 1.
+        // IL TileEntityBaseGenerator uses InvSlotCharge tier 1.
         ItemStack charge = items.get(SLOT_CHARGE);
         long accepted = ElectricSlotHelper.chargeFromStorage(charge, energy, 1, false);
         if (accepted > 0L) {

@@ -5,22 +5,22 @@
 	},
 	"variants": {
 		"type": {
-			"basalt": { "model": "ic2:resource/basalt" },
-			"copper_ore": { "model": "ic2:resource/copper_ore" },
-			"lead_ore": { "model": "ic2:resource/lead_ore" },
-			"tin_ore": { "model": "ic2:resource/tin_ore" },
-			"uranium_ore": { "model": "ic2:resource/uranium_ore" },
-			"bronze_block": { "model": "ic2:resource/bronze_block" },
-			"copper_block": { "model": "ic2:resource/copper_block" },
-			"lead_block": { "model": "ic2:resource/lead_block" },
-			"silver_block": { "model": "ic2:resource/silver_block" },
-			"steel_block": { "model": "ic2:resource/steel_block" },
-			"tin_block": { "model": "ic2:resource/tin_block" },
-			"uranium_block": { "model": "ic2:resource/uranium_block" },
-			"reinforced_stone": { "model": "ic2:resource/reinforced_stone" },
-			"machine": { "model": "ic2:resource/machine" },
-			"advanced_machine": { "model": "ic2:resource/advanced_machine" },
-			"reactor_vessel": { "model": "ic2:generator/reactor/reactor_vessel" }
+			"basalt": { "model": "industrial_legacy:resource/basalt" },
+			"copper_ore": { "model": "industrial_legacy:resource/copper_ore" },
+			"lead_ore": { "model": "industrial_legacy:resource/lead_ore" },
+			"tin_ore": { "model": "industrial_legacy:resource/tin_ore" },
+			"uranium_ore": { "model": "industrial_legacy:resource/uranium_ore" },
+			"bronze_block": { "model": "industrial_legacy:resource/bronze_block" },
+			"copper_block": { "model": "industrial_legacy:resource/copper_block" },
+			"lead_block": { "model": "industrial_legacy:resource/lead_block" },
+			"silver_block": { "model": "industrial_legacy:resource/silver_block" },
+			"steel_block": { "model": "industrial_legacy:resource/steel_block" },
+			"tin_block": { "model": "industrial_legacy:resource/tin_block" },
+			"uranium_block": { "model": "industrial_legacy:resource/uranium_block" },
+			"reinforced_stone": { "model": "industrial_legacy:resource/reinforced_stone" },
+			"machine": { "model": "industrial_legacy:resource/machine" },
+			"advanced_machine": { "model": "industrial_legacy:resource/advanced_machine" },
+			"reactor_vessel": { "model": "industrial_legacy:generator/reactor/reactor_vessel" }
 		},
 		"inventory": [{}]
 	}

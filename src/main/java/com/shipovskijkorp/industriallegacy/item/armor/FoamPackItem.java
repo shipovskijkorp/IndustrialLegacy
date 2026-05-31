@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-/** IC2 CF Pack: chest utility armor carrying 80,000 mB of construction foam. */
+/** IL CF Pack: chest utility armor carrying 80,000 mB of construction foam. */
 public class FoamPackItem extends ArmorItem {
     private static final String NBT_FOAM = "foam";
     public static final int CAPACITY_MB = 80_000;
