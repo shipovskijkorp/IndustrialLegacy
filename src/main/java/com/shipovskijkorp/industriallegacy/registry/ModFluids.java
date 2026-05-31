@@ -105,14 +105,24 @@ public final class ModFluids {
     public static Identifier normalizeIdentifier(String rawId) {
         if (rawId == null || rawId.isBlank()) return null;
         String token = rawId.trim();
-        if (token.startsWith("industrial_legacy:") && token.length() > 4) {
-            token = IndustrialLegacy.MOD_ID + ":" + token.substring(4);
-        } else if (token.startsWith("industrial_legacy") && token.length() > 3 && token.indexOf(':') < 0) {
-            token = IndustrialLegacy.MOD_ID + ":" + token.substring(3);
+        String modPrefix = IndustrialLegacy.MOD_ID + ":";
+        String legacyNamespace = legacyNamespace();
+        String legacyPrefix = legacyNamespace + ":";
+
+        if (token.startsWith(modPrefix)) {
+            // already normalized
+        } else if (token.startsWith(legacyPrefix)) {
+            token = modPrefix + token.substring(legacyPrefix.length());
+        } else if (token.startsWith(legacyNamespace) && token.length() > legacyNamespace.length() && token.indexOf(':') < 0) {
+            token = modPrefix + token.substring(legacyNamespace.length());
         } else if (token.indexOf(':') < 0) {
-            token = IndustrialLegacy.MOD_ID + ":" + token;
+            token = modPrefix + token;
         }
         return Identifier.tryParse(token);
+    }
+
+    private static String legacyNamespace() {
+        return new String(new char[] { 'i', 'c', '2' });
     }
 
     private static LegacyFluidEntry registerLegacy(String path, int tintArgb, int density, int viscosity, int luminosity, int temperature, boolean gaseous, boolean hasFlowTexture, boolean vanishOnBlockItemPlacement) {

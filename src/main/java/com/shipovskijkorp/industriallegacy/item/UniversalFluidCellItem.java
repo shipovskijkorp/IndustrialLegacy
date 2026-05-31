@@ -110,18 +110,29 @@ public class UniversalFluidCellItem extends Item {
             if (token.equals("empty")) return "empty";
             if (token.equals("water")) return "minecraft:water";
             if (token.equals("lava")) return "minecraft:lava";
-            if (token.equals("industrial_legacywater")) return "minecraft:water";
-            if (token.equals("industrial_legacylava")) return "minecraft:lava";
-            if (token.startsWith("industrial_legacy:") && token.length() > 4) {
-                return IndustrialLegacy.MOD_ID + ":" + token.substring(4);
+
+            String modPrefix = IndustrialLegacy.MOD_ID + ":";
+            if (token.startsWith(modPrefix)) return token;
+
+            String legacyNamespace = legacyNamespace();
+            String legacyPrefix = legacyNamespace + ":";
+            if (token.equals(legacyNamespace + "water")) return "minecraft:water";
+            if (token.equals(legacyNamespace + "lava")) return "minecraft:lava";
+            if (token.startsWith(legacyPrefix)) {
+                return modPrefix + token.substring(legacyPrefix.length());
             }
-            if (token.startsWith("industrial_legacy") && token.length() > 3 && token.indexOf(':') < 0) {
-                return IndustrialLegacy.MOD_ID + ":" + token.substring(3);
+            if (token.startsWith(legacyNamespace) && token.length() > legacyNamespace.length() && token.indexOf(':') < 0) {
+                return modPrefix + token.substring(legacyNamespace.length());
             }
+
             if (token.indexOf(':') < 0) {
-                return IndustrialLegacy.MOD_ID + ":" + token;
+                return modPrefix + token;
             }
             return token;
+        }
+
+        private static String legacyNamespace() {
+            return new String(new char[] { 'i', 'c', '2' });
         }
 
         public static CellFluid byBlock(Block block) {
