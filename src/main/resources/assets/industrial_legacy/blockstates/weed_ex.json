@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "level=0": {
+      "model": "industrial_legacy:block/fluid/weed_ex"
+    },
+    "level=1": {
+      "model": "industrial_legacy:block/fluid/weed_ex"
+    },
+    "level=2": {
+      "model": "industrial_legacy:block/fluid/weed_ex"
+    },
+    "level=3": {
+      "model": "industrial_legacy:block/fluid/weed_ex"
+    },
+    "level=4": {
+      "model": "industrial_legacy:block/fluid/weed_ex"
+    },
+    "level=5": {
+      "model": "industrial_legacy:block/fluid/weed_ex"
+    },
+    "level=6": {
+      "model": "industrial_legacy:block/fluid/weed_ex"
+    },
+    "level=7": {
+      "model": "industrial_legacy:block/fluid/weed_ex"
+    },
+    "level=8": {
+      "model": "industrial_legacy:block/fluid/weed_ex"
+    },
+    "level=9": {
+      "model": "industrial_legacy:block/fluid/weed_ex"
+    },
+    "level=10": {
+      "model": "industrial_legacy:block/fluid/weed_ex"
+    },
+    "level=11": {
+      "model": "industrial_legacy:block/fluid/weed_ex"
+    },
+    "level=12": {
+      "model": "industrial_legacy:block/fluid/weed_ex"
+    },
+    "level=13": {
+      "model": "industrial_legacy:block/fluid/weed_ex"
+    },
+    "level=14": {
+      "model": "industrial_legacy:block/fluid/weed_ex"
+    },
+    "level=15": {
+      "model": "industrial_legacy:block/fluid/weed_ex"
+    }
+  }
+}

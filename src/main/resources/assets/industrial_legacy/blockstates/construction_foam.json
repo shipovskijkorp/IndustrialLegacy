@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "level=0": {
+      "model": "industrial_legacy:block/fluid/construction_foam"
+    },
+    "level=1": {
+      "model": "industrial_legacy:block/fluid/construction_foam"
+    },
+    "level=2": {
+      "model": "industrial_legacy:block/fluid/construction_foam"
+    },
+    "level=3": {
+      "model": "industrial_legacy:block/fluid/construction_foam"
+    },
+    "level=4": {
+      "model": "industrial_legacy:block/fluid/construction_foam"
+    },
+    "level=5": {
+      "model": "industrial_legacy:block/fluid/construction_foam"
+    },
+    "level=6": {
+      "model": "industrial_legacy:block/fluid/construction_foam"
+    },
+    "level=7": {
+      "model": "industrial_legacy:block/fluid/construction_foam"
+    },
+    "level=8": {
+      "model": "industrial_legacy:block/fluid/construction_foam"
+    },
+    "level=9": {
+      "model": "industrial_legacy:block/fluid/construction_foam"
+    },
+    "level=10": {
+      "model": "industrial_legacy:block/fluid/construction_foam"
+    },
+    "level=11": {
+      "model": "industrial_legacy:block/fluid/construction_foam"
+    },
+    "level=12": {
+      "model": "industrial_legacy:block/fluid/construction_foam"
+    },
+    "level=13": {
+      "model": "industrial_legacy:block/fluid/construction_foam"
+    },
+    "level=14": {
+      "model": "industrial_legacy:block/fluid/construction_foam"
+    },
+    "level=15": {
+      "model": "industrial_legacy:block/fluid/construction_foam"
+    }
+  }
+}

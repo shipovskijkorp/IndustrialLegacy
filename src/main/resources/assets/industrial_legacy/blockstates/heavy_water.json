@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "level=0": {
+      "model": "industrial_legacy:block/fluid/heavy_water"
+    },
+    "level=1": {
+      "model": "industrial_legacy:block/fluid/heavy_water"
+    },
+    "level=2": {
+      "model": "industrial_legacy:block/fluid/heavy_water"
+    },
+    "level=3": {
+      "model": "industrial_legacy:block/fluid/heavy_water"
+    },
+    "level=4": {
+      "model": "industrial_legacy:block/fluid/heavy_water"
+    },
+    "level=5": {
+      "model": "industrial_legacy:block/fluid/heavy_water"
+    },
+    "level=6": {
+      "model": "industrial_legacy:block/fluid/heavy_water"
+    },
+    "level=7": {
+      "model": "industrial_legacy:block/fluid/heavy_water"
+    },
+    "level=8": {
+      "model": "industrial_legacy:block/fluid/heavy_water"
+    },
+    "level=9": {
+      "model": "industrial_legacy:block/fluid/heavy_water"
+    },
+    "level=10": {
+      "model": "industrial_legacy:block/fluid/heavy_water"
+    },
+    "level=11": {
+      "model": "industrial_legacy:block/fluid/heavy_water"
+    },
+    "level=12": {
+      "model": "industrial_legacy:block/fluid/heavy_water"
+    },
+    "level=13": {
+      "model": "industrial_legacy:block/fluid/heavy_water"
+    },
+    "level=14": {
+      "model": "industrial_legacy:block/fluid/heavy_water"
+    },
+    "level=15": {
+      "model": "industrial_legacy:block/fluid/heavy_water"
+    }
+  }
+}

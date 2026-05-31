@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "level=0": {
+      "model": "industrial_legacy:block/fluid/hydrogen"
+    },
+    "level=1": {
+      "model": "industrial_legacy:block/fluid/hydrogen"
+    },
+    "level=2": {
+      "model": "industrial_legacy:block/fluid/hydrogen"
+    },
+    "level=3": {
+      "model": "industrial_legacy:block/fluid/hydrogen"
+    },
+    "level=4": {
+      "model": "industrial_legacy:block/fluid/hydrogen"
+    },
+    "level=5": {
+      "model": "industrial_legacy:block/fluid/hydrogen"
+    },
+    "level=6": {
+      "model": "industrial_legacy:block/fluid/hydrogen"
+    },
+    "level=7": {
+      "model": "industrial_legacy:block/fluid/hydrogen"
+    },
+    "level=8": {
+      "model": "industrial_legacy:block/fluid/hydrogen"
+    },
+    "level=9": {
+      "model": "industrial_legacy:block/fluid/hydrogen"
+    },
+    "level=10": {
+      "model": "industrial_legacy:block/fluid/hydrogen"
+    },
+    "level=11": {
+      "model": "industrial_legacy:block/fluid/hydrogen"
+    },
+    "level=12": {
+      "model": "industrial_legacy:block/fluid/hydrogen"
+    },
+    "level=13": {
+      "model": "industrial_legacy:block/fluid/hydrogen"
+    },
+    "level=14": {
+      "model": "industrial_legacy:block/fluid/hydrogen"
+    },
+    "level=15": {
+      "model": "industrial_legacy:block/fluid/hydrogen"
+    }
+  }
+}

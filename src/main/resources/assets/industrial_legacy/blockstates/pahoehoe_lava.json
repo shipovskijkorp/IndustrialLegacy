@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "level=0": {
+      "model": "industrial_legacy:block/fluid/pahoehoe_lava"
+    },
+    "level=1": {
+      "model": "industrial_legacy:block/fluid/pahoehoe_lava"
+    },
+    "level=2": {
+      "model": "industrial_legacy:block/fluid/pahoehoe_lava"
+    },
+    "level=3": {
+      "model": "industrial_legacy:block/fluid/pahoehoe_lava"
+    },
+    "level=4": {
+      "model": "industrial_legacy:block/fluid/pahoehoe_lava"
+    },
+    "level=5": {
+      "model": "industrial_legacy:block/fluid/pahoehoe_lava"
+    },
+    "level=6": {
+      "model": "industrial_legacy:block/fluid/pahoehoe_lava"
+    },
+    "level=7": {
+      "model": "industrial_legacy:block/fluid/pahoehoe_lava"
+    },
+    "level=8": {
+      "model": "industrial_legacy:block/fluid/pahoehoe_lava"
+    },
+    "level=9": {
+      "model": "industrial_legacy:block/fluid/pahoehoe_lava"
+    },
+    "level=10": {
+      "model": "industrial_legacy:block/fluid/pahoehoe_lava"
+    },
+    "level=11": {
+      "model": "industrial_legacy:block/fluid/pahoehoe_lava"
+    },
+    "level=12": {
+      "model": "industrial_legacy:block/fluid/pahoehoe_lava"
+    },
+    "level=13": {
+      "model": "industrial_legacy:block/fluid/pahoehoe_lava"
+    },
+    "level=14": {
+      "model": "industrial_legacy:block/fluid/pahoehoe_lava"
+    },
+    "level=15": {
+      "model": "industrial_legacy:block/fluid/pahoehoe_lava"
+    }
+  }
+}

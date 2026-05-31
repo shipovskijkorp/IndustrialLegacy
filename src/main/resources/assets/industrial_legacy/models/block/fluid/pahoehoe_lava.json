@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "industrial_legacy:block/fluid/pahoehoe_lava_still"
+  }
+}

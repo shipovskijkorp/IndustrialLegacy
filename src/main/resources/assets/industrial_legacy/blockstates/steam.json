@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "level=0": {
+      "model": "industrial_legacy:block/fluid/steam"
+    },
+    "level=1": {
+      "model": "industrial_legacy:block/fluid/steam"
+    },
+    "level=2": {
+      "model": "industrial_legacy:block/fluid/steam"
+    },
+    "level=3": {
+      "model": "industrial_legacy:block/fluid/steam"
+    },
+    "level=4": {
+      "model": "industrial_legacy:block/fluid/steam"
+    },
+    "level=5": {
+      "model": "industrial_legacy:block/fluid/steam"
+    },
+    "level=6": {
+      "model": "industrial_legacy:block/fluid/steam"
+    },
+    "level=7": {
+      "model": "industrial_legacy:block/fluid/steam"
+    },
+    "level=8": {
+      "model": "industrial_legacy:block/fluid/steam"
+    },
+    "level=9": {
+      "model": "industrial_legacy:block/fluid/steam"
+    },
+    "level=10": {
+      "model": "industrial_legacy:block/fluid/steam"
+    },
+    "level=11": {
+      "model": "industrial_legacy:block/fluid/steam"
+    },
+    "level=12": {
+      "model": "industrial_legacy:block/fluid/steam"
+    },
+    "level=13": {
+      "model": "industrial_legacy:block/fluid/steam"
+    },
+    "level=14": {
+      "model": "industrial_legacy:block/fluid/steam"
+    },
+    "level=15": {
+      "model": "industrial_legacy:block/fluid/steam"
+    }
+  }
+}
