@@ -99,7 +99,6 @@ public final class CraftingRecipeIniLoader {
             "itnt",
             "jetpack_attachment_plate",
             "liquid_heat_exchanger",
-            "magnetizer",
             "manual_kinetic_generator",
             "matter_generator",
             "meter",
@@ -612,8 +611,8 @@ public final class CraftingRecipeIniLoader {
         if (token.equals("industrial_legacy:fluid_cell")) return "industrial_legacy:fluid_cell";
 
         int hash = token.indexOf('#');
-        if (hash < 0) return mapIndustrialLegacyAlias(token);
-        String base = token.substring((IndustrialLegacy.MOD_ID + ":").length(), hash);
+        if (hash < 0) return mapIndustrialLegacyAlias(token.replace("industrial_legacy:", "industrial_legacy:"));
+        String base = token.substring(4, hash);
         String variant = token.substring(hash + 1);
         String id = switch (base) {
             case "ingot" -> switch (variant) {
@@ -661,7 +660,7 @@ public final class CraftingRecipeIniLoader {
             case "upgrade_kit" -> "industrial_legacy:" + variant + "_upgrade_kit";
             default -> "industrial_legacy:" + base + "_" + variant;
         };
-        String mappedId = id == null ? token.replace('#', '_') : id;
+        String mappedId = id == null ? token.replace("industrial_legacy:", "industrial_legacy:").replace('#', '_') : id;
         return mapIndustrialLegacyAlias(mappedId);
     }
 

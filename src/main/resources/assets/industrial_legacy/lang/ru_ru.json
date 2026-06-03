@@ -642,5 +642,10 @@
   "gui.industrial_legacy.wind_kinetic_generator.windweak1": "Слишком слабый ветер",
   "gui.industrial_legacy.wind_kinetic_generator.windweak2": "или роторы пересекаются",
   "gui.industrial_legacy.wind_kinetic_generator.error.overload": "Внимание! Ветер слишком сильный,",
-  "gui.industrial_legacy.wind_kinetic_generator.error.overload2": "износ ротора увеличен"
+  "gui.industrial_legacy.wind_kinetic_generator.error.overload2": "износ ротора увеличен",
+  "block.industrial_legacy.magnetizer": "Намагничиватель",
+  "container.industrial_legacy.magnetizer": "Намагничиватель",
+  "gui.industrial_legacy.magnetizer.has_metal_shoes": "Металлическая обувь обнаружена!",
+  "gui.industrial_legacy.magnetizer.no_metal_shoes": "Не обнаружена металлическая обувь!",
+  "gui.industrial_legacy.magnetizer.range": "Радиус: %s блоков"
 }

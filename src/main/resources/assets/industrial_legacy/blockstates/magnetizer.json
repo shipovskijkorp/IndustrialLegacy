@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "industrial_legacy:block/machine/misc/magnetizer" },
+    "facing=east":  { "model": "industrial_legacy:block/machine/misc/magnetizer", "y": 90 },
+    "facing=south": { "model": "industrial_legacy:block/machine/misc/magnetizer", "y": 180 },
+    "facing=west":  { "model": "industrial_legacy:block/machine/misc/magnetizer", "y": 270 }
+  }
+}

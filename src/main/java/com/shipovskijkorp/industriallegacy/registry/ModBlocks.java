@@ -92,6 +92,15 @@ public final class ModBlocks {
             b -> new BlockItem(b, new Item.Settings())
     );
 
+    public static final Block MAGNETIZER = register(
+            "magnetizer",
+            new MagnetizerBlock(FabricBlockSettings.create()
+                    .strength(2.0f, 10.0f)
+                    .sounds(BlockSoundGroup.METAL)
+                    .requiresTool()),
+            b -> new EnergyMachineBlockItem(b, new Item.Settings(), 1)
+    );
+
     public static final Block BATBOX = register(
             "batbox",
             new BatBoxBlock(FabricBlockSettings.create()
@@ -613,7 +622,7 @@ public final class ModBlocks {
 
     public static final Block IRON_FENCE = register(
             "iron_fence",
-            new FenceBlock(FabricBlockSettings.copyOf(Blocks.IRON_BARS).sounds(BlockSoundGroup.METAL).requiresTool())
+            new MagnetizedIronFenceBlock(FabricBlockSettings.copyOf(Blocks.IRON_BARS).sounds(BlockSoundGroup.METAL).requiresTool())
     );
 
     /** IL-like Luminator: face-mounted electric lamp with internal 10k EU buffer. */

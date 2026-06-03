@@ -131,6 +131,7 @@ public class IndustrialLegacyClient implements ClientModInitializer {
         HandledScreens.register(ModScreenHandlers.SEMIFLUID_GENERATOR, SemifluidGeneratorScreen::new);
         HandledScreens.register(ModScreenHandlers.KINETIC_GENERATOR, KineticGeneratorScreen::new);
         HandledScreens.register(ModScreenHandlers.WIND_KINETIC_GENERATOR, WindKineticGeneratorScreen::new);
+        HandledScreens.register(ModScreenHandlers.MAGNETIZER, MagnetizerScreen::new);
         HandledScreens.register(ModScreenHandlers.ELECTRIC_FURNACE, ElectricFurnaceScreen::new);
         HandledScreens.register(ModScreenHandlers.INDUCTION_FURNACE, InductionFurnaceScreen::new);
         HandledScreens.register(ModScreenHandlers.BATBOX, BatBoxScreen::new);

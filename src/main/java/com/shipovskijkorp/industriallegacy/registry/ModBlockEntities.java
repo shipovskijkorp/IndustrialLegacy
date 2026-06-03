@@ -59,6 +59,12 @@ public final class ModBlockEntities {
             FabricBlockEntityTypeBuilder.create(WindKineticGeneratorBlockEntity::new, ModBlocks.WIND_KINETIC_GENERATOR).build()
     );
 
+    public static final BlockEntityType<MagnetizerBlockEntity> MAGNETIZER = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE,
+            id("magnetizer"),
+            FabricBlockEntityTypeBuilder.create(MagnetizerBlockEntity::new, ModBlocks.MAGNETIZER).build()
+    );
+
     public static final BlockEntityType<LvTransformerBlockEntity> LV_TRANSFORMER =
             Registry.register(Registries.BLOCK_ENTITY_TYPE,
                     id("lv_transformer"),

@@ -642,5 +642,10 @@
   "gui.industrial_legacy.wind_kinetic_generator.windweak1": "Wind too weak for Rotor",
   "gui.industrial_legacy.wind_kinetic_generator.windweak2": "or overlap Rotor areas",
   "gui.industrial_legacy.wind_kinetic_generator.error.overload": "warning wind too strong",
-  "gui.industrial_legacy.wind_kinetic_generator.error.overload2": "increased rotor damage"
+  "gui.industrial_legacy.wind_kinetic_generator.error.overload2": "increased rotor damage",
+  "block.industrial_legacy.magnetizer": "Magnetizer",
+  "container.industrial_legacy.magnetizer": "Magnetizer",
+  "gui.industrial_legacy.magnetizer.has_metal_shoes": "Metal Shoes detected!",
+  "gui.industrial_legacy.magnetizer.no_metal_shoes": "No Metal Shoes detected!",
+  "gui.industrial_legacy.magnetizer.range": "Range: %s blocks"
 }
