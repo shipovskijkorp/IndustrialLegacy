@@ -46,7 +46,6 @@ public final class CraftingRecipeIniLoader {
      */
     private static final Set<String> UNPORTED_RECIPE_TOKENS = Set.of(
             "advanced_miner",
-            "advanced_scanner",
             "barrel",
             "batch_crafter",
             "blast_furnace",
@@ -118,7 +117,6 @@ public final class CraftingRecipeIniLoader {
             "replicator",
             "rt_heat_generator",
             "rubber_boat",
-            "scanner",
             "small_diamond_dust",
             "solid_heat_generator",
             "sorting_machine",

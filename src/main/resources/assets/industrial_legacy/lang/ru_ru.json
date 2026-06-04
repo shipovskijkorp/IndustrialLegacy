@@ -673,5 +673,12 @@
   "container.industrial_legacy.water_generator": "Гидрогенератор",
   "container.industrial_legacy.wind_generator": "Ветрогенератор",
   "gui.industrial_legacy.water_generator.water": "Вода: %s / %s, блоков потока: %s",
-  "gui.industrial_legacy.wind_generator.output": "Выход: %s EU/t"
+  "gui.industrial_legacy.wind_generator.output": "Выход: %s EU/t",
+  "item.industrial_legacy.scanner": "КР-сканер",
+  "item.industrial_legacy.advanced_scanner": "ЦР-сканер",
+  "tooltip.industrial_legacy.scanner.range": "Радиус сканирования: %s",
+  "message.industrial_legacy.scanner.no_power": "Недостаточно EU для сканирования.",
+  "message.industrial_legacy.scanner.found": "Найдено:",
+  "message.industrial_legacy.scanner.none": "Ценные руды не найдены.",
+  "gui.industrial_legacy.scanner.found": "Найдено:"
 }

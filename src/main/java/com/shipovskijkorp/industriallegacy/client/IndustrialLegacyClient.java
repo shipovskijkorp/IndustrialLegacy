@@ -108,6 +108,8 @@ public class IndustrialLegacyClient implements ClientModInitializer {
         registerChargePredicate(ModItems.MINING_LASER);
         registerChargePredicate(ModItems.WIND_METER);
         registerChargePredicate(ModItems.ENERGY_PACK);
+        registerChargePredicate(ModItems.SCANNER);
+        registerChargePredicate(ModItems.ADVANCED_SCANNER);
 
         registerModelPredicate(ModItems.FLUID_CELL, "cell",
                 (stack, world, entity, seed) -> UniversalFluidCellItem.getModelPredicate(stack));
@@ -166,6 +168,7 @@ public class IndustrialLegacyClient implements ClientModInitializer {
         HandledScreens.register(ModScreenHandlers.EV_TRANSFORMER, EvTransformerScreen::new);
         HandledScreens.register(ModScreenHandlers.CONTAINMENT_BOX, ContainmentBoxScreen::new);
         HandledScreens.register(ModScreenHandlers.TOOL_BOX, ToolboxScreen::new);
+        HandledScreens.register(ModScreenHandlers.SCANNER, ScannerScreen::new);
         HandledScreens.register(ModScreenHandlers.STORAGE_BOX, StorageBoxScreen::new);
     }
 

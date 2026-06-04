@@ -202,6 +202,8 @@ public final class ModItemGroups {
                         added.add(ModItems.FOAM_SPRAYER);
                         add.accept(ModItems.CF_PACK);
                         add.accept(ModItems.WIND_METER);
+                        add.accept(ModItems.SCANNER);
+                        add.accept(ModItems.ADVANCED_SCANNER);
                         add.accept(ModItems.FREQUENCY_TRANSMITTER);
                         entries.add(FoamPackItem.createFilledStack());
                         added.add(ModItems.CF_PACK);
@@ -289,6 +291,8 @@ public final class ModItemGroups {
                         addCharged.accept(ModItems.ELECTRIC_HOE);
                         addCharged.accept(ModItems.ELECTRIC_WRENCH);
                         addCharged.accept(ModItems.WIND_METER);
+                        addCharged.accept(ModItems.SCANNER);
+                        addCharged.accept(ModItems.ADVANCED_SCANNER);
 
                         // Hazmat / utility armor
                         add.accept(ModItems.HAZMAT_HELMET);

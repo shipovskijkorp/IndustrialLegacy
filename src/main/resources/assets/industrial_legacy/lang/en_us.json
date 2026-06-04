@@ -673,5 +673,12 @@
   "container.industrial_legacy.water_generator": "Water Mill",
   "container.industrial_legacy.wind_generator": "Wind Mill",
   "gui.industrial_legacy.water_generator.water": "Water: %s / %s, flow blocks: %s",
-  "gui.industrial_legacy.wind_generator.output": "Output: %s EU/t"
+  "gui.industrial_legacy.wind_generator.output": "Output: %s EU/t",
+  "item.industrial_legacy.scanner": "OD Scanner",
+  "item.industrial_legacy.advanced_scanner": "OV Scanner",
+  "tooltip.industrial_legacy.scanner.range": "Scan range: %s",
+  "message.industrial_legacy.scanner.no_power": "Not enough EU to scan.",
+  "message.industrial_legacy.scanner.found": "Found:",
+  "message.industrial_legacy.scanner.none": "No valuable ores found.",
+  "gui.industrial_legacy.scanner.found": "Found:"
 }

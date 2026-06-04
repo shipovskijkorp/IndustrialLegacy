@@ -33,6 +33,7 @@ import com.shipovskijkorp.industriallegacy.item.tool.MiningLaserItem;
 import com.shipovskijkorp.industriallegacy.item.tool.NanoSaberItem;
 import com.shipovskijkorp.industriallegacy.item.tool.ToolboxItem;
 import com.shipovskijkorp.industriallegacy.item.tool.WindMeterItem;
+import com.shipovskijkorp.industriallegacy.item.tool.OreScannerItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ArmorItem;
@@ -63,6 +64,8 @@ public final class ModItems {
     public static final Item FORGE_HAMMER = register("forge_hammer", new Item(new FabricItemSettings().maxCount(1).maxDamage(79)));
     public static final Item CUTTER = register("cutter", new Item(new FabricItemSettings().maxCount(1).maxDamage(60)));
     public static final Item WIND_METER = register("wind_meter", new WindMeterItem(new Item.Settings()));
+    public static final Item SCANNER = register("scanner", new OreScannerItem(new Item.Settings(), 100_000L, 128L, 1, 6, 50L));
+    public static final Item ADVANCED_SCANNER = register("advanced_scanner", new OreScannerItem(new Item.Settings(), 1_000_000L, 512L, 2, 12, 250L));
     public static final Item FREQUENCY_TRANSMITTER = register("frequency_transmitter", new FrequencyTransmitterItem(new Item.Settings()));
     public static final Item FOAM_SPRAYER = register("foam_sprayer", new FoamSprayerItem(new Item.Settings()));
     public static final Item CF_PACK = register("cf_pack", new FoamPackItem(new Item.Settings()));
