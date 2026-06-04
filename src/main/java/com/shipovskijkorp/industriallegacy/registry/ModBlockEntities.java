@@ -59,6 +59,12 @@ public final class ModBlockEntities {
             FabricBlockEntityTypeBuilder.create(WindKineticGeneratorBlockEntity::new, ModBlocks.WIND_KINETIC_GENERATOR).build()
     );
 
+    public static final BlockEntityType<WaterKineticGeneratorBlockEntity> WATER_KINETIC_GENERATOR = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE,
+            id("water_kinetic_generator"),
+            FabricBlockEntityTypeBuilder.create(WaterKineticGeneratorBlockEntity::new, ModBlocks.WATER_KINETIC_GENERATOR).build()
+    );
+
     public static final BlockEntityType<MagnetizerBlockEntity> MAGNETIZER = Registry.register(
             Registries.BLOCK_ENTITY_TYPE,
             id("magnetizer"),

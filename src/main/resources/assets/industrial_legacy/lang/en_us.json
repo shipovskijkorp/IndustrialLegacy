@@ -648,5 +648,13 @@
   "gui.industrial_legacy.magnetizer.has_metal_shoes": "Metal Shoes detected!",
   "gui.industrial_legacy.magnetizer.no_metal_shoes": "No Metal Shoes detected!",
   "gui.industrial_legacy.magnetizer.range": "Range: %s blocks",
-  "block.industrial_legacy.tesla_coil": "Tesla Coil"
+  "block.industrial_legacy.tesla_coil": "Tesla Coil",
+  "block.industrial_legacy.water_kinetic_generator": "Water Kinetic Generator",
+  "container.industrial_legacy.water_kinetic_generator": "Water Kinetic Generator",
+  "gui.industrial_legacy.water_kinetic_generator.wrongbiome1": "Wrong Biome!",
+  "gui.industrial_legacy.water_kinetic_generator.wrongbiome2": "Ocean/River required",
+  "gui.industrial_legacy.water_kinetic_generator.rotormiss": "Error: Rotor is missing",
+  "gui.industrial_legacy.water_kinetic_generator.rotorspace": "Error: no Space for Rotor",
+  "gui.industrial_legacy.water_kinetic_generator.output": "Output: %s kU",
+  "gui.industrial_legacy.water_kinetic_generator.rotorhealth": "Rotorhealth: %s"
 }

@@ -5,6 +5,7 @@ import com.shipovskijkorp.industriallegacy.client.particle.ChargepadParticle;
 import com.shipovskijkorp.industriallegacy.client.render.CableBlockEntityRenderer;
 import com.shipovskijkorp.industriallegacy.client.render.MiningLaserEntityRenderer;
 import com.shipovskijkorp.industriallegacy.client.render.WindKineticGeneratorBlockEntityRenderer;
+import com.shipovskijkorp.industriallegacy.client.render.WaterKineticGeneratorBlockEntityRenderer;
 import com.shipovskijkorp.industriallegacy.client.screen.*;
 import com.shipovskijkorp.industriallegacy.energy.item.ElectricItemManager;
 import com.shipovskijkorp.industriallegacy.item.CableItem;
@@ -131,6 +132,7 @@ public class IndustrialLegacyClient implements ClientModInitializer {
         HandledScreens.register(ModScreenHandlers.SEMIFLUID_GENERATOR, SemifluidGeneratorScreen::new);
         HandledScreens.register(ModScreenHandlers.KINETIC_GENERATOR, KineticGeneratorScreen::new);
         HandledScreens.register(ModScreenHandlers.WIND_KINETIC_GENERATOR, WindKineticGeneratorScreen::new);
+        HandledScreens.register(ModScreenHandlers.WATER_KINETIC_GENERATOR, WaterKineticGeneratorScreen::new);
         HandledScreens.register(ModScreenHandlers.MAGNETIZER, MagnetizerScreen::new);
         HandledScreens.register(ModScreenHandlers.ELECTRIC_FURNACE, ElectricFurnaceScreen::new);
         HandledScreens.register(ModScreenHandlers.INDUCTION_FURNACE, InductionFurnaceScreen::new);
@@ -171,6 +173,7 @@ public class IndustrialLegacyClient implements ClientModInitializer {
     private static void registerRenderers() {
         BlockEntityRendererFactories.register(ModBlockEntities.CABLE, CableBlockEntityRenderer::new);
         BlockEntityRendererFactories.register(ModBlockEntities.WIND_KINETIC_GENERATOR, WindKineticGeneratorBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(ModBlockEntities.WATER_KINETIC_GENERATOR, WaterKineticGeneratorBlockEntityRenderer::new);
         EntityRendererRegistry.register(ModEntities.MINING_LASER, MiningLaserEntityRenderer::new);
     }
 

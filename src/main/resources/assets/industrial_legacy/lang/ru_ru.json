@@ -648,5 +648,13 @@
   "gui.industrial_legacy.magnetizer.has_metal_shoes": "Металлическая обувь обнаружена!",
   "gui.industrial_legacy.magnetizer.no_metal_shoes": "Не обнаружена металлическая обувь!",
   "gui.industrial_legacy.magnetizer.range": "Радиус: %s блоков",
-  "block.industrial_legacy.tesla_coil": "Катушка Теслы"
+  "block.industrial_legacy.tesla_coil": "Катушка Теслы",
+  "block.industrial_legacy.water_kinetic_generator": "Кинетический гидрогенератор",
+  "container.industrial_legacy.water_kinetic_generator": "Кинетический гидрогенератор",
+  "gui.industrial_legacy.water_kinetic_generator.wrongbiome1": "Неверный биом!",
+  "gui.industrial_legacy.water_kinetic_generator.wrongbiome2": "Нужен океан/река",
+  "gui.industrial_legacy.water_kinetic_generator.rotormiss": "Ошибка: ротор отсутствует",
+  "gui.industrial_legacy.water_kinetic_generator.rotorspace": "Ошибка: Нет места для ротора",
+  "gui.industrial_legacy.water_kinetic_generator.output": "Выход: %s kU",
+  "gui.industrial_legacy.water_kinetic_generator.rotorhealth": "Состояние ротора: %s"
 }

@@ -92,6 +92,15 @@ public final class ModBlocks {
             b -> new BlockItem(b, new Item.Settings())
     );
 
+    public static final Block WATER_KINETIC_GENERATOR = register(
+            "water_kinetic_generator",
+            new WaterKineticGeneratorBlock(FabricBlockSettings.create()
+                    .strength(2.0f, 10.0f)
+                    .sounds(BlockSoundGroup.METAL)
+                    .requiresTool()),
+            b -> new BlockItem(b, new Item.Settings())
+    );
+
     public static final Block MAGNETIZER = register(
             "magnetizer",
             new MagnetizerBlock(FabricBlockSettings.create()

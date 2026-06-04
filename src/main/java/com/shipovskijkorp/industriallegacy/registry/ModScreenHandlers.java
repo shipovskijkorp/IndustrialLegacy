@@ -19,6 +19,7 @@ public final class ModScreenHandlers {
     public static final Identifier SEMIFLUID_GENERATOR_ID = new Identifier(IndustrialLegacy.MOD_ID, "semifluid_generator");
     public static final Identifier KINETIC_GENERATOR_ID = new Identifier(IndustrialLegacy.MOD_ID, "kinetic_generator");
     public static final Identifier WIND_KINETIC_GENERATOR_ID = new Identifier(IndustrialLegacy.MOD_ID, "wind_kinetic_generator");
+    public static final Identifier WATER_KINETIC_GENERATOR_ID = new Identifier(IndustrialLegacy.MOD_ID, "water_kinetic_generator");
     public static final Identifier MAGNETIZER_ID = new Identifier(IndustrialLegacy.MOD_ID, "magnetizer");
     public static final Identifier ELECTRIC_FURNACE_ID = new Identifier(IndustrialLegacy.MOD_ID, "electric_furnace");
     public static final Identifier INDUCTION_FURNACE_ID = new Identifier(IndustrialLegacy.MOD_ID, "induction_furnace");
@@ -145,6 +146,7 @@ public final class ModScreenHandlers {
     public static ScreenHandlerType<SemifluidGeneratorScreenHandler> SEMIFLUID_GENERATOR;
     public static ScreenHandlerType<KineticGeneratorScreenHandler> KINETIC_GENERATOR;
     public static ScreenHandlerType<WindKineticGeneratorScreenHandler> WIND_KINETIC_GENERATOR;
+    public static ScreenHandlerType<WaterKineticGeneratorScreenHandler> WATER_KINETIC_GENERATOR;
     public static ScreenHandlerType<MagnetizerScreenHandler> MAGNETIZER;
     public static ScreenHandlerType<CesuScreenHandler> CESU;
     public static ScreenHandlerType<MfeScreenHandler> MFE;
@@ -167,6 +169,7 @@ public final class ModScreenHandlers {
         SEMIFLUID_GENERATOR = ScreenHandlerRegistry.registerExtended(SEMIFLUID_GENERATOR_ID, SemifluidGeneratorScreenHandler::new);
         KINETIC_GENERATOR = ScreenHandlerRegistry.registerExtended(KINETIC_GENERATOR_ID, KineticGeneratorScreenHandler::new);
         WIND_KINETIC_GENERATOR = ScreenHandlerRegistry.registerExtended(WIND_KINETIC_GENERATOR_ID, WindKineticGeneratorScreenHandler::new);
+        WATER_KINETIC_GENERATOR = ScreenHandlerRegistry.registerExtended(WATER_KINETIC_GENERATOR_ID, WaterKineticGeneratorScreenHandler::new);
         MAGNETIZER = ScreenHandlerRegistry.registerExtended(MAGNETIZER_ID, MagnetizerScreenHandler::new);
         BATBOX = ScreenHandlerRegistry.registerExtended(BATBOX_ID, BatBoxScreenHandler::new);
         CESU = ScreenHandlerRegistry.registerExtended(CESU_ID, CesuScreenHandler::new);
