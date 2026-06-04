@@ -665,5 +665,7 @@
   "message.industrial_legacy.frequency_transmitter.unchanged": "Связь телепорта не изменена.",
   "message.industrial_legacy.frequency_transmitter.established": "Телепортационная связь установлена.",
   "tooltip.industrial_legacy.frequency_transmitter.target": "Цель: %s, %s, %s",
-  "tooltip.industrial_legacy.frequency_transmitter.blank": "Не привязан"
+  "tooltip.industrial_legacy.frequency_transmitter.blank": "Не привязан",
+  "item.industrial_legacy.single_use_battery": "Одноразовая батарейка",
+  "item.industrial_legacy.iodine_tablet": "Таблетка йода"
 }

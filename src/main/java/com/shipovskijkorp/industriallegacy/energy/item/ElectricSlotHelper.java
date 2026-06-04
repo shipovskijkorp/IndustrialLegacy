@@ -38,6 +38,7 @@ public final class ElectricSlotHelper {
      */
     public static long getEnergyValue(ItemStack stack) {
         if (stack == null || stack.isEmpty()) return 0L;
+        if (stack.isOf(ModItems.SINGLE_USE_BATTERY)) return 1_200L;
         if (stack.isOf(Items.REDSTONE)) return 800L;
         if (stack.isOf(ModItems.ENERGIUM_DUST)) return 16_000L;
         return 0L;

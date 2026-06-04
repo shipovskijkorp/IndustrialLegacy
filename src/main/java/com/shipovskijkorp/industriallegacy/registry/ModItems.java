@@ -99,6 +99,7 @@ public final class ModItems {
 
     // Electric items
     public static final Item RE_BATTERY = register("re_battery", new ReBatteryItem(new FabricItemSettings().maxCount(16)));
+    public static final Item SINGLE_USE_BATTERY = register("single_use_battery", new SingleUseBatteryItem(new FabricItemSettings().maxCount(64)));
 
     public static final Item ADVANCED_RE_BATTERY = register("advanced_re_battery", new AdvancedReBatteryItem(new FabricItemSettings().maxCount(16)));
     public static final Item CHARGING_RE_BATTERY = register("charging_re_battery", new ChargingBatteryItem(new FabricItemSettings().maxCount(16), 40_000L, 128L, 1));
@@ -187,6 +188,7 @@ public final class ModItems {
     public static final Item TIN_DUST = register("tin_dust", new Item(new Item.Settings()));
     public static final Item TIN_HYDRATED_DUST = register("tin_hydrated_dust", new Item(new Item.Settings()));
     public static final Item IODINE = register("iodine", new Item(new Item.Settings()));
+    public static final Item IODINE_TABLET = register("iodine_tablet", new IodineTabletItem(new Item.Settings()));
     public static final Item WATER_SHEET = register("water_sheet", new FluidSheetItem(new Item.Settings(), Blocks.WATER));
     public static final Item LAVA_SHEET = register("lava_sheet", new FluidSheetItem(new Item.Settings(), Blocks.LAVA));
 

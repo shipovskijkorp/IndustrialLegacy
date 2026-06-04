@@ -1,0 +1,6 @@
+{
+  "parent": "industrial_legacy:item/default",
+  "textures": {
+    "layer0": "industrial_legacy:item/iodine_tablet"
+  }
+}

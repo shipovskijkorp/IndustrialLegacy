@@ -1,5 +1,6 @@
 package com.shipovskijkorp.industriallegacy.item.tool;
 
+import com.shipovskijkorp.industriallegacy.registry.ModItems;
 import com.shipovskijkorp.industriallegacy.energy.item.IElectricItem;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
@@ -64,6 +65,7 @@ public final class ToolboxInventory implements Inventory {
         if (stack == null || stack.isEmpty()) return false;
         Item item = stack.getItem();
         if (item instanceof ToolboxItem || item instanceof ContainmentBoxItem) return false;
+        if (item == ModItems.SINGLE_USE_BATTERY) return true;
         if (item instanceof IElectricItem) return true;
         if (item instanceof MiningToolItem || item instanceof SwordItem || item instanceof HoeItem || item instanceof AxeItem || item instanceof ShovelItem) return true;
         if (item instanceof ShearsItem || item instanceof FlintAndSteelItem) return true;

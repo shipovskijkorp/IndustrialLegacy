@@ -229,6 +229,7 @@ public final class ModItemGroups {
                         add.accept(ModItems.TOOL_BOX);
 
                         add.accept(ModItems.RE_BATTERY);
+                        add.accept(ModItems.SINGLE_USE_BATTERY);
                         add.accept(ModItems.ADVANCED_RE_BATTERY);
                         add.accept(ModItems.CHARGING_RE_BATTERY);
                         add.accept(ModItems.ADVANCED_CHARGING_RE_BATTERY);
@@ -330,6 +331,7 @@ public final class ModItemGroups {
                         add.accept(ModItems.RUBBER);
                         add.accept(ModItems.SULFUR);
                         add.accept(ModItems.IODINE);
+                        add.accept(ModItems.IODINE_TABLET);
                         add.accept(ModItems.WATER_SHEET);
                         add.accept(ModItems.LAVA_SHEET);
                         add.accept(ModItems.ELECTRONIC_CIRCUIT);

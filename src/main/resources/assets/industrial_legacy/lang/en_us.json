@@ -665,5 +665,7 @@
   "message.industrial_legacy.frequency_transmitter.unchanged": "Teleportation link unchanged.",
   "message.industrial_legacy.frequency_transmitter.established": "Teleportation link established.",
   "tooltip.industrial_legacy.frequency_transmitter.target": "Linked to: %s, %s, %s",
-  "tooltip.industrial_legacy.frequency_transmitter.blank": "Not linked"
+  "tooltip.industrial_legacy.frequency_transmitter.blank": "Not linked",
+  "item.industrial_legacy.single_use_battery": "Single-Use Battery",
+  "item.industrial_legacy.iodine_tablet": "Iodine Tablet"
 }
