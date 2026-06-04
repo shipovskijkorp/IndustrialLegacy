@@ -3,7 +3,7 @@
   "id": "industrial_legacy",
   "version": "${version}",
   "name": "Industrial Legacy",
-  "description": "Unofficial industrial_legacy fork/port (Fabric 1.20.1).",
+  "description": "Industrial Legacy - industrial mod inspired by industrial craft 2",
   "authors": [
     "ShipovskijKorp"
   ],
