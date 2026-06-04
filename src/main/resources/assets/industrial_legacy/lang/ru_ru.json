@@ -656,5 +656,14 @@
   "gui.industrial_legacy.water_kinetic_generator.rotormiss": "Ошибка: ротор отсутствует",
   "gui.industrial_legacy.water_kinetic_generator.rotorspace": "Ошибка: Нет места для ротора",
   "gui.industrial_legacy.water_kinetic_generator.output": "Выход: %s kU",
-  "gui.industrial_legacy.water_kinetic_generator.rotorhealth": "Состояние ротора: %s"
+  "gui.industrial_legacy.water_kinetic_generator.rotorhealth": "Состояние ротора: %s",
+  "block.industrial_legacy.teleporter": "Телепорт",
+  "item.industrial_legacy.frequency_transmitter": "Частотный связыватель",
+  "message.industrial_legacy.frequency_transmitter.unlinked": "Частотный связыватель отвязан",
+  "message.industrial_legacy.frequency_transmitter.linked": "Частотный связыватель привязан к телепорту.",
+  "message.industrial_legacy.frequency_transmitter.self": "Нельзя связать телепорт с самим собой.",
+  "message.industrial_legacy.frequency_transmitter.unchanged": "Связь телепорта не изменена.",
+  "message.industrial_legacy.frequency_transmitter.established": "Телепортационная связь установлена.",
+  "tooltip.industrial_legacy.frequency_transmitter.target": "Цель: %s, %s, %s",
+  "tooltip.industrial_legacy.frequency_transmitter.blank": "Не привязан"
 }

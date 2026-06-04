@@ -63,6 +63,7 @@ public final class ModItems {
     public static final Item FORGE_HAMMER = register("forge_hammer", new Item(new FabricItemSettings().maxCount(1).maxDamage(79)));
     public static final Item CUTTER = register("cutter", new Item(new FabricItemSettings().maxCount(1).maxDamage(60)));
     public static final Item WIND_METER = register("wind_meter", new WindMeterItem(new Item.Settings()));
+    public static final Item FREQUENCY_TRANSMITTER = register("frequency_transmitter", new FrequencyTransmitterItem(new Item.Settings()));
     public static final Item FOAM_SPRAYER = register("foam_sprayer", new FoamSprayerItem(new Item.Settings()));
     public static final Item CF_PACK = register("cf_pack", new FoamPackItem(new Item.Settings()));
 

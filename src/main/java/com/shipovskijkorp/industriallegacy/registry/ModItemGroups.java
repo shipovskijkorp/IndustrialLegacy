@@ -81,6 +81,7 @@ public final class ModItemGroups {
                         add.accept(ModBlocks.WATER_KINETIC_GENERATOR);
                         add.accept(ModBlocks.MAGNETIZER);
                         add.accept(ModBlocks.TESLA_COIL);
+                        add.accept(ModBlocks.TELEPORTER);
                         add.accept(ModBlocks.BATBOX);
                         add.accept(ModBlocks.CESU);
                         add.accept(ModBlocks.MFE);
@@ -199,6 +200,7 @@ public final class ModItemGroups {
                         added.add(ModItems.FOAM_SPRAYER);
                         add.accept(ModItems.CF_PACK);
                         add.accept(ModItems.WIND_METER);
+                        add.accept(ModItems.FREQUENCY_TRANSMITTER);
                         entries.add(FoamPackItem.createFilledStack());
                         added.add(ModItems.CF_PACK);
                         add.accept(ModItems.WRENCH);

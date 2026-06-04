@@ -656,5 +656,14 @@
   "gui.industrial_legacy.water_kinetic_generator.rotormiss": "Error: Rotor is missing",
   "gui.industrial_legacy.water_kinetic_generator.rotorspace": "Error: no Space for Rotor",
   "gui.industrial_legacy.water_kinetic_generator.output": "Output: %s kU",
-  "gui.industrial_legacy.water_kinetic_generator.rotorhealth": "Rotorhealth: %s"
+  "gui.industrial_legacy.water_kinetic_generator.rotorhealth": "Rotorhealth: %s",
+  "block.industrial_legacy.teleporter": "Teleporter",
+  "item.industrial_legacy.frequency_transmitter": "Frequency Transmitter",
+  "message.industrial_legacy.frequency_transmitter.unlinked": "Frequency Transmitter unlinked",
+  "message.industrial_legacy.frequency_transmitter.linked": "Frequency Transmitter linked to Teleporter.",
+  "message.industrial_legacy.frequency_transmitter.self": "Can't link Teleporter to itself.",
+  "message.industrial_legacy.frequency_transmitter.unchanged": "Teleportation link unchanged.",
+  "message.industrial_legacy.frequency_transmitter.established": "Teleportation link established.",
+  "tooltip.industrial_legacy.frequency_transmitter.target": "Linked to: %s, %s, %s",
+  "tooltip.industrial_legacy.frequency_transmitter.blank": "Not linked"
 }

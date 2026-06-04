@@ -119,6 +119,16 @@ public final class ModBlocks {
             b -> new EnergyMachineBlockItem(b, new Item.Settings(), 2)
     );
 
+    public static final Block TELEPORTER = register(
+            "teleporter",
+            new TeleporterBlock(FabricBlockSettings.create()
+                    .strength(2.0f, 10.0f)
+                    .sounds(BlockSoundGroup.METAL)
+                    .requiresTool()
+                    .luminance(state -> state.get(TeleporterBlock.LIT) ? 7 : 0)),
+            b -> new BlockItem(b, new Item.Settings())
+    );
+
     public static final Block BATBOX = register(
             "batbox",
             new BatBoxBlock(FabricBlockSettings.create()
