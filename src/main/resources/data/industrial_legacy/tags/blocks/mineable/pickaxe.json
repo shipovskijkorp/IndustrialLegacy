@@ -11,6 +11,8 @@
     "industrial_legacy:metal_former",
     "industrial_legacy:iron_fence",
     "industrial_legacy:uranium_block",
-    "industrial_legacy:induction_furnace"
+    "industrial_legacy:induction_furnace",
+    "industrial_legacy:water_generator",
+    "industrial_legacy:wind_generator"
   ]
 }

@@ -667,5 +667,11 @@
   "tooltip.industrial_legacy.frequency_transmitter.target": "Linked to: %s, %s, %s",
   "tooltip.industrial_legacy.frequency_transmitter.blank": "Not linked",
   "item.industrial_legacy.single_use_battery": "Single-Use Battery",
-  "item.industrial_legacy.iodine_tablet": "Iodine Tablet"
+  "item.industrial_legacy.iodine_tablet": "Iodine Tablet",
+  "block.industrial_legacy.water_generator": "Water Mill",
+  "block.industrial_legacy.wind_generator": "Wind Mill",
+  "container.industrial_legacy.water_generator": "Water Mill",
+  "container.industrial_legacy.wind_generator": "Wind Mill",
+  "gui.industrial_legacy.water_generator.water": "Water: %s / %s, flow blocks: %s",
+  "gui.industrial_legacy.wind_generator.output": "Output: %s EU/t"
 }

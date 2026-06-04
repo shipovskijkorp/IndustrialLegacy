@@ -141,11 +141,9 @@ public final class CraftingRecipeIniLoader {
             "tfbp_irrigation",
             "tfbp_mushroom",
             "trade_o_mat",
-            "water_generator",
             "weeding_trowel",
             "weighted_fluid_distributor",
-            "weighted_item_distributor",
-            "wind_generator"
+            "weighted_item_distributor"
     );
 
 

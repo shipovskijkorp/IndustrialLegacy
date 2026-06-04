@@ -76,6 +76,8 @@ public final class ModItemGroups {
                         add.accept(ModBlocks.SOLAR_PANEL);
                         add.accept(ModBlocks.RT_GENERATOR);
                         add.accept(ModBlocks.SEMIFLUID_GENERATOR);
+                        add.accept(ModBlocks.WATER_GENERATOR);
+                        add.accept(ModBlocks.WIND_GENERATOR);
                         add.accept(ModBlocks.KINETIC_GENERATOR);
                         add.accept(ModBlocks.WIND_KINETIC_GENERATOR);
                         add.accept(ModBlocks.WATER_KINETIC_GENERATOR);

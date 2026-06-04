@@ -667,5 +667,11 @@
   "tooltip.industrial_legacy.frequency_transmitter.target": "Цель: %s, %s, %s",
   "tooltip.industrial_legacy.frequency_transmitter.blank": "Не привязан",
   "item.industrial_legacy.single_use_battery": "Одноразовая батарейка",
-  "item.industrial_legacy.iodine_tablet": "Таблетка йода"
+  "item.industrial_legacy.iodine_tablet": "Таблетка йода",
+  "block.industrial_legacy.water_generator": "Гидрогенератор",
+  "block.industrial_legacy.wind_generator": "Ветрогенератор",
+  "container.industrial_legacy.water_generator": "Гидрогенератор",
+  "container.industrial_legacy.wind_generator": "Ветрогенератор",
+  "gui.industrial_legacy.water_generator.water": "Вода: %s / %s, блоков потока: %s",
+  "gui.industrial_legacy.wind_generator.output": "Выход: %s EU/t"
 }

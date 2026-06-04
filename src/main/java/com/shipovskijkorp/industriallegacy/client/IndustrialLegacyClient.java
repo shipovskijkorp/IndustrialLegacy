@@ -6,6 +6,7 @@ import com.shipovskijkorp.industriallegacy.client.render.CableBlockEntityRendere
 import com.shipovskijkorp.industriallegacy.client.render.MiningLaserEntityRenderer;
 import com.shipovskijkorp.industriallegacy.client.render.WindKineticGeneratorBlockEntityRenderer;
 import com.shipovskijkorp.industriallegacy.client.render.WaterKineticGeneratorBlockEntityRenderer;
+import com.shipovskijkorp.industriallegacy.client.render.LegacyRotorGeneratorRenderer;
 import com.shipovskijkorp.industriallegacy.client.screen.*;
 import com.shipovskijkorp.industriallegacy.energy.item.ElectricItemManager;
 import com.shipovskijkorp.industriallegacy.item.CableItem;
@@ -130,6 +131,8 @@ public class IndustrialLegacyClient implements ClientModInitializer {
         HandledScreens.register(ModScreenHandlers.SOLAR_PANEL, SolarPanelScreen::new);
         HandledScreens.register(ModScreenHandlers.RT_GENERATOR, RTGeneratorScreen::new);
         HandledScreens.register(ModScreenHandlers.SEMIFLUID_GENERATOR, SemifluidGeneratorScreen::new);
+        HandledScreens.register(ModScreenHandlers.WATER_GENERATOR, WaterGeneratorScreen::new);
+        HandledScreens.register(ModScreenHandlers.WIND_GENERATOR, WindGeneratorScreen::new);
         HandledScreens.register(ModScreenHandlers.KINETIC_GENERATOR, KineticGeneratorScreen::new);
         HandledScreens.register(ModScreenHandlers.WIND_KINETIC_GENERATOR, WindKineticGeneratorScreen::new);
         HandledScreens.register(ModScreenHandlers.WATER_KINETIC_GENERATOR, WaterKineticGeneratorScreen::new);
@@ -174,6 +177,8 @@ public class IndustrialLegacyClient implements ClientModInitializer {
         BlockEntityRendererFactories.register(ModBlockEntities.CABLE, CableBlockEntityRenderer::new);
         BlockEntityRendererFactories.register(ModBlockEntities.WIND_KINETIC_GENERATOR, WindKineticGeneratorBlockEntityRenderer::new);
         BlockEntityRendererFactories.register(ModBlockEntities.WATER_KINETIC_GENERATOR, WaterKineticGeneratorBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(ModBlockEntities.WATER_GENERATOR, LegacyRotorGeneratorRenderer::new);
+        BlockEntityRendererFactories.register(ModBlockEntities.WIND_GENERATOR, LegacyRotorGeneratorRenderer::new);
         EntityRendererRegistry.register(ModEntities.MINING_LASER, MiningLaserEntityRenderer::new);
     }
 
