@@ -647,5 +647,6 @@
   "container.industrial_legacy.magnetizer": "Magnetizer",
   "gui.industrial_legacy.magnetizer.has_metal_shoes": "Metal Shoes detected!",
   "gui.industrial_legacy.magnetizer.no_metal_shoes": "No Metal Shoes detected!",
-  "gui.industrial_legacy.magnetizer.range": "Range: %s blocks"
+  "gui.industrial_legacy.magnetizer.range": "Range: %s blocks",
+  "block.industrial_legacy.tesla_coil": "Tesla Coil"
 }

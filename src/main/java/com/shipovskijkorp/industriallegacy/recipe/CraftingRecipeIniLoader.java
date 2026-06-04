@@ -136,7 +136,6 @@ public final class CraftingRecipeIniLoader {
             "tank",
             "teleporter",
             "terraformer",
-            "tesla_coil",
             "tfbp",
             "tfbp_blank",
             "tfbp_chilling",

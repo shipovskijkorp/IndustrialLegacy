@@ -79,6 +79,7 @@ public final class ModItemGroups {
                         add.accept(ModBlocks.KINETIC_GENERATOR);
                         add.accept(ModBlocks.WIND_KINETIC_GENERATOR);
                         add.accept(ModBlocks.MAGNETIZER);
+                        add.accept(ModBlocks.TESLA_COIL);
                         add.accept(ModBlocks.BATBOX);
                         add.accept(ModBlocks.CESU);
                         add.accept(ModBlocks.MFE);

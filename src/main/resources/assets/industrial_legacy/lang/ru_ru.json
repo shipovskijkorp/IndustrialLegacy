@@ -647,5 +647,6 @@
   "container.industrial_legacy.magnetizer": "Намагничиватель",
   "gui.industrial_legacy.magnetizer.has_metal_shoes": "Металлическая обувь обнаружена!",
   "gui.industrial_legacy.magnetizer.no_metal_shoes": "Не обнаружена металлическая обувь!",
-  "gui.industrial_legacy.magnetizer.range": "Радиус: %s блоков"
+  "gui.industrial_legacy.magnetizer.range": "Радиус: %s блоков",
+  "block.industrial_legacy.tesla_coil": "Катушка Теслы"
 }

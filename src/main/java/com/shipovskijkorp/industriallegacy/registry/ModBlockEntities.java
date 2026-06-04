@@ -65,6 +65,12 @@ public final class ModBlockEntities {
             FabricBlockEntityTypeBuilder.create(MagnetizerBlockEntity::new, ModBlocks.MAGNETIZER).build()
     );
 
+    public static final BlockEntityType<TeslaCoilBlockEntity> TESLA_COIL = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE,
+            id("tesla_coil"),
+            FabricBlockEntityTypeBuilder.create(TeslaCoilBlockEntity::new, ModBlocks.TESLA_COIL).build()
+    );
+
     public static final BlockEntityType<LvTransformerBlockEntity> LV_TRANSFORMER =
             Registry.register(Registries.BLOCK_ENTITY_TYPE,
                     id("lv_transformer"),

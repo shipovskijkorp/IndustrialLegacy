@@ -33,7 +33,6 @@
     "industrial_legacy:brown_foam_concrete",
     "industrial_legacy:green_foam_concrete",
     "industrial_legacy:red_foam_concrete",
-    "industrial_legacy:black_foam_concrete",
-    "industrial_legacy:magnetizer"
+    "industrial_legacy:black_foam_concrete"
   ]
 }
