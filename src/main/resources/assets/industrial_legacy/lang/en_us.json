@@ -680,5 +680,16 @@
   "message.industrial_legacy.scanner.no_power": "Not enough EU to scan.",
   "message.industrial_legacy.scanner.found": "Found:",
   "message.industrial_legacy.scanner.none": "No valuable ores found.",
-  "gui.industrial_legacy.scanner.found": "Found:"
+  "gui.industrial_legacy.scanner.found": "Found:",
+  "block.industrial_legacy.stirling_generator": "Stirling Generator",
+  "container.industrial_legacy.stirling_generator": "Stirling Generator",
+  "block.industrial_legacy.fluid_heat_generator": "Fluid Heat Generator",
+  "container.industrial_legacy.fluid_heat_generator": "Fluid Heat Generator",
+  "block.industrial_legacy.rt_heat_generator": "Radioisotope Heat Generator",
+  "container.industrial_legacy.rt_heat_generator": "Radioisotope Heat Generator",
+  "gui.industrial_legacy.fluid_heat_generator.emit": "Emit: %s",
+  "gui.industrial_legacy.fluid_heat_generator.max_emit": "MaxEmit: %s",
+  "gui.industrial_legacy.stirling_generator.bandwidth": "Bandwidth: %s EU/t",
+  "gui.industrial_legacy.stirling_generator.output": "Production: %s EU/t",
+  "tooltip.industrial_legacy.rt_heat_generator.heat": "currently transmitted heat / max transferable heat"
 }

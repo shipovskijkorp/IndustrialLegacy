@@ -17,6 +17,9 @@ public final class ModScreenHandlers {
     public static final Identifier SOLAR_PANEL_ID = new Identifier(IndustrialLegacy.MOD_ID, "solar_panel");
     public static final Identifier RT_GENERATOR_ID = new Identifier(IndustrialLegacy.MOD_ID, "rt_generator");
     public static final Identifier SEMIFLUID_GENERATOR_ID = new Identifier(IndustrialLegacy.MOD_ID, "semifluid_generator");
+    public static final Identifier STIRLING_GENERATOR_ID = new Identifier(IndustrialLegacy.MOD_ID, "stirling_generator");
+    public static final Identifier FLUID_HEAT_GENERATOR_ID = new Identifier(IndustrialLegacy.MOD_ID, "fluid_heat_generator");
+    public static final Identifier RT_HEAT_GENERATOR_ID = new Identifier(IndustrialLegacy.MOD_ID, "rt_heat_generator");
     public static final Identifier WATER_GENERATOR_ID = new Identifier(IndustrialLegacy.MOD_ID, "water_generator");
     public static final Identifier WIND_GENERATOR_ID = new Identifier(IndustrialLegacy.MOD_ID, "wind_generator");
     public static final Identifier KINETIC_GENERATOR_ID = new Identifier(IndustrialLegacy.MOD_ID, "kinetic_generator");
@@ -147,6 +150,9 @@ public final class ModScreenHandlers {
     public static ScreenHandlerType<SolarPanelScreenHandler> SOLAR_PANEL;
     public static ScreenHandlerType<RTGeneratorScreenHandler> RT_GENERATOR;
     public static ScreenHandlerType<SemifluidGeneratorScreenHandler> SEMIFLUID_GENERATOR;
+    public static ScreenHandlerType<StirlingGeneratorScreenHandler> STIRLING_GENERATOR;
+    public static ScreenHandlerType<FluidHeatGeneratorScreenHandler> FLUID_HEAT_GENERATOR;
+    public static ScreenHandlerType<RTHeatGeneratorScreenHandler> RT_HEAT_GENERATOR;
     public static ScreenHandlerType<WaterGeneratorScreenHandler> WATER_GENERATOR;
     public static ScreenHandlerType<WindGeneratorScreenHandler> WIND_GENERATOR;
     public static ScreenHandlerType<KineticGeneratorScreenHandler> KINETIC_GENERATOR;
@@ -173,6 +179,9 @@ public final class ModScreenHandlers {
         SOLAR_PANEL = ScreenHandlerRegistry.registerExtended(SOLAR_PANEL_ID, SolarPanelScreenHandler::new);
         RT_GENERATOR = ScreenHandlerRegistry.registerExtended(RT_GENERATOR_ID, RTGeneratorScreenHandler::new);
         SEMIFLUID_GENERATOR = ScreenHandlerRegistry.registerExtended(SEMIFLUID_GENERATOR_ID, SemifluidGeneratorScreenHandler::new);
+        STIRLING_GENERATOR = ScreenHandlerRegistry.registerExtended(STIRLING_GENERATOR_ID, StirlingGeneratorScreenHandler::new);
+        FLUID_HEAT_GENERATOR = ScreenHandlerRegistry.registerExtended(FLUID_HEAT_GENERATOR_ID, FluidHeatGeneratorScreenHandler::new);
+        RT_HEAT_GENERATOR = ScreenHandlerRegistry.registerExtended(RT_HEAT_GENERATOR_ID, RTHeatGeneratorScreenHandler::new);
         WATER_GENERATOR = ScreenHandlerRegistry.registerExtended(WATER_GENERATOR_ID, WaterGeneratorScreenHandler::new);
         WIND_GENERATOR = ScreenHandlerRegistry.registerExtended(WIND_GENERATOR_ID, WindGeneratorScreenHandler::new);
         KINETIC_GENERATOR = ScreenHandlerRegistry.registerExtended(KINETIC_GENERATOR_ID, KineticGeneratorScreenHandler::new);

@@ -72,6 +72,37 @@ public final class ModBlocks {
             b -> new EnergyMachineBlockItem(b, new Item.Settings(), 1)
     );
 
+
+    public static final Block STIRLING_GENERATOR = register(
+            "stirling_generator",
+            new StirlingGeneratorBlock(FabricBlockSettings.create()
+                    .strength(2.0f, 10.0f)
+                    .sounds(BlockSoundGroup.METAL)
+                    .requiresTool()
+                    .luminance(state -> state.get(StirlingGeneratorBlock.LIT) ? 13 : 0)),
+            b -> new EnergyMachineBlockItem(b, new Item.Settings(), 2)
+    );
+
+    public static final Block FLUID_HEAT_GENERATOR = register(
+            "fluid_heat_generator",
+            new FluidHeatGeneratorBlock(FabricBlockSettings.create()
+                    .strength(2.0f, 10.0f)
+                    .sounds(BlockSoundGroup.METAL)
+                    .requiresTool()
+                    .luminance(state -> state.get(FluidHeatGeneratorBlock.LIT) ? 13 : 0)),
+            b -> new BlockItem(b, new Item.Settings())
+    );
+
+    public static final Block RT_HEAT_GENERATOR = register(
+            "rt_heat_generator",
+            new RTHeatGeneratorBlock(FabricBlockSettings.create()
+                    .strength(2.0f, 10.0f)
+                    .sounds(BlockSoundGroup.METAL)
+                    .requiresTool()
+                    .luminance(state -> state.get(RTHeatGeneratorBlock.LIT) ? 13 : 0)),
+            b -> new BlockItem(b, new Item.Settings())
+    );
+
     public static final Block WATER_GENERATOR = register(
             "water_generator",
             new WaterGeneratorBlock(FabricBlockSettings.create()

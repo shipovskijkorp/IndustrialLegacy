@@ -46,6 +46,24 @@ public final class ModBlockEntities {
             FabricBlockEntityTypeBuilder.create(SemifluidGeneratorBlockEntity::new, ModBlocks.SEMIFLUID_GENERATOR).build()
     );
 
+    public static final BlockEntityType<StirlingGeneratorBlockEntity> STIRLING_GENERATOR = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE,
+            id("stirling_generator"),
+            FabricBlockEntityTypeBuilder.create(StirlingGeneratorBlockEntity::new, ModBlocks.STIRLING_GENERATOR).build()
+    );
+
+    public static final BlockEntityType<FluidHeatGeneratorBlockEntity> FLUID_HEAT_GENERATOR = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE,
+            id("fluid_heat_generator"),
+            FabricBlockEntityTypeBuilder.create(FluidHeatGeneratorBlockEntity::new, ModBlocks.FLUID_HEAT_GENERATOR).build()
+    );
+
+    public static final BlockEntityType<RTHeatGeneratorBlockEntity> RT_HEAT_GENERATOR = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE,
+            id("rt_heat_generator"),
+            FabricBlockEntityTypeBuilder.create(RTHeatGeneratorBlockEntity::new, ModBlocks.RT_HEAT_GENERATOR).build()
+    );
+
     public static final BlockEntityType<WaterGeneratorBlockEntity> WATER_GENERATOR = Registry.register(
             Registries.BLOCK_ENTITY_TYPE,
             id("water_generator"),

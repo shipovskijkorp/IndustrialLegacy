@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "industrial_legacy:block/generator/heat/rt_heat_generator_leftright",
+    "down": "industrial_legacy:block/generator/heat/rt_heat_generator_bottom",
+    "up": "industrial_legacy:block/generator/heat/rt_heat_generator_top_active",
+    "north": "industrial_legacy:block/generator/heat/rt_heat_generator_front_active",
+    "east": "industrial_legacy:block/generator/heat/rt_heat_generator_leftright",
+    "south": "industrial_legacy:block/generator/heat/rt_heat_generator_back_active",
+    "west": "industrial_legacy:block/generator/heat/rt_heat_generator_leftright"
+  }
+}

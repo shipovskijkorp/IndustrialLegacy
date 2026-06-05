@@ -1,0 +1,50 @@
+{
+  "variants": {
+    "facing=north,lit=false": {
+      "model": "industrial_legacy:block/generator/heat/rt_heat_generator"
+    },
+    "facing=east,lit=false": {
+      "model": "industrial_legacy:block/generator/heat/rt_heat_generator",
+      "y": 90
+    },
+    "facing=south,lit=false": {
+      "model": "industrial_legacy:block/generator/heat/rt_heat_generator",
+      "y": 180
+    },
+    "facing=west,lit=false": {
+      "model": "industrial_legacy:block/generator/heat/rt_heat_generator",
+      "y": 270
+    },
+    "facing=up,lit=false": {
+      "model": "industrial_legacy:block/generator/heat/rt_heat_generator",
+      "x": 270
+    },
+    "facing=down,lit=false": {
+      "model": "industrial_legacy:block/generator/heat/rt_heat_generator",
+      "x": 90
+    },
+    "facing=north,lit=true": {
+      "model": "industrial_legacy:block/generator/heat/rt_heat_generator_active"
+    },
+    "facing=east,lit=true": {
+      "model": "industrial_legacy:block/generator/heat/rt_heat_generator_active",
+      "y": 90
+    },
+    "facing=south,lit=true": {
+      "model": "industrial_legacy:block/generator/heat/rt_heat_generator_active",
+      "y": 180
+    },
+    "facing=west,lit=true": {
+      "model": "industrial_legacy:block/generator/heat/rt_heat_generator_active",
+      "y": 270
+    },
+    "facing=up,lit=true": {
+      "model": "industrial_legacy:block/generator/heat/rt_heat_generator_active",
+      "x": 270
+    },
+    "facing=down,lit=true": {
+      "model": "industrial_legacy:block/generator/heat/rt_heat_generator_active",
+      "x": 90
+    }
+  }
+}

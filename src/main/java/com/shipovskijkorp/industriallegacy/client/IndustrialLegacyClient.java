@@ -133,6 +133,9 @@ public class IndustrialLegacyClient implements ClientModInitializer {
         HandledScreens.register(ModScreenHandlers.SOLAR_PANEL, SolarPanelScreen::new);
         HandledScreens.register(ModScreenHandlers.RT_GENERATOR, RTGeneratorScreen::new);
         HandledScreens.register(ModScreenHandlers.SEMIFLUID_GENERATOR, SemifluidGeneratorScreen::new);
+        HandledScreens.register(ModScreenHandlers.STIRLING_GENERATOR, StirlingGeneratorScreen::new);
+        HandledScreens.register(ModScreenHandlers.FLUID_HEAT_GENERATOR, FluidHeatGeneratorScreen::new);
+        HandledScreens.register(ModScreenHandlers.RT_HEAT_GENERATOR, RTHeatGeneratorScreen::new);
         HandledScreens.register(ModScreenHandlers.WATER_GENERATOR, WaterGeneratorScreen::new);
         HandledScreens.register(ModScreenHandlers.WIND_GENERATOR, WindGeneratorScreen::new);
         HandledScreens.register(ModScreenHandlers.KINETIC_GENERATOR, KineticGeneratorScreen::new);

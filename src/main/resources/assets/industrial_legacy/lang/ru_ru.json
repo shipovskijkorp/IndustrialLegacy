@@ -680,5 +680,16 @@
   "message.industrial_legacy.scanner.no_power": "Недостаточно EU для сканирования.",
   "message.industrial_legacy.scanner.found": "Найдено:",
   "message.industrial_legacy.scanner.none": "Ценные руды не найдены.",
-  "gui.industrial_legacy.scanner.found": "Найдено:"
+  "gui.industrial_legacy.scanner.found": "Найдено:",
+  "block.industrial_legacy.stirling_generator": "Генератор Стирлинга",
+  "container.industrial_legacy.stirling_generator": "Генератор Стирлинга",
+  "block.industrial_legacy.fluid_heat_generator": "Жидкостный теплогенератор",
+  "container.industrial_legacy.fluid_heat_generator": "Жидкостный теплогенератор",
+  "block.industrial_legacy.rt_heat_generator": "Радиоизотопный теплогенератор",
+  "container.industrial_legacy.rt_heat_generator": "Радиоизотопный теплогенератор",
+  "gui.industrial_legacy.fluid_heat_generator.emit": "Выход: %s",
+  "gui.industrial_legacy.fluid_heat_generator.max_emit": "Макс. выход: %s",
+  "gui.industrial_legacy.stirling_generator.bandwidth": "Выработка: %s EU/т",
+  "gui.industrial_legacy.stirling_generator.output": "Выход: %s EU/т",
+  "tooltip.industrial_legacy.rt_heat_generator.heat": "текущая теплопередача / максимальная теплопередача"
 }
